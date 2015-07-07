@@ -1,0 +1,2 @@
+20150707
+the parser generator is updated. it read the file "grammar.txt", and generate the file "out.txt". The first file records the symbols, tokens and grammars of the script language, and the second one records its action-table and goto-table for the LR(0) parser. Some data is also recorded in other files, jsut for debugging.
