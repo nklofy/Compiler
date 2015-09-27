@@ -24,8 +24,8 @@ public class ParserGenerator {
 		pg.getCCs();
 		pg.generateActionTable();
 		System.out.println("output");
-		pg.outCC("cc.txt");
-		pg.output("out.txt");
+		pg.outCC("out_cc.txt");
+		pg.output("out_grammar.txt");
 		System.out.println("end");
 	}
 		
@@ -61,7 +61,6 @@ public class ParserGenerator {
 				return true;
 			}else return false;					
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();			
 		}finally{
 			in.close();
@@ -143,7 +142,7 @@ public class ParserGenerator {
 			i=0;
 			for(ActionTable table:gen_action_tables){				
 				for(Symbol token:gen_tokens){
-					line=line+table.action_t.get(token.name)+" ";
+					line=line+table.action_t.get(token.name)+" / ";
 				}
 				out.println(i+" "+line);
 				line="";
@@ -157,7 +156,7 @@ public class ParserGenerator {
 			for(ActionTable table:gen_action_tables){				
 				
 				for(Symbol sym:gen_NTs){
-					line=line+table.goto_t.get(sym.name)+" ";	
+					line=line+table.goto_t.get(sym.name)+" / ";	
 				}
 				out.println(i+" "+line);
 				line="";
@@ -165,7 +164,6 @@ public class ParserGenerator {
 			}
 			
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}finally{
 			out.close();
@@ -203,7 +201,6 @@ public class ParserGenerator {
 				out.println();
 			}
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}finally{
 			out.close();
