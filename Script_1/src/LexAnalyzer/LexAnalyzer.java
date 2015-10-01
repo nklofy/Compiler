@@ -7,6 +7,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.PrintWriter;
+import java.lang.Thread.State;
 import java.util.*;
 
 
@@ -21,9 +22,8 @@ public class LexAnalyzer {
 	private NFA_State nfa_start; 		//beginning of all nfa 
 	private DFA_State all_start;
 	private DFA_State dfa_start;		//beginning of all dfa and total analyzer
-	private int dfa_sn=0;
 	private HashSet<Integer> dfa_visited=new HashSet<Integer>();
-	private ArrayList<Integer> dfa_ter=new ArrayList<Integer>();
+	private HashSet<Integer> dfa_ter=new HashSet<Integer>();
 	public static void main(String[] args) {
 		LexAnalyzer lex_analyzer=new LexAnalyzer();
 		lex_analyzer.input("tokens.txt");
@@ -98,7 +98,7 @@ public class LexAnalyzer {
 	}
 	
 	private boolean generateNFA(){			//NFA for regex
-		nfa_start=new NFA_State(0,true);
+		nfa_start=new NFA_State();
 		nfa_start.e_edges=new HashSet<NFA_State>();
 		RegexPaser paser=new RegexPaser();
 		NFA_State nfa;
@@ -113,12 +113,12 @@ public class LexAnalyzer {
 	}
 	
 	private boolean generateDFA(){ 		//DFA for reserved words
-		dfa_start=new DFA_State(dfa_sn);		
+		dfa_start=new DFA_State();		
 		for(ReservedWord res:table_res){
 			int index=0,length;
 			char chr;
 			String str;
-			DFA_State dfa=new DFA_State(++dfa_sn);
+			DFA_State dfa=new DFA_State();
 			
 			if(res.value.isEmpty())
 				continue;
@@ -126,13 +126,13 @@ public class LexAnalyzer {
 			length=str.length();
 			chr=str.charAt(0);//first char
 			if(!dfa_start.dfa_edges.containsKey(chr)){
-				dfa_start.dfa_edges.put(chr, new DFA_State(++dfa_sn));				
+				dfa_start.dfa_edges.put(chr, new DFA_State());				
 			}
 			dfa=dfa_start.dfa_edges.get(chr);			
 			while(++index < length){
 				chr=str.charAt(index);
 				if(!dfa.dfa_edges.containsKey(chr)){
-					dfa.dfa_edges.put(chr, new DFA_State(++dfa_sn));				
+					dfa.dfa_edges.put(chr, new DFA_State());				
 				}
 				dfa=dfa.dfa_edges.get(chr);				
 			}
@@ -143,25 +143,29 @@ public class LexAnalyzer {
 	}
 	
 	private boolean NFAtoDFA(){ 		//convert NFA to DFA
-		all_start=new DFA_State(++dfa_sn);
+		all_start=new DFA_State();
 		HashSet<NFA_State> nfas=new HashSet<NFA_State>();
 		nfas.add(nfa_start);
 		spreadDFA(nfas,all_start);
 		return true;
 	}
-	private boolean spreadDFA(HashSet<NFA_State> nfa_start,DFA_State start){
-		
+	private boolean spreadDFA(HashSet<NFA_State> nfa_start,DFA_State start){//TODO
 		HashSet<NFA_State> nfas=getEClosure(nfa_start);
 		if(nfas.isEmpty())
 			return false;
 		for(NFA_State nfa:nfas){
-			if(nfa.isFinal)
-				start.isFinal=true;
-			break;
+			if(nfa.isFinal){
+				start.isFinal=true;			//mark final DFA 
+				break;
+			}
+		}
+		if(!start.dfa_edges.isEmpty()){		//existed dfa, already done getEdges()
+			return false;
 		}
 		start.dfa_edges=getEdges(nfas);
-		if(start.dfa_edges.isEmpty())
+		if(start.dfa_edges.isEmpty()){
 			return false;
+		}
 		for(Character chr:start.dfa_edges.keySet()){
 			DFA_State dfa=start.dfa_edges.get(chr);
 			HashSet<NFA_State> nfa_set=table_d2n.get(dfa);
@@ -169,31 +173,35 @@ public class LexAnalyzer {
 		}
 		return true;
 	}
-	private HashSet<NFA_State> getEClosure(HashSet<NFA_State> nfa_set){
-		
+	private HashSet<NFA_State> getEClosure(HashSet<NFA_State> nfa_set){		
 		HashSet<NFA_State> nfas=new HashSet<NFA_State>();
-		HashSet<NFA_State> nfas_null=new HashSet<NFA_State>();
-		if(nfa_set.isEmpty())
-			return nfas;
-		for(NFA_State nfa:nfa_set){
-			for(NFA_State nfa_1:nfa.e_edges){
-				if(nfa_1.nfa_edges.isEmpty() && !nfa_1.isFinal){
-					nfas_null.add(nfa_1);
-				}else{
-					nfas.add(nfa_1); 
-				}
-			}
-			nfa.e_edges.clear();
-		}
-		if(!nfas_null.isEmpty()){
-			HashSet<NFA_State> nfas_1=getEClosure(nfas_null);
-			if(!nfas_1.isEmpty())
-				nfas.addAll(nfas_1);
-		}
+		addEClosure(nfas,nfa_set);
 		return nfas;
 	}
-	
-	private HashMap<Character, DFA_State> getEdges(HashSet<NFA_State> nfas){
+	private boolean addEClosure(HashSet<NFA_State> nfas, HashSet<NFA_State> nfa_set){
+		HashSet<NFA_State> nfas_null=new HashSet<NFA_State>();
+		//HashSet<NFA_State> nfa_set1=new HashSet<NFA_State>();
+		if(nfa_set.isEmpty())
+			return false;
+		for(NFA_State tmp_nfa:nfa_set){			//has nfa_edge, then add to closure, or search e-edges recursively 
+			/*if(nfas.contains(tmp_nfa)){
+				continue;
+			}*/
+			nfas.add(tmp_nfa);
+			for(NFA_State nfa_1:tmp_nfa.e_edges){
+				if(!nfa_1.e_edges.isEmpty() && !nfas.contains(nfa_1)){
+					nfas_null.add(nfa_1);
+				}
+				nfas.add(nfa_1);
+			}
+		}
+		if(!nfas_null.isEmpty()){
+			addEClosure(nfas,nfas_null);
+		}
+		nfas.addAll(nfas);
+		return true;
+	}
+	private HashMap<Character, DFA_State> getEdges(HashSet<NFA_State> nfas){//TODO, final state
 		HashMap<Character, HashSet<NFA_State>> nfas_edges=new HashMap<Character, HashSet<NFA_State>>();
 		HashMap<Character,DFA_State> dfa_edges=new HashMap<Character,DFA_State>();
 		for(NFA_State nfa:nfas){		//generate map describing characters DFA of nfa_sets 
@@ -202,18 +210,22 @@ public class LexAnalyzer {
 					nfas_edges.put(chr, new HashSet<NFA_State>());
 				}
 				nfas_edges.get(chr).addAll(nfa.nfa_edges.get(chr));
-			}
-			nfa.nfa_edges.clear();
+			}			
 		}
+		
 		for(Character chr:nfas_edges.keySet()){		//generate map describing characters DFA 
 			HashSet<NFA_State> nfa_set=nfas_edges.get(chr);
 			HashSet<NFA_State> nfa_in=NFAinTable(nfa_set);
 			if(nfa_in==null){
-				dfa_edges.put(chr, new DFA_State(++dfa_sn));			//generate a new way in characters DFA
+				dfa_edges.put(chr, new DFA_State());			//generate a new way in characters DFA
 				table_d2n.put(dfa_edges.get(chr),nfa_set);
 				table_n2d.put(nfa_set, dfa_edges.get(chr));		//update table_d2n and table_n2d
 			}else{
 				dfa_edges.put(chr,table_n2d.get(nfa_in));		//update way in characters DFA
+			}
+			for(NFA_State nfa:nfa_set){
+				if(nfa.isFinal)
+					dfa_edges.get(chr).isFinal=true;
 			}
 		}
 		return dfa_edges;
@@ -229,24 +241,31 @@ public class LexAnalyzer {
 		combine2DFA(all_start,dfa_start);
 		return true;
 	}
-	private boolean combine2DFA(DFA_State dfa1, DFA_State dfa2){
-		if(dfa1.isFinal){
-			dfa1.dfa_edges=dfa2.dfa_edges;
-			return false;
-		}
+	private boolean combine2DFA(DFA_State dfa1, DFA_State dfa2){ 		//add 2 to 1
+		
 		if(dfa2.isFinal){
 			dfa1.isFinal=true;
-			return false;
 		}
+		if(dfa2.dfa_edges.isEmpty())
+			return false;
 		Set<Character> ways_1=dfa1.dfa_edges.keySet();
 		Set<Character> ways_2=dfa2.dfa_edges.keySet();
+		List<DFA_State> dfa_list_1=new LinkedList<DFA_State>();
+		List<DFA_State> dfa_list_2=new LinkedList<DFA_State>();
 		for(Character chr:ways_2){
 			if(!ways_1.contains(chr)){
-				dfa1.dfa_edges.put(chr,new DFA_State(++dfa_sn));
+				dfa1.dfa_edges.put(chr,new DFA_State());				
 			}
-			combine2DFA(dfa1.dfa_edges.get(chr),dfa2.dfa_edges.get(chr));
+			dfa_list_1.add(0,dfa1.dfa_edges.get(chr));
+			dfa_list_2.add(0,dfa2.dfa_edges.get(chr));
 		}
 		dfa2.dfa_edges.clear();
+		while(!dfa_list_1.isEmpty())
+		{
+			DFA_State dfa_tmp_1=dfa_list_1.remove(0);
+			DFA_State dfa_tmp_2=dfa_list_2.remove(0);
+			combine2DFA(dfa_tmp_1,dfa_tmp_2);
+		}
 		return true;
 		
 	}
@@ -254,13 +273,13 @@ public class LexAnalyzer {
 		DFA2Table(all_start);
 		return true;
 	}
-	private boolean DFA2Table(DFA_State dfa_0){		
+	private boolean DFA2Table(DFA_State dfa_0){	
 		if(dfa_0.isFinal){
 			dfa_ter.add(dfa_0.sn);
-			return true;
+			//return false;
 		}
 		if(dfa_visited.contains(dfa_0.sn))
-			return true;
+			return false;
 		else
 			dfa_visited.add(dfa_0.sn);
 		table_trans.put(dfa_0.sn,new HashMap<Character,Integer>());
@@ -270,7 +289,7 @@ public class LexAnalyzer {
 		for(Character chr:dfa_0.dfa_edges.keySet()){
 			DFA2Table(dfa_0.dfa_edges.get(chr));
 		}
-		return false;
+		return true;
 	}
 	private boolean outputTable(String filename){
 		PrintWriter out=null;
@@ -292,10 +311,9 @@ public class LexAnalyzer {
 			}
 			out.println();
 			out.println("//terminal");
-			length=dfa_ter.size();
 			String line="";
-			for(int index=0;index<length;index++){
-				line=line+dfa_ter.get(index)+" ";
+			for(Integer i:dfa_ter){
+				line=line+i+" ";
 			}	
 			out.println(line);
 		}catch (Exception e) {
@@ -331,107 +349,169 @@ class ReservedWord{
 		return null; 						//to be modified
 	}
 }
-class NFA_State{
-	boolean isFinal=false;
-	boolean isNull;
+class NFA_State{				
+	static int snS=0;
+	boolean isFinal=false;		//terminal state
 	int sn;
-	String value;		//get value of token, at ending
+	String value;				//get value of token, at ending
 	HashMap<Character,HashSet<NFA_State>> nfa_edges;
-	HashSet<NFA_State> e_edges;			//e translate
-	NFA_State(int sn,boolean isNull){
-		this.sn=sn;
-		this.isNull=isNull;
+	HashSet<NFA_State> e_edges;			//e transfer
+	NFA_State(){
+		snS++;
+		this.sn=snS;
 		this.nfa_edges=new HashMap<Character,HashSet<NFA_State>>();	
 		this.e_edges=new HashSet<NFA_State>();
 	}
-	
 }
 
 class DFA_State{
+	static int snS=0;
 	boolean isFinal=false;
 	int sn;				//currently is not used
 	String value;		//get value of token, at ending
 	HashMap<Character,DFA_State> dfa_edges;
-	DFA_State(int sn){
-		this.sn=sn;
+	DFA_State(){
+		snS++;
+		this.sn=snS;
 		this.dfa_edges=new HashMap<Character,DFA_State>();
 	}
 }
 class RegexPaser{
-	int sn=0;
 	int index=0;
 	int length=0;
 	String rule;
 	NFA_State parse(String rule){
-		NFA_State nfa=new NFA_State(++sn,true);			
+		NFA_State pre_nfa=new NFA_State();	
+		NFA_State crt_nfa=new NFA_State();
 		length=rule.length();
 		index=0;
 		this.rule=rule;
-		NFA_State nfa_end=parseSeq(nfa,nfa);
-		nfa_end.isFinal=true;
-		return nfa;
+		pre_nfa.e_edges.add(crt_nfa);
+		parseSeq(pre_nfa,crt_nfa);
+		return pre_nfa;
 	}
-	NFA_State parsePar(NFA_State pre_nfa, NFA_State crt_nfa){
+	NFA_State parseSeq(NFA_State pre_nfa, NFA_State crt_nfa){//TODO
+		while(index < length){
+			char chr=rule.charAt(index);
+			switch(chr){
+			case '(':
+				if(++index<length){
+					try{
+						NFA_State tmp_nfa=parsePar(pre_nfa,crt_nfa);
+						pre_nfa=crt_nfa;
+						crt_nfa=tmp_nfa;
+						index++;
+					}catch(Exception e){
+						e.printStackTrace();
+					}
+				}
+				break;
+			case '[':
+				if(++index<length){
+					try{
+						NFA_State tmp_nfa=parseSqr(pre_nfa,crt_nfa);
+						pre_nfa=crt_nfa;
+						crt_nfa=tmp_nfa;
+						index++;
+					}catch( Exception e){
+						e.printStackTrace();
+					}
+				}
+				break;
+			case '|':
+				if(++index<length){
+					try {
+						parseDsj(pre_nfa,crt_nfa);						
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+					index++;
+				}
+				break;
+			case '*':
+				crt_nfa.e_edges.add(pre_nfa);
+				pre_nfa.e_edges.add(crt_nfa);
+				index++;
+				break;
+			case '+':
+				crt_nfa.e_edges.add(pre_nfa);
+				index++;
+				break;
+			case '?':
+				pre_nfa.e_edges.add(crt_nfa);
+				index++;
+				break;
+			case ')':
+				return crt_nfa;
+			case ']':
+				return crt_nfa;
+			default:
+				if(!crt_nfa.nfa_edges.containsKey(chr)){
+					crt_nfa.nfa_edges.put(chr, new HashSet<NFA_State>());
+				}
+				NFA_State tmp_nfa=new NFA_State();		//new e transfer state
+				crt_nfa.nfa_edges.get(chr).add(tmp_nfa);
+				pre_nfa=crt_nfa;
+				crt_nfa=tmp_nfa;
+				index++;
+				break;
+			}
+		}
+		crt_nfa.isFinal=true;
+		return crt_nfa;
+	}
+	NFA_State parsePar(NFA_State pre_nfa, NFA_State crt_nfa) throws Exception{
 		NFA_State tmp_nfa=parseSeq(pre_nfa,crt_nfa);
 		char chr=rule.charAt(index);
 		if(chr==')'){
+			if(index==length-1){				
+				return tmp_nfa;
+			}
 			chr=rule.charAt(++index);
 			switch(chr){
 			case '*':
 				crt_nfa.e_edges.add(tmp_nfa);
 				tmp_nfa.e_edges.add(crt_nfa);
-				crt_nfa=tmp_nfa;
 				break;
 			case '+':
 				tmp_nfa.e_edges.add(crt_nfa);
-				crt_nfa=tmp_nfa;
 				break;
 			case '?':
 				crt_nfa.e_edges.add(tmp_nfa);
-				crt_nfa=tmp_nfa;
 				break;
 			default:
 				index--;
-				crt_nfa=tmp_nfa;
 			}
+		}else{
+			throw new Exception("syntax error in ()");
 		}
-		return crt_nfa;
+		return tmp_nfa;
 
 	}
 	
-	NFA_State parseSqr(NFA_State pre_nfa, NFA_State crt_nfa) throws Exception{//TODO
+	NFA_State parseSqr(NFA_State pre_nfa, NFA_State crt_nfa) throws Exception{
 		char chr=rule.charAt(index);
-		if(chr==']'){
-		/*	do{
-				chr=rule.charAt(++index);
-			}while(chr=='*'||chr=='+'||chr=='?');
-			index--;
-			return crt_nfa;*/
-			throw new Exception("syntax error in []");
-		}
 		pre_nfa=crt_nfa;
-		crt_nfa=new NFA_State(++sn,true);
-
+		crt_nfa=new NFA_State();
 		while(chr!=']'){
 			if(chr=='(' || chr==')'||chr=='['){				
 				throw new Exception("syntax error in []");
 			}
-			
 			if(chr!='-'){
 				if(!pre_nfa.nfa_edges.containsKey(chr)){
 					pre_nfa.nfa_edges.put(chr, new HashSet<NFA_State>());
 				}
-				NFA_State new_nfa=new NFA_State(++sn,false);
-				pre_nfa.nfa_edges.get(chr).add(new_nfa);
-				new_nfa.e_edges.add(crt_nfa);
+				NFA_State tmp_nfa=new NFA_State();
+				pre_nfa.nfa_edges.get(chr).add(tmp_nfa);
+				tmp_nfa.e_edges.add(crt_nfa);
 			}else{
 				char chr_first=rule.charAt(index-1);
 				char chr_last=rule.charAt(++index);
-				for(char chr_tmp=chr_first;chr_tmp<=chr_last;chr_tmp++){
+				for(char chr_tmp=++chr_first;chr_tmp<=chr_last;chr_tmp++){
 					if(!pre_nfa.nfa_edges.containsKey(chr_tmp)){
 						pre_nfa.nfa_edges.put(chr_tmp, new HashSet<NFA_State>());
 					}
-					NFA_State new_nfa=new NFA_State(++sn,false);
+					NFA_State new_nfa=new NFA_State();
 					pre_nfa.nfa_edges.get(chr_tmp).add(new_nfa);			
 					new_nfa.e_edges.add(crt_nfa);
 				}
@@ -447,10 +527,10 @@ class RegexPaser{
 				pre_nfa.e_edges.add(crt_nfa);
 				break;
 			case '+':
-				crt_nfa.e_edges.add(crt_nfa);
+				crt_nfa.e_edges.add(pre_nfa);
 				break;
 			case '?':
-				crt_nfa.e_edges.add(pre_nfa);
+				pre_nfa.e_edges.add(crt_nfa);
 				break;
 			default:
 				index--;
@@ -458,7 +538,7 @@ class RegexPaser{
 		}
 		return crt_nfa;
 	}
-	NFA_State parseDsj(NFA_State pre_nfa, NFA_State crt_nfa) throws Exception{		
+	NFA_State parseDsj(NFA_State pre_nfa, NFA_State crt_nfa) throws Exception{//TODO
 		char chr=rule.charAt(index);
 		switch(chr){
 		case '|':
@@ -471,74 +551,20 @@ class RegexPaser{
 		case '[':
 			index++;
 			tmp_nfa=parseSqr(pre_nfa,pre_nfa);
-			tmp_nfa.e_edges.add(crt_nfa);			
+			tmp_nfa.e_edges.add(crt_nfa);
 			break;
 		default:
 			if(!pre_nfa.nfa_edges.containsKey(chr)){
 				pre_nfa.nfa_edges.put(chr, new HashSet<NFA_State>());
 			}
-			tmp_nfa=new NFA_State(++sn,false);
+			tmp_nfa=new NFA_State();
 			pre_nfa.nfa_edges.get(chr).add(tmp_nfa);
 			tmp_nfa.e_edges.add(crt_nfa);
 			break;
 		}
 		return crt_nfa;
 	}
-	NFA_State parseSeq(NFA_State pre_nfa, NFA_State crt_nfa){
-		while(index < length){
-			char chr=rule.charAt(index);
-			switch(chr){
-			case '(':
-				if(index<length-1){
-					index++;
-					NFA_State tmp_nfa=parsePar(pre_nfa,crt_nfa);
-					pre_nfa=crt_nfa;
-					crt_nfa=tmp_nfa;
-					index++;
-				}
-				break;
-			case '[':
-				if(index<length-1){
-					try{
-						index++;
-						NFA_State tmp_nfa=parseSqr(pre_nfa,crt_nfa);
-						pre_nfa=crt_nfa;
-						crt_nfa=tmp_nfa;
-						index++;
-					}catch( Exception e){
-						e.printStackTrace();
-					}
-				}
-				break;
-			case '|':
-				if(index<length-1){
-					try {
-						index++;
-						parseDsj(pre_nfa,crt_nfa);						
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-					index++;
-				}
-				break;
-			case ')':
-				return crt_nfa;
-			case ']':
-				return crt_nfa;
-			default:
-				if(!crt_nfa.nfa_edges.containsKey(chr)){
-					crt_nfa.nfa_edges.put(chr, new HashSet<NFA_State>());
-				}
-				NFA_State new_nfa=new NFA_State(++sn,false);
-				crt_nfa.nfa_edges.get(chr).add(new_nfa);
-				pre_nfa=crt_nfa;
-				crt_nfa=new NFA_State(++sn,true);
-				new_nfa.e_edges.add(crt_nfa);
-				index++;
-			}
-		}
-		return crt_nfa;
-	}
+
 	NFA_State parseEsc( ){		//not used currently
 		return null;
 	}

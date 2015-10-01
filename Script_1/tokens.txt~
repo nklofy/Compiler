@@ -1,8 +1,7 @@
 //tokens
-int_num (09)+
-
+num [123]*4
 //reserved
 
 //operator
 
-//end 
+//end
