@@ -7,7 +7,6 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.PrintWriter;
-import java.lang.Thread.State;
 import java.util.*;
 
 
@@ -23,7 +22,8 @@ public class LexAnalyzer {
 	private DFA_State all_start;
 	private DFA_State dfa_start;		//beginning of all dfa and total analyzer
 	private HashSet<Integer> dfa_visited=new HashSet<Integer>();
-	private HashSet<Integer> dfa_ter=new HashSet<Integer>();
+	private HashMap<Integer,String> dfa_ter=new HashMap<Integer,String>();
+	private HashMap<Integer,String> dfa_reg=new HashMap<Integer,String>();
 	public static void main(String[] args) {
 		LexAnalyzer lex_analyzer=new LexAnalyzer();
 		lex_analyzer.input("tokens.txt");
@@ -34,7 +34,7 @@ public class LexAnalyzer {
 		lex_analyzer.getTokenTable();
 		lex_analyzer.outputTable("out_lexAnalyzer.txt");
 	}
-	private boolean input(String filename){//read the file spec REs then 
+	boolean input(String filename){//read the file spec REs then 
 		Scanner in = null;
 		String word;
 		try {			
@@ -97,7 +97,7 @@ public class LexAnalyzer {
 		return true;		
 	}
 	
-	private boolean generateNFA(){			//NFA for regex
+	boolean generateNFA(){			//NFA for regex
 		nfa_start=new NFA_State();
 		nfa_start.e_edges=new HashSet<NFA_State>();
 		RegexPaser paser=new RegexPaser();
@@ -105,14 +105,14 @@ public class LexAnalyzer {
 		for(RegexPattern pt:table_pt){
 			if(pt.rule==null)		//guess it is not necessary
 				continue;
-			nfa=paser.parse(pt.rule);
-			nfa_start.e_edges.add(nfa);
+			nfa=paser.parse(nfa_start,pt.rule);
+			nfa.value=pt.name;
+			nfa.isFinal=true;
 		}
-		return true;
-		
+		return true;		
 	}
 	
-	private boolean generateDFA(){ 		//DFA for reserved words
+	boolean generateDFA(){ 		//DFA for reserved words
 		dfa_start=new DFA_State();		
 		for(ReservedWord res:table_res){
 			int index=0,length;
@@ -136,26 +136,27 @@ public class LexAnalyzer {
 				}
 				dfa=dfa.dfa_edges.get(chr);				
 			}
-			dfa.isFinal=true;			//last char
+			dfa.isRes=true;			//last char
 			dfa.value=str;
 		}
 		return true;		
 	}
 	
-	private boolean NFAtoDFA(){ 		//convert NFA to DFA
+	boolean NFAtoDFA(){ 		//convert NFA to DFA
 		all_start=new DFA_State();
 		HashSet<NFA_State> nfas=new HashSet<NFA_State>();
 		nfas.add(nfa_start);
 		spreadDFA(nfas,all_start);
 		return true;
 	}
-	private boolean spreadDFA(HashSet<NFA_State> nfa_start,DFA_State start){//TODO
+	private boolean spreadDFA(HashSet<NFA_State> nfa_start,DFA_State start){
 		HashSet<NFA_State> nfas=getEClosure(nfa_start);
 		if(nfas.isEmpty())
 			return false;
 		for(NFA_State nfa:nfas){
 			if(nfa.isFinal){
-				start.isFinal=true;			//mark final DFA 
+				start.isReg=true;			//mark final DFA 
+				start.value=nfa.value;//TODO
 				break;
 			}
 		}
@@ -180,13 +181,9 @@ public class LexAnalyzer {
 	}
 	private boolean addEClosure(HashSet<NFA_State> nfas, HashSet<NFA_State> nfa_set){
 		HashSet<NFA_State> nfas_null=new HashSet<NFA_State>();
-		//HashSet<NFA_State> nfa_set1=new HashSet<NFA_State>();
 		if(nfa_set.isEmpty())
 			return false;
 		for(NFA_State tmp_nfa:nfa_set){			//has nfa_edge, then add to closure, or search e-edges recursively 
-			/*if(nfas.contains(tmp_nfa)){
-				continue;
-			}*/
 			nfas.add(tmp_nfa);
 			for(NFA_State nfa_1:tmp_nfa.e_edges){
 				if(!nfa_1.e_edges.isEmpty() && !nfas.contains(nfa_1)){
@@ -198,10 +195,9 @@ public class LexAnalyzer {
 		if(!nfas_null.isEmpty()){
 			addEClosure(nfas,nfas_null);
 		}
-		nfas.addAll(nfas);
 		return true;
 	}
-	private HashMap<Character, DFA_State> getEdges(HashSet<NFA_State> nfas){//TODO, final state
+	private HashMap<Character, DFA_State> getEdges(HashSet<NFA_State> nfas){
 		HashMap<Character, HashSet<NFA_State>> nfas_edges=new HashMap<Character, HashSet<NFA_State>>();
 		HashMap<Character,DFA_State> dfa_edges=new HashMap<Character,DFA_State>();
 		for(NFA_State nfa:nfas){		//generate map describing characters DFA of nfa_sets 
@@ -211,8 +207,7 @@ public class LexAnalyzer {
 				}
 				nfas_edges.get(chr).addAll(nfa.nfa_edges.get(chr));
 			}			
-		}
-		
+		}		
 		for(Character chr:nfas_edges.keySet()){		//generate map describing characters DFA 
 			HashSet<NFA_State> nfa_set=nfas_edges.get(chr);
 			HashSet<NFA_State> nfa_in=NFAinTable(nfa_set);
@@ -223,10 +218,13 @@ public class LexAnalyzer {
 			}else{
 				dfa_edges.put(chr,table_n2d.get(nfa_in));		//update way in characters DFA
 			}
-			for(NFA_State nfa:nfa_set){
+			/*for(NFA_State nfa:nfa_set){			//move to another place
 				if(nfa.isFinal)
 					dfa_edges.get(chr).isFinal=true;
-			}
+				if(nfa.value!=null){
+					dfa_edges.get(chr).value="regex-"+nfa.value;//TODO
+				}
+			}*/
 		}
 		return dfa_edges;
 	}
@@ -237,14 +235,15 @@ public class LexAnalyzer {
 		}
 		return null;
 	}
-	private boolean combineDFA(){			//combine dfa_start and all_start
+	boolean combineDFA(){			//combine dfa_start and all_start
 		combine2DFA(all_start,dfa_start);
 		return true;
 	}
 	private boolean combine2DFA(DFA_State dfa1, DFA_State dfa2){ 		//add 2 to 1
-		
-		if(dfa2.isFinal){
-			dfa1.isFinal=true;
+		if(dfa2.isRes){
+			dfa1.isRes=true;
+			dfa1.value=dfa2.value;
+			//dfa_ter.put(dfa1.sn,dfa1.value);
 		}
 		if(dfa2.dfa_edges.isEmpty())
 			return false;
@@ -269,14 +268,15 @@ public class LexAnalyzer {
 		return true;
 		
 	}
-	private boolean getTokenTable(){		//generate lex-table
+	boolean getTokenTable(){		//generate lex-table
 		DFA2Table(all_start);
 		return true;
 	}
 	private boolean DFA2Table(DFA_State dfa_0){	
-		if(dfa_0.isFinal){
-			dfa_ter.add(dfa_0.sn);
-			//return false;
+		if(dfa_0.isRes){							//add to reserved-words' terminal state firstly
+			dfa_ter.put(dfa_0.sn,dfa_0.value);
+		}else if(dfa_0.isReg){						//add to regex's terminal state then
+			dfa_reg.put(dfa_0.sn,dfa_0.value);
 		}
 		if(dfa_visited.contains(dfa_0.sn))
 			return false;
@@ -291,13 +291,12 @@ public class LexAnalyzer {
 		}
 		return true;
 	}
-	private boolean outputTable(String filename){
+	boolean outputTable(String filename){
 		PrintWriter out=null;
 		try {
 			out=new PrintWriter(new BufferedWriter(new FileWriter(filename)));
 			String line_1="",line_2="";
 			out.println("//transfer table");
-			int length=table_trans.size();
 			for(Integer index:table_trans.keySet()){
 				HashMap<Character,Integer> line_trans=table_trans.get(index);				
 				line_1=String.valueOf(index)+" ";
@@ -312,10 +311,17 @@ public class LexAnalyzer {
 			out.println();
 			out.println("//terminal");
 			String line="";
-			for(Integer i:dfa_ter){
-				line=line+i+" ";
-			}	
-			out.println(line);
+			for(Integer i:dfa_ter.keySet()){
+				line=i+" "+dfa_ter.get(i);
+				out.println(line);
+			}
+			out.println();
+			out.println("//gerex");
+			line="";
+			for(Integer i:dfa_reg.keySet()){
+				line=i+" "+dfa_reg.get(i);
+				out.println(line);
+			}
 		}catch (Exception e) {
 			e.printStackTrace();
 		}finally{
@@ -366,7 +372,8 @@ class NFA_State{
 
 class DFA_State{
 	static int snS=0;
-	boolean isFinal=false;
+	boolean isRes=false;
+	boolean isReg=false;
 	int sn;				//currently is not used
 	String value;		//get value of token, at ending
 	HashMap<Character,DFA_State> dfa_edges;
@@ -380,17 +387,16 @@ class RegexPaser{
 	int index=0;
 	int length=0;
 	String rule;
-	NFA_State parse(String rule){
-		NFA_State pre_nfa=new NFA_State();	
+	NFA_State parse(NFA_State pre_nfa, String rule){
 		NFA_State crt_nfa=new NFA_State();
 		length=rule.length();
 		index=0;
 		this.rule=rule;
 		pre_nfa.e_edges.add(crt_nfa);
-		parseSeq(pre_nfa,crt_nfa);
-		return pre_nfa;
+		crt_nfa=parseSeq(pre_nfa,crt_nfa);
+		return crt_nfa;
 	}
-	NFA_State parseSeq(NFA_State pre_nfa, NFA_State crt_nfa){//TODO
+	NFA_State parseSeq(NFA_State pre_nfa, NFA_State crt_nfa){
 		while(index < length){
 			char chr=rule.charAt(index);
 			switch(chr){
@@ -538,7 +544,7 @@ class RegexPaser{
 		}
 		return crt_nfa;
 	}
-	NFA_State parseDsj(NFA_State pre_nfa, NFA_State crt_nfa) throws Exception{//TODO
+	NFA_State parseDsj(NFA_State pre_nfa, NFA_State crt_nfa) throws Exception{
 		char chr=rule.charAt(index);
 		switch(chr){
 		case '|':
