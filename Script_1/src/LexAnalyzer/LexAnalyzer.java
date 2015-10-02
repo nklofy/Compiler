@@ -19,11 +19,12 @@ public class LexAnalyzer {
 	private HashMap<DFA_State,HashSet<NFA_State>> table_d2n=new HashMap<DFA_State,HashSet<NFA_State>>();
 	private HashMap<HashSet<NFA_State>,DFA_State> table_n2d=new HashMap<HashSet<NFA_State>,DFA_State>();
 	private NFA_State nfa_start; 		//beginning of all nfa 
-	private DFA_State all_start;
-	private DFA_State dfa_start;		//beginning of all dfa and total analyzer
+	private DFA_State all_start;		//beginning of total 
+	private DFA_State dfa_start;		//beginning of all dfa 
 	private HashSet<Integer> dfa_visited=new HashSet<Integer>();
-	private HashMap<Integer,String> dfa_ter=new HashMap<Integer,String>();
+	private HashMap<Integer,String> dfa_opt=new HashMap<Integer,String>();
 	private HashMap<Integer,String> dfa_reg=new HashMap<Integer,String>();
+	private HashMap<Integer,String> dfa_res=new HashMap<Integer,String>();
 	public static void main(String[] args) {
 		LexAnalyzer lex_analyzer=new LexAnalyzer();
 		lex_analyzer.input("tokens.txt");
@@ -136,9 +137,15 @@ public class LexAnalyzer {
 				}
 				dfa=dfa.dfa_edges.get(chr);				
 			}
-			dfa.isRes=true;			//last char
-			dfa.value=str;
+			dfa.isFinal=true;			//last char
+			dfa.value=str;			
+			
+			if(table_op.contains(res)){
+				dfa.type=TokenType.t_opt;
+			}else
+				dfa.type=TokenType.t_res;
 		}
+		
 		return true;		
 	}
 	
@@ -155,8 +162,9 @@ public class LexAnalyzer {
 			return false;
 		for(NFA_State nfa:nfas){
 			if(nfa.isFinal){
-				start.isReg=true;			//mark final DFA 
-				start.value=nfa.value;//TODO
+				start.isFinal=true;			//mark final DFA 
+				start.value=nfa.value;
+				start.type=TokenType.t_reg;
 				break;
 			}
 		}
@@ -240,9 +248,10 @@ public class LexAnalyzer {
 		return true;
 	}
 	private boolean combine2DFA(DFA_State dfa1, DFA_State dfa2){ 		//add 2 to 1
-		if(dfa2.isRes){
-			dfa1.isRes=true;
+		if(dfa2.isFinal){
+			dfa1.isFinal=true;
 			dfa1.value=dfa2.value;
+			dfa1.type=dfa2.type;
 			//dfa_ter.put(dfa1.sn,dfa1.value);
 		}
 		if(dfa2.dfa_edges.isEmpty())
@@ -273,10 +282,14 @@ public class LexAnalyzer {
 		return true;
 	}
 	private boolean DFA2Table(DFA_State dfa_0){	
-		if(dfa_0.isRes){							//add to reserved-words' terminal state firstly
-			dfa_ter.put(dfa_0.sn,dfa_0.value);
-		}else if(dfa_0.isReg){						//add to regex's terminal state then
-			dfa_reg.put(dfa_0.sn,dfa_0.value);
+		if(dfa_0.isFinal){							//add terminal states
+			if(dfa_0.type==TokenType.t_opt){
+				dfa_opt.put(dfa_0.sn,dfa_0.value);
+			}else if(dfa_0.type==TokenType.t_res){
+				dfa_res.put(dfa_0.sn,dfa_0.value);
+			}else if(dfa_0.type==TokenType.t_reg){
+				dfa_reg.put(dfa_0.sn,dfa_0.value);
+			}
 		}
 		if(dfa_visited.contains(dfa_0.sn))
 			return false;
@@ -309,17 +322,24 @@ public class LexAnalyzer {
 				out.println(line_2);
 			}
 			out.println();
-			out.println("//terminal");
+			out.println("//regex");
 			String line="";
-			for(Integer i:dfa_ter.keySet()){
-				line=i+" "+dfa_ter.get(i);
+			for(Integer i:dfa_reg.keySet()){
+				line=i+" "+dfa_reg.get(i);
 				out.println(line);
 			}
 			out.println();
-			out.println("//gerex");
+			out.println("//res");
 			line="";
-			for(Integer i:dfa_reg.keySet()){
-				line=i+" "+dfa_reg.get(i);
+			for(Integer i:dfa_res.keySet()){
+				line=i+" "+dfa_res.get(i);
+				out.println(line);
+			}
+			out.println();
+			out.println("//opt");
+			line="";
+			for(Integer i:dfa_opt.keySet()){
+				line=i+" "+dfa_opt.get(i);
 				out.println(line);
 			}
 		}catch (Exception e) {
@@ -369,11 +389,13 @@ class NFA_State{
 		this.e_edges=new HashSet<NFA_State>();
 	}
 }
-
+enum TokenType{
+	t_res,t_opt,t_reg
+};
 class DFA_State{
 	static int snS=0;
-	boolean isRes=false;
-	boolean isReg=false;
+	boolean isFinal=false;
+	TokenType type;
 	int sn;				//currently is not used
 	String value;		//get value of token, at ending
 	HashMap<Character,DFA_State> dfa_edges;
