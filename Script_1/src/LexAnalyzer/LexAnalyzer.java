@@ -19,9 +19,8 @@ public class LexAnalyzer {
 	private HashMap<DFA_State,HashSet<NFA_State>> table_d2n=new HashMap<DFA_State,HashSet<NFA_State>>();
 	private HashMap<HashSet<NFA_State>,DFA_State> table_n2d=new HashMap<HashSet<NFA_State>,DFA_State>();
 	private NFA_State nfa_start; 		//beginning of all nfa 
-	private DFA_State all_start;		//beginning of total 
+	private DFA_State n2dfa_start;		//beginning of total 
 	private DFA_State dfa_start;		//beginning of all dfa 
-	private HashSet<Integer> dfa_visited=new HashSet<Integer>();
 	private HashMap<Integer,String> dfa_opt=new HashMap<Integer,String>();
 	private HashMap<Integer,String> dfa_reg=new HashMap<Integer,String>();
 	private HashMap<Integer,String> dfa_res=new HashMap<Integer,String>();
@@ -110,7 +109,7 @@ public class LexAnalyzer {
 			nfa.value=pt.name;
 			nfa.isFinal=true;
 		}
-		return true;		
+		return true;
 	}
 	
 	boolean generateDFA(){ 		//DFA for reserved words
@@ -150,31 +149,29 @@ public class LexAnalyzer {
 	}
 	
 	boolean NFAtoDFA(){ 		//convert NFA to DFA
-		all_start=new DFA_State();
+		n2dfa_start=new DFA_State();
 		HashSet<NFA_State> nfas=new HashSet<NFA_State>();
 		nfas.add(nfa_start);
-		spreadDFA(nfas,all_start);
+		nfas=getEClosure(nfas);
+		spreadDFA(nfas,n2dfa_start);
 		return true;
 	}
 	private boolean spreadDFA(HashSet<NFA_State> nfa_start,DFA_State start){
-		HashSet<NFA_State> nfas=getEClosure(nfa_start);
-		if(nfas.isEmpty())
-			return false;
+		HashSet<NFA_State> nfas=getEClosure(nfa_start);					//TOTO will cancel this process 
 		for(NFA_State nfa:nfas){
 			if(nfa.isFinal){
 				start.isFinal=true;			//mark final DFA 
 				start.value=nfa.value;
-				start.type=TokenType.t_reg;
+				start.type=TokenType.t_reg;				
 				break;
 			}
 		}
+		if(nfas.isEmpty())
+			return false;
 		if(!start.dfa_edges.isEmpty()){		//existed dfa, already done getEdges()
 			return false;
 		}
-		start.dfa_edges=getEdges(nfas);
-		if(start.dfa_edges.isEmpty()){
-			return false;
-		}
+		start.dfa_edges=getEdges(nfas);		
 		for(Character chr:start.dfa_edges.keySet()){
 			DFA_State dfa=start.dfa_edges.get(chr);
 			HashSet<NFA_State> nfa_set=table_d2n.get(dfa);
@@ -213,9 +210,9 @@ public class LexAnalyzer {
 				if(!nfas_edges.containsKey(chr)){
 					nfas_edges.put(chr, new HashSet<NFA_State>());
 				}
-				nfas_edges.get(chr).addAll(nfa.nfa_edges.get(chr));
-			}			
-		}		
+				nfas_edges.get(chr).addAll(getEClosure(nfa.nfa_edges.get(chr)));
+			}
+		}
 		for(Character chr:nfas_edges.keySet()){		//generate map describing characters DFA 
 			HashSet<NFA_State> nfa_set=nfas_edges.get(chr);
 			HashSet<NFA_State> nfa_in=NFAinTable(nfa_set);
@@ -226,13 +223,6 @@ public class LexAnalyzer {
 			}else{
 				dfa_edges.put(chr,table_n2d.get(nfa_in));		//update way in characters DFA
 			}
-			/*for(NFA_State nfa:nfa_set){			//move to another place
-				if(nfa.isFinal)
-					dfa_edges.get(chr).isFinal=true;
-				if(nfa.value!=null){
-					dfa_edges.get(chr).value="regex-"+nfa.value;//TODO
-				}
-			}*/
 		}
 		return dfa_edges;
 	}
@@ -243,45 +233,67 @@ public class LexAnalyzer {
 		}
 		return null;
 	}
-	boolean combineDFA(){			//combine dfa_start and all_start
-		combine2DFA(all_start,dfa_start);
-		return true;
-	}
-	private boolean combine2DFA(DFA_State dfa1, DFA_State dfa2){ 		//add 2 to 1
-		if(dfa2.isFinal){
-			dfa1.isFinal=true;
-			dfa1.value=dfa2.value;
-			dfa1.type=dfa2.type;
-			//dfa_ter.put(dfa1.sn,dfa1.value);
-		}
-		if(dfa2.dfa_edges.isEmpty())
-			return false;
-		Set<Character> ways_1=dfa1.dfa_edges.keySet();
-		Set<Character> ways_2=dfa2.dfa_edges.keySet();
-		List<DFA_State> dfa_list_1=new LinkedList<DFA_State>();
-		List<DFA_State> dfa_list_2=new LinkedList<DFA_State>();
-		for(Character chr:ways_2){
-			if(!ways_1.contains(chr)){
-				dfa1.dfa_edges.put(chr,new DFA_State());				
-			}
-			dfa_list_1.add(0,dfa1.dfa_edges.get(chr));
-			dfa_list_2.add(0,dfa2.dfa_edges.get(chr));
-		}
-		dfa2.dfa_edges.clear();
-		while(!dfa_list_1.isEmpty())
+	boolean combineDFA(){			//combine dfa_start and n2dfa_start
+		combine2DFA(dfa_start,n2dfa_start);
+		while(!dfa_list_2.isEmpty())
 		{
 			DFA_State dfa_tmp_1=dfa_list_1.remove(0);
 			DFA_State dfa_tmp_2=dfa_list_2.remove(0);
 			combine2DFA(dfa_tmp_1,dfa_tmp_2);
 		}
 		return true;
+	}
+	private List<DFA_State> dfa_list_1=new LinkedList<DFA_State>();
+	private List<DFA_State> dfa_list_2=new LinkedList<DFA_State>();
+	private Map<DFA_State,DFA_State> dfa_combined=new HashMap<DFA_State,DFA_State>();
+	private boolean combine2DFA(DFA_State dfa1, DFA_State dfa2){ 		//add 2 to 1
+		/*if(dfa_combined.keySet().contains(dfa2))
+			return false;*/
+		
+		if(dfa2.isFinal && !dfa1.isFinal){
+			dfa1.isFinal=true;
+			dfa1.value=dfa2.value;
+			dfa1.type=dfa2.type;
+		}
+		Set<Character> ways_1=dfa1.dfa_edges.keySet();
+		Set<Character> ways_2=dfa2.dfa_edges.keySet();	
+		for(Character chr:ways_2){
+			DFA_State dfa_tmp_2=dfa2.dfa_edges.get(chr);
+			if(ways_1.contains(chr)){
+				dfa_combined.put(dfa2.dfa_edges.get(chr),dfa1.dfa_edges.get(chr));
+				dfa_list_1.add(dfa1.dfa_edges.get(chr));
+				dfa_list_2.add(dfa2.dfa_edges.get(chr));
+			}else{
+				if(dfa_combined.keySet().contains(dfa_tmp_2)){
+					DFA_State dfa_tmp_1=dfa_combined.get(dfa_tmp_2);
+					dfa1.dfa_edges.put(chr,dfa_tmp_1);
+				}
+				else{
+					dfa1.dfa_edges.put(chr,new DFA_State());
+					dfa_combined.put(dfa2.dfa_edges.get(chr),dfa1.dfa_edges.get(chr));
+					dfa_list_1.add(dfa1.dfa_edges.get(chr));
+					dfa_list_2.add(dfa2.dfa_edges.get(chr));
+				}
+			}
+		}
+		return true;
 		
 	}
 	boolean getTokenTable(){		//generate lex-table
-		DFA2Table(all_start);
+		DFA2Table(dfa_start);
+		while(!dfa_visiting.isEmpty()){
+			DFA2Table(dfa_visiting.remove(0));
+		}	
 		return true;
 	}
+
+	private Set<DFA_State> dfa_visited=new HashSet<DFA_State>();
+	private List<DFA_State> dfa_visiting=new LinkedList<DFA_State>();
 	private boolean DFA2Table(DFA_State dfa_0){	
+		if(dfa_visited.contains(dfa_0))
+			return false;
+		else
+			dfa_visited.add(dfa_0);
 		if(dfa_0.isFinal){							//add terminal states
 			if(dfa_0.type==TokenType.t_opt){
 				dfa_opt.put(dfa_0.sn,dfa_0.value);
@@ -291,17 +303,13 @@ public class LexAnalyzer {
 				dfa_reg.put(dfa_0.sn,dfa_0.value);
 			}
 		}
-		if(dfa_visited.contains(dfa_0.sn))
-			return false;
-		else
-			dfa_visited.add(dfa_0.sn);
+		
 		table_trans.put(dfa_0.sn,new HashMap<Character,Integer>());
 		for(Character chr:dfa_0.dfa_edges.keySet()){
 			table_trans.get(dfa_0.sn).put(chr, dfa_0.dfa_edges.get(chr).sn);
+			dfa_visiting.add(dfa_0.dfa_edges.get(chr));
 		}
-		for(Character chr:dfa_0.dfa_edges.keySet()){
-			DFA2Table(dfa_0.dfa_edges.get(chr));
-		}
+			
 		return true;
 	}
 	boolean outputTable(String filename){

@@ -10,11 +10,11 @@ public class Token {
 		case "double":
 			token.createDouble(buffer);
 			break;
-		case "variable":			
-			token.createDouble(buffer);
+		case "identifier":			
+			token.createVar(buffer);
 			break;
 		case "reserve":			
-			token.createDouble(buffer);
+			token.createRes(buffer);
 			break;
 		default:
 			return null;
