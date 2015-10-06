@@ -26,14 +26,15 @@ public class LexAnalyzer {
 	private HashMap<Integer,String> dfa_res=new HashMap<Integer,String>();
 	public static void main(String[] args) {
 		LexAnalyzer lex_analyzer=new LexAnalyzer();
-		lex_analyzer.input("tokens.txt");
-		lex_analyzer.generateNFA();  	
-		lex_analyzer.generateDFA();
-		lex_analyzer.NFAtoDFA();
-		lex_analyzer.combineDFA();
-		lex_analyzer.getTokenTable();
-		lex_analyzer.outputTable("out_lexAnalyzer.txt");
+		lex_analyzer.input("tokens.txt"); System.out.println("finish reading");
+		lex_analyzer.generateNFA();  	System.out.println("finish NFA");
+		lex_analyzer.generateDFA();  System.out.println("finish DFA");
+		lex_analyzer.NFAtoDFA();  System.out.println("finish NFA to DFA");
+		lex_analyzer.combineDFA();  System.out.println("finish combine 2 DFA");
+		lex_analyzer.getTokenTable(); System.out.println("finish token table");
+		lex_analyzer.outputTable("out_lexAnalyzer.txt");  System.out.println("finish output file");
 	}
+	
 	boolean input(String filename){//read the file spec REs then 
 		Scanner in = null;
 		String word;
@@ -86,7 +87,7 @@ public class LexAnalyzer {
 						word=in.next();
 					else return false;
 				}
-				System.out.println("finish reading");
+				
 			}
 			else return false;
 		} catch (FileNotFoundException e) {
@@ -259,11 +260,11 @@ public class LexAnalyzer {
 		Set<Character> ways_2=dfa2.dfa_edges.keySet();	
 		for(Character chr:ways_2){
 			DFA_State dfa_tmp_2=dfa2.dfa_edges.get(chr);
-			if(ways_1.contains(chr)){
+			if(ways_1.contains(chr)){	//Guarantee way_2 move on way_1 if way_1 existing 
 				dfa_combined.put(dfa2.dfa_edges.get(chr),dfa1.dfa_edges.get(chr));
 				dfa_list_1.add(dfa1.dfa_edges.get(chr));
 				dfa_list_2.add(dfa2.dfa_edges.get(chr));
-			}else{
+			}else{						//way_1 not existing, add new way to way_1 or connect it to old vertex
 				if(dfa_combined.keySet().contains(dfa_tmp_2)){
 					DFA_State dfa_tmp_1=dfa_combined.get(dfa_tmp_2);
 					dfa1.dfa_edges.put(chr,dfa_tmp_1);

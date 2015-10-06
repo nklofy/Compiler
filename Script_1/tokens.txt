@@ -1,6 +1,6 @@
 //tokens
 int_num [0-9]+ 
-double_num [0-9]*.[0-9]+ 
+double_num [0-9]+.[0-9]+ 
 identifier _*[a-zA-Z]+[a-zA-Z0-9_]*
 
 //reserved
@@ -20,6 +20,7 @@ function function
 return return 
 get get 
 print print 
+lambda lambda
 
 //operator
 = = 
@@ -48,5 +49,6 @@ print print
 { { 
 } } 
 , ,
+; ;
 // //
 //end 

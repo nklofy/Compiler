@@ -1,0 +1,15 @@
+  	
+	  
+function _acb123_( ){  	
+  int d=inta
+  double e=double1/6
+  while(a>b)
+    d=e/2+4
+    a++
+  if(d>=e)
+    return d-e
+  else
+    return d*e
+	  
+}
+
