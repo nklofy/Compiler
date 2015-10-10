@@ -1,3 +1,4 @@
+//public API: setScanFile(String) getToken() 
 package LexAnalyzer;
 
 import java.io.*;
