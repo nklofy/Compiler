@@ -5,7 +5,7 @@ import java.io.*;
 import java.util.*;
 
 public class Tokenizer {
-	private Token eof_token=new Token();
+	private Token eof_token=Token.create("res","eof");
 	private Token token;
 	private HashMap<Integer,HashMap<Character, Integer>> transfer_table=new HashMap<Integer,HashMap<Character, Integer>> ();
 	private HashMap<Integer,String> terminal_opt=new HashMap<Integer,String> ();
@@ -45,9 +45,7 @@ public class Tokenizer {
 					return false;
 				String words_state[]=word.split(" ");				
 				for(int i=1;i<words_char.length;i++){
-					if(!words_char[i].equals("")){
-						if(words_state[i].equals(""))
-							System.out.println(String.valueOf(i)+":"+words_char[i]);
+					if(!words_char[i].equals("")){						
 						transfer_table.get(index_state).put(words_char[i].charAt(0),Integer.parseInt(words_state[i]));
 					}					
 				}
@@ -152,7 +150,7 @@ public class Tokenizer {
 					index_pre=index_crt;
 					continue;
 				}
-			}			
+			}
 			if(!transfer_table.get(state).keySet().contains(chr)){
 				if(state!=1){		//for example, int oprator 
 					index_crt--;

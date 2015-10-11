@@ -1,4 +1,2 @@
 int_number :1
-oprator :+
-int_number :1
 eof: end of file!

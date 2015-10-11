@@ -266,7 +266,7 @@ public class ParserGenerator {
 		return true;
 	}
 	
-	private CC getGoto(Item item){	//TODO	
+	private CC getGoto(Item item){	
 		Item kr_item=new Item(item);
 		if(kr_item.position<kr_item.symbols.size()){
 			kr_item.position++;
@@ -430,7 +430,8 @@ public class ParserGenerator {
 				line="";
 				i++;
 			}
-			
+			out.println();
+			out.println("//end");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}finally{
@@ -468,6 +469,7 @@ public class ParserGenerator {
 					out.println(line);
 				}
 				out.println();
+				out.println("//end");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

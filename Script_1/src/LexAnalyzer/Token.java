@@ -30,6 +30,36 @@ public class Token {
 	String idn_name;
 	String opt_name;
 	TokenType type;
+	public String getType(){
+		switch(type){
+		case t_int:
+			return "int";
+		case t_double:
+			return "double";
+		case t_idn:
+			return "idn";
+		case t_res:
+			return "res";
+		case t_opt:
+			return "opt";
+		}
+		return null;
+	}
+	public String getResName(){
+		return res_name;		
+	}
+	public String getOptName(){
+		return opt_name;
+	}
+	public String getIdnName(){
+		return idn_name;
+	}
+	int getIntValue(){
+		return int_value;
+	}
+	double getDoubleValue(){
+		return double_value;
+	}
 	void createInt(String buffer){
 		this.type=TokenType.t_int;
 		this.int_value=Integer.parseInt(buffer);
