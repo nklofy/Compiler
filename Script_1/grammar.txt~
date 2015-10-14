@@ -1,9 +1,9 @@
 //symbols
 Goal stmt_list stmt 
-exp add_exp mul_exp pri_exp num_exp 
+exp add_exp mul_exp pri_exp num_exp mult_exp
 
 //tokens
-number = + - * / e ( ) eof 
+number + - * / = e ( ) eof 
 
 //grammars
 Goal ->
@@ -13,15 +13,21 @@ stmt_list ->
 stmt_list stmt | stmt
 
 stmt ->
-exp
+exp 
 
 exp ->
+exp + add_exp | add_exp
+
+add_exp ->
+add_exp * mul_exp | mul_exp
+
+mul_exp -> 
 pri_exp
 
-pri_exp ->
-num_exp
+pri_exp -> 
+num_exp | ( exp )
 
-num_exp ->
+num_exp -> 
 number 
 
 //end

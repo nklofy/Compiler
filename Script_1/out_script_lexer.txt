@@ -1,2 +1,10 @@
+identifier :a1231
+oprator :*
+int_number :2
+oprator :+
 int_number :1
+oprator :/
+double_number :5.6
+oprator :-
+identifier :abcv
 eof: end of file!

@@ -19,1387 +19,225 @@ number (
 
 //all CCs
 
-Goal ->
-stmt_list 0 eof
-stmt_list stmt eof 0 eof
-stmt eof 0 eof
-stmt_list stmt eof 0 number
-stmt_list stmt eof 0 (
-stmt eof 0 number
-stmt eof 0 (
-exp 0 eof
-exp + add_exp 0 eof
-exp - add_exp 0 eof
-add_exp 0 eof
-exp + add_exp 0 +
-exp - add_exp 0 +
-add_exp 0 +
-exp + add_exp 0 -
-exp - add_exp 0 -
-add_exp 0 -
-add_exp + mul_exp 0 eof
-add_exp - mul_exp 0 eof
-mul_exp 0 eof
-add_exp + mul_exp 0 +
-add_exp - mul_exp 0 +
-mul_exp 0 +
-add_exp + mul_exp 0 -
-add_exp - mul_exp 0 -
-mul_exp 0 -
-mul_exp * pri_exp 0 eof
-mul_exp / pri_exp 0 eof
-pri_exp 0 eof
-mul_exp * pri_exp 0 +
-mul_exp / pri_exp 0 +
-pri_exp 0 +
-mul_exp * pri_exp 0 -
-mul_exp / pri_exp 0 -
-pri_exp 0 -
-mul_exp * pri_exp 0 *
-mul_exp / pri_exp 0 *
-pri_exp 0 *
-mul_exp * pri_exp 0 /
-mul_exp / pri_exp 0 /
-pri_exp 0 /
-num_exp 0 eof
-( exp ) 0 eof
-num_exp 0 +
-( exp ) 0 +
-num_exp 0 -
-( exp ) 0 -
-num_exp 0 *
-( exp ) 0 *
-num_exp 0 /
-( exp ) 0 /
-number 0 eof
-number 0 +
-number 0 -
-number 0 *
-number 0 /
-
-Goal ->
-stmt_list 1 eof
-
-stmt_list ->
-stmt_list stmt eof 1 eof
-exp 0 eof
-exp + add_exp 0 eof
-exp - add_exp 0 eof
-add_exp 0 eof
-exp + add_exp 0 +
-exp - add_exp 0 +
-add_exp 0 +
-exp + add_exp 0 -
-exp - add_exp 0 -
-add_exp 0 -
-add_exp + mul_exp 0 eof
-add_exp - mul_exp 0 eof
-mul_exp 0 eof
-add_exp + mul_exp 0 +
-add_exp - mul_exp 0 +
-mul_exp 0 +
-add_exp + mul_exp 0 -
-add_exp - mul_exp 0 -
-mul_exp 0 -
-mul_exp * pri_exp 0 eof
-mul_exp / pri_exp 0 eof
-pri_exp 0 eof
-mul_exp * pri_exp 0 +
-mul_exp / pri_exp 0 +
-pri_exp 0 +
-mul_exp * pri_exp 0 -
-mul_exp / pri_exp 0 -
-pri_exp 0 -
-mul_exp * pri_exp 0 *
-mul_exp / pri_exp 0 *
-pri_exp 0 *
-mul_exp * pri_exp 0 /
-mul_exp / pri_exp 0 /
-pri_exp 0 /
-num_exp 0 eof
-( exp ) 0 eof
-num_exp 0 +
-( exp ) 0 +
-num_exp 0 -
-( exp ) 0 -
-num_exp 0 *
-( exp ) 0 *
-num_exp 0 /
-( exp ) 0 /
-number 0 eof
-number 0 +
-number 0 -
-number 0 *
-number 0 /
-
-stmt_list ->
-stmt eof 1 eof
-
-stmt_list ->
-stmt_list stmt eof 1 number
-exp 0 eof
-exp + add_exp 0 eof
-exp - add_exp 0 eof
-add_exp 0 eof
-exp + add_exp 0 +
-exp - add_exp 0 +
-add_exp 0 +
-exp + add_exp 0 -
-exp - add_exp 0 -
-add_exp 0 -
-add_exp + mul_exp 0 eof
-add_exp - mul_exp 0 eof
-mul_exp 0 eof
-add_exp + mul_exp 0 +
-add_exp - mul_exp 0 +
-mul_exp 0 +
-add_exp + mul_exp 0 -
-add_exp - mul_exp 0 -
-mul_exp 0 -
-mul_exp * pri_exp 0 eof
-mul_exp / pri_exp 0 eof
-pri_exp 0 eof
-mul_exp * pri_exp 0 +
-mul_exp / pri_exp 0 +
-pri_exp 0 +
-mul_exp * pri_exp 0 -
-mul_exp / pri_exp 0 -
-pri_exp 0 -
-mul_exp * pri_exp 0 *
-mul_exp / pri_exp 0 *
-pri_exp 0 *
-mul_exp * pri_exp 0 /
-mul_exp / pri_exp 0 /
-pri_exp 0 /
-num_exp 0 eof
-( exp ) 0 eof
-num_exp 0 +
-( exp ) 0 +
-num_exp 0 -
-( exp ) 0 -
-num_exp 0 *
-( exp ) 0 *
-num_exp 0 /
-( exp ) 0 /
-number 0 eof
-number 0 +
-number 0 -
-number 0 *
-number 0 /
-
-stmt_list ->
-stmt_list stmt eof 1 (
-exp 0 eof
-exp + add_exp 0 eof
-exp - add_exp 0 eof
-add_exp 0 eof
-exp + add_exp 0 +
-exp - add_exp 0 +
-add_exp 0 +
-exp + add_exp 0 -
-exp - add_exp 0 -
-add_exp 0 -
-add_exp + mul_exp 0 eof
-add_exp - mul_exp 0 eof
-mul_exp 0 eof
-add_exp + mul_exp 0 +
-add_exp - mul_exp 0 +
-mul_exp 0 +
-add_exp + mul_exp 0 -
-add_exp - mul_exp 0 -
-mul_exp 0 -
-mul_exp * pri_exp 0 eof
-mul_exp / pri_exp 0 eof
-pri_exp 0 eof
-mul_exp * pri_exp 0 +
-mul_exp / pri_exp 0 +
-pri_exp 0 +
-mul_exp * pri_exp 0 -
-mul_exp / pri_exp 0 -
-pri_exp 0 -
-mul_exp * pri_exp 0 *
-mul_exp / pri_exp 0 *
-pri_exp 0 *
-mul_exp * pri_exp 0 /
-mul_exp / pri_exp 0 /
-pri_exp 0 /
-num_exp 0 eof
-( exp ) 0 eof
-num_exp 0 +
-( exp ) 0 +
-num_exp 0 -
-( exp ) 0 -
-num_exp 0 *
-( exp ) 0 *
-num_exp 0 /
-( exp ) 0 /
-number 0 eof
-number 0 +
-number 0 -
-number 0 *
-number 0 /
-
-stmt_list ->
-stmt eof 1 number
-
-stmt_list ->
-stmt eof 1 (
-
-stmt ->
-exp 1 eof
-
-exp ->
-exp + add_exp 1 eof
-
-exp ->
-exp - add_exp 1 eof
-
-exp ->
-add_exp 1 eof
-
-exp ->
-exp + add_exp 1 +
-
-exp ->
-exp - add_exp 1 +
-
-exp ->
-add_exp 1 +
-
-exp ->
-exp + add_exp 1 -
-
-exp ->
-exp - add_exp 1 -
-
-exp ->
-add_exp 1 -
-
-add_exp ->
-add_exp + mul_exp 1 eof
-
-add_exp ->
-add_exp - mul_exp 1 eof
-
-add_exp ->
-mul_exp 1 eof
-
-add_exp ->
-add_exp + mul_exp 1 +
-
-add_exp ->
-add_exp - mul_exp 1 +
-
-add_exp ->
-mul_exp 1 +
-
-add_exp ->
-add_exp + mul_exp 1 -
-
-add_exp ->
-add_exp - mul_exp 1 -
-
-add_exp ->
-mul_exp 1 -
-
-mul_exp ->
-mul_exp * pri_exp 1 eof
-
-mul_exp ->
-mul_exp / pri_exp 1 eof
-
-mul_exp ->
-pri_exp 1 eof
-
-mul_exp ->
-mul_exp * pri_exp 1 +
-
-mul_exp ->
-mul_exp / pri_exp 1 +
-
-mul_exp ->
-pri_exp 1 +
-
-mul_exp ->
-mul_exp * pri_exp 1 -
-
-mul_exp ->
-mul_exp / pri_exp 1 -
-
-mul_exp ->
-pri_exp 1 -
-
-mul_exp ->
-mul_exp * pri_exp 1 *
-
-mul_exp ->
-mul_exp / pri_exp 1 *
-
-mul_exp ->
-pri_exp 1 *
-
-mul_exp ->
-mul_exp * pri_exp 1 /
-
-mul_exp ->
-mul_exp / pri_exp 1 /
-
-mul_exp ->
-pri_exp 1 /
-
-pri_exp ->
-num_exp 1 eof
-
-pri_exp ->
-( exp ) 1 eof
-exp + add_exp 0 )
-exp - add_exp 0 )
-add_exp 0 )
-exp + add_exp 0 +
-exp - add_exp 0 +
-add_exp 0 +
-exp + add_exp 0 -
-exp - add_exp 0 -
-add_exp 0 -
-add_exp + mul_exp 0 )
-add_exp - mul_exp 0 )
-mul_exp 0 )
-add_exp + mul_exp 0 +
-add_exp - mul_exp 0 +
-mul_exp 0 +
-add_exp + mul_exp 0 -
-add_exp - mul_exp 0 -
-mul_exp 0 -
-mul_exp * pri_exp 0 )
-mul_exp / pri_exp 0 )
-pri_exp 0 )
-mul_exp * pri_exp 0 +
-mul_exp / pri_exp 0 +
-pri_exp 0 +
-mul_exp * pri_exp 0 -
-mul_exp / pri_exp 0 -
-pri_exp 0 -
-mul_exp * pri_exp 0 *
-mul_exp / pri_exp 0 *
-pri_exp 0 *
-mul_exp * pri_exp 0 /
-mul_exp / pri_exp 0 /
-pri_exp 0 /
-num_exp 0 )
-( exp ) 0 )
-num_exp 0 +
-( exp ) 0 +
-num_exp 0 -
-( exp ) 0 -
-num_exp 0 *
-( exp ) 0 *
-num_exp 0 /
-( exp ) 0 /
-number 0 )
-number 0 +
-number 0 -
-number 0 *
-number 0 /
-
-pri_exp ->
-num_exp 1 +
-
-pri_exp ->
-( exp ) 1 +
-exp + add_exp 0 )
-exp - add_exp 0 )
-add_exp 0 )
-exp + add_exp 0 +
-exp - add_exp 0 +
-add_exp 0 +
-exp + add_exp 0 -
-exp - add_exp 0 -
-add_exp 0 -
-add_exp + mul_exp 0 )
-add_exp - mul_exp 0 )
-mul_exp 0 )
-add_exp + mul_exp 0 +
-add_exp - mul_exp 0 +
-mul_exp 0 +
-add_exp + mul_exp 0 -
-add_exp - mul_exp 0 -
-mul_exp 0 -
-mul_exp * pri_exp 0 )
-mul_exp / pri_exp 0 )
-pri_exp 0 )
-mul_exp * pri_exp 0 +
-mul_exp / pri_exp 0 +
-pri_exp 0 +
-mul_exp * pri_exp 0 -
-mul_exp / pri_exp 0 -
-pri_exp 0 -
-mul_exp * pri_exp 0 *
-mul_exp / pri_exp 0 *
-pri_exp 0 *
-mul_exp * pri_exp 0 /
-mul_exp / pri_exp 0 /
-pri_exp 0 /
-num_exp 0 )
-( exp ) 0 )
-num_exp 0 +
-( exp ) 0 +
-num_exp 0 -
-( exp ) 0 -
-num_exp 0 *
-( exp ) 0 *
-num_exp 0 /
-( exp ) 0 /
-number 0 )
-number 0 +
-number 0 -
-number 0 *
-number 0 /
-
-pri_exp ->
-num_exp 1 -
-
-pri_exp ->
-( exp ) 1 -
-exp + add_exp 0 )
-exp - add_exp 0 )
-add_exp 0 )
-exp + add_exp 0 +
-exp - add_exp 0 +
-add_exp 0 +
-exp + add_exp 0 -
-exp - add_exp 0 -
-add_exp 0 -
-add_exp + mul_exp 0 )
-add_exp - mul_exp 0 )
-mul_exp 0 )
-add_exp + mul_exp 0 +
-add_exp - mul_exp 0 +
-mul_exp 0 +
-add_exp + mul_exp 0 -
-add_exp - mul_exp 0 -
-mul_exp 0 -
-mul_exp * pri_exp 0 )
-mul_exp / pri_exp 0 )
-pri_exp 0 )
-mul_exp * pri_exp 0 +
-mul_exp / pri_exp 0 +
-pri_exp 0 +
-mul_exp * pri_exp 0 -
-mul_exp / pri_exp 0 -
-pri_exp 0 -
-mul_exp * pri_exp 0 *
-mul_exp / pri_exp 0 *
-pri_exp 0 *
-mul_exp * pri_exp 0 /
-mul_exp / pri_exp 0 /
-pri_exp 0 /
-num_exp 0 )
-( exp ) 0 )
-num_exp 0 +
-( exp ) 0 +
-num_exp 0 -
-( exp ) 0 -
-num_exp 0 *
-( exp ) 0 *
-num_exp 0 /
-( exp ) 0 /
-number 0 )
-number 0 +
-number 0 -
-number 0 *
-number 0 /
-
-pri_exp ->
-num_exp 1 *
-
-pri_exp ->
-( exp ) 1 *
-exp + add_exp 0 )
-exp - add_exp 0 )
-add_exp 0 )
-exp + add_exp 0 +
-exp - add_exp 0 +
-add_exp 0 +
-exp + add_exp 0 -
-exp - add_exp 0 -
-add_exp 0 -
-add_exp + mul_exp 0 )
-add_exp - mul_exp 0 )
-mul_exp 0 )
-add_exp + mul_exp 0 +
-add_exp - mul_exp 0 +
-mul_exp 0 +
-add_exp + mul_exp 0 -
-add_exp - mul_exp 0 -
-mul_exp 0 -
-mul_exp * pri_exp 0 )
-mul_exp / pri_exp 0 )
-pri_exp 0 )
-mul_exp * pri_exp 0 +
-mul_exp / pri_exp 0 +
-pri_exp 0 +
-mul_exp * pri_exp 0 -
-mul_exp / pri_exp 0 -
-pri_exp 0 -
-mul_exp * pri_exp 0 *
-mul_exp / pri_exp 0 *
-pri_exp 0 *
-mul_exp * pri_exp 0 /
-mul_exp / pri_exp 0 /
-pri_exp 0 /
-num_exp 0 )
-( exp ) 0 )
-num_exp 0 +
-( exp ) 0 +
-num_exp 0 -
-( exp ) 0 -
-num_exp 0 *
-( exp ) 0 *
-num_exp 0 /
-( exp ) 0 /
-number 0 )
-number 0 +
-number 0 -
-number 0 *
-number 0 /
-
-pri_exp ->
-num_exp 1 /
-
-pri_exp ->
-( exp ) 1 /
-exp + add_exp 0 )
-exp - add_exp 0 )
-add_exp 0 )
-exp + add_exp 0 +
-exp - add_exp 0 +
-add_exp 0 +
-exp + add_exp 0 -
-exp - add_exp 0 -
-add_exp 0 -
-add_exp + mul_exp 0 )
-add_exp - mul_exp 0 )
-mul_exp 0 )
-add_exp + mul_exp 0 +
-add_exp - mul_exp 0 +
-mul_exp 0 +
-add_exp + mul_exp 0 -
-add_exp - mul_exp 0 -
-mul_exp 0 -
-mul_exp * pri_exp 0 )
-mul_exp / pri_exp 0 )
-pri_exp 0 )
-mul_exp * pri_exp 0 +
-mul_exp / pri_exp 0 +
-pri_exp 0 +
-mul_exp * pri_exp 0 -
-mul_exp / pri_exp 0 -
-pri_exp 0 -
-mul_exp * pri_exp 0 *
-mul_exp / pri_exp 0 *
-pri_exp 0 *
-mul_exp * pri_exp 0 /
-mul_exp / pri_exp 0 /
-pri_exp 0 /
-num_exp 0 )
-( exp ) 0 )
-num_exp 0 +
-( exp ) 0 +
-num_exp 0 -
-( exp ) 0 -
-num_exp 0 *
-( exp ) 0 *
-num_exp 0 /
-( exp ) 0 /
-number 0 )
-number 0 +
-number 0 -
-number 0 *
-number 0 /
-
-num_exp ->
-number 1 eof
-
-num_exp ->
-number 1 +
-
-num_exp ->
-number 1 -
-
-num_exp ->
-number 1 *
-
-num_exp ->
-number 1 /
-
-stmt_list ->
-stmt_list stmt eof 2 eof
-
-stmt_list ->
-stmt eof 2 eof
-
-stmt_list ->
-stmt_list stmt eof 2 number
-
-stmt_list ->
-stmt_list stmt eof 2 (
-
-stmt_list ->
-stmt eof 2 number
-
-stmt_list ->
-stmt eof 2 (
-
-exp ->
-exp + add_exp 2 eof
-add_exp + mul_exp 0 eof
-add_exp - mul_exp 0 eof
-mul_exp 0 eof
-add_exp + mul_exp 0 +
-add_exp - mul_exp 0 +
-mul_exp 0 +
-add_exp + mul_exp 0 -
-add_exp - mul_exp 0 -
-mul_exp 0 -
-mul_exp * pri_exp 0 eof
-mul_exp / pri_exp 0 eof
-pri_exp 0 eof
-mul_exp * pri_exp 0 +
-mul_exp / pri_exp 0 +
-pri_exp 0 +
-mul_exp * pri_exp 0 -
-mul_exp / pri_exp 0 -
-pri_exp 0 -
-mul_exp * pri_exp 0 *
-mul_exp / pri_exp 0 *
-pri_exp 0 *
-mul_exp * pri_exp 0 /
-mul_exp / pri_exp 0 /
-pri_exp 0 /
-num_exp 0 eof
-( exp ) 0 eof
-num_exp 0 +
-( exp ) 0 +
-num_exp 0 -
-( exp ) 0 -
-num_exp 0 *
-( exp ) 0 *
-num_exp 0 /
-( exp ) 0 /
-number 0 eof
-number 0 +
-number 0 -
-number 0 *
-number 0 /
-
-exp ->
-exp - add_exp 2 eof
-add_exp + mul_exp 0 eof
-add_exp - mul_exp 0 eof
-mul_exp 0 eof
-add_exp + mul_exp 0 +
-add_exp - mul_exp 0 +
-mul_exp 0 +
-add_exp + mul_exp 0 -
-add_exp - mul_exp 0 -
-mul_exp 0 -
-mul_exp * pri_exp 0 eof
-mul_exp / pri_exp 0 eof
-pri_exp 0 eof
-mul_exp * pri_exp 0 +
-mul_exp / pri_exp 0 +
-pri_exp 0 +
-mul_exp * pri_exp 0 -
-mul_exp / pri_exp 0 -
-pri_exp 0 -
-mul_exp * pri_exp 0 *
-mul_exp / pri_exp 0 *
-pri_exp 0 *
-mul_exp * pri_exp 0 /
-mul_exp / pri_exp 0 /
-pri_exp 0 /
-num_exp 0 eof
-( exp ) 0 eof
-num_exp 0 +
-( exp ) 0 +
-num_exp 0 -
-( exp ) 0 -
-num_exp 0 *
-( exp ) 0 *
-num_exp 0 /
-( exp ) 0 /
-number 0 eof
-number 0 +
-number 0 -
-number 0 *
-number 0 /
-
-exp ->
-exp + add_exp 2 +
-add_exp + mul_exp 0 +
-add_exp - mul_exp 0 +
-mul_exp 0 +
-add_exp + mul_exp 0 -
-add_exp - mul_exp 0 -
-mul_exp 0 -
-mul_exp * pri_exp 0 +
-mul_exp / pri_exp 0 +
-pri_exp 0 +
-mul_exp * pri_exp 0 -
-mul_exp / pri_exp 0 -
-pri_exp 0 -
-mul_exp * pri_exp 0 *
-mul_exp / pri_exp 0 *
-pri_exp 0 *
-mul_exp * pri_exp 0 /
-mul_exp / pri_exp 0 /
-pri_exp 0 /
-num_exp 0 +
-( exp ) 0 +
-num_exp 0 -
-( exp ) 0 -
-num_exp 0 *
-( exp ) 0 *
-num_exp 0 /
-( exp ) 0 /
-number 0 +
-number 0 -
-number 0 *
-number 0 /
-
-exp ->
-exp - add_exp 2 +
-add_exp + mul_exp 0 +
-add_exp - mul_exp 0 +
-mul_exp 0 +
-add_exp + mul_exp 0 -
-add_exp - mul_exp 0 -
-mul_exp 0 -
-mul_exp * pri_exp 0 +
-mul_exp / pri_exp 0 +
-pri_exp 0 +
-mul_exp * pri_exp 0 -
-mul_exp / pri_exp 0 -
-pri_exp 0 -
-mul_exp * pri_exp 0 *
-mul_exp / pri_exp 0 *
-pri_exp 0 *
-mul_exp * pri_exp 0 /
-mul_exp / pri_exp 0 /
-pri_exp 0 /
-num_exp 0 +
-( exp ) 0 +
-num_exp 0 -
-( exp ) 0 -
-num_exp 0 *
-( exp ) 0 *
-num_exp 0 /
-( exp ) 0 /
-number 0 +
-number 0 -
-number 0 *
-number 0 /
-
-exp ->
-exp + add_exp 2 -
-add_exp + mul_exp 0 -
-add_exp - mul_exp 0 -
-mul_exp 0 -
-add_exp + mul_exp 0 +
-add_exp - mul_exp 0 +
-mul_exp 0 +
-mul_exp * pri_exp 0 -
-mul_exp / pri_exp 0 -
-pri_exp 0 -
-mul_exp * pri_exp 0 +
-mul_exp / pri_exp 0 +
-pri_exp 0 +
-mul_exp * pri_exp 0 *
-mul_exp / pri_exp 0 *
-pri_exp 0 *
-mul_exp * pri_exp 0 /
-mul_exp / pri_exp 0 /
-pri_exp 0 /
-num_exp 0 -
-( exp ) 0 -
-num_exp 0 +
-( exp ) 0 +
-num_exp 0 *
-( exp ) 0 *
-num_exp 0 /
-( exp ) 0 /
-number 0 -
-number 0 +
-number 0 *
-number 0 /
-
-exp ->
-exp - add_exp 2 -
-add_exp + mul_exp 0 -
-add_exp - mul_exp 0 -
-mul_exp 0 -
-add_exp + mul_exp 0 +
-add_exp - mul_exp 0 +
-mul_exp 0 +
-mul_exp * pri_exp 0 -
-mul_exp / pri_exp 0 -
-pri_exp 0 -
-mul_exp * pri_exp 0 +
-mul_exp / pri_exp 0 +
-pri_exp 0 +
-mul_exp * pri_exp 0 *
-mul_exp / pri_exp 0 *
-pri_exp 0 *
-mul_exp * pri_exp 0 /
-mul_exp / pri_exp 0 /
-pri_exp 0 /
-num_exp 0 -
-( exp ) 0 -
-num_exp 0 +
-( exp ) 0 +
-num_exp 0 *
-( exp ) 0 *
-num_exp 0 /
-( exp ) 0 /
-number 0 -
-number 0 +
-number 0 *
-number 0 /
-
-add_exp ->
-add_exp + mul_exp 2 eof
-mul_exp * pri_exp 0 eof
-mul_exp / pri_exp 0 eof
-pri_exp 0 eof
-mul_exp * pri_exp 0 *
-mul_exp / pri_exp 0 *
-pri_exp 0 *
-mul_exp * pri_exp 0 /
-mul_exp / pri_exp 0 /
-pri_exp 0 /
-num_exp 0 eof
-( exp ) 0 eof
-num_exp 0 *
-( exp ) 0 *
-num_exp 0 /
-( exp ) 0 /
-number 0 eof
-number 0 *
-number 0 /
-
-add_exp ->
-add_exp - mul_exp 2 eof
-mul_exp * pri_exp 0 eof
-mul_exp / pri_exp 0 eof
-pri_exp 0 eof
-mul_exp * pri_exp 0 *
-mul_exp / pri_exp 0 *
-pri_exp 0 *
-mul_exp * pri_exp 0 /
-mul_exp / pri_exp 0 /
-pri_exp 0 /
-num_exp 0 eof
-( exp ) 0 eof
-num_exp 0 *
-( exp ) 0 *
-num_exp 0 /
-( exp ) 0 /
-number 0 eof
-number 0 *
-number 0 /
-
-add_exp ->
-add_exp + mul_exp 2 +
-mul_exp * pri_exp 0 +
-mul_exp / pri_exp 0 +
-pri_exp 0 +
-mul_exp * pri_exp 0 *
-mul_exp / pri_exp 0 *
-pri_exp 0 *
-mul_exp * pri_exp 0 /
-mul_exp / pri_exp 0 /
-pri_exp 0 /
-num_exp 0 +
-( exp ) 0 +
-num_exp 0 *
-( exp ) 0 *
-num_exp 0 /
-( exp ) 0 /
-number 0 +
-number 0 *
-number 0 /
-
-add_exp ->
-add_exp - mul_exp 2 +
-mul_exp * pri_exp 0 +
-mul_exp / pri_exp 0 +
-pri_exp 0 +
-mul_exp * pri_exp 0 *
-mul_exp / pri_exp 0 *
-pri_exp 0 *
-mul_exp * pri_exp 0 /
-mul_exp / pri_exp 0 /
-pri_exp 0 /
-num_exp 0 +
-( exp ) 0 +
-num_exp 0 *
-( exp ) 0 *
-num_exp 0 /
-( exp ) 0 /
-number 0 +
-number 0 *
-number 0 /
-
-add_exp ->
-add_exp + mul_exp 2 -
-mul_exp * pri_exp 0 -
-mul_exp / pri_exp 0 -
-pri_exp 0 -
-mul_exp * pri_exp 0 *
-mul_exp / pri_exp 0 *
-pri_exp 0 *
-mul_exp * pri_exp 0 /
-mul_exp / pri_exp 0 /
-pri_exp 0 /
-num_exp 0 -
-( exp ) 0 -
-num_exp 0 *
-( exp ) 0 *
-num_exp 0 /
-( exp ) 0 /
-number 0 -
-number 0 *
-number 0 /
-
-add_exp ->
-add_exp - mul_exp 2 -
-mul_exp * pri_exp 0 -
-mul_exp / pri_exp 0 -
-pri_exp 0 -
-mul_exp * pri_exp 0 *
-mul_exp / pri_exp 0 *
-pri_exp 0 *
-mul_exp * pri_exp 0 /
-mul_exp / pri_exp 0 /
-pri_exp 0 /
-num_exp 0 -
-( exp ) 0 -
-num_exp 0 *
-( exp ) 0 *
-num_exp 0 /
-( exp ) 0 /
-number 0 -
-number 0 *
-number 0 /
-
-mul_exp ->
-mul_exp * pri_exp 2 eof
-num_exp 0 eof
-( exp ) 0 eof
-number 0 eof
-
-mul_exp ->
-mul_exp / pri_exp 2 eof
-num_exp 0 eof
-( exp ) 0 eof
-number 0 eof
-
-mul_exp ->
-mul_exp * pri_exp 2 +
-num_exp 0 +
-( exp ) 0 +
-number 0 +
-
-mul_exp ->
-mul_exp / pri_exp 2 +
-num_exp 0 +
-( exp ) 0 +
-number 0 +
-
-mul_exp ->
-mul_exp * pri_exp 2 -
-num_exp 0 -
-( exp ) 0 -
-number 0 -
-
-mul_exp ->
-mul_exp / pri_exp 2 -
-num_exp 0 -
-( exp ) 0 -
-number 0 -
-
-mul_exp ->
-mul_exp * pri_exp 2 *
-num_exp 0 *
-( exp ) 0 *
-number 0 *
-
-mul_exp ->
-mul_exp / pri_exp 2 *
-num_exp 0 *
-( exp ) 0 *
-number 0 *
-
-mul_exp ->
-mul_exp * pri_exp 2 /
-num_exp 0 /
-( exp ) 0 /
-number 0 /
-
-mul_exp ->
-mul_exp / pri_exp 2 /
-num_exp 0 /
-( exp ) 0 /
-number 0 /
-
-pri_exp ->
-( exp ) 2 eof
-
-exp ->
-exp + add_exp 1 )
-
-exp ->
-exp - add_exp 1 )
-
-exp ->
-add_exp 1 )
-
-add_exp ->
-add_exp + mul_exp 1 )
-
-add_exp ->
-add_exp - mul_exp 1 )
-
-add_exp ->
-mul_exp 1 )
-
-mul_exp ->
-mul_exp * pri_exp 1 )
-
-mul_exp ->
-mul_exp / pri_exp 1 )
-
-mul_exp ->
-pri_exp 1 )
-
-pri_exp ->
-num_exp 1 )
-
-pri_exp ->
-( exp ) 1 )
-exp + add_exp 0 )
-exp - add_exp 0 )
-add_exp 0 )
-exp + add_exp 0 +
-exp - add_exp 0 +
-add_exp 0 +
-exp + add_exp 0 -
-exp - add_exp 0 -
-add_exp 0 -
-add_exp + mul_exp 0 )
-add_exp - mul_exp 0 )
-mul_exp 0 )
-add_exp + mul_exp 0 +
-add_exp - mul_exp 0 +
-mul_exp 0 +
-add_exp + mul_exp 0 -
-add_exp - mul_exp 0 -
-mul_exp 0 -
-mul_exp * pri_exp 0 )
-mul_exp / pri_exp 0 )
-pri_exp 0 )
-mul_exp * pri_exp 0 +
-mul_exp / pri_exp 0 +
-pri_exp 0 +
-mul_exp * pri_exp 0 -
-mul_exp / pri_exp 0 -
-pri_exp 0 -
-mul_exp * pri_exp 0 *
-mul_exp / pri_exp 0 *
-pri_exp 0 *
-mul_exp * pri_exp 0 /
-mul_exp / pri_exp 0 /
-pri_exp 0 /
-num_exp 0 )
-( exp ) 0 )
-num_exp 0 +
-( exp ) 0 +
-num_exp 0 -
-( exp ) 0 -
-num_exp 0 *
-( exp ) 0 *
-num_exp 0 /
-( exp ) 0 /
-number 0 )
-number 0 +
-number 0 -
-number 0 *
-number 0 /
-
-num_exp ->
-number 1 )
-
-pri_exp ->
-( exp ) 2 +
-
-pri_exp ->
-( exp ) 2 -
-
-pri_exp ->
-( exp ) 2 *
-
-pri_exp ->
-( exp ) 2 /
-
-stmt_list ->
-stmt_list stmt eof 3 eof
-
-stmt_list ->
-stmt_list stmt eof 3 number
-
-stmt_list ->
-stmt_list stmt eof 3 (
-
-exp ->
-exp + add_exp 3 eof
-
-exp ->
-exp - add_exp 3 eof
-
-exp ->
-exp + add_exp 3 +
-
-exp ->
-exp - add_exp 3 +
-
-exp ->
-exp + add_exp 3 -
-
-exp ->
-exp - add_exp 3 -
-
-add_exp ->
-add_exp + mul_exp 3 eof
-
-add_exp ->
-add_exp - mul_exp 3 eof
-
-add_exp ->
-add_exp + mul_exp 3 +
-
-add_exp ->
-add_exp - mul_exp 3 +
-
-add_exp ->
-add_exp + mul_exp 3 -
-
-add_exp ->
-add_exp - mul_exp 3 -
-
-mul_exp ->
-mul_exp * pri_exp 3 eof
-
-mul_exp ->
-mul_exp / pri_exp 3 eof
-
-mul_exp ->
-mul_exp * pri_exp 3 +
-
-mul_exp ->
-mul_exp / pri_exp 3 +
-
-mul_exp ->
-mul_exp * pri_exp 3 -
-
-mul_exp ->
-mul_exp / pri_exp 3 -
-
-mul_exp ->
-mul_exp * pri_exp 3 *
-
-mul_exp ->
-mul_exp / pri_exp 3 *
-
-mul_exp ->
-mul_exp * pri_exp 3 /
-
-mul_exp ->
-mul_exp / pri_exp 3 /
-
-pri_exp ->
-( exp ) 3 eof
-
-exp ->
-exp + add_exp 2 )
-add_exp + mul_exp 0 )
-add_exp - mul_exp 0 )
-mul_exp 0 )
-add_exp + mul_exp 0 +
-add_exp - mul_exp 0 +
-mul_exp 0 +
-add_exp + mul_exp 0 -
-add_exp - mul_exp 0 -
-mul_exp 0 -
-mul_exp * pri_exp 0 )
-mul_exp / pri_exp 0 )
-pri_exp 0 )
-mul_exp * pri_exp 0 +
-mul_exp / pri_exp 0 +
-pri_exp 0 +
-mul_exp * pri_exp 0 -
-mul_exp / pri_exp 0 -
-pri_exp 0 -
-mul_exp * pri_exp 0 *
-mul_exp / pri_exp 0 *
-pri_exp 0 *
-mul_exp * pri_exp 0 /
-mul_exp / pri_exp 0 /
-pri_exp 0 /
-num_exp 0 )
-( exp ) 0 )
-num_exp 0 +
-( exp ) 0 +
-num_exp 0 -
-( exp ) 0 -
-num_exp 0 *
-( exp ) 0 *
-num_exp 0 /
-( exp ) 0 /
-number 0 )
-number 0 +
-number 0 -
-number 0 *
-number 0 /
-
-exp ->
-exp - add_exp 2 )
-add_exp + mul_exp 0 )
-add_exp - mul_exp 0 )
-mul_exp 0 )
-add_exp + mul_exp 0 +
-add_exp - mul_exp 0 +
-mul_exp 0 +
-add_exp + mul_exp 0 -
-add_exp - mul_exp 0 -
-mul_exp 0 -
-mul_exp * pri_exp 0 )
-mul_exp / pri_exp 0 )
-pri_exp 0 )
-mul_exp * pri_exp 0 +
-mul_exp / pri_exp 0 +
-pri_exp 0 +
-mul_exp * pri_exp 0 -
-mul_exp / pri_exp 0 -
-pri_exp 0 -
-mul_exp * pri_exp 0 *
-mul_exp / pri_exp 0 *
-pri_exp 0 *
-mul_exp * pri_exp 0 /
-mul_exp / pri_exp 0 /
-pri_exp 0 /
-num_exp 0 )
-( exp ) 0 )
-num_exp 0 +
-( exp ) 0 +
-num_exp 0 -
-( exp ) 0 -
-num_exp 0 *
-( exp ) 0 *
-num_exp 0 /
-( exp ) 0 /
-number 0 )
-number 0 +
-number 0 -
-number 0 *
-number 0 /
-
-add_exp ->
-add_exp + mul_exp 2 )
-mul_exp * pri_exp 0 )
-mul_exp / pri_exp 0 )
-pri_exp 0 )
-mul_exp * pri_exp 0 *
-mul_exp / pri_exp 0 *
-pri_exp 0 *
-mul_exp * pri_exp 0 /
-mul_exp / pri_exp 0 /
-pri_exp 0 /
-num_exp 0 )
-( exp ) 0 )
-num_exp 0 *
-( exp ) 0 *
-num_exp 0 /
-( exp ) 0 /
-number 0 )
-number 0 *
-number 0 /
-
-add_exp ->
-add_exp - mul_exp 2 )
-mul_exp * pri_exp 0 )
-mul_exp / pri_exp 0 )
-pri_exp 0 )
-mul_exp * pri_exp 0 *
-mul_exp / pri_exp 0 *
-pri_exp 0 *
-mul_exp * pri_exp 0 /
-mul_exp / pri_exp 0 /
-pri_exp 0 /
-num_exp 0 )
-( exp ) 0 )
-num_exp 0 *
-( exp ) 0 *
-num_exp 0 /
-( exp ) 0 /
-number 0 )
-number 0 *
-number 0 /
-
-mul_exp ->
-mul_exp * pri_exp 2 )
-num_exp 0 )
-( exp ) 0 )
-number 0 )
-
-mul_exp ->
-mul_exp / pri_exp 2 )
-num_exp 0 )
-( exp ) 0 )
-number 0 )
-
-pri_exp ->
-( exp ) 2 )
-
-pri_exp ->
-( exp ) 3 +
-
-pri_exp ->
-( exp ) 3 -
-
-pri_exp ->
-( exp ) 3 *
-
-pri_exp ->
-( exp ) 3 /
-
-exp ->
-exp + add_exp 3 )
-
-exp ->
-exp - add_exp 3 )
-
-add_exp ->
-add_exp + mul_exp 3 )
-
-add_exp ->
-add_exp - mul_exp 3 )
-
-mul_exp ->
-mul_exp * pri_exp 3 )
-
-mul_exp ->
-mul_exp / pri_exp 3 )
-
-pri_exp ->
-( exp ) 3 )
-
+0 : 
+Goal -> stmt_list 0 look_ahead: eof 
+stmt_list -> stmt_list stmt 0 look_ahead: number eof ( 
+stmt_list -> stmt 0 look_ahead: number eof ( 
+stmt -> exp ; 0 look_ahead: number eof ( 
+exp -> exp + add_exp 0 look_ahead: ; + - 
+exp -> exp - add_exp 0 look_ahead: ; + - 
+exp -> add_exp 0 look_ahead: ; + - 
+add_exp -> add_exp * mul_exp 0 look_ahead: / ; * + - 
+add_exp -> add_exp / mul_exp 0 look_ahead: / ; * + - 
+add_exp -> mul_exp 0 look_ahead: / ; * + - 
+mul_exp -> pri_exp 0 look_ahead: / ; * + - 
+pri_exp -> num_exp 0 look_ahead: / ; * + - 
+pri_exp -> ( exp ) 0 look_ahead: / ; * + - 
+num_exp -> number 0 look_ahead: / ; * + - 
+
+1 : reduce 0
+Goal -> stmt_list 1 look_ahead: eof 
+stmt_list -> stmt_list stmt 1 look_ahead: number eof ( 
+stmt -> exp ; 0 look_ahead: number eof ( 
+exp -> exp + add_exp 0 look_ahead: ; + - 
+exp -> exp - add_exp 0 look_ahead: ; + - 
+exp -> add_exp 0 look_ahead: ; + - 
+add_exp -> add_exp * mul_exp 0 look_ahead: / ; * + - 
+add_exp -> add_exp / mul_exp 0 look_ahead: / ; * + - 
+add_exp -> mul_exp 0 look_ahead: / ; * + - 
+mul_exp -> pri_exp 0 look_ahead: / ; * + - 
+pri_exp -> num_exp 0 look_ahead: / ; * + - 
+pri_exp -> ( exp ) 0 look_ahead: / ; * + - 
+num_exp -> number 0 look_ahead: / ; * + - 
+
+2 : reduce 2
+stmt_list -> stmt 1 look_ahead: number eof ( 
+
+3 : 
+stmt -> exp ; 1 look_ahead: number eof ( 
+exp -> exp + add_exp 1 look_ahead: ; + - 
+exp -> exp - add_exp 1 look_ahead: ; + - 
+
+4 : reduce 6
+exp -> add_exp 1 look_ahead: ; + - 
+add_exp -> add_exp * mul_exp 1 look_ahead: / ; * + - 
+add_exp -> add_exp / mul_exp 1 look_ahead: / ; * + - 
+
+5 : reduce 9
+add_exp -> mul_exp 1 look_ahead: / ; * + - 
+
+6 : reduce 10
+mul_exp -> pri_exp 1 look_ahead: / ; * + - 
+
+7 : reduce 11
+pri_exp -> num_exp 1 look_ahead: / ; * + - 
+
+8 : 
+pri_exp -> ( exp ) 1 look_ahead: / ; * + - 
+exp -> exp + add_exp 0 look_ahead: + ) - 
+exp -> exp - add_exp 0 look_ahead: + ) - 
+exp -> add_exp 0 look_ahead: + ) - 
+add_exp -> add_exp * mul_exp 0 look_ahead: / * + ) - 
+add_exp -> add_exp / mul_exp 0 look_ahead: / * + ) - 
+add_exp -> mul_exp 0 look_ahead: / * + ) - 
+mul_exp -> pri_exp 0 look_ahead: / * + ) - 
+pri_exp -> num_exp 0 look_ahead: / * + ) - 
+pri_exp -> ( exp ) 0 look_ahead: / * + ) - 
+num_exp -> number 0 look_ahead: / * + ) - 
+
+9 : reduce 13
+num_exp -> number 1 look_ahead: / ; * + - 
+
+10 : reduce 1
+stmt_list -> stmt_list stmt 2 look_ahead: number eof ( 
+
+11 : reduce 3
+stmt -> exp ; 2 look_ahead: number eof ( 
+
+12 : 
+exp -> exp + add_exp 2 look_ahead: ; + - 
+add_exp -> add_exp * mul_exp 0 look_ahead: / ; * + - 
+add_exp -> add_exp / mul_exp 0 look_ahead: / ; * + - 
+add_exp -> mul_exp 0 look_ahead: / ; * + - 
+mul_exp -> pri_exp 0 look_ahead: / ; * + - 
+pri_exp -> num_exp 0 look_ahead: / ; * + - 
+pri_exp -> ( exp ) 0 look_ahead: / ; * + - 
+num_exp -> number 0 look_ahead: / ; * + - 
+
+13 : 
+exp -> exp - add_exp 2 look_ahead: ; + - 
+add_exp -> add_exp * mul_exp 0 look_ahead: / ; * + - 
+add_exp -> add_exp / mul_exp 0 look_ahead: / ; * + - 
+add_exp -> mul_exp 0 look_ahead: / ; * + - 
+mul_exp -> pri_exp 0 look_ahead: / ; * + - 
+pri_exp -> num_exp 0 look_ahead: / ; * + - 
+pri_exp -> ( exp ) 0 look_ahead: / ; * + - 
+num_exp -> number 0 look_ahead: / ; * + - 
+
+14 : 
+add_exp -> add_exp * mul_exp 2 look_ahead: / ; * + - 
+mul_exp -> pri_exp 0 look_ahead: / ; * + - 
+pri_exp -> num_exp 0 look_ahead: / ; * + - 
+pri_exp -> ( exp ) 0 look_ahead: / ; * + - 
+num_exp -> number 0 look_ahead: / ; * + - 
+
+15 : 
+add_exp -> add_exp / mul_exp 2 look_ahead: / ; * + - 
+mul_exp -> pri_exp 0 look_ahead: / ; * + - 
+pri_exp -> num_exp 0 look_ahead: / ; * + - 
+pri_exp -> ( exp ) 0 look_ahead: / ; * + - 
+num_exp -> number 0 look_ahead: / ; * + - 
+
+16 : 
+pri_exp -> ( exp ) 2 look_ahead: / ; * + - 
+exp -> exp + add_exp 1 look_ahead: + ) - 
+exp -> exp - add_exp 1 look_ahead: + ) - 
+
+17 : reduce 6
+exp -> add_exp 1 look_ahead: + ) - 
+add_exp -> add_exp * mul_exp 1 look_ahead: / * + ) - 
+add_exp -> add_exp / mul_exp 1 look_ahead: / * + ) - 
+
+18 : reduce 9
+add_exp -> mul_exp 1 look_ahead: / * + ) - 
+
+19 : reduce 10
+mul_exp -> pri_exp 1 look_ahead: / * + ) - 
+
+20 : reduce 11
+pri_exp -> num_exp 1 look_ahead: / * + ) - 
+
+21 : 
+pri_exp -> ( exp ) 1 look_ahead: / * + ) - 
+exp -> exp + add_exp 0 look_ahead: + ) - 
+exp -> exp - add_exp 0 look_ahead: + ) - 
+exp -> add_exp 0 look_ahead: + ) - 
+add_exp -> add_exp * mul_exp 0 look_ahead: / * + ) - 
+add_exp -> add_exp / mul_exp 0 look_ahead: / * + ) - 
+add_exp -> mul_exp 0 look_ahead: / * + ) - 
+mul_exp -> pri_exp 0 look_ahead: / * + ) - 
+pri_exp -> num_exp 0 look_ahead: / * + ) - 
+pri_exp -> ( exp ) 0 look_ahead: / * + ) - 
+num_exp -> number 0 look_ahead: / * + ) - 
+
+22 : reduce 13
+num_exp -> number 1 look_ahead: / * + ) - 
+
+23 : reduce 4
+exp -> exp + add_exp 3 look_ahead: ; + - 
+add_exp -> add_exp * mul_exp 1 look_ahead: / ; * + - 
+add_exp -> add_exp / mul_exp 1 look_ahead: / ; * + - 
+
+24 : reduce 5
+exp -> exp - add_exp 3 look_ahead: ; + - 
+add_exp -> add_exp * mul_exp 1 look_ahead: / ; * + - 
+add_exp -> add_exp / mul_exp 1 look_ahead: / ; * + - 
+
+25 : reduce 7
+add_exp -> add_exp * mul_exp 3 look_ahead: / ; * + - 
+
+26 : reduce 8
+add_exp -> add_exp / mul_exp 3 look_ahead: / ; * + - 
+
+27 : reduce 12
+pri_exp -> ( exp ) 3 look_ahead: / ; * + - 
+
+28 : 
+exp -> exp + add_exp 2 look_ahead: + ) - 
+add_exp -> add_exp * mul_exp 0 look_ahead: / * + ) - 
+add_exp -> add_exp / mul_exp 0 look_ahead: / * + ) - 
+add_exp -> mul_exp 0 look_ahead: / * + ) - 
+mul_exp -> pri_exp 0 look_ahead: / * + ) - 
+pri_exp -> num_exp 0 look_ahead: / * + ) - 
+pri_exp -> ( exp ) 0 look_ahead: / * + ) - 
+num_exp -> number 0 look_ahead: / * + ) - 
+
+29 : 
+exp -> exp - add_exp 2 look_ahead: + ) - 
+add_exp -> add_exp * mul_exp 0 look_ahead: / * + ) - 
+add_exp -> add_exp / mul_exp 0 look_ahead: / * + ) - 
+add_exp -> mul_exp 0 look_ahead: / * + ) - 
+mul_exp -> pri_exp 0 look_ahead: / * + ) - 
+pri_exp -> num_exp 0 look_ahead: / * + ) - 
+pri_exp -> ( exp ) 0 look_ahead: / * + ) - 
+num_exp -> number 0 look_ahead: / * + ) - 
+
+30 : 
+add_exp -> add_exp * mul_exp 2 look_ahead: / * + ) - 
+mul_exp -> pri_exp 0 look_ahead: / * + ) - 
+pri_exp -> num_exp 0 look_ahead: / * + ) - 
+pri_exp -> ( exp ) 0 look_ahead: / * + ) - 
+num_exp -> number 0 look_ahead: / * + ) - 
+
+31 : 
+add_exp -> add_exp / mul_exp 2 look_ahead: / * + ) - 
+mul_exp -> pri_exp 0 look_ahead: / * + ) - 
+pri_exp -> num_exp 0 look_ahead: / * + ) - 
+pri_exp -> ( exp ) 0 look_ahead: / * + ) - 
+num_exp -> number 0 look_ahead: / * + ) - 
+
+32 : 
+pri_exp -> ( exp ) 2 look_ahead: / * + ) - 
+exp -> exp + add_exp 1 look_ahead: + ) - 
+exp -> exp - add_exp 1 look_ahead: + ) - 
+
+33 : reduce 4
+exp -> exp + add_exp 3 look_ahead: + ) - 
+add_exp -> add_exp * mul_exp 1 look_ahead: / * + ) - 
+add_exp -> add_exp / mul_exp 1 look_ahead: / * + ) - 
+
+34 : reduce 5
+exp -> exp - add_exp 3 look_ahead: + ) - 
+add_exp -> add_exp * mul_exp 1 look_ahead: / * + ) - 
+add_exp -> add_exp / mul_exp 1 look_ahead: / * + ) - 
+
+35 : reduce 7
+add_exp -> add_exp * mul_exp 3 look_ahead: / * + ) - 
+
+36 : reduce 8
+add_exp -> add_exp / mul_exp 3 look_ahead: / * + ) - 
+
+37 : reduce 12
+pri_exp -> ( exp ) 3 look_ahead: / * + ) - 
+
+//end

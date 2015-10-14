@@ -1,19 +1,19 @@
 //symbols
-Goal stmt_list stmt 
-exp add_exp mul_exp pri_exp num_exp 
+stmt_list stmt 
+exp add_exp mul_exp pri_exp num_exp
 
 //tokens
-number = + - * / e ( ) eof 
+number = + - * / e ( ) eof ;
 
 //grammars
-Goal ->
+goal ->
 stmt_list
 
 stmt_list -> 
-stmt_list stmt eof | stmt eof 
+stmt_list stmt | stmt
 
 stmt ->
-exp
+exp ;
 
 exp ->
 exp + add_exp | exp - add_exp | add_exp

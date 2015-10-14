@@ -145,6 +145,7 @@ public class Tokenizer {
 			chr=buffered_line.charAt(index_crt++);
 			if(chr==' '|| chr=='	'){
 				if(is_inToken){
+					index_crt--;
 					break;
 				}else{
 					index_pre=index_crt;

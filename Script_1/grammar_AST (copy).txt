@@ -6,13 +6,15 @@
 4 exp exp + add_exp 
 5 exp exp - add_exp 
 6 exp add_exp 
-7 add_exp add_exp * mul_exp 
-8 add_exp add_exp / mul_exp 
+7 add_exp add_exp + mul_exp 
+8 add_exp add_exp - mul_exp 
 9 add_exp mul_exp 
-10 mul_exp pri_exp 
-11 pri_exp num_exp 
-12 pri_exp ( exp ) 
-13 num_exp number 
+10 mul_exp mul_exp * pri_exp 
+11 mul_exp mul_exp / pri_exp 
+12 mul_exp pri_exp 
+13 pri_exp num_exp 
+14 pri_exp ( exp ) 
+15 num_exp number 
 
 //AST
 0 astGoal $1
@@ -26,5 +28,10 @@
 8 astLinkSubMul $1 $3
 9 astAddMul $1
 10 astLinkMulPri $1 $3
-11 astLinkMulPri $1 $3
+11 astLinkDivPri $1 $3
+12 astMulPri $1
+13 astPriNum $1
+14 astPriPar $2
+15 astNumNum $1
+
 //end

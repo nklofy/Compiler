@@ -1,0 +1,30 @@
+
+Please import the project to eclipse javaSE IDE. As I tested, it can run under linux and windows7.
+
+--------------------------------------------------
+
+how to use lexanalyzer?
+
+1, input file is "tokens.txt", and output file is "out_lexAnalyzer". 
+
+2, run lexAnalyzer.java. Its main method read input file and write output file. while running, it will print some information on console screan.
+
+3, in input file, tokens is defined in 3 types. firstly, under "//tokens" line, regexs are defined; Secondly, under "//reserved" line, reserved words are difined; at last, under "//operator", opretors are defined.
+
+4, in output file, under "//transfer table" line, a transfer table is defined, describing a transfer table of a state auto-machine. each state is in two rows, in which the character and the tranfering state on the character is defined. then under "//regex" line, the final state and its equivalent regex is defined. At last is "//res", "//opt" line and the final states of reserved words and oprators are defined, respectively.
+
+5, run tokenizer's main method. It will read "script_test1.txt" and write "out_scipt_lexer.txt". It run a auto-machine defined in "out_lexAnalyzer.txt". Its "getToken" method can get each token sequentially from the file "script_test1.txt" and mark them according to its types and names.
+
+----------------------------------------------------------
+
+how to use parserGenerator?
+1, input file is "grammar.txt", and output file is "out_cc.txt" and "out_grammar.txt".
+
+2, run ParserGenerator.java. Its main method read input file and write output file. while running, it will print some information on console screan.
+
+3, In input file, symbols, tokens, grammar generation rules are defined. Under "//symbols" line, there are the symbols, that are non-terminal symbols in the syntax productions. Under "//tokens" are tokens which are terminal symbols. Then under "//grammars" line, the syxtax production rules are defined. After head symbol and a "->" mark, there are production rules of the head, which are separated by "|" marks.
+
+4, In output file, action table, goto table and grammar rules is shown. action table describe action of shifting and reducing when parser read the lookahead token, and the rule which should be used for symbols production. State 0 is the start, and when reduced to 0 state and "eof" is lookahead token, the state is end and accept.
+
+-----------------------------------------------------------
+-----------------------------------------------------------

@@ -44,7 +44,7 @@ public class Token {
 			return "opt";
 		}
 		return null;
-	}
+	}	
 	public String getResName(){
 		return res_name;		
 	}
@@ -54,10 +54,10 @@ public class Token {
 	public String getIdnName(){
 		return idn_name;
 	}
-	int getIntValue(){
+	public int getIntValue(){
 		return int_value;
 	}
-	double getDoubleValue(){
+	public double getDoubleValue(){
 		return double_value;
 	}
 	void createInt(String buffer){
