@@ -1,7 +1,7 @@
 //first set
 
 Goal :
-number ( 
+number - ( 
 mul_exp :
 number ( 
 pri_exp :
@@ -9,23 +9,24 @@ number (
 num_exp :
 number 
 exp :
-number ( 
+number - ( 
 stmt :
-number ( 
+number - ( 
 add_exp :
 number ( 
 stmt_list :
-number ( 
+number - ( 
 
 //all CCs
 
 0 : 
 Goal -> stmt_list 0 look_ahead: eof 
-stmt_list -> stmt_list stmt 0 look_ahead: number eof ( 
-stmt_list -> stmt 0 look_ahead: number eof ( 
-stmt -> exp ; 0 look_ahead: number eof ( 
+stmt_list -> stmt_list stmt 0 look_ahead: number eof - ( 
+stmt_list -> stmt 0 look_ahead: number eof - ( 
+stmt -> exp ; 0 look_ahead: number eof - ( 
 exp -> exp + add_exp 0 look_ahead: ; + - 
 exp -> exp - add_exp 0 look_ahead: ; + - 
+exp -> - add_exp 0 look_ahead: ; + - 
 exp -> add_exp 0 look_ahead: ; + - 
 add_exp -> add_exp * mul_exp 0 look_ahead: / ; * + - 
 add_exp -> add_exp / mul_exp 0 look_ahead: / ; * + - 
@@ -37,10 +38,11 @@ num_exp -> number 0 look_ahead: / ; * + -
 
 1 : reduce 0
 Goal -> stmt_list 1 look_ahead: eof 
-stmt_list -> stmt_list stmt 1 look_ahead: number eof ( 
-stmt -> exp ; 0 look_ahead: number eof ( 
+stmt_list -> stmt_list stmt 1 look_ahead: number eof - ( 
+stmt -> exp ; 0 look_ahead: number eof - ( 
 exp -> exp + add_exp 0 look_ahead: ; + - 
 exp -> exp - add_exp 0 look_ahead: ; + - 
+exp -> - add_exp 0 look_ahead: ; + - 
 exp -> add_exp 0 look_ahead: ; + - 
 add_exp -> add_exp * mul_exp 0 look_ahead: / ; * + - 
 add_exp -> add_exp / mul_exp 0 look_ahead: / ; * + - 
@@ -51,31 +53,42 @@ pri_exp -> ( exp ) 0 look_ahead: / ; * + -
 num_exp -> number 0 look_ahead: / ; * + - 
 
 2 : reduce 2
-stmt_list -> stmt 1 look_ahead: number eof ( 
+stmt_list -> stmt 1 look_ahead: number eof - ( 
 
 3 : 
-stmt -> exp ; 1 look_ahead: number eof ( 
+stmt -> exp ; 1 look_ahead: number eof - ( 
 exp -> exp + add_exp 1 look_ahead: ; + - 
 exp -> exp - add_exp 1 look_ahead: ; + - 
 
-4 : reduce 6
+4 : 
+exp -> - add_exp 1 look_ahead: ; + - 
+add_exp -> add_exp * mul_exp 0 look_ahead: / ; * + - 
+add_exp -> add_exp / mul_exp 0 look_ahead: / ; * + - 
+add_exp -> mul_exp 0 look_ahead: / ; * + - 
+mul_exp -> pri_exp 0 look_ahead: / ; * + - 
+pri_exp -> num_exp 0 look_ahead: / ; * + - 
+pri_exp -> ( exp ) 0 look_ahead: / ; * + - 
+num_exp -> number 0 look_ahead: / ; * + - 
+
+5 : reduce 7
 exp -> add_exp 1 look_ahead: ; + - 
 add_exp -> add_exp * mul_exp 1 look_ahead: / ; * + - 
 add_exp -> add_exp / mul_exp 1 look_ahead: / ; * + - 
 
-5 : reduce 9
+6 : reduce 10
 add_exp -> mul_exp 1 look_ahead: / ; * + - 
 
-6 : reduce 10
+7 : reduce 11
 mul_exp -> pri_exp 1 look_ahead: / ; * + - 
 
-7 : reduce 11
+8 : reduce 12
 pri_exp -> num_exp 1 look_ahead: / ; * + - 
 
-8 : 
+9 : 
 pri_exp -> ( exp ) 1 look_ahead: / ; * + - 
 exp -> exp + add_exp 0 look_ahead: + ) - 
 exp -> exp - add_exp 0 look_ahead: + ) - 
+exp -> - add_exp 0 look_ahead: + ) - 
 exp -> add_exp 0 look_ahead: + ) - 
 add_exp -> add_exp * mul_exp 0 look_ahead: / * + ) - 
 add_exp -> add_exp / mul_exp 0 look_ahead: / * + ) - 
@@ -85,16 +98,16 @@ pri_exp -> num_exp 0 look_ahead: / * + ) -
 pri_exp -> ( exp ) 0 look_ahead: / * + ) - 
 num_exp -> number 0 look_ahead: / * + ) - 
 
-9 : reduce 13
+10 : reduce 14
 num_exp -> number 1 look_ahead: / ; * + - 
 
-10 : reduce 1
-stmt_list -> stmt_list stmt 2 look_ahead: number eof ( 
+11 : reduce 1
+stmt_list -> stmt_list stmt 2 look_ahead: number eof - ( 
 
-11 : reduce 3
-stmt -> exp ; 2 look_ahead: number eof ( 
+12 : reduce 3
+stmt -> exp ; 2 look_ahead: number eof - ( 
 
-12 : 
+13 : 
 exp -> exp + add_exp 2 look_ahead: ; + - 
 add_exp -> add_exp * mul_exp 0 look_ahead: / ; * + - 
 add_exp -> add_exp / mul_exp 0 look_ahead: / ; * + - 
@@ -104,7 +117,7 @@ pri_exp -> num_exp 0 look_ahead: / ; * + -
 pri_exp -> ( exp ) 0 look_ahead: / ; * + - 
 num_exp -> number 0 look_ahead: / ; * + - 
 
-13 : 
+14 : 
 exp -> exp - add_exp 2 look_ahead: ; + - 
 add_exp -> add_exp * mul_exp 0 look_ahead: / ; * + - 
 add_exp -> add_exp / mul_exp 0 look_ahead: / ; * + - 
@@ -114,43 +127,59 @@ pri_exp -> num_exp 0 look_ahead: / ; * + -
 pri_exp -> ( exp ) 0 look_ahead: / ; * + - 
 num_exp -> number 0 look_ahead: / ; * + - 
 
-14 : 
+15 : reduce 6
+exp -> - add_exp 2 look_ahead: ; + - 
+add_exp -> add_exp * mul_exp 1 look_ahead: / ; * + - 
+add_exp -> add_exp / mul_exp 1 look_ahead: / ; * + - 
+
+16 : 
 add_exp -> add_exp * mul_exp 2 look_ahead: / ; * + - 
 mul_exp -> pri_exp 0 look_ahead: / ; * + - 
 pri_exp -> num_exp 0 look_ahead: / ; * + - 
 pri_exp -> ( exp ) 0 look_ahead: / ; * + - 
 num_exp -> number 0 look_ahead: / ; * + - 
 
-15 : 
+17 : 
 add_exp -> add_exp / mul_exp 2 look_ahead: / ; * + - 
 mul_exp -> pri_exp 0 look_ahead: / ; * + - 
 pri_exp -> num_exp 0 look_ahead: / ; * + - 
 pri_exp -> ( exp ) 0 look_ahead: / ; * + - 
 num_exp -> number 0 look_ahead: / ; * + - 
 
-16 : 
+18 : 
 pri_exp -> ( exp ) 2 look_ahead: / ; * + - 
 exp -> exp + add_exp 1 look_ahead: + ) - 
 exp -> exp - add_exp 1 look_ahead: + ) - 
 
-17 : reduce 6
+19 : 
+exp -> - add_exp 1 look_ahead: + ) - 
+add_exp -> add_exp * mul_exp 0 look_ahead: / * + ) - 
+add_exp -> add_exp / mul_exp 0 look_ahead: / * + ) - 
+add_exp -> mul_exp 0 look_ahead: / * + ) - 
+mul_exp -> pri_exp 0 look_ahead: / * + ) - 
+pri_exp -> num_exp 0 look_ahead: / * + ) - 
+pri_exp -> ( exp ) 0 look_ahead: / * + ) - 
+num_exp -> number 0 look_ahead: / * + ) - 
+
+20 : reduce 7
 exp -> add_exp 1 look_ahead: + ) - 
 add_exp -> add_exp * mul_exp 1 look_ahead: / * + ) - 
 add_exp -> add_exp / mul_exp 1 look_ahead: / * + ) - 
 
-18 : reduce 9
+21 : reduce 10
 add_exp -> mul_exp 1 look_ahead: / * + ) - 
 
-19 : reduce 10
+22 : reduce 11
 mul_exp -> pri_exp 1 look_ahead: / * + ) - 
 
-20 : reduce 11
+23 : reduce 12
 pri_exp -> num_exp 1 look_ahead: / * + ) - 
 
-21 : 
+24 : 
 pri_exp -> ( exp ) 1 look_ahead: / * + ) - 
 exp -> exp + add_exp 0 look_ahead: + ) - 
 exp -> exp - add_exp 0 look_ahead: + ) - 
+exp -> - add_exp 0 look_ahead: + ) - 
 exp -> add_exp 0 look_ahead: + ) - 
 add_exp -> add_exp * mul_exp 0 look_ahead: / * + ) - 
 add_exp -> add_exp / mul_exp 0 look_ahead: / * + ) - 
@@ -160,29 +189,29 @@ pri_exp -> num_exp 0 look_ahead: / * + ) -
 pri_exp -> ( exp ) 0 look_ahead: / * + ) - 
 num_exp -> number 0 look_ahead: / * + ) - 
 
-22 : reduce 13
+25 : reduce 14
 num_exp -> number 1 look_ahead: / * + ) - 
 
-23 : reduce 4
+26 : reduce 4
 exp -> exp + add_exp 3 look_ahead: ; + - 
 add_exp -> add_exp * mul_exp 1 look_ahead: / ; * + - 
 add_exp -> add_exp / mul_exp 1 look_ahead: / ; * + - 
 
-24 : reduce 5
+27 : reduce 5
 exp -> exp - add_exp 3 look_ahead: ; + - 
 add_exp -> add_exp * mul_exp 1 look_ahead: / ; * + - 
 add_exp -> add_exp / mul_exp 1 look_ahead: / ; * + - 
 
-25 : reduce 7
+28 : reduce 8
 add_exp -> add_exp * mul_exp 3 look_ahead: / ; * + - 
 
-26 : reduce 8
+29 : reduce 9
 add_exp -> add_exp / mul_exp 3 look_ahead: / ; * + - 
 
-27 : reduce 12
+30 : reduce 13
 pri_exp -> ( exp ) 3 look_ahead: / ; * + - 
 
-28 : 
+31 : 
 exp -> exp + add_exp 2 look_ahead: + ) - 
 add_exp -> add_exp * mul_exp 0 look_ahead: / * + ) - 
 add_exp -> add_exp / mul_exp 0 look_ahead: / * + ) - 
@@ -192,7 +221,7 @@ pri_exp -> num_exp 0 look_ahead: / * + ) -
 pri_exp -> ( exp ) 0 look_ahead: / * + ) - 
 num_exp -> number 0 look_ahead: / * + ) - 
 
-29 : 
+32 : 
 exp -> exp - add_exp 2 look_ahead: + ) - 
 add_exp -> add_exp * mul_exp 0 look_ahead: / * + ) - 
 add_exp -> add_exp / mul_exp 0 look_ahead: / * + ) - 
@@ -202,42 +231,47 @@ pri_exp -> num_exp 0 look_ahead: / * + ) -
 pri_exp -> ( exp ) 0 look_ahead: / * + ) - 
 num_exp -> number 0 look_ahead: / * + ) - 
 
-30 : 
+33 : reduce 6
+exp -> - add_exp 2 look_ahead: + ) - 
+add_exp -> add_exp * mul_exp 1 look_ahead: / * + ) - 
+add_exp -> add_exp / mul_exp 1 look_ahead: / * + ) - 
+
+34 : 
 add_exp -> add_exp * mul_exp 2 look_ahead: / * + ) - 
 mul_exp -> pri_exp 0 look_ahead: / * + ) - 
 pri_exp -> num_exp 0 look_ahead: / * + ) - 
 pri_exp -> ( exp ) 0 look_ahead: / * + ) - 
 num_exp -> number 0 look_ahead: / * + ) - 
 
-31 : 
+35 : 
 add_exp -> add_exp / mul_exp 2 look_ahead: / * + ) - 
 mul_exp -> pri_exp 0 look_ahead: / * + ) - 
 pri_exp -> num_exp 0 look_ahead: / * + ) - 
 pri_exp -> ( exp ) 0 look_ahead: / * + ) - 
 num_exp -> number 0 look_ahead: / * + ) - 
 
-32 : 
+36 : 
 pri_exp -> ( exp ) 2 look_ahead: / * + ) - 
 exp -> exp + add_exp 1 look_ahead: + ) - 
 exp -> exp - add_exp 1 look_ahead: + ) - 
 
-33 : reduce 4
+37 : reduce 4
 exp -> exp + add_exp 3 look_ahead: + ) - 
 add_exp -> add_exp * mul_exp 1 look_ahead: / * + ) - 
 add_exp -> add_exp / mul_exp 1 look_ahead: / * + ) - 
 
-34 : reduce 5
+38 : reduce 5
 exp -> exp - add_exp 3 look_ahead: + ) - 
 add_exp -> add_exp * mul_exp 1 look_ahead: / * + ) - 
 add_exp -> add_exp / mul_exp 1 look_ahead: / * + ) - 
 
-35 : reduce 7
+39 : reduce 8
 add_exp -> add_exp * mul_exp 3 look_ahead: / * + ) - 
 
-36 : reduce 8
+40 : reduce 9
 add_exp -> add_exp / mul_exp 3 look_ahead: / * + ) - 
 
-37 : reduce 12
+41 : reduce 13
 pri_exp -> ( exp ) 3 look_ahead: / * + ) - 
 
 //end

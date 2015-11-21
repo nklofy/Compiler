@@ -237,11 +237,11 @@ public class Tokenizer {
 				}
 				switch(token.type){
 				case t_int:
-					line="int_number :"+token.int_value;
+					line="int_number :"+token.num_value;
 					out.println(line);
 					break;
 				case t_double:
-					line="double_number :"+token.double_value;
+					line="double_number :"+token.num_value;
 					out.println(line);
 					break;
 				case t_idn:

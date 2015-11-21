@@ -24,8 +24,7 @@ public class Token {
 		}
 		return token;
 	}
-	int int_value;
-	double double_value;
+	String num_value;
 	String res_name;
 	String idn_name;
 	String opt_name;
@@ -54,19 +53,16 @@ public class Token {
 	public String getIdnName(){
 		return idn_name;
 	}
-	public int getIntValue(){
-		return int_value;
-	}
-	public double getDoubleValue(){
-		return double_value;
-	}
+	public String getNumValue(){
+		return num_value;
+	}	
 	void createInt(String buffer){
 		this.type=TokenType.t_int;
-		this.int_value=Integer.parseInt(buffer);
+		this.num_value=buffer;
 	}
 	void createDouble(String buffer){
 		this.type=TokenType.t_double;
-		this.double_value=Double.parseDouble(buffer);
+		this.num_value=buffer;
 	}
 	void createIdn(String buffer){
 		this.type=TokenType.t_idn;
