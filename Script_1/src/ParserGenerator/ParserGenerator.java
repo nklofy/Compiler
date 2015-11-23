@@ -103,7 +103,7 @@ public class ParserGenerator {
 		grammar.productions.add(production);
 		while(!list.isEmpty()){
 			word=list.removeFirst();
-			if(word.equals(">-")){
+			if(word.equals(">|")){
 				production=new Production();
 				grammar.productions.add(production);
 				continue;
