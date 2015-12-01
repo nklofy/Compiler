@@ -1,48 +1,44 @@
 //symbols
 Goal stmt_list stmt 
-var_def type_def func_def if_exp while_exp for_exp sg_stmt control_flow
-var_assign calc_exp type_exp par_list if_stmt else_stmt bool_exp 
-init_exp step_exp add_exp cmp_exp mul_exp pri_exp apply_exp arg_list
+var_def type_def func_def if_exp while_exp sg_stmt control_flow
+var_assign calc_exp type_exp par_list if_stmt else_stmt bool_exp str_exp
+add_exp cmp_exp mul_exp pri_exp apply_exp arg_list
 
 //tokens
-if else while do for return break continue goto int double bool 
-number var class data interface type typedef typename newtype
+if else while return break continue int double bool string char number var str
 || && ! > >= < <= == != + - ++ -- * / += -= *= /= =
 e ( ) { } , . ; eof 
 
 //grammars
-Goal ->
+Goal |>
    stmt_list 
 
-stmt_list -> 
+stmt_list |> 
    stmt_list stmt 
 >| stmt 
 
-stmt -> 
+stmt |> 
    var_def ; 
->| type_def ; 
 >| func_def  
 >| if_exp 
 >| while_exp 
->| for_exp 
 >| sg_stmt ; 
->| control_flow ; 
 
-sg_stmt ->   
+sg_stmt |>   
    var_assign 
 >| calc_exp 
+>| control_flow 
 
-control_flow -> 
-   continue 
->| return calc_exp 
+control_flow |> 
+   return calc_exp 
+>| continue 
 >| break 
->| goto var 
 
-var_def ->
+var_def |>
    var_def , var 
 >| type_exp var 
 
-var_assign ->
+var_assign |>
    var_assign , var = calc_exp
 >| type_exp var = calc_exp
 >| var = calc_exp
@@ -51,67 +47,55 @@ var_assign ->
 >| var *= calc_exp
 >| var /= calc_exp
 
-type_exp ->
+type_exp |>
    int
 >| double
 >| bool
+>| string
+>| char
 >| var
 
-type_def -> 
-   class var 
->| data var 
->| interface var 
->| type var 
->| newtype var
->| typedef var 
-
-func_def ->
+func_def |>
    var ( par_list ) { stmt_list }
 
-par_list ->
+par_list |>
    par_list , type_exp var
 >| type_exp var
 >| e
     
-if_exp ->
+if_exp |>
    if_stmt 
 >| if_stmt else else_stmt
 
-if_stmt ->
+if_stmt |>
    if ( bool_exp ) { stmt_list }
 >| if ( bool_exp ) sg_stmt ;
 
-else_stmt ->
-   if_stmt
+else_stmt |>
+   if_exp
 >| { stmt_list }
 >| sg_stmt ;
 
-while_exp ->
+while_exp |>
    while ( bool_exp ) { stmt_list }
->| do { stmt_list } while ( bool_exp ) ; 
 
-for_exp ->
-   for ( init_exp ; bool_exp ; step_exp ) { stmt_list }
-
-init_exp ->
-   var = calc_exp
->| type_exp var = calc_exp
-   
-step_exp ->
-   var_assign 
->| calc_exp
-
-calc_exp ->
+calc_exp |>
    add_exp
 >| bool_exp
+>| str_exp 
 
-bool_exp ->
+str_exp |>
+   str_exp + add_exp
+>| add_exp + str_exp
+>| str
+
+bool_exp |>
    bool_exp && cmp_exp
 >| bool_exp || cmp_exp
 >| ! cmp_exp
 >| cmp_exp
 
-cmp_exp ->
+cmp_exp |>
    ( bool_exp )
 >| add_exp > add_exp
 >| add_exp >= add_exp
@@ -120,7 +104,7 @@ cmp_exp ->
 >| add_exp == add_exp
 >| add_exp != add_exp   
 
-add_exp ->
+add_exp |>
    add_exp + mul_exp 
 >| add_exp - mul_exp 
 >| - mul_exp
@@ -130,24 +114,24 @@ add_exp ->
 >| var ++
 >| var --
 
-mul_exp ->
+mul_exp |>
    mul_exp * pri_exp 
 >| mul_exp / pri_exp 
 >| pri_exp
 
-pri_exp -> 
+pri_exp |> 
    number
 >| ( add_exp )
 >| apply_exp
 >| var
 
-apply_exp ->
+apply_exp |>
    apply_exp . var ( arg_list )
 >| apply_exp . var 
 >| var ( arg_list )
 >| var 
 
-arg_list ->
+arg_list |>
    arg_list , var
 >| var 
 >| e

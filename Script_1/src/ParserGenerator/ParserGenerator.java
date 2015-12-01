@@ -18,18 +18,17 @@ public class ParserGenerator {
 	private ArrayList<ActionTable> gen_action_tables=new ArrayList<ActionTable>();
 	
 	static public void main(String[] args){
-		System.out.println("start");
+		
 		ParserGenerator pg=new ParserGenerator();
-		pg.input("grammar.txt");
-		pg.generateGrammarTable();
-		pg.getFirst();
-		pg.getFollow();
-		pg.getCCs();
-		pg.generateActionTable();
-		System.out.println("output");
-		pg.outCC("out_cc.txt");
-		pg.output("out_grammar.txt");
-		System.out.println("end");
+		pg.input("grammar.txt");       System.out.println("start");
+		pg.generateGrammarTable();     System.out.println("read grammar");
+		pg.getFirst();                 
+		pg.getFollow();                System.out.println("first and follow");
+		pg.getCCs();                   System.out.println("CCs");
+		pg.generateActionTable();	   System.out.println("action table");
+		pg.outCC("out_cc.txt");        
+		pg.output("out_grammar.txt");  System.out.println("output");System.out.println("end");
+		
 	}
 		
 	private boolean input(String filename) {
@@ -82,7 +81,7 @@ public class ParserGenerator {
 				in.close();
 				return true;
 			}
-			if(word.equals("->")){
+			if(word.equals("|>")){
 				head=list.removeLast();				
 				if(!list.isEmpty())
 					gen_grammars.add(buildGrammar(list));
@@ -340,7 +339,7 @@ public class ParserGenerator {
 					CC new_cc=getGoto(item);
 					cc.goto_tb.put(sym, new_cc);
 				}
-				System.out.println(cc.index_cc+" "+sym.name+" "+cc.goto_tb.get(sym).index_cc);//TODO
+				//System.out.println(cc.index_cc+" "+sym.name+" "+cc.goto_tb.get(sym).index_cc);//TODO
 			}
 			for(Symbol smb:cc.goto_tb.keySet()){
 				CC cc1=cc.goto_tb.get(smb);

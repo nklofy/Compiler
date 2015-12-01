@@ -1,7 +1,7 @@
 //tokens
 int_num [0-9]+ 
 double_num [0-9]+.[0-9]+ 
-identifier _*[a-zA-Z]+[a-zA-Z0-9_]*
+identifier _*[a-zA-Z]+[a-zA-Z0-9_]* 
 
 //reserved
 if if 
@@ -18,9 +18,14 @@ long long
 float float
 double double
 bool bool
+string string
+char char
 class class
-data data
 interface interface
+extends extends
+implements implements
+data data
+deriving deriving
 type type
 typedef typedef
 typename typename
@@ -50,6 +55,16 @@ lambda lambda
 *= *= 
 /= /= 
 = =
+-> ->
+=> =>
+<- <-
+\ \
+_ _
+: :
+@ @
+$ $
+* *
+? ?
 ( ( 
 ) ) 
 { { 
@@ -59,4 +74,6 @@ lambda lambda
 ; ; 
 eof eof 
 // //
+/* /*
+*/ */
 //end 

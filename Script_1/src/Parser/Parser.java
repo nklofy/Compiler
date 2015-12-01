@@ -8,6 +8,7 @@ import java.util.*;
 
 import LexAnalyzer.Token;
 import LexAnalyzer.Tokenizer;
+import Parser.AST.*;
 
 public class Parser {
 	private Tokenizer tokenizer=new Tokenizer();
@@ -21,7 +22,7 @@ public class Parser {
 	private List<ArrayList<Integer>> reduce_table=new ArrayList<ArrayList<Integer>>();
 	private List<ArrayList<Integer>> goto_table=new ArrayList<ArrayList<Integer>>();
 	private LinkedList<Symbol> symbol_stack=new LinkedList<Symbol>();
-	private LinkedList<Integer> state_stack=new LinkedList<Integer>();	
+	private LinkedList<Integer> state_stack=new LinkedList<Integer>();
 	private AST ast_tree;
 	public AST getAST(){
 		return ast_tree;
@@ -252,6 +253,7 @@ public class Parser {
 		tokenizer.analyze(filename);
 		return true;
 	}
+	
 	public boolean input(String filename){		
 		tokenizer.setScanFile(filename);
 		return true;
@@ -260,138 +262,297 @@ public class Parser {
 	public boolean parse(){
 		Token token=tokenizer.getToken();
 		int crt_state=0;
-		int crt_grammar=0;
+		boolean gotNewToken=true;
 		state_stack.addFirst(0);
 		Symbol symbol=new Symbol();
 		symbol.name="Goal";
 		symbol_stack.addFirst(symbol);
-		
-		while(true){			
-			String token_name="";
-			Symbol smb=new Symbol();			
-			switch(token.getType()){
-			case "int":
-				token_name="number";
-				smb.num_value=token.getNumValue();
-				break;
-			case "double":
-				token_name="number";
-				smb.num_value=token.getNumValue();
-				break;
-			case "idn":
-				token_name=token.getIdnName();
-				
-				break;
-			case "res":
-				token_name=token.getResName();
-				
-				break;
-			case "opt":				
-				token_name=token.getOptName();
-				
-				break;
-			default:
-				return false;
-			}
-				smb.name=token_name;
-				smb.type=token.getType();
-				//TODO smb.
-				int crt_token_sn=token_sn.get(token_name);
-				int shift_state=shift_table.get(crt_state).get(crt_token_sn);
-				int reduce_grammar=reduce_table.get(crt_state).get(crt_token_sn);
-				
-				if(shift_state!=-1){//in shift table
-					crt_state=shift_state;//shift
-					
-					state_stack.addFirst(crt_state);
-					symbol_stack.addFirst(smb);
-					//System.out.println("s "+crt_state+" "+token_name);
-					token=tokenizer.getToken();
-					continue;
 
-				}else if(reduce_grammar!=-1){//in reduce table
-					crt_grammar=reduce_grammar;
-					String sym=grammar_table.get(crt_grammar).head;
-					//TODO create new AST					
-					smb.name=sym;
-					//create AST as needed
-					AstRule rule=astRule_list.get(reduce_grammar);
-					String method=rule.method;
-					AST ast = null;
-					switch(method){					
-					case "astGoal":
-						ast=crtStmtList((StmtListAST)symbol_stack.get(0).ast,null);
-						break;
-					case "astLinkStmtList":
-						ast=crtStmtList((StmtListAST)symbol_stack.get(1).ast,(StmtAST)symbol_stack.get(0).ast);
-						break;
-					case "astListStmt":
-						ast=crtStmtList(null,(StmtAST)symbol_stack.get(0).ast);
-						break;
-					case "astStmtExp":
-						ast=crtStmtExp((ExpAST)symbol_stack.get(1).ast);
-						break;
-					case "astLinkExpAdd":
-						ast=crtExpAdd((ExpAST)symbol_stack.get(2).ast,(AddAST)symbol_stack.get(0).ast, "+");
-						break;
-					case "astLinkExpSub":
-						ast=crtExpAdd((ExpAST)symbol_stack.get(2).ast,(AddAST)symbol_stack.get(0).ast, "-");
-						break;
-					case "astExpSub":
-						ast=crtExpAdd(null,(AddAST)symbol_stack.get(0).ast, "-");
-						break;
-					case "astExpAdd":
-						ast=crtExpAdd(null,(AddAST)symbol_stack.get(0).ast, null);
-						break;
-					case "astLinkAddMul":
-						ast=crtAddMul((AddAST)symbol_stack.get(2).ast,(MulAST)symbol_stack.get(0).ast,"*");
-						break;
-					case "astLinkAddDiv":
-						ast=crtAddMul((AddAST)symbol_stack.get(02).ast,(MulAST)symbol_stack.get(0).ast,"/");
-						break;
-					case "astAddMul":
-						ast=crtAddMul(null,(MulAST)symbol_stack.get(0).ast,null);
-						break;
-					case "astMulPri":
-						ast=crtMulPri((PriAST)symbol_stack.get(0).ast);
-						break;
-					case "astPriNum":
-						ast=crtPriNum((NumAST)symbol_stack.get(0).ast);
-						break;
-					case "astPriExp":
-						ast=crtPriExp((ExpAST)symbol_stack.get(1).ast);
-						break;
-					case "astNumExp":						
-						ast=crtNumExp(symbol_stack.get(0).type,symbol_stack.get(0).getNumValue());
-						break;
-					default:
-						break;
-					}
-					smb.ast=ast;
-					System.out.println("create ast: "+ ast.getClass().getName());
-					int ct=grammar_table.get(crt_grammar).symbol_count;
-					for(int i=0;i<ct;i++){
-						state_stack.remove();	
-						symbol_stack.remove();						
-					}	
-					crt_state=state_stack.peek();
-					crt_state=goto_table.get(crt_state).get(symbol_sn.get(sym));
-					state_stack.addFirst(crt_state);
-					symbol_stack.addFirst(smb);
-					System.out.println("r "+crt_grammar+" g "+crt_state+" "+token_name);
-					if(crt_grammar==0 && token_name.equals("eof")){//TODO
-						System.out.println("eof");
-						ast_tree=ast;
-						return true;				
-					}
-				}else{
-					//System.out.println("error parser state "+token_name+crt_state);
+		while(true){
+			String token_name="";
+			Symbol smb=new Symbol();
+			if(gotNewToken){
+				smb.type=token.getType();
+				switch(smb.type){
+				case "int":
+					token_name="number";smb.name=token_name;
+					smb.num_value=token.getNumValue();
+					break;
+				case "double":
+					token_name="number";smb.name=token_name;
+					smb.num_value=token.getNumValue();
+					break;
+				case "idn":
+					token_name="var";smb.name=token.getIdnName();
+					break;
+				case "res":
+					token_name=token.getResName();smb.name=token_name;
+					break;
+				case "opt":
+					token_name=token.getOptName();smb.name=token_name;
+					break;
+				default:
 					return false;
 				}
-			
+			}			
+			int crt_token_sn=token_sn.get(token_name);
+			int shift_state=shift_table.get(crt_state).get(crt_token_sn);
+			int reduce_grammar=reduce_table.get(crt_state).get(crt_token_sn);
+
+			if(shift_state!=-1){//in shift table
+				crt_state=shift_state;//shift
+
+				state_stack.addFirst(crt_state);
+				symbol_stack.addFirst(smb);
+				//System.out.println("s "+crt_state+" "+token_name);
+				token=tokenizer.getToken();
+				gotNewToken=true;
+				continue;
+				
+			}else if(reduce_grammar!=-1){//in reduce table
+				gotNewToken=false;
+				String reduce_head=grammar_table.get(reduce_grammar).head;
+				//TODO create new AST
+				Symbol reduce_smb=new Symbol();
+				reduce_smb.name=reduce_head;
+				//create AST as needed
+				AstRule rule=astRule_list.get(reduce_grammar);
+				String method=rule.method;
+				AST ast = null;
+				switch(method){
+				
+				case "crtGoal"://$0
+					break;
+				case "lnkStmtLst"://$1 $0	
+					break;				 
+				case "crtStmtLst":// $0 
+					break;               
+				case "crtStmtVarDef":// $1 
+					break;
+				case "crtStmtFuncDef":// $0 
+					break;
+				case "crtStmtIfExp":// $0
+					break;
+				case "crtStmtWhlExp":// $0
+					break;
+				case "crtStmtSgStmt":// $1 
+					break; 
+				case "crtSgControlFlow":// $1 
+					break;
+				case "crtSgVarAssign":// $0
+					break;
+				case "crtSgCalcExp":// $0 
+					break;
+				case "crtCtrFlwCont":// $0 
+					break;
+				case "crtCtrFlwRtn":// $0 
+					break;
+				case "crtCtrFlwBrk":// $0 
+					break;
+				case "lnkVarDef":// $1 $0   
+					break;            
+				case "crtVarDef":// $1 $0 
+					break;
+				case "lnkVarAsg":// $4 $2 $0	 
+					break; 
+				case "crtVarAsgT":// $3 $2 $0   
+					break; 
+				case "crtVarAsgC":// $2 $0    
+					break;   
+				case "crtVarAsgAdd":// $2 $0		
+					break;
+				case "crtVarAsgSub":// $2 $0    
+					break;                  
+				case "crtVarAsgMul":// $2 $0		
+					break;	
+				case "crtVarAsgDiv":// $2 $0	
+					break;		
+				case "crtTpExpInt":// $0   
+					break;      
+				case "crtTpExpDb":// $0    
+					break;   
+				case "crtTpExpBl":// $0	
+					break;	
+				case "crtTpExpStr":// $0     
+					break; 
+				case "crtTpExpVar":// $0      
+					break;
+				case "crtFncDef":// $6 $4 $1    
+					break;  
+				case "lnkParLst":// $2 $0     
+					break;  
+				case "crtParLst":// $1 $0     
+					break;  
+				case "crtParLstE"://   
+					break;        
+				case "crtIfExpIf":// $0    
+					break;    
+				case "crtIfExpEls":// $2 $0  
+					break;  
+				case "crtIfStmtL":// $4 $1    
+					break;   
+				case "crtIfStmtS":// $4 $1     
+					break;     
+				case "crtElsStmtI":// $0    
+					break;     
+				case "crtElsStmtL":// $1    
+					break;   
+				case "crtElsStmtS":// $1    
+					break;   
+				case "crtWhlExp":// $4 $1    
+					break;        
+				case "crtCalcExpAdd":// $0    
+					break;     
+				case "crtCalcExpBl":// $0    
+					break;
+				case "crtCalcExpStr":// $0    
+					break;
+				case "crtStrSA":// $2 $0      
+					break;
+				case "crtStrAS":// $2 $0      
+					break;
+				case "crtStrS":// $0      
+					break;  
+				case "crtBlExpAnd":// $2 $0       
+					break;    
+				case "crtBlExpOr":// $2 $0		
+					break;	 
+				case "crtBlExpN":// $0		
+					break;		 
+				case "crtBlExpCmp":// $0		
+					break;		 
+				case "crtCmpExpBl":// $1		
+					break;		 
+				case "crtCmpExpL":// $2 $0		
+					break;		 
+				case "crtCmpExpLE":// $2 $0		
+					break;	 
+				case "crtCmpExpS":// $2 $0	
+					break;	 
+				case "crtCmpExpSE":// $2 $0	
+					break;		 
+				case "crtCmpExpE":// $2 $0		
+					break;	 
+				case "crtCmpExpN":// $2 $0		
+					break;	 
+				case "crtAddExpAdd":// $2 $0		
+					break; 
+				case "crtAddExpSub":// $2 $0		
+					break;	 
+				case "crtAddExpMns":// $0	
+					break;		 
+				case "crtAddExpMul":// $0	
+					break;		 
+				case "crtAddExpInc":// $0	
+					break;		 
+				case "crtAddExpDec":// $0	
+					break;		 
+				case "crtAddExpIncT":// $1		
+					break;	 
+				case "crtAddExpDecT":// $1	
+					break;	 
+				case "crtMulExpMul":// $2 $0		
+					break;
+				case "crtMulExpDiv":// $2 $0		
+					break;
+				case "crtMulExpPri":// $0		
+					break;
+				case "crtPriExpNum":// $0	
+					break;	
+				case "crtPriExpAdd":// $1	
+					break;	
+				case "crtPriExpApp":// $0	
+					break;	
+				case "crtPriExpVar":// $0	
+					break;
+				case "lnkAppExp":// $5 $3 $1		
+					break;
+				case "crtAppExpP":// $2 $0	
+					break;
+				case "crtAppExpF":// $3 $1	
+					break;		
+				case "crtAppExpVar":// $0	
+					break;
+				case "lnkArgLst":// $2 $0	
+					break;
+				case "crtArgLst":// $0	
+					break;
+				case "crtArgLstE"://
+					break;
+				default:
+					break;
+				}
+				reduce_smb.ast=ast;
+				System.out.println("create ast: "+ ast.getClass().getName());
+				int ct=grammar_table.get(reduce_grammar).symbol_count;
+				for(int i=0;i<ct;i++){
+					state_stack.remove();	
+					symbol_stack.remove();						
+				}	
+				crt_state=state_stack.peek();
+				crt_state=goto_table.get(crt_state).get(symbol_sn.get(reduce_head));
+				state_stack.addFirst(crt_state);
+				symbol_stack.addFirst(reduce_smb);
+				System.out.println("r "+reduce_grammar+" g "+crt_state+" "+token_name);
+				if(reduce_grammar==0 && token_name.equals("eof")){//TODO
+					System.out.println("eof");
+					ast_tree=ast;
+					return true;				
+				}
+			}else{
+				//System.out.println("error parser state "+token_name+crt_state);
+				return false;
+			}			
 		}
 	}
-	
+	/*case "astGoal":
+					ast=crtStmtList((StmtListAST)symbol_stack.get(0).ast,null);
+					break;
+				case "astLinkStmtList":
+					ast=crtStmtList((StmtListAST)symbol_stack.get(1).ast,(StmtAST)symbol_stack.get(0).ast);
+					break;
+				case "astListStmt":
+					ast=crtStmtList(null,(StmtAST)symbol_stack.get(0).ast);
+					break;
+				case "astStmtExp":
+					ast=crtStmtExp((ExpAST)symbol_stack.get(1).ast);
+					break;
+				case "astLinkExpAdd":
+					ast=crtExpAdd((ExpAST)symbol_stack.get(2).ast,(AddAST)symbol_stack.get(0).ast, "+");
+					break;
+				case "astLinkExpSub":
+					ast=crtExpAdd((ExpAST)symbol_stack.get(2).ast,(AddAST)symbol_stack.get(0).ast, "-");
+					break;
+				case "astExpSub":
+					ast=crtExpAdd(null,(AddAST)symbol_stack.get(0).ast, "-");
+					break;
+				case "astExpAdd":
+					ast=crtExpAdd(null,(AddAST)symbol_stack.get(0).ast, null);
+					break;
+				case "astLinkAddMul":
+					ast=crtAddMul((AddAST)symbol_stack.get(2).ast,(MulAST)symbol_stack.get(0).ast,"*");
+					break;
+				case "astLinkAddDiv":
+					ast=crtAddMul((AddAST)symbol_stack.get(02).ast,(MulAST)symbol_stack.get(0).ast,"/");
+					break;
+				case "astAddMul":
+					ast=crtAddMul(null,(MulAST)symbol_stack.get(0).ast,null);
+					break;
+				case "astMulPri":
+					ast=crtMulPri((PriAST)symbol_stack.get(0).ast);
+					break;
+				case "astPriNum":
+					ast=crtPriNum((NumAST)symbol_stack.get(0).ast);
+					break;
+				case "astPriExp":
+					ast=crtPriExp((ExpAST)symbol_stack.get(1).ast);
+					break;
+				case "astNumExp":						
+					ast=crtNumExp(symbol_stack.get(0).type,symbol_stack.get(0).getNumValue());
+					break;
+
+				default:
+					break;
 	AST crtStmtList(StmtListAST list,StmtAST stmt){	
 		StmtListAST ast=new StmtListAST();
 		ast.stmt_list=list;
@@ -437,40 +598,7 @@ public class Parser {
 		ast.num_type=type;
 		ast.buffer=buffer;
 		return ast;
-	}
-
-	/*
-0 Goal stmt_list 
-1 stmt_list stmt_list stmt 
-2 stmt_list stmt 
-3 stmt exp ; 
-4 exp exp + add_exp 
-5 exp exp - add_exp 
-6 exp - add_exp 
-7 exp add_exp 
-8 add_exp add_exp * mul_exp 
-9 add_exp add_exp / mul_exp 
-10 add_exp mul_exp 
-11 mul_exp pri_exp 
-12 pri_exp num_exp 
-13 pri_exp ( exp ) 
-14 num_exp number 
-0 astGoal $1
-1 astLinkStmtList $1 $2
-2 astListStmt $1
-3 astStmtExp $1
-4 astLinkExpAdd $1 $3 
-5 astLinkExpSub $1 $3
-6 astExpSub $2
-7 astExpAdd $1
-8 astLinkAddMul $1 $3
-9 astLinkAddDiv $1 $3
-10 astAddMul $1
-11 astMulPri $1
-12 astPriNum $1
-13 astPriExp $2
-14 astNumExp $1
-	 */
+	}*/
 
 	public boolean output(String filename){
 		

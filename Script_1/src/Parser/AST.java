@@ -1,10 +1,6 @@
 package Parser;
 import java.util.*;
-
-class Node{
-	String type;
-	String name;
-}
+import Interpreter.*;
 
 class AstRule{
 	AstRule(){}
@@ -34,18 +30,14 @@ class Grammar{
 }
 
 public abstract class AST {
-	String num_type;
-	String name;
-	int int_value=0;
-	double double_value=0.0;	
 	public abstract boolean eval(Interpreter interpreter);
 }
-
+/*
 class StmtListAST extends AST{
 	StmtListAST stmt_list;
 	StmtAST stmt;
 	public boolean eval(Interpreter interpreter) {
-		interpreter.interpret(this);
+		//interpreter.interpret(this);
 		return true;
 	}
 }
@@ -53,7 +45,7 @@ class StmtListAST extends AST{
 class StmtAST extends AST{
 	ExpAST exp;
 	public boolean eval(Interpreter interpreter) {
-		interpreter.interpret(this);
+		//interpreter.interpret(this);
 		return true;
 	}
 }
@@ -63,7 +55,7 @@ class ExpAST extends AST{
 	AddAST add_exp;
 	String opt;
 	public boolean eval(Interpreter interpreter) {
-		interpreter.interpret(this);
+		//interpreter.interpret(this);
 		return true;
 	}
 }
@@ -73,14 +65,14 @@ class AddAST extends AST{
 	AddAST add_exp;
 	String opt;
 	public boolean eval(Interpreter interpreter) {
-		interpreter.interpret(this);
+		//interpreter.interpret(this);
 		return true;
 	}
 }
 class MulAST extends AST{
 	PriAST pri_exp;
 	public boolean eval(Interpreter interpreter) {
-		interpreter.interpret(this);
+		//interpreter.interpret(this);
 		return true;
 	}
 }
@@ -89,7 +81,7 @@ class PriAST extends AST{
 	ExpAST exp;
 	NumAST num_exp;
 	public boolean eval(Interpreter interpreter) {
-		interpreter.interpret(this);
+		//interpreter.interpret(this);
 		return true;
 	}
 }
@@ -110,7 +102,8 @@ class NumAST extends AST{
 		return false;
 	}//TODO	
 	public boolean eval(Interpreter interpreter) {
-		interpreter.interpret(this);
+		//interpreter.interpret(this);
 		return true;
 	}
 }
+*/
