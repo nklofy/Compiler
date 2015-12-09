@@ -8,11 +8,13 @@ public class AST_CmpExp extends AST {
 	private AST_AddExp add_exp1;
 	private AST_AddExp add_exp2;
 	private String opt;
-	public boolean setCmpExp(AST_BoolExp bool_exp, AST_AddExp add_exp1, String opt, AST_AddExp add_exp2){
+	private boolean bool_value;
+	public boolean setCmpExp(AST_BoolExp bool_exp, AST_AddExp add_exp1, String opt, AST_AddExp add_exp2, boolean bl_value){
 		this.bool_exp=bool_exp;
 		this.add_exp1=add_exp1;
 		this.add_exp2=add_exp2;
-		this.opt=opt;		
+		this.opt=opt;	
+		this.bool_value=bl_value;
 		return true;
 	}
 	@Override

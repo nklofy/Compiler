@@ -5,8 +5,8 @@ var_assign calc_exp type_exp par_list if_stmt else_stmt bool_exp str_exp
 add_exp cmp_exp mul_exp pri_exp apply_exp arg_list
 
 //tokens
-if else while return break continue int double bool string char number var str
-|| && ! > >= < <= == != + - ++ -- * / += -= *= /= =
+if else while return break continue int double bool true false string char number var str chr
+|| && ! > >= < <= == != + - ++ -- * / += -= *= /= = 
 e ( ) { } , . ; eof 
 
 //grammars
@@ -39,13 +39,13 @@ var_def |>
 >| type_exp var 
 
 var_assign |>
-   var_assign , var = calc_exp
->| type_exp var = calc_exp
->| var = calc_exp
->| var += calc_exp
->| var -= calc_exp
->| var *= calc_exp
->| var /= calc_exp
+   var_assign , var = calc_exp 
+>| type_exp var = calc_exp 
+>| var = calc_exp 
+>| var += calc_exp 
+>| var -= calc_exp 
+>| var *= calc_exp 
+>| var /= calc_exp 
 
 type_exp |>
    int
@@ -62,7 +62,7 @@ par_list |>
    par_list , type_exp var
 >| type_exp var
 >| e
-    
+
 if_exp |>
    if_stmt 
 >| if_stmt else else_stmt
@@ -79,61 +79,63 @@ else_stmt |>
 while_exp |>
    while ( bool_exp ) { stmt_list }
 
-calc_exp |>
-   add_exp
->| bool_exp
+calc_exp |> 
+   add_exp 
+>| bool_exp 
 >| str_exp 
 
-str_exp |>
-   str_exp + add_exp
->| add_exp + str_exp
->| str
+str_exp |> 
+   str_exp + add_exp 
+>| add_exp + str_exp 
+>| str 
+>| chr 
 
-bool_exp |>
-   bool_exp && cmp_exp
->| bool_exp || cmp_exp
->| ! cmp_exp
->| cmp_exp
+bool_exp |> 
+   bool_exp && cmp_exp 
+>| bool_exp || cmp_exp 
+>| ! cmp_exp 
+>| cmp_exp 
 
-cmp_exp |>
-   ( bool_exp )
->| add_exp > add_exp
->| add_exp >= add_exp
->| add_exp < add_exp
->| add_exp <= add_exp
->| add_exp == add_exp
->| add_exp != add_exp   
+cmp_exp |> 
+   ( bool_exp ) 
+>| add_exp > add_exp 
+>| add_exp >= add_exp 
+>| add_exp < add_exp 
+>| add_exp <= add_exp 
+>| add_exp == add_exp 
+>| add_exp != add_exp 
+>| true 
+>| false   
 
-add_exp |>
+add_exp |> 
    add_exp + mul_exp 
 >| add_exp - mul_exp 
->| - mul_exp
->| mul_exp
->| ++ var
->| -- var
->| var ++
->| var --
+>| - mul_exp 
+>| mul_exp 
+>| ++ var 
+>| -- var 
+>| var ++ 
+>| var -- 
 
-mul_exp |>
+mul_exp |> 
    mul_exp * pri_exp 
 >| mul_exp / pri_exp 
->| pri_exp
+>| pri_exp 
 
 pri_exp |> 
-   number
->| ( add_exp )
->| apply_exp
->| var
+   number 
+>| ( add_exp ) 
+>| apply_exp 
 
-apply_exp |>
-   apply_exp . var ( arg_list )
+apply_exp |> 
+   apply_exp . var ( arg_list ) 
 >| apply_exp . var 
->| var ( arg_list )
+>| var ( arg_list ) 
 >| var 
 
-arg_list |>
-   arg_list , var
->| var 
->| e
+arg_list |> 
+   arg_list , calc_exp 
+>| calc_exp 
+>| e 
 
 //end

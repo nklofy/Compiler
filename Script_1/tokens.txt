@@ -18,6 +18,8 @@ long long
 float float
 double double
 bool bool
+true true
+false false
 string string
 char char
 class class

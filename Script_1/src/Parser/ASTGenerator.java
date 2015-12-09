@@ -133,9 +133,9 @@ public class ASTGenerator {
 		ast.setBoolExp((AST_BoolExp)bool_exp, opt, (AST_CmpExp)cmp_exp);
 		return ast;
 	}
-	AST astCmpExp(AST bool_exp, AST add_exp1, String opt, AST add_exp2){
+	AST astCmpExp(AST bool_exp, AST add_exp1, String opt, AST add_exp2, Boolean bl_value){
 		AST_CmpExp ast=new AST_CmpExp();
-		ast.setCmpExp((AST_BoolExp)bool_exp, (AST_AddExp)add_exp1, opt, (AST_AddExp)add_exp2);
+		ast.setCmpExp((AST_BoolExp)bool_exp, (AST_AddExp)add_exp1, opt, (AST_AddExp)add_exp2, bl_value);
 		return ast;
 	}
 	AST astStrExp(AST str){
@@ -157,9 +157,9 @@ public class ASTGenerator {
 		ast.setMulExp((AST_MulExp)mul_exp, opt, (AST_PriExp)pri_exp);
 		return ast;
 	}
-	AST astPriExp(AST add_exp, AST num, AST var, AST apply_exp){
+	AST astPriExp(AST add_exp, AST num, AST apply_exp){
 		AST_PriExp ast=new AST_PriExp();
-		ast.setPriExp((AST_AddExp)add_exp, (AST_Num)num, (AST_Var)var, (AST_ApplyExp)apply_exp);
+		ast.setPriExp((AST_AddExp)add_exp, (AST_Num)num, (AST_ApplyExp)apply_exp);
 		return ast;
 	}
 	AST astNum(String type, String buffer){
