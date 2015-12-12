@@ -40,24 +40,24 @@
 38 else_stmt { stmt_list } 
 39 else_stmt sg_stmt ; 
 40 while_exp while ( bool_exp ) { stmt_list } 
-41 calc_exp add_exp 
-42 calc_exp bool_exp 
-43 calc_exp str_exp 
-44 str_exp str_exp + add_exp 
-45 str_exp add_exp + str_exp 
-46 str_exp str 
-47 str_exp chr 
-48 bool_exp bool_exp && cmp_exp 
-49 bool_exp bool_exp || cmp_exp 
-50 bool_exp ! cmp_exp 
-51 bool_exp cmp_exp 
-52 cmp_exp ( bool_exp ) 
-53 cmp_exp add_exp > add_exp 
-54 cmp_exp add_exp >= add_exp 
-55 cmp_exp add_exp < add_exp 
-56 cmp_exp add_exp <= add_exp 
-57 cmp_exp add_exp == add_exp 
-58 cmp_exp add_exp != add_exp 
+41 calc_exp bool_exp 
+42 calc_exp str_exp 
+43 str_exp str_exp + add_exp 
+44 str_exp add_exp + str_exp 
+45 str_exp str 
+46 str_exp chr 
+47 bool_exp bool_exp && cmp_exp 
+48 bool_exp bool_exp || cmp_exp 
+49 bool_exp ! cmp_exp 
+50 bool_exp cmp_exp 
+51 cmp_exp ( bool_exp ) 
+52 cmp_exp add_exp > add_exp 
+53 cmp_exp add_exp >= add_exp 
+54 cmp_exp add_exp < add_exp 
+55 cmp_exp add_exp <= add_exp 
+56 cmp_exp add_exp == add_exp 
+57 cmp_exp add_exp != add_exp 
+58 cmp_exp add_exp 
 59 cmp_exp true 
 60 cmp_exp false 
 61 add_exp add_exp + mul_exp 
@@ -123,25 +123,25 @@
 37 crtElsStmtI $0         
 38 crtElsStmtL $1       
 39 crtElsStmtS $1       
-40 crtWhlExp $4 $1            
-41 crtCalcExpAdd $0         
-42 crtCalcExpBl $0    
-43 crtCalcExpStr $0    
-44 crtStrSA $2 $0      
-45 crtStrAS $2 $0      
-46 crtStrS $0 
-47 crtStrC $0 
-48 crtBlExpAnd $2 $0           
-49 crtBlExpOr $2 $0			 
-50 crtBlExpN $0				 
-51 crtBlExpCmp $0				 
-52 crtCmpExpBl $1				 
-53 crtCmpExpL $2 $0				 
-54 crtCmpExpLE $2 $0			 
-55 crtCmpExpS $2 $0		 
-56 crtCmpExpSE $2 $0			 
-57 crtCmpExpE $2 $0			 
-58 crtCmpExpN $2 $0		
+40 crtWhlExp $4 $1    
+41 crtCalcExpBl $0    
+42 crtCalcExpStr $0    
+43 crtStrSA $2 $0      
+44 crtStrAS $2 $0      
+45 crtStrS $0 
+46 crtStrC $0 
+47 crtBlExpAnd $2 $0           
+48 crtBlExpOr $2 $0			 
+49 crtBlExpN $0				 
+50 crtBlExpCmp $0				 
+51 crtCmpExpBl $1				 
+52 crtCmpExpL $2 $0				 
+53 crtCmpExpLE $2 $0			 
+54 crtCmpExpS $2 $0		 
+55 crtCmpExpSE $2 $0			 
+56 crtCmpExpE $2 $0			 
+57 crtCmpExpN $2 $0	
+58 crtCmpAdd $0	
 59 crtCmpExpTrue $0 
 60 crtCmpExpFalse $0
 61 crtAddExpAdd $2 $0		 

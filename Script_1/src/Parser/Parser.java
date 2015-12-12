@@ -314,10 +314,8 @@ public class Parser {
 			}else if(reduce_grammar!=-1){//in reduce table
 				gotNewToken=false;
 				String reduce_head=grammar_table.get(reduce_grammar).head;
-				//TODO create new AST
 				Symbol reduce_smb=new Symbol();
 				reduce_smb.name=reduce_head;
-				//create AST as needed
 				AstRule rule=astRule_list.get(reduce_grammar);
 				String method=rule.method;
 				AST ast = null;
@@ -445,15 +443,12 @@ public class Parser {
 					break;   
 				case "crtWhlExp":// $4 $1    
 					ast=ast_gen.astWhileExp(symbol_stack.get(4).ast, symbol_stack.get(1).ast);
-					break;        
-				case "crtCalcExpAdd":// $0    
-					ast=ast_gen.astCalcExp(symbol_stack.get(0).ast, null, null);
-					break;     
+					break;    
 				case "crtCalcExpBl":// $0   
-					ast=ast_gen.astCalcExp(null, symbol_stack.get(0).ast, null);
+					ast=ast_gen.astCalcExp(symbol_stack.get(0).ast, null);
 					break;
 				case "crtCalcExpStr":// $0    
-					ast=ast_gen.astCalcExp(null, null, symbol_stack.get(0).ast);
+					ast=ast_gen.astCalcExp(null, symbol_stack.get(0).ast);
 					break;
 				case "crtStrSA":// $2 $0     
 					ast=ast_gen.astStrExp(symbol_stack.get(0).ast);
@@ -480,31 +475,34 @@ public class Parser {
 					ast=ast_gen.astBoolExp(null, null, symbol_stack.get(0).ast);
 					break;		 
 				case "crtCmpExpBl":// $1		
-					ast=ast_gen.astCmpExp(symbol_stack.get(1).ast, null,  null,  null, null);
+					ast=ast_gen.astCmpExp(symbol_stack.get(1).ast, null,  null,  null, 0);
 					break;		 
 				case "crtCmpExpL":// $2 $0		
-					ast=ast_gen.astCmpExp(null, symbol_stack.get(2).ast,  ">",  symbol_stack.get(0).ast, null);
+					ast=ast_gen.astCmpExp(null, symbol_stack.get(2).ast,  ">",  symbol_stack.get(0).ast, 0);
 					break;		 
 				case "crtCmpExpLE":// $2 $0		
-					ast=ast_gen.astCmpExp(null, symbol_stack.get(2).ast,  ">=",  symbol_stack.get(0).ast, null);
+					ast=ast_gen.astCmpExp(null, symbol_stack.get(2).ast,  ">=",  symbol_stack.get(0).ast, 0);
 					break;	 
 				case "crtCmpExpS":// $2 $0	
-					ast=ast_gen.astCmpExp(null, symbol_stack.get(2).ast,  "<",  symbol_stack.get(0).ast, null);
+					ast=ast_gen.astCmpExp(null, symbol_stack.get(2).ast,  "<",  symbol_stack.get(0).ast, 0);
 					break;	 
 				case "crtCmpExpSE":// $2 $0	
-					ast=ast_gen.astCmpExp(null, symbol_stack.get(2).ast,  "<=",  symbol_stack.get(0).ast, null);
+					ast=ast_gen.astCmpExp(null, symbol_stack.get(2).ast,  "<=",  symbol_stack.get(0).ast, 0);
 					break;		 
 				case "crtCmpExpE":// $2 $0		
-					ast=ast_gen.astCmpExp(null, symbol_stack.get(2).ast,  "==",  symbol_stack.get(0).ast, null);
+					ast=ast_gen.astCmpExp(null, symbol_stack.get(2).ast,  "==",  symbol_stack.get(0).ast, 0);
 					break;	 
 				case "crtCmpExpN":// $2 $0		
-					ast=ast_gen.astCmpExp(null, symbol_stack.get(2).ast,  "!=",  symbol_stack.get(0).ast, null);
+					ast=ast_gen.astCmpExp(null, symbol_stack.get(2).ast,  "!=",  symbol_stack.get(0).ast, 0);
 					break;	 
+				case "crtCmpAdd":// $0		
+					ast=ast_gen.astCmpExp(null, symbol_stack.get(0).ast, null, null, 0);
+					break;
 				case "crtCmpTrue":// $2 $0	//TODO	
-					ast=ast_gen.astCmpExp(null,  null,  null, null, true);
+					ast=ast_gen.astCmpExp(null,  null,  null, null, 1);
 					break;	
 				case "crtCmpFalse":// $2 $0		//TODO
-					ast=ast_gen.astCmpExp(null,  null,  null, null, false);
+					ast=ast_gen.astCmpExp(null,  null,  null, null, -1);
 					break;	
 				case "crtAddExpAdd":// $2 $0		
 					ast=ast_gen.astAddExp(symbol_stack.get(2).ast, symbol_stack.get(0).ast, "+", null);

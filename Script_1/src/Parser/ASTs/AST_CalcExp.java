@@ -4,24 +4,52 @@ import Interpreter.Interpreter;
 import Parser.AST;
 
 public class AST_CalcExp extends AST {
-	private AST_AddExp add_exp;
 	private AST_BoolExp bool_exp;
 	private AST_StrExp str_exp;
-	Type_Base type;
-	Data_Func data_func;	//function var 
-	Data_Obj data_obj;		//value of add_exp
-	boolean bool_value;		//value of bool_exp
-	String string_value;	//value of string_exp
-	char char_value;	//value of char_exp
-	public boolean setCalcExp(AST_AddExp add_exp, AST_BoolExp bool_exp, AST_StrExp str_exp){
-		this.add_exp=add_exp;
+	Type_Base base_type;
+	long int_value;
+	double double_value;
+	boolean bool_value;
+	char char_value;
+	String string_value;
+	Data_Obj data_obj;
+	public boolean setCalcExp(AST_BoolExp bool_exp, AST_StrExp str_exp){
 		this.bool_exp=bool_exp;
 		this.str_exp=str_exp;
 		return true;
 	}
 	@Override
 	public boolean eval(Interpreter interpreter) {
-		// TODO Auto-generated method stub
+		if(this.bool_exp!=null){
+			interpreter.interpret(this.bool_exp);
+			if(this.bool_exp.base_type!=null){
+				this.base_type=this.bool_exp.base_type;
+				switch(bool_exp.base_type){
+				case t_int:
+					this.int_value=bool_exp.int_value;
+					break;
+				case t_double:
+					this.double_value=bool_exp.double_value;
+					break;
+				case t_bool:
+					this.bool_value=bool_exp.bool_value;
+					break;
+				case t_char:
+					this.char_value=bool_exp.char_value;
+					break;
+				case t_string:
+					this.string_value=bool_exp.string_value;
+					break;
+				default:
+					break;	
+				}
+			}else if(this.bool_exp.data_obj!=null){
+				this.data_obj=new Data_Obj(this.bool_exp.data_obj);
+			}else
+				return false;
+		}else if(str_exp!=null){
+			//TODO
+		}
 		return false;
 	}
 

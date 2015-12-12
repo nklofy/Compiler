@@ -80,8 +80,7 @@ while_exp |>
    while ( bool_exp ) { stmt_list }
 
 calc_exp |> 
-   add_exp 
->| bool_exp 
+   bool_exp 
 >| str_exp 
 
 str_exp |> 
@@ -104,6 +103,7 @@ cmp_exp |>
 >| add_exp <= add_exp 
 >| add_exp == add_exp 
 >| add_exp != add_exp 
+>| add_exp
 >| true 
 >| false   
 

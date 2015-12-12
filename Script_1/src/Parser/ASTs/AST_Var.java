@@ -5,14 +5,7 @@ import Parser.AST;
 
 public class AST_Var extends AST {
 	String name;
-	Type_Base type;
-	long int_value;
-	double double_value;
-	boolean bool_value;
-	char char_value;
-	String string_value;
-	Data_Func func;
-	Data_Obj obj;
+	Data_Obj data_obj;
 	//Object obj_value; 
 	public boolean setVar(String name){
 		this.name=name;
@@ -20,6 +13,14 @@ public class AST_Var extends AST {
 	}
 	@Override
 	public boolean eval(Interpreter interpreter) {
+		Data_Obj obj=interpreter.getCrtFrm().getCrtEnv().getObj(this.name);
+		if(obj==null){
+			obj=interpreter.getGlbEnv().getObj(this.name);
+		}
+		if(obj==null){
+			obj=interpreter.getStcEnv().getObj(this.name);
+		}			
+		this.data_obj=new Data_Obj(obj);
 		return true;
 	}
 

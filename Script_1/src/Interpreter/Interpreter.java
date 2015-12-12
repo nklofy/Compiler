@@ -5,7 +5,6 @@ import Parser.ASTs.*;
 public class Interpreter {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 		System.out.println("hello");
 		Parser parser=new Parser();
 		parser.analyzeGrm("out_grammar.txt"); 	System.out.println("analyzeGrm out_grammar.txt");
@@ -15,11 +14,29 @@ public class Interpreter {
 		parser.parse();
 		AST ast_tree=parser.getAST();
 		Interpreter interpreter=new Interpreter();
-		//interpreter.interpret((StmtListAST) ast_tree);
+		interpreter.env_global=new RT_Env();
+		interpreter.env_global.crt_frm=new RT_Frame();
+		interpreter.env_global.crt_frm.crt_env=interpreter.env_global;
+		interpreter.interpret((AST_StmtList) ast_tree);//TODO
 		parser.output("out_parser.txt");
 		
+	}	
+	private RT_Env env_global; 	//runtime, refs of global vars, global functions	
+	private RT_Static env_static;
+	private RT_Frame crt_frame;
+	public RT_Env getGlbEnv(){
+		return this.env_global;
 	}
-	
+	public RT_Static getStcEnv(){
+		return this.env_static;
+	}
+	public RT_Frame getCrtFrm(){
+		return this.crt_frame;
+	}
+	public boolean setCrtFrm(RT_Frame crt_frame){
+		this.crt_frame=crt_frame;
+		return true;
+	}
 	public boolean getVar(AST_Var var){//refresh var's value in table
 		return true;
 	}
