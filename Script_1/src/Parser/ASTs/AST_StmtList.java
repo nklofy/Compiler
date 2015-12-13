@@ -16,10 +16,13 @@ public class AST_StmtList extends AST {
 	}
 	@Override
 	public boolean eval(Interpreter interpreter) {
-		// TODO Auto-generated method stub
-		list.eval(interpreter);
-		stmt.eval(interpreter);
-		return false;
+		if(this.list!=null){
+			interpreter.interpret(this.list);
+		}
+		if(this.stmt!=null){
+			interpreter.interpret(this.stmt);
+		}
+		return true;
 	}
 
 }

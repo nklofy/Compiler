@@ -8,8 +8,8 @@ import Parser.AST;
 public class AST_ArgList extends AST {
 	private AST_ArgList arg_list;
 	private AST_CalcExp calc_exp;
-	ArrayList<String> arg_types;
-	ArrayList<Data_Obj> args;
+	ArrayList<String> arg_types=new ArrayList<String>();
+	ArrayList<Data_Obj> args=new ArrayList<Data_Obj>();
 	public boolean setArgList(AST_ArgList arg_list, AST_CalcExp calc_exp){
 		this.arg_list=arg_list;
 		this.calc_exp=calc_exp;

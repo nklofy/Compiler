@@ -2,6 +2,8 @@
 package Interpreter;
 
 import java.util.*;
+
+import Parser.AST;
 import Parser.ASTs.*;
 
 public class RT_Frame {
@@ -9,6 +11,7 @@ public class RT_Frame {
 	RT_Frame return_frm;
 	Data_Obj return_obj;
 	Data_Func crt_func;
+	AST_Stmt crt_ast;
 	ArrayList<Data_Obj> args=new ArrayList<Data_Obj>();
 	//HashMap<String,Data_Obj> tmp_vars;
 	public RT_Env getCrtEnv(){
@@ -34,6 +37,13 @@ public class RT_Frame {
 	}
 	public ArrayList<Data_Obj> getArgs(){
 		return this.args;
+	}
+	public AST_Stmt getCrtAST(){
+		return this.crt_ast;
+	}
+	public boolean setCrtAST(AST_Stmt ast){
+		this.crt_ast=ast;
+		return true;
 	}
 	
 }

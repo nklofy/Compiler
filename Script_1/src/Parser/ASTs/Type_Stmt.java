@@ -5,6 +5,5 @@ public enum Type_Stmt {
 	VarDef,
 	IfExp,
 	WhileExp,
-	FuncDef,
-	CtrFlw;
+	FuncDef;
 }

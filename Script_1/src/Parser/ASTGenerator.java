@@ -30,9 +30,6 @@ public class ASTGenerator {
 		case FuncDef:
 			ast.setFuncDef((AST_FuncDef)stmt);
 			break;
-		case CtrFlw:
-			ast.setCtrFlw((AST_CtrFlw)stmt);
-			break;
 		default:
 			break;
 		}
@@ -98,9 +95,9 @@ public class ASTGenerator {
 		ast.setType(type);
 		return ast;
 	}
-	AST astFuncDef(AST name, AST par_list, AST stmt_list){
+	AST astFuncDef(AST type_exp, AST name, AST par_list, AST stmt_list){
 		AST_FuncDef ast=new AST_FuncDef();
-		ast.setFuncDef((AST_Var)name, (AST_ParList)par_list, (AST_StmtList)stmt_list);
+		ast.setFuncDef((AST_TypeExp)type_exp, (AST_Var)name, (AST_ParList)par_list, (AST_StmtList)stmt_list);
 		return ast;
 	}
 	AST astParList(AST par_list, AST type_exp, AST var){

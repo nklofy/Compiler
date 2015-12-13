@@ -52,5 +52,30 @@ public class AST_CalcExp extends AST {
 		}
 		return false;
 	}
+	public Data_Obj boxObj(){
+		Data_Obj obj=new Data_Obj();
+		obj.type_obj=new Type_Obj();
+		obj.type_obj.type_base=this.base_type;
+		switch(this.base_type){
+		case t_int:
+			obj.int_value=this.int_value;
+			break;
+		case t_double:
+			obj.double_value=this.double_value;
+			break;
+		case t_bool:
+			obj.bool_value=this.bool_value;
+			break;
+		case t_char:
+			obj.char_value=this.char_value;
+			break;
+		case t_string:
+			obj.string_value=this.string_value;
+			break;
+		default:
+			break;	
+		}
+		return obj;
+	}
 
 }

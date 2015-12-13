@@ -409,7 +409,7 @@ public class Parser {
 					ast=ast_gen.astTypeExp("var");
 					break;
 				case "crtFncDef":// $6 $4 $1    
-					ast=ast_gen.astFuncDef(symbol_stack.get(6).ast, symbol_stack.get(4).ast, symbol_stack.get(1).ast);
+					ast=ast_gen.astFuncDef(symbol_stack.get(7).ast, symbol_stack.get(6).ast, symbol_stack.get(4).ast, symbol_stack.get(1).ast);
 					break;  
 				case "lnkParLst":// $2 $0     
 					ast=ast_gen.astParList(symbol_stack.get(3).ast, symbol_stack.get(1).ast, symbol_stack.get(0).ast);

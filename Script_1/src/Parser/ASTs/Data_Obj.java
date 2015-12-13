@@ -4,6 +4,7 @@ import java.util.*;
 public class Data_Obj {
 	Type_Obj type_obj;		//real type
 	Type_Obj type_ref;		//ref pointer's type
+	boolean hasInit=false;
 	String var_name;
 	long int_value;
 	double double_value;
@@ -12,7 +13,7 @@ public class Data_Obj {
 	char char_value;
 	HashMap<String, Data_Obj> fields;
 	Data_Obj getField(String var){
-		return null;
+		return fields.get(var);
 	}
 	Data_Func getFunc(String name, ArrayList<String> par_types){
 		Set<Integer>idx=this.type_obj.func_idx.get(name);

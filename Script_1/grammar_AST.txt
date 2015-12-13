@@ -28,7 +28,7 @@
 26 type_exp string 
 27 type_exp char 
 28 type_exp var 
-29 func_def var ( par_list ) { stmt_list } 
+29 func_def type_exp var ( par_list ) { stmt_list } 
 30 par_list par_list , type_exp var 
 31 par_list type_exp var 
 32 par_list e 
@@ -112,7 +112,7 @@
 26 crtTpExpStr $0   
 27 crtTpExpChr $0   
 28 crtTpExpVar $0      
-29 crtFncDef $6 $4 $1      
+29 crtFncDef $7 $6 $4 $1      
 30 lnkParLst $2 $0       
 31 crtParLst $1 $0       
 32 crtParLstE           

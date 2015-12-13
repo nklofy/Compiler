@@ -4,7 +4,7 @@ import Interpreter.Interpreter;
 import Parser.AST;
 
 public class AST_Stmt extends AST {
-	private Type_Stmt type;
+	private Type_Stmt stmt_type;
 	private AST_SgStmt sg_stmt;
 	private AST_VarDef var_def;
 	private AST_IfExp if_exp;
@@ -12,7 +12,7 @@ public class AST_Stmt extends AST {
 	private AST_FuncDef func_def;
 	private AST_CtrFlw ctr_flw;
 	public boolean setType(Type_Stmt type){
-		this.type=type;
+		this.stmt_type=type;
 		return true;
 	}
 	public boolean setSgStmt(AST_SgStmt sg_stmt){
@@ -40,7 +40,25 @@ public class AST_Stmt extends AST {
 	}
 	@Override
 	public boolean eval(Interpreter interpreter) {
-		// TODO Auto-generated method stub
+		switch(this.stmt_type){
+		case SgStmt:
+			interpreter.interpret(this.sg_stmt);
+			break;
+		case VarDef:
+			interpreter.interpret(this.var_def);
+			break;
+		case IfExp:
+			interpreter.interpret(this.if_exp);
+			break;
+		case WhileExp:
+			interpreter.interpret(this.while_exp);
+			break;
+		case FuncDef:
+			interpreter.interpret(this.func_def);
+			break;
+		default:
+			break;
+		}
 		return false;
 	}	
 }

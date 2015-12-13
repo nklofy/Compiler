@@ -13,8 +13,11 @@ public class AST_IfExp extends AST {
 	}
 	@Override
 	public boolean eval(Interpreter interpreter) {
-		// TODO Auto-generated method stub
-		return false;
+		interpreter.interpret(this.if_stmt);
+		if(this.else_stmt!=null && !this.if_stmt.cond_value){
+			interpreter.interpret(this.else_stmt);
+		}
+		return true;
 	}
 
 }

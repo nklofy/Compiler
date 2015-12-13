@@ -56,7 +56,7 @@ type_exp |>
 >| var
 
 func_def |>
-   var ( par_list ) { stmt_list }
+   type_exp var ( par_list ) { stmt_list }
 
 par_list |>
    par_list , type_exp var

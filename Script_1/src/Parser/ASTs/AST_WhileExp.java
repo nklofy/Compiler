@@ -1,6 +1,7 @@
 package Parser.ASTs;
 
 import Interpreter.Interpreter;
+import Interpreter.RT_Frame;
 import Parser.AST;
 
 public class AST_WhileExp extends AST {
@@ -13,8 +14,22 @@ public class AST_WhileExp extends AST {
 	}
 	@Override
 	public boolean eval(Interpreter interpreter) {
-		// TODO Auto-generated method stub
-		return false;
+		interpreter.interpret(this.bool_exp);
+		if(bool_exp.base_type==null)
+			return false;		
+		else if(bool_exp.base_type!=Type_Base.t_bool)
+			return false;
+		boolean cond=this.bool_exp.bool_value; 
+		while(cond){
+			interpreter.interpret(this.stmt_list);
+			interpreter.interpret(this.bool_exp);
+			if(bool_exp.base_type==null)
+				return false;		
+			else if(bool_exp.base_type!=Type_Base.t_bool)
+				return false;
+			cond=this.bool_exp.bool_value; 
+		}
+		return true;
 	}
 
 }

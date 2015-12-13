@@ -15,8 +15,14 @@ public class AST_ElseStmt extends AST {
 	}
 	@Override
 	public boolean eval(Interpreter interpreter) {
-		// TODO Auto-generated method stub
-		return false;
+		if(this.if_exp!=null){
+			interpreter.interpret(this.if_exp);
+		}else if(this.stmt_list!=null){
+			interpreter.interpret(this.stmt_list);
+		}else if(this.sg_stmt!=null){
+			interpreter.interpret(this.sg_stmt);
+		}
+		return true;
 	}
 
 }

@@ -7,6 +7,7 @@ public class AST_VarDef extends AST {
 	private AST_TypeExp type_exp;
 	private AST_VarDef var_def;
 	private AST_Var var;
+	Type_Obj type;
 	public boolean setTypeExp(AST_TypeExp type_exp){
 		this.type_exp=type_exp;
 		return true;
@@ -21,8 +22,22 @@ public class AST_VarDef extends AST {
 	}
 	@Override
 	public boolean eval(Interpreter interpreter) {
-		// TODO Auto-generated method stub
-		return false;
+		if(this.var_def!=null){
+			interpreter.interpret(this.var_def);
+			this.type=var_def.type;
+		}
+		if(this.type_exp!=null){
+			interpreter.interpret(this.type_exp);
+			this.type=this.type_exp.obj_type;
+		}
+		if(this.var!=null){
+			interpreter.interpret(this.var);
+			Data_Obj obj=new Data_Obj();
+			obj.type_obj=this.type;
+			interpreter.getCrtFrm().getCrtEnv().addObj(var.name, obj);
+		}else
+			return false;
+		return true;
 	}
 
 }

@@ -15,15 +15,16 @@ public class Interpreter {
 		AST ast_tree=parser.getAST();
 		Interpreter interpreter=new Interpreter();
 		interpreter.env_global=new RT_Env();
-		interpreter.env_global.crt_frm=new RT_Frame();
-		interpreter.env_global.crt_frm.crt_env=interpreter.env_global;
+		interpreter.crt_frm=new RT_Frame();
+		interpreter.env_global.crt_frm=interpreter.crt_frm;
+		interpreter.crt_frm.crt_env=interpreter.env_global;
 		interpreter.interpret((AST_StmtList) ast_tree);//TODO
 		parser.output("out_parser.txt");
 		
 	}	
 	private RT_Env env_global; 	//runtime, refs of global vars, global functions	
 	private RT_Static env_static;
-	private RT_Frame crt_frame;
+	private RT_Frame crt_frm;
 	public RT_Env getGlbEnv(){
 		return this.env_global;
 	}
@@ -31,109 +32,124 @@ public class Interpreter {
 		return this.env_static;
 	}
 	public RT_Frame getCrtFrm(){
-		return this.crt_frame;
+		return this.crt_frm;
 	}
 	public boolean setCrtFrm(RT_Frame crt_frame){
-		this.crt_frame=crt_frame;
+		this.crt_frm=crt_frame;
 		return true;
 	}
 	public boolean getVar(AST_Var var){//refresh var's value in table
-		return true;
+		return(var.eval(this));
 	}
 	
 	public boolean interpret(AST_StmtList stmt_list){
-		return false;
+		return(stmt_list.eval(this));
 	}
 
 	public boolean interpret(AST_Stmt stmt){
-		return false;
+		return(stmt.eval(this));
 	}
 
 	public boolean interpret(AST_SgStmt sg_stmt){
-		return false;
+		return(sg_stmt.eval(this));
 	}
 
 	public boolean interpret(AST_CtrFlw ctr_flw){
+		ctr_flw.eval(this);
+		switch(ctr_flw.getFlwType()){
+		case "return":
+			12
+			break;
+		case "break":
+			
+			break;
+		case "continue":
+			
+			break;
+		default:
+			break;
+		}
 		return false;
 	}
 
 	public boolean interpret(AST_VarDef var_def){
-		return false;
+		return(var_def.eval(this));
+		
 	}
 
 	public boolean interpret(AST_VarAssign var_assign){
-		return false;
+		return(var_assign.eval(this));
 	}
 
 	public boolean interpret(AST_TypeExp type_exp){
-		return false;
+		return(type_exp.eval(this));
 	}
 
-	public boolean interpret(AST_FuncDef func_def){
-		return false;
+	public boolean interpret(AST_FuncDef func_def){		
+		return(func_def.eval(this));
 	}
 
 	public boolean interpret(AST_ParList par_list){
-		return false;
+		return(par_list.eval(this));
 	}
 
 	public boolean interpret(AST_IfExp if_exp){
-		return false;
+		return(if_exp.eval(this));
 	}
 
 	public boolean interpret(AST_IfStmt if_stmt){
-		return false;
+		return(if_stmt.eval(this));
 	}
 
-	public boolean interpret(AST_ElseStmt else_stmt){
-		return false;
+	public boolean interpret(AST_ElseStmt else_stmt){		
+		return(else_stmt.eval(this));
 	}
 
 	public boolean interpret(AST_WhileExp while_exp){
-		return false;
+		return(while_exp.eval(this));
 	}
 
 	public boolean interpret(AST_CalcExp calc_exp){
-		return false;
+		return(calc_exp.eval(this));
 	}
 
 	public boolean interpret(AST_StrExp str_exp){
-		return false;
+		return(str_exp.eval(this));
 	}
 
 	public boolean interpret(AST_BoolExp bool_exp){
-		return false;
+		return(bool_exp.eval(this));
 	}
 
 	public boolean interpret(AST_CmpExp cmp_exp){
-		return false;
+		return(cmp_exp.eval(this));
 	}
 
 	public boolean interpret(AST_AddExp add_exp){
-		return false;
+		return(add_exp.eval(this));
 	}
 
 	public boolean interpret(AST_MulExp mul_exp){
-		return false;
+		return(mul_exp.eval(this));
 	}
 
 	public boolean interpret(AST_PriExp pri_exp){
-		return false;
+		return(pri_exp.eval(this));
 	}
 
 	public boolean interpret(AST_ApplyExp apply_exp){
-		return false;
+		return(apply_exp.eval(this));
 	}
 
 	public boolean interpret(AST_ArgList arg_list){
-		return false;
+		return(arg_list.eval(this));
 	}
 
 	public boolean interpret(AST_Var var){
-		return false;
+		return(var.eval(this));
 	}
 
 	public boolean interpret(AST_Num num){
-		return false;
+		return(num.eval(this));
 	}
 }
