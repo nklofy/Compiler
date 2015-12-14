@@ -4,7 +4,7 @@ import java.util.*;
 
 import Interpreter.Interpreter;
 import Parser.AST;
-
+import Interpreter.RT_CtrFlow;
 public class AST_ApplyExp extends AST {
 	private AST_ApplyExp apply_exp;
 	private AST_Var var;
@@ -32,12 +32,29 @@ public class AST_ApplyExp extends AST {
 		if(arg_list!=null){//function apply
 			interpreter.interpret(var);
 			interpreter.interpret(arg_list);
-			if(var.data_obj.type_obj.type_func!=null){		//var is func
-				if(this.data_obj==null){
+			if(var.data_obj==null){
+				switch(var.name){
+				case "print":
+					this.data_obj=Native_Func.runPrint(arg_list.getArgs());
+					interpreter.getCtrFlow().setFlow(RT_CtrFlow.Flow_State.s_go);
+					break;
+				case "scan":
+					this.data_obj=Native_Func.runScan();
+					interpreter.getCtrFlow().setFlow(RT_CtrFlow.Flow_State.s_go);
+					break;
+				default:
+					break;
+				}
+			}else if(var.data_obj.type_obj.type_func!=null){		//var is func
+				if(this.data_obj==null){					
 					this.data_obj=var.data_obj.type_obj.type_func.data_func.run(interpreter, arg_list.getArgs());
+					interpreter.getCtrFlow().setFlow(RT_CtrFlow.Flow_State.s_go);
 				}else{
 					this.data_obj=this.data_obj.getFunc(var.name,arg_list.arg_types).run(interpreter, arg_list.getArgs());
+					interpreter.getCtrFlow().setFlow(RT_CtrFlow.Flow_State.s_go);
 				}
+			}else{
+				return false;
 			}
 			return true;
 		}

@@ -2,6 +2,7 @@ package Parser.ASTs;
 
 import Interpreter.Interpreter;
 import Parser.AST;
+import Interpreter.RT_CtrFlow;
 
 public class AST_CtrFlw extends AST {
 	private String flw_type;
@@ -26,12 +27,13 @@ public class AST_CtrFlw extends AST {
 				interpreter.getCrtFrm().setRtnObj(this.calc_exp.boxObj());
 			else
 				interpreter.getCrtFrm().setRtnObj(this.calc_exp.data_obj);
+			interpreter.getCtrFlow().setFlow(RT_CtrFlow.Flow_State.s_return);
 			break;
 		case "break":
-			
+			interpreter.getCtrFlow().setFlow(RT_CtrFlow.Flow_State.s_break);
 			break;
 		case "continue":
-			
+			interpreter.getCtrFlow().setFlow(RT_CtrFlow.Flow_State.s_continue);
 			break;
 			default:
 				break;

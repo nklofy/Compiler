@@ -1,6 +1,7 @@
 package Parser.ASTs;
 
 import Interpreter.Interpreter;
+import Interpreter.RT_CtrFlow;
 import Interpreter.RT_Frame;
 import Parser.AST;
 
@@ -16,18 +17,26 @@ public class AST_WhileExp extends AST {
 	public boolean eval(Interpreter interpreter) {
 		interpreter.interpret(this.bool_exp);
 		if(bool_exp.base_type==null)
-			return false;		
+			return false;
 		else if(bool_exp.base_type!=Type_Base.t_bool)
 			return false;
 		boolean cond=this.bool_exp.bool_value; 
 		while(cond){
-			interpreter.interpret(this.stmt_list);
+			interpreter.interpret(this.stmt_list);			
+			if(interpreter.getCtrFlow().getFlow()==RT_CtrFlow.Flow_State.s_continue){
+				interpreter.getCtrFlow().setFlow(RT_CtrFlow.Flow_State.s_go);
+				continue;
+			}
+			else if(interpreter.getCtrFlow().getFlow()==RT_CtrFlow.Flow_State.s_break){
+				interpreter.getCtrFlow().setFlow(RT_CtrFlow.Flow_State.s_go);
+				break;
+			}
 			interpreter.interpret(this.bool_exp);
 			if(bool_exp.base_type==null)
-				return false;		
+				return false;
 			else if(bool_exp.base_type!=Type_Base.t_bool)
 				return false;
-			cond=this.bool_exp.bool_value; 
+			cond=this.bool_exp.bool_value;
 		}
 		return true;
 	}

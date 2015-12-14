@@ -12,7 +12,7 @@ public class AST_Var extends AST {
 		return true;
 	}
 	@Override
-	public boolean eval(Interpreter interpreter) {		
+	public boolean eval(Interpreter interpreter) {
 		Data_Obj obj=interpreter.getCrtFrm().getCrtEnv().getObj(this.name);
 		if(obj==null){
 			obj=interpreter.getGlbEnv().getObj(this.name);
