@@ -50,8 +50,8 @@ public class AST_VarAssign extends AST {
 				}else{
 					var.data_obj=this.calc_exp.data_obj;
 				}				
-				var.data_obj.type_ref=this.type;
-				var.data_obj.hasInit=true;
+				var.data_obj.setTypeRef(this.type);
+				var.data_obj.setInit(true);
 				interpreter.getCrtFrm().getCrtEnv().addObj(var.name, var.data_obj);
 			}
 		}else{
@@ -67,8 +67,8 @@ public class AST_VarAssign extends AST {
 					var.data_obj=this.calc_exp.data_obj;
 				}		
 				if(this.type!=null)
-					var.data_obj.type_ref=this.type;
-				var.data_obj.hasInit=true;
+					var.data_obj.setTypeRef(this.type);
+				var.data_obj.setInit(true);
 				interpreter.getCrtFrm().getCrtEnv().addObj(var.name, var.data_obj);
 			}else{
 				switch(this.opt){//TODO

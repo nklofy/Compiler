@@ -103,33 +103,35 @@ public class AST_AddExp extends AST {
 			}
 			
 		}else if(opt.equals("++")){
-			if(var.data_obj.type_obj.type_base==Type_Base.t_int){
+			if(var.data_obj.getTypeObj().getTypeBase()==Type_Base.t_int){
 				this.base_type=Type_Base.t_int;
-				this.int_value=++var.data_obj.int_value;
+				this.int_value=var.data_obj.getIntV()+1;
+				var.data_obj.setIntV(this.int_value);
 				return true;
 			}else{
 				return false;				
 			}
 		}else if(opt.equals("--")){
-			if(var.data_obj.type_obj.type_base==Type_Base.t_int){
+			if(var.data_obj.getTypeObj().getTypeBase()==Type_Base.t_int){
 				this.base_type=Type_Base.t_int;
-				this.int_value=--var.data_obj.int_value;
+				this.int_value=var.data_obj.getIntV()-1;
+				var.data_obj.setIntV(this.int_value);
 				return true;
 			}else{
 				return false;				
 			}			
 		}else if(opt.equals("++T")){
-			if(var.data_obj.type_obj.type_base==Type_Base.t_int){
+			if(var.data_obj.getTypeObj().getTypeBase()==Type_Base.t_int){
 				this.base_type=Type_Base.t_int;
-				this.int_value=var.data_obj.int_value++;
+				this.int_value=var.data_obj.getIntV()+1;
 				return true;
 			}else{
 				return false;				
 			}			
 		}else if(opt.equals("--T")){
-			if(var.data_obj.type_obj.type_base==Type_Base.t_int){
+			if(var.data_obj.getTypeObj().getTypeBase()==Type_Base.t_int){
 				this.base_type=Type_Base.t_int;
-				this.int_value=var.data_obj.int_value--;
+				this.int_value=var.data_obj.getIntV()-1;
 				return true;
 			}else{
 				return false;				

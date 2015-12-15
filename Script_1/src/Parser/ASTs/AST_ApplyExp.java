@@ -47,9 +47,9 @@ public class AST_ApplyExp extends AST {
 				default:
 					break;
 				}
-			}else if(var.data_obj.type_obj.type_func!=null){		//var is func
+			}else if(var.data_obj.getTypeObj().getTypeFunc()!=null){		//var is func
 				if(this.data_obj==null){					
-					this.data_obj=var.data_obj.type_obj.type_func.data_func.run(interpreter, arg_list.getArgs());
+					this.data_obj=var.data_obj.getTypeObj().getTypeFunc().getDataFunc().run(interpreter, arg_list.getArgs());
 					interpreter.getCtrFlow().setFlow(RT_CtrFlow.Flow_State.s_go);
 				}else{
 					this.data_obj=this.data_obj.getFunc(var.name,arg_list.arg_types).run(interpreter, arg_list.getArgs());
@@ -63,23 +63,23 @@ public class AST_ApplyExp extends AST {
 		if(var!=null){
 			interpreter.interpret(var);
 			if(this.data_obj==null){					
-				if(var.data_obj.type_obj.type_base!=null){ 	//get var base type
-					this.base_type=var.data_obj.type_obj.type_base;	
+				if(var.data_obj.getTypeObj().getTypeBase()!=null){ 	//get var base type
+					this.base_type=var.data_obj.getTypeObj().getTypeBase();	
 					switch(this.base_type){
 					case t_int:
-						this.int_value=var.data_obj.int_value;
+						this.int_value=var.data_obj.getIntV();
 						break;
 					case t_double:
-						this.double_value=var.data_obj.double_value;
+						this.double_value=var.data_obj.getDoubleV();
 						break;
 					case t_bool:
-						this.bool_value=var.data_obj.bool_value;
+						this.bool_value=var.data_obj.getBoolV();
 						break;
 					case t_char:
-						this.char_value=var.data_obj.char_value;
+						this.char_value=var.data_obj.getCharV();
 						break;
 					case t_string:
-						this.string_value=var.data_obj.string_value;
+						this.string_value=var.data_obj.getStringV();
 						break;
 					default:
 						break;				

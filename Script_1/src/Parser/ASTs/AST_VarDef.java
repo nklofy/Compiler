@@ -35,7 +35,7 @@ public class AST_VarDef extends AST {
 		if(this.var!=null){
 			interpreter.interpret(this.var);
 			Data_Obj obj=new Data_Obj();
-			obj.type_obj=this.type;
+			obj.setTypeObj(this.type);
 			interpreter.getCrtFrm().getCrtEnv().addObj(var.name, obj);
 		}else
 			return false;
