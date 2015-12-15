@@ -2,6 +2,8 @@ package Parser.ASTs;
 
 import Interpreter.Interpreter;
 import Parser.AST;
+import Parser.TypeSys.Data_Obj;
+import Parser.TypeSys.Type_Base;
 
 public class AST_PriExp extends AST {
 	private AST_AddExp add_exp;

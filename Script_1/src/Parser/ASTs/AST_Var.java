@@ -2,6 +2,7 @@ package Parser.ASTs;
 
 import Interpreter.Interpreter;
 import Parser.AST;
+import Parser.TypeSys.Data_Obj;
 
 public class AST_Var extends AST {
 	String name;

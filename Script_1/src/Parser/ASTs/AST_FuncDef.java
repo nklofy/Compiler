@@ -4,6 +4,8 @@ import Interpreter.Interpreter;
 import Interpreter.RT_Env;
 import Interpreter.RT_Static;
 import Parser.AST;
+import Parser.TypeSys.Data_Func;
+import Parser.TypeSys.Type_Func;
 
 public class AST_FuncDef extends AST {
 	private AST_TypeExp type_exp;

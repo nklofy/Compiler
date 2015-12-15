@@ -2,6 +2,7 @@ package Parser.ASTs;
 
 import Interpreter.Interpreter;
 import Parser.AST;
+import Parser.TypeSys.Type_Base;
 
 public class AST_Num extends AST {
 	private String bf_type;

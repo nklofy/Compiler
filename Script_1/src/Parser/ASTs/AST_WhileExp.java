@@ -4,6 +4,7 @@ import Interpreter.Interpreter;
 import Interpreter.RT_CtrFlow;
 import Interpreter.RT_Frame;
 import Parser.AST;
+import Parser.TypeSys.Type_Base;
 
 public class AST_WhileExp extends AST {
 	private AST_BoolExp bool_exp;

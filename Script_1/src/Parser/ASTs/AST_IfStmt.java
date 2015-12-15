@@ -2,6 +2,7 @@ package Parser.ASTs;
 
 import Interpreter.Interpreter;
 import Parser.AST;
+import Parser.TypeSys.Type_Base;
 
 public class AST_IfStmt extends AST {
 	private AST_BoolExp bool_exp;

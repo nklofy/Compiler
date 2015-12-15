@@ -4,6 +4,8 @@ import java.util.*;
 
 import Interpreter.Interpreter;
 import Parser.AST;
+import Parser.TypeSys.Data_Obj;
+import Parser.TypeSys.Type_Base;
 import Interpreter.RT_CtrFlow;
 public class AST_ApplyExp extends AST {
 	private AST_ApplyExp apply_exp;
@@ -35,11 +37,11 @@ public class AST_ApplyExp extends AST {
 			if(var.data_obj==null){
 				switch(var.name){
 				case "print":
-					this.data_obj=Native_Func.runPrint(arg_list.getArgs());
+					this.data_obj=Native_Func.runPrint(interpreter, arg_list.getArgs().get(0));
 					interpreter.getCtrFlow().setFlow(RT_CtrFlow.Flow_State.s_go);
 					break;
 				case "scan":
-					this.data_obj=Native_Func.runScan();
+					this.data_obj=Native_Func.runScan(interpreter);
 					interpreter.getCtrFlow().setFlow(RT_CtrFlow.Flow_State.s_go);
 					break;
 				default:

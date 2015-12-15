@@ -2,6 +2,7 @@ package Parser.ASTs;
 
 import Interpreter.Interpreter;
 import Parser.AST;
+import Parser.TypeSys.Type_Stmt;
 
 public class AST_Stmt extends AST {
 	private Type_Stmt stmt_type;

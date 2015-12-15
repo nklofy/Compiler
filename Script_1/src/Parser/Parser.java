@@ -10,6 +10,8 @@ import LexAnalyzer.Token;
 import LexAnalyzer.Tokenizer;
 import Parser.AST.*;
 import Parser.ASTs.*;
+import Parser.TypeSys.Type_SgStmt;
+import Parser.TypeSys.Type_Stmt;
 
 public class Parser {
 	private Tokenizer tokenizer=new Tokenizer();

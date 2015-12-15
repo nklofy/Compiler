@@ -2,6 +2,8 @@
 package Parser;
 import java.util.*;
 import Parser.ASTs.*;
+import Parser.TypeSys.Type_SgStmt;
+import Parser.TypeSys.Type_Stmt;
 
 public class ASTGenerator {
 	AST astStmtList(AST stmtlist, AST stmt){

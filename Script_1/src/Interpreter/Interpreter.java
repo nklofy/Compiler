@@ -1,6 +1,7 @@
 package Interpreter;
 import Parser.*;
 import Parser.ASTs.*;
+import Parser.TypeSys.*;
 
 public class Interpreter {
 
@@ -19,12 +20,10 @@ public class Interpreter {
 		interpreter.env_global.crt_frm=interpreter.crt_frm;
 		interpreter.crt_frm.crt_env=interpreter.env_global;
 		interpreter.ctr_flow=new RT_CtrFlow();
-		//Type_Func f_prn=new Type_Func();
-		//interpreter.env_global.addFunc("print", f_prn);
-		//Type_Func f_gets=new Type_Func();
-		//interpreter.env_global.addFunc("gets", f_gets);
+		TypeSystem.initTypes(interpreter);
+		TypeSystem.initFuncs(interpreter);
 		interpreter.interpret((AST_StmtList) ast_tree);//TODO
-		parser.output("out_parser.txt");
+		//parser.output("out_interpret.txt");
 		
 	}	
 	private RT_Env env_global; 	//runtime, refs of global vars, global functions	
@@ -47,6 +46,7 @@ public class Interpreter {
 		this.crt_frm=crt_frame;
 		return true;
 	}
+	
 	
 	//eval ASTs
 	

@@ -2,6 +2,9 @@
 package Interpreter;
 import java.util.*;
 import Parser.ASTs.*;
+import Parser.TypeSys.Data_Obj;
+import Parser.TypeSys.Type_Func;
+import Parser.TypeSys.Type_Obj;
 
 public class RT_Env {
 	RT_Frame crt_frm;

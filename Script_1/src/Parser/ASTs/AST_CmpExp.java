@@ -2,6 +2,8 @@ package Parser.ASTs;
 
 import Interpreter.Interpreter;
 import Parser.AST;
+import Parser.TypeSys.Data_Obj;
+import Parser.TypeSys.Type_Base;
 
 public class AST_CmpExp extends AST {
 	private AST_BoolExp bool_exp;
