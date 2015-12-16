@@ -16,6 +16,7 @@ public class Interpreter {
 		AST ast_tree=parser.getAST();
 		Interpreter interpreter=new Interpreter();
 		interpreter.env_global=new RT_Env();
+		interpreter.env_static=new RT_Static();
 		interpreter.crt_frm=new RT_Frame();
 		interpreter.env_global.crt_frm=interpreter.crt_frm;
 		interpreter.crt_frm.crt_env=interpreter.env_global;

@@ -39,7 +39,6 @@ public class Parser {
 		parser.parse();
 		parser.output("out_parser.txt");
 		
-		//tokenizer.getToken();
 	}
 	public boolean analyzeGrm(String filename){ 	//read and analyze the grammar table and action table
 		Scanner in = null;
@@ -233,11 +232,11 @@ public class Parser {
 					}					
 				}//rule.parameters
 				rule.method=str_list.get(1);
-				rule.symbol_count=grammar_table.get(astRule_list.size()-1).symbol_count;
+/*				rule.symbol_count=grammar_table.get(astRule_list.size()-1).symbol_count;
 				for(int i=2;i<str_list.size();i++){
 					rule.parameters.add(Integer.parseInt(str_list.get(i).substring(1)));
 				}
-				//System.out.println(rule.method+" "+rule.symbol_count+" "+rule.parameters.get(0));
+				System.out.println(rule.method+" "+rule.symbol_count+" "+rule.parameters.get(0));*/
 				if(in.hasNext())
 					word=in.nextLine();
 				else
@@ -271,23 +270,32 @@ public class Parser {
 		Symbol symbol=new Symbol();
 		symbol.name="Goal";
 		symbol_stack.addFirst(symbol);
-
-		while(true){
-			String token_name="";
-			Symbol smb=new Symbol();
+		String token_name="";
+		Symbol smb=new Symbol();
+		while(true){			
 			if(gotNewToken){
+				smb=new Symbol();
 				smb.type=token.getType();
 				switch(smb.type){
 				case "int":
 					token_name="number";smb.name=token_name;
 					smb.num_value=token.getNumValue();
+					AST_Num tn_ast=new AST_Num();
+					tn_ast.setNum("int", smb.num_value);
+					smb.ast=tn_ast;
 					break;
 				case "double":
 					token_name="number";smb.name=token_name;
 					smb.num_value=token.getNumValue();
+					AST_Num td_ast=new AST_Num();
+					td_ast.setNum("double", smb.num_value);
+					smb.ast=td_ast;
 					break;
 				case "idn":
 					token_name="var";smb.name=token.getIdnName();
+					AST_Var tv_ast=new AST_Var();
+					tv_ast.setVar(smb.name);
+					smb.ast=tv_ast;
 					break;
 				case "res":
 					token_name=token.getResName();smb.name=token_name;
@@ -308,7 +316,7 @@ public class Parser {
 
 				state_stack.addFirst(crt_state);
 				symbol_stack.addFirst(smb);
-				//System.out.println("s "+crt_state+" "+token_name);
+				System.out.println("s "+crt_state+" "+token_name);
 				token=tokenizer.getToken();
 				gotNewToken=true;
 				continue;
@@ -324,7 +332,7 @@ public class Parser {
 				switch(method){
 				
 				case "crtGoal"://$0
-					
+					ast=ast_gen.astStmtList(symbol_stack.get(0).ast, null);
 					break;
 				case "lnkStmtLst"://$1 $0	
 					ast=ast_gen.astStmtList(symbol_stack.get(1).ast, symbol_stack.get(0).ast);
@@ -500,10 +508,10 @@ public class Parser {
 				case "crtCmpAdd":// $0		
 					ast=ast_gen.astCmpExp(null, symbol_stack.get(0).ast, null, null, 0);
 					break;
-				case "crtCmpTrue":// $2 $0	//TODO	
+				case "crtCmpTrue":// $2 $0	
 					ast=ast_gen.astCmpExp(null,  null,  null, null, 1);
 					break;	
-				case "crtCmpFalse":// $2 $0		//TODO
+				case "crtCmpFalse":// $2 $0		
 					ast=ast_gen.astCmpExp(null,  null,  null, null, -1);
 					break;	
 				case "crtAddExpAdd":// $2 $0		

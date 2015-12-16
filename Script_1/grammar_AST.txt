@@ -83,36 +83,36 @@
 81 arg_list e 
 
 //AST
-0 crtGoal $0				     
-1 lnkStmtLst $1 $0					 
-2 crtStmtLst $0                
-3 crtStmtVarDef $1 
-4 crtStmtFuncDef $0 
+0 crtGoal $0
+1 lnkStmtLst $1 $0
+2 crtStmtLst $0
+3 crtStmtVarDef $1
+4 crtStmtFuncDef $0
 5 crtStmtIfExp $0
 6 crtStmtWhlExp $0
 7 crtStmtSgStmt $1  
-8 crtSgControlFlow $0 
-9 crtSgVarAssign $0
-10 crtSgCalcExp $0 
+8 crtSgVarAssign $0 
+9 crtSgCalcExp $0 
+10 crtSgControlFlow $0
 11 crtCtrFlwRtn $0 
 12 crtCtrFlwCont $0 
 13 crtCtrFlwBrk $0 
 14 lnkVarDef $1 $0               
 15 crtVarDef $1 $0 
-16 lnkVarAsg $4 $2 $0	  
-17 crtVarAsgT $3 $2 $0    
-18 crtVarAsgC $2 $0       
-19 crtVarAsgAdd $2 $0		
-20 crtVarAsgSub $2 $0                      
-21 crtVarAsgMul $2 $0			
-22 crtVarAsgDiv $2 $0			
-23 crtTpExpInt $0         
-24 crtTpExpDb $0       
-25 crtTpExpBl $0		
-26 crtTpExpStr $0   
-27 crtTpExpChr $0   
-28 crtTpExpVar $0      
-29 crtFncDef $7 $6 $4 $1      
+16 lnkVarAsg $4 $2 $0
+17 crtVarAsgT $3 $2 $0
+18 crtVarAsgC $2 $0
+19 crtVarAsgAdd $2 $0
+20 crtVarAsgSub $2 $0
+21 crtVarAsgMul $2 $0
+22 crtVarAsgDiv $2 $0
+23 crtTpExpInt $0
+24 crtTpExpDb $0
+25 crtTpExpBl $0
+26 crtTpExpStr $0
+27 crtTpExpChr $0
+28 crtTpExpVar $0
+29 crtFncDef $7 $6 $4 $1  
 30 lnkParLst $2 $0       
 31 crtParLst $1 $0       
 32 crtParLstE           
