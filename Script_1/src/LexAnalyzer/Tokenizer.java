@@ -249,7 +249,7 @@ public class Tokenizer {
 					out.println(line);
 					break;
 				case t_res:
-					line="resserved :"+token.res_name;
+					line="reserved :"+token.res_name;
 					out.println(line);
 					break;
 				case t_opt:

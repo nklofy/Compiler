@@ -32,8 +32,6 @@ type type
 typedef typedef
 typename typename
 newtype newtype
-scan scan 
-print print 
 lambda lambda
 
 //operator

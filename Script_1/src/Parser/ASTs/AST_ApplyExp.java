@@ -26,7 +26,7 @@ public class AST_ApplyExp extends AST {
 	}
 	@Override
 	public boolean eval(Interpreter interpreter) {
-		Data_Obj obj;
+		Data_Obj obj=null;
 		if(apply_exp!=null){//not used currently
 			interpreter.interpret(apply_exp);
 			obj=apply_exp.data_obj;
@@ -36,8 +36,9 @@ public class AST_ApplyExp extends AST {
 			interpreter.interpret(arg_list);
 			if(var.data_obj==null){
 				switch(var.name){
-				case "print":
-					this.data_obj=Native_Func.runPrint(interpreter, arg_list.getArgs().get(0));
+				case "println":
+					Data_Obj o=arg_list.getArgs().get(0);
+					this.data_obj=Native_Func.runPrint(interpreter, o);
 					interpreter.getCtrFlow().setFlow(RT_CtrFlow.Flow_State.s_go);
 					break;
 				case "scan":
@@ -45,24 +46,24 @@ public class AST_ApplyExp extends AST {
 					interpreter.getCtrFlow().setFlow(RT_CtrFlow.Flow_State.s_go);
 					break;
 				default:
+					if(this.data_obj==null){					//function()
+						this.data_obj=var.getFunc(this.arg_list.arg_types).getDataFunc().run(interpreter, arg_list.getArgs());
+						interpreter.getCtrFlow().setFlow(RT_CtrFlow.Flow_State.s_go);
+					}else{										//obj.method()
+						this.data_obj=this.data_obj.getFunc(var.name,arg_list.arg_types).run(interpreter, arg_list.getArgs());
+						interpreter.getCtrFlow().setFlow(RT_CtrFlow.Flow_State.s_go);
+					}
 					break;
 				}
-			}else if(var.data_obj.getTypeObj().getTypeFunc()!=null){		//var is func
-				if(this.data_obj==null){					
-					this.data_obj=var.data_obj.getTypeObj().getTypeFunc().getDataFunc().run(interpreter, arg_list.getArgs());
-					interpreter.getCtrFlow().setFlow(RT_CtrFlow.Flow_State.s_go);
-				}else{
-					this.data_obj=this.data_obj.getFunc(var.name,arg_list.arg_types).run(interpreter, arg_list.getArgs());
-					interpreter.getCtrFlow().setFlow(RT_CtrFlow.Flow_State.s_go);
-				}
 			}else{
+				System.out.println("undefined function "+var.name);
 				return false;
 			}
 			return true;
 		}
 		if(var!=null){
 			interpreter.interpret(var);
-			if(this.data_obj==null){					
+			if(this.data_obj==null){				
 				if(var.data_obj.getTypeObj().getTypeBase()!=null){ 	//get var base type
 					this.base_type=var.data_obj.getTypeObj().getTypeBase();	
 					switch(this.base_type){

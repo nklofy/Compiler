@@ -6,7 +6,7 @@ import java.util.ArrayList;
 public class Type_Func {
 	private String func_name;
 	private Type_Obj return_type;
-	private ArrayList<Type_Obj> par_types;
+	private ArrayList<Type_Obj> par_types=new ArrayList<Type_Obj>();
 	private Data_Func data_func;
 	public String getFunc_name() {
 		return func_name;

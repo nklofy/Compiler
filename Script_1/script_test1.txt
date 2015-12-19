@@ -1,1 +1,7 @@
-int a = 1 ;
+int a=1;
+int b(int a){
+  return a*2+1 ;
+}
+println(a);
+int c =b(2);
+println(c);

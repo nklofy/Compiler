@@ -1,4 +1,6 @@
 package Interpreter;
+import java.util.*;
+
 import Parser.*;
 import Parser.ASTs.*;
 import Parser.TypeSys.*;
@@ -47,7 +49,6 @@ public class Interpreter {
 		this.crt_frm=crt_frame;
 		return true;
 	}
-	
 	
 	//eval ASTs
 	

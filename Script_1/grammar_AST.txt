@@ -14,9 +14,9 @@
 12 control_flow continue 
 13 control_flow break 
 14 var_def var_def , var 
-15 var_def type_exp var 
-16 var_assign var_assign , var = calc_exp 
-17 var_assign type_exp var = calc_exp 
+15 var_def var_def , var = calc_exp 
+16 var_def type_exp var 
+17 var_def type_exp var = calc_exp 
 18 var_assign var = calc_exp 
 19 var_assign var += calc_exp 
 20 var_assign var -= calc_exp 
@@ -42,45 +42,44 @@
 40 while_exp while ( bool_exp ) { stmt_list } 
 41 calc_exp bool_exp 
 42 calc_exp str_exp 
-43 str_exp str_exp + add_exp 
-44 str_exp add_exp + str_exp 
-45 str_exp str 
-46 str_exp chr 
-47 bool_exp bool_exp && cmp_exp 
-48 bool_exp bool_exp || cmp_exp 
-49 bool_exp ! cmp_exp 
-50 bool_exp cmp_exp 
-51 cmp_exp ( bool_exp ) 
-52 cmp_exp add_exp > add_exp 
-53 cmp_exp add_exp >= add_exp 
-54 cmp_exp add_exp < add_exp 
-55 cmp_exp add_exp <= add_exp 
-56 cmp_exp add_exp == add_exp 
-57 cmp_exp add_exp != add_exp 
-58 cmp_exp add_exp 
-59 cmp_exp true 
-60 cmp_exp false 
-61 add_exp add_exp + mul_exp 
-62 add_exp add_exp - mul_exp 
-63 add_exp - mul_exp 
-64 add_exp mul_exp 
-65 add_exp ++ var 
-66 add_exp -- var 
-67 add_exp var ++ 
-68 add_exp var -- 
-69 mul_exp mul_exp * pri_exp 
-70 mul_exp mul_exp / pri_exp 
-71 mul_exp pri_exp 
-72 pri_exp number 
-73 pri_exp ( add_exp ) 
-74 pri_exp apply_exp 
-75 apply_exp apply_exp . var ( arg_list ) 
-76 apply_exp apply_exp . var 
-77 apply_exp var ( arg_list ) 
-78 apply_exp var 
-79 arg_list arg_list , calc_exp 
-80 arg_list calc_exp 
-81 arg_list e 
+43 str_exp str 
+44 str_exp chr 
+45 bool_exp bool_exp && cmp_exp 
+46 bool_exp bool_exp || cmp_exp 
+47 bool_exp ! cmp_exp 
+48 bool_exp cmp_exp 
+49 cmp_exp ( bool_exp ) 
+50 cmp_exp add_exp > add_exp 
+51 cmp_exp add_exp >= add_exp 
+52 cmp_exp add_exp < add_exp 
+53 cmp_exp add_exp <= add_exp 
+54 cmp_exp add_exp == add_exp 
+55 cmp_exp add_exp != add_exp 
+56 cmp_exp add_exp 
+57 cmp_exp true 
+58 cmp_exp false 
+59 add_exp add_exp + mul_exp 
+60 add_exp add_exp - mul_exp 
+61 add_exp - mul_exp 
+62 add_exp mul_exp 
+63 add_exp ++ var 
+64 add_exp -- var 
+65 add_exp var ++ 
+66 add_exp var -- 
+67 mul_exp mul_exp * pri_exp 
+68 mul_exp mul_exp / pri_exp 
+69 mul_exp pri_exp 
+70 pri_exp number 
+71 pri_exp ( add_exp ) 
+72 pri_exp apply_exp 
+73 pri_exp str_exp 
+74 apply_exp apply_exp . var ( arg_list ) 
+75 apply_exp apply_exp . var 
+76 apply_exp var ( arg_list ) 
+77 apply_exp var 
+78 arg_list arg_list , calc_exp 
+79 arg_list calc_exp 
+80 arg_list e 
 
 //AST
 0 crtGoal $0
@@ -97,10 +96,10 @@
 11 crtCtrFlwRtn $0 
 12 crtCtrFlwCont $0 
 13 crtCtrFlwBrk $0 
-14 lnkVarDef $1 $0               
-15 crtVarDef $1 $0 
-16 lnkVarAsg $4 $2 $0
-17 crtVarAsgT $3 $2 $0
+14 lnkVarDef $2 $0               
+15 lnkVarDefC $4 $2 $0 
+16 crtVarDef $1 $0
+17 crtVarDefC $3 $2 $0
 18 crtVarAsgC $2 $0
 19 crtVarAsgAdd $2 $0
 20 crtVarAsgSub $2 $0
@@ -125,44 +124,43 @@
 39 crtElsStmtS $1       
 40 crtWhlExp $4 $1    
 41 crtCalcExpBl $0    
-42 crtCalcExpStr $0    
-43 crtStrSA $2 $0      
-44 crtStrAS $2 $0      
-45 crtStrS $0 
-46 crtStrC $0 
-47 crtBlExpAnd $2 $0           
-48 crtBlExpOr $2 $0			 
-49 crtBlExpN $0				 
-50 crtBlExpCmp $0				 
-51 crtCmpExpBl $1				 
-52 crtCmpExpL $2 $0				 
-53 crtCmpExpLE $2 $0			 
-54 crtCmpExpS $2 $0		 
-55 crtCmpExpSE $2 $0			 
-56 crtCmpExpE $2 $0			 
-57 crtCmpExpN $2 $0	
-58 crtCmpAdd $0	
-59 crtCmpExpTrue $0 
-60 crtCmpExpFalse $0
-61 crtAddExpAdd $2 $0		 
-62 crtAddExpSub $2 $0			 
-63 crtAddExpMns $0			 
-64 crtAddExpMul $0			 
-65 crtAddExpInc $0			 
-66 crtAddExpDec $0			 
-67 crtAddExpIncT $1			 
-68 crtAddExpDecT $1		 
-69 crtMulExpMul $2 $0		
-70 crtMulExpDiv $2 $0		
-71 crtMulExpPri $0		
-72 crtPriExpNum $0		
-73 crtPriExpAdd $1		
-74 crtPriExpApp $0	
-75 lnkAppExp $5 $3 $1		
-76 crtAppExpP $2 $0	
-77 crtAppExpF $3 $1			
-78 crtAppExpVar $0	
-79 lnkArgLst $2 $0	
-80 crtArgCalc $0	
-81 crtArgLstE
+42 crtCalcExpStr $0   
+43 crtStrS $0 
+44 crtStrC $0 
+45 crtBlExpAnd $2 $0           
+46 crtBlExpOr $2 $0			 
+47 crtBlExpN $0				 
+48 crtBlExpCmp $0				 
+49 crtCmpExpBl $1				 
+50 crtCmpExpL $2 $0				 
+51 crtCmpExpLE $2 $0			 
+52 crtCmpExpS $2 $0		 
+53 crtCmpExpSE $2 $0			 
+54 crtCmpExpE $2 $0			 
+55 crtCmpExpN $2 $0	
+56 crtCmpAdd $0	
+57 crtCmpExpTrue $0 
+58 crtCmpExpFalse $0
+59 crtAddExpAdd $2 $0		 
+60 crtAddExpSub $2 $0			 
+61 crtAddExpMns $0			 
+62 crtAddExpMul $0			 
+63 crtAddExpInc $0			 
+64 crtAddExpDec $0			 
+65 crtAddExpIncT $1			 
+66 crtAddExpDecT $1		 
+67 crtMulExpMul $2 $0		
+68 crtMulExpDiv $2 $0		
+69 crtMulExpPri $0		
+70 crtPriExpNum $0		
+71 crtPriExpAdd $1		
+72 crtPriExpApp $0	
+73 crtPriExpStr $0
+74 lnkAppExp $5 $3 $1		
+75 crtAppExpP $2 $0	
+76 crtAppExpF $3 $1			
+77 crtAppExpVar $0	
+78 lnkArgLst $2 $0	
+79 crtArgCalc $0	
+80 crtArgLstE
 //end

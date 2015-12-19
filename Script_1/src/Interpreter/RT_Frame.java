@@ -14,7 +14,7 @@ public class RT_Frame {
 	Data_Obj return_obj;
 	Data_Func crt_func;
 	AST_Stmt crt_ast;
-	ArrayList<Data_Obj> args=new ArrayList<Data_Obj>();
+	//ArrayList<Data_Obj> args=new ArrayList<Data_Obj>();
 	//HashMap<String,Data_Obj> tmp_vars;
 	public RT_Env getCrtEnv(){
 		return this.crt_env;
@@ -37,9 +37,9 @@ public class RT_Frame {
 		this.return_obj=return_obj;
 		return true;
 	}
-	public ArrayList<Data_Obj> getArgs(){
+/*	public ArrayList<Data_Obj> getArgs(){
 		return this.args;
-	}
+	}*/
 	public AST_Stmt getCrtAST(){
 		return this.crt_ast;
 	}

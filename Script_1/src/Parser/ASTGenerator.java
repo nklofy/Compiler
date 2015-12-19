@@ -75,18 +75,17 @@ public class ASTGenerator {
 		return ast;
 	}
 	
-	AST astVarDef(AST var_def, AST type_exp, AST var){
+	AST astVarDef(AST var_def, AST type_exp, AST var, AST calc_exp){
 		AST_VarDef ast=new AST_VarDef();
 		ast.setVarDef((AST_VarDef)var_def);
 		ast.setTypeExp((AST_TypeExp)type_exp);
 		ast.setVar((AST_Var)var);
+		ast.setCalcExp((AST_CalcExp)calc_exp);
 		return ast;
 	}
 	
-	AST astVarAssign(AST var_assign,AST type_exp, AST var, AST calc_exp, String opt){
+	AST astVarAssign(AST var, AST calc_exp, String opt){
 		AST_VarAssign ast=new AST_VarAssign();
-		ast.setVarAssign((AST_VarAssign)var_assign);
-		ast.setTypeExp((AST_TypeExp)type_exp);
 		ast.setVar((AST_Var)var);
 		ast.setCalcExp((AST_CalcExp)calc_exp);
 		ast.setOpt(opt);
@@ -156,9 +155,9 @@ public class ASTGenerator {
 		ast.setMulExp((AST_MulExp)mul_exp, opt, (AST_PriExp)pri_exp);
 		return ast;
 	}
-	AST astPriExp(AST add_exp, AST num, AST apply_exp){
+	AST astPriExp(AST add_exp, AST num, AST apply_exp, AST str_exp){
 		AST_PriExp ast=new AST_PriExp();
-		ast.setPriExp((AST_AddExp)add_exp, (AST_Num)num, (AST_ApplyExp)apply_exp);
+		ast.setPriExp((AST_AddExp)add_exp, (AST_Num)num, (AST_ApplyExp)apply_exp, (AST_StrExp)str_exp);
 		return ast;
 	}
 	AST astNum(String type, String buffer){
@@ -178,6 +177,7 @@ public class ASTGenerator {
 	}
 	AST astArgList(AST arg_list, AST var){
 		AST_ArgList ast=new AST_ArgList();
+		ast.setArgList((AST_ArgList)arg_list, (AST_CalcExp)var);
 		return ast;
 	}
 }

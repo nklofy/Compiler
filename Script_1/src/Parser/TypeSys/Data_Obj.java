@@ -12,7 +12,7 @@ public class Data_Obj {
 	private boolean bool_value;
 	private String string_value;
 	private char char_value;
-	private HashMap<String, Data_Obj> fields;
+	private HashMap<String, Data_Obj> fields=new HashMap<String, Data_Obj>();
 	public Type_Obj getTypeObj() {
 		return type_obj;
 	}
@@ -73,18 +73,18 @@ public class Data_Obj {
 	public void setFields(HashMap<String, Data_Obj> fields) {
 		this.fields = fields;
 	}
-	public Data_Obj getField(String var){
+	public Data_Obj getField(String var){//get obj field
 		return fields.get(var);
 	}
-	public Data_Func getFunc(String name, ArrayList<String> par_types){
+	public Data_Func getFunc(String name, ArrayList<Type_Obj> arg_types){//get obj method
 		Set<Integer>idx=this.type_obj.getFuncIdx().get(name);
 		for(int i:idx){
 			Type_Func f=this.type_obj.getFuncs().get(i);
-			if(par_types.size()!=f.getParTypes().size())
+			if(arg_types.size()!=f.getParTypes().size())
 				continue;
 			boolean hasFn=true;
-			for(int j=0;j<par_types.size();j++){
-				if(!f.getParTypes().get(j).getTypeName().equals(par_types.get(j))){
+			for(int j=0;j<arg_types.size();j++){
+				if(f.getParTypes().get(j)!=arg_types.get(j)){
 					hasFn=false;
 					break;
 				}else

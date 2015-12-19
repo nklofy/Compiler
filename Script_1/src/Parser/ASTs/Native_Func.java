@@ -16,10 +16,36 @@ public class Native_Func {
 		return obj;
 	}
 	static Data_Obj runPrint(Interpreter interpreter, Data_Obj arg){
-		String s=arg.getStringV();
-		System.out.println(s);
 		Data_Obj obj=new Data_Obj();
 		obj.setTypeObj(interpreter.getGlbEnv().getType("bool"));
+		Type_Obj t=arg.getTypeObj();
+		String s;
+		if(t.getTypeBase()!=null){
+			switch(t.getTypeBase()){
+			case t_int:
+				s=String.valueOf(arg.getIntV());
+				break;
+			case t_double:
+				s=String.valueOf(arg.getDoubleV());
+				break;
+			case t_string:
+				s=String.valueOf(arg.getStringV());
+				break;
+			case t_char:
+				s=String.valueOf(arg.getCharV());
+				break;
+			case t_bool:
+				s=String.valueOf(arg.getBoolV());
+				break;
+			default:
+				s="unknown";
+				break;
+			}
+		}else{			
+			obj.setBoolV(false);
+			return obj;
+		}
+		System.out.println(s);
 		obj.setBoolV(true);
 		return obj;
 	}

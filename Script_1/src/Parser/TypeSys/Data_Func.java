@@ -9,7 +9,7 @@ public class Data_Func {
 	private boolean isMethod;		//is obj's method
 	private Type_Obj class_type;		//obj as method caller
 	private Type_Func type_func;	
-	private ArrayList<String> par_list;
+	private ArrayList<String> par_list=new ArrayList<String>();
 	private AST_StmtList stmt_list;
 	public Data_Obj run(Interpreter interpreter, ArrayList<Data_Obj> arg_list){
 		RT_Frame crt_frm=interpreter.getCrtFrm();
@@ -19,7 +19,7 @@ public class Data_Func {
 		RT_Env new_env=new RT_Env();
 		new_frm.setCrtEnv(new_env);
 		for(int i=0;i<par_list.size();i++){
-			new_frm.getArgs().add(arg_list.get(i));
+			//new_frm.getArgs().add(arg_list.get(i));
 			new_env.addObj(par_list.get(i), arg_list.get(i));
 		}
 		interpreter.interpret(stmt_list);

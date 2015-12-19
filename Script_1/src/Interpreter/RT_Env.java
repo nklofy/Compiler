@@ -30,7 +30,7 @@ public class RT_Env {
 		return true;
 	}
 	public boolean addFunc(String name, Type_Func func){
-		if(funcs.get(name).isEmpty()){
+		if(!funcs.containsKey(name)){
 			funcs.put(name, new ArrayList<Type_Func>());
 		}
 		funcs.get(name).add(func);

@@ -9,6 +9,7 @@ public class AST_PriExp extends AST {
 	private AST_AddExp add_exp;
 	private AST_Num num;
 	private AST_ApplyExp apply_exp;
+	private AST_StrExp str_exp;
 	Type_Base base_type;
 	long int_value;
 	double double_value;
@@ -16,10 +17,11 @@ public class AST_PriExp extends AST {
 	char char_value;
 	String string_value;
 	Data_Obj data_obj;
-	public boolean setPriExp(AST_AddExp add_exp, AST_Num num, AST_ApplyExp apply_exp){
+	public boolean setPriExp(AST_AddExp add_exp, AST_Num num, AST_ApplyExp apply_exp, AST_StrExp str_exp){
 		this.add_exp=add_exp;
 		this.num=num;
 		this.apply_exp=apply_exp;
+		this.str_exp=str_exp;
 		return true;
 	}
 	@Override
@@ -87,6 +89,10 @@ public class AST_PriExp extends AST {
 			}else if(apply_exp.data_obj!=null){
 				this.data_obj=new Data_Obj(apply_exp.data_obj);
 			}	
+			return true;
+		}else if(this.str_exp!=null){
+			interpreter.interpret(str_exp);
+			this.base_type=Type_Base.t_string;
 			return true;
 		}
 		return false;

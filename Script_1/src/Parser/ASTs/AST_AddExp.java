@@ -26,7 +26,8 @@ public class AST_AddExp extends AST {
 	}
 	@Override
 	public boolean eval(Interpreter interpreter) {
-		interpreter.interpret(mul_exp);
+		if(this.mul_exp!=null)
+			interpreter.interpret(mul_exp);
 		if(this.add_exp!=null)
 			interpreter.interpret(add_exp);
 		if(this.var!=null)

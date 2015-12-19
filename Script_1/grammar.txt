@@ -5,7 +5,7 @@ var_assign calc_exp type_exp par_list if_stmt else_stmt bool_exp str_exp
 add_exp cmp_exp mul_exp pri_exp apply_exp arg_list
 
 //tokens
-if else while return break continue int double bool true false string char number var str chr
+if else while return break continue int double bool true false string char number var str chr 
 || && ! > >= < <= == != + - ++ -- * / += -= *= /= = 
 e ( ) { } , . ; eof 
 
@@ -18,7 +18,7 @@ stmt_list |>
 >| stmt 
 
 stmt |> 
-   var_def ; 
+   var_def ;
 >| func_def  
 >| if_exp 
 >| while_exp 
@@ -36,16 +36,16 @@ control_flow |>
 
 var_def |>
    var_def , var 
->| type_exp var 
+>| var_def , var = calc_exp
+>| type_exp var
+>| type_exp var = calc_exp
 
 var_assign |>
-   var_assign , var = calc_exp 
->| type_exp var = calc_exp 
->| var = calc_exp 
->| var += calc_exp 
->| var -= calc_exp 
->| var *= calc_exp 
->| var /= calc_exp 
+   var = calc_exp
+>| var += calc_exp
+>| var -= calc_exp
+>| var *= calc_exp
+>| var /= calc_exp
 
 type_exp |>
    int
@@ -84,9 +84,7 @@ calc_exp |>
 >| str_exp 
 
 str_exp |> 
-   str_exp + add_exp 
->| add_exp + str_exp 
->| str 
+   str 
 >| chr 
 
 bool_exp |> 
@@ -126,6 +124,7 @@ pri_exp |>
    number 
 >| ( add_exp ) 
 >| apply_exp 
+>| str_exp 
 
 apply_exp |> 
    apply_exp . var ( arg_list ) 

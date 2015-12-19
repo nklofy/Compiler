@@ -3,14 +3,14 @@ package Parser.TypeSys;
 
 import java.util.*;
 
-public class Type_Obj {
+public class Type_Obj {	
 	private String type_name;
 	private Type_Base type_base;
 	private Type_Func type_func;
 	//class type
-	private HashMap<String, Type_Obj> fields;
-	private ArrayList<Type_Func> funcs;		//refactoring in future
-	private HashMap<String,HashSet<Integer>> func_idx;	//need new method to search or match correct function
+	private HashMap<String, Type_Obj> fields=new HashMap<String, Type_Obj>();
+	private ArrayList<Type_Func> funcs=new ArrayList<Type_Func>();		//refactoring in future
+	private HashMap<String,HashSet<Integer>> func_idx=new HashMap<String,HashSet<Integer>>();	//need new method to search or match correct function
 	public String getTypeName() {
 		return type_name;
 	}

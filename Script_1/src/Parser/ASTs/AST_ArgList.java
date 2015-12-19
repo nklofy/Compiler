@@ -5,11 +5,12 @@ import java.util.ArrayList;
 import Interpreter.Interpreter;
 import Parser.AST;
 import Parser.TypeSys.Data_Obj;
+import Parser.TypeSys.Type_Obj;
 
 public class AST_ArgList extends AST {
 	private AST_ArgList arg_list;
 	private AST_CalcExp calc_exp;
-	ArrayList<String> arg_types=new ArrayList<String>();
+	ArrayList<Type_Obj> arg_types=new ArrayList<Type_Obj>();
 	ArrayList<Data_Obj> args=new ArrayList<Data_Obj>();
 	public boolean setArgList(AST_ArgList arg_list, AST_CalcExp calc_exp){
 		this.arg_list=arg_list;
@@ -21,14 +22,19 @@ public class AST_ArgList extends AST {
 		if(this.arg_list!=null){
 			interpreter.interpret(this.arg_list);
 			this.args.addAll(arg_list.getArgs());
+			this.arg_types.addAll(arg_list.getTypes());
 		}
 		if(this.calc_exp!=null){
 			interpreter.interpret(this.calc_exp);
 			this.args.add(calc_exp.data_obj);
+			this.arg_types.add(calc_exp.data_obj.getTypeObj());
 		}
 		return false;
 	}
 	ArrayList<Data_Obj> getArgs(){
 		return this.args;
+	}
+	ArrayList<Type_Obj> getTypes(){
+		return this.arg_types;
 	}
 }

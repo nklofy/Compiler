@@ -1,10 +1,11 @@
 package Parser.ASTs;
 
 import Interpreter.Interpreter;
-import Interpreter.RT_Env;
+import Interpreter.*;
 import Interpreter.RT_Static;
-import Parser.AST;
-import Parser.TypeSys.Data_Func;
+import Parser.*;
+import Parser.TypeSys.*;
+import Parser.TypeSys.Data_Obj;
 import Parser.TypeSys.Type_Func;
 
 public class AST_FuncDef extends AST {

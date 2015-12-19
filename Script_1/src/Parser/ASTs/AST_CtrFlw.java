@@ -23,10 +23,10 @@ public class AST_CtrFlw extends AST {
 		switch(flw_type){
 		case "return":
 			interpreter.interpret(this.calc_exp);
-			if(this.calc_exp.base_type!=null)
-				interpreter.getCrtFrm().setRtnObj(this.calc_exp.boxObj());
-			else
+			if(this.calc_exp.data_obj!=null)
 				interpreter.getCrtFrm().setRtnObj(this.calc_exp.data_obj);
+			else
+				interpreter.getCrtFrm().setRtnObj(this.calc_exp.boxObj());
 			interpreter.getCtrFlow().setFlow(RT_CtrFlow.Flow_State.s_return);
 			break;
 		case "break":

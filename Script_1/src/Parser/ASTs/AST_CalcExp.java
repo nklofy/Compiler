@@ -24,28 +24,36 @@ public class AST_CalcExp extends AST {
 	@Override
 	public boolean eval(Interpreter interpreter) {
 		if(this.bool_exp!=null){
-			interpreter.interpret(this.bool_exp);
+			interpreter.interpret(this.bool_exp);			
 			if(this.bool_exp.base_type!=null){
 				this.base_type=this.bool_exp.base_type;
+				Type_Obj t = null;
 				switch(bool_exp.base_type){
 				case t_int:
 					this.int_value=bool_exp.int_value;
+					t=interpreter.getGlbEnv().getType("int");
 					break;
 				case t_double:
 					this.double_value=bool_exp.double_value;
+					t=interpreter.getGlbEnv().getType("double");
 					break;
 				case t_bool:
 					this.bool_value=bool_exp.bool_value;
+					t=interpreter.getGlbEnv().getType("bool");
 					break;
 				case t_char:
 					this.char_value=bool_exp.char_value;
+					t=interpreter.getGlbEnv().getType("char");
 					break;
 				case t_string:
 					this.string_value=bool_exp.string_value;
+					t=interpreter.getGlbEnv().getType("string");
 					break;
 				default:
 					break;	
 				}
+				this.data_obj=boxObj();
+				this.data_obj.setTypeObj(t);
 			}else if(this.bool_exp.data_obj!=null){
 				this.data_obj=new Data_Obj(this.bool_exp.data_obj);
 			}else
@@ -57,8 +65,6 @@ public class AST_CalcExp extends AST {
 	}
 	public Data_Obj boxObj(){
 		Data_Obj obj=new Data_Obj();
-		obj.setTypeObj(new Type_Obj());
-		obj.getTypeObj().setTypeBase(this.base_type);
 		switch(this.base_type){
 		case t_int:
 			obj.setIntV(this.int_value);
