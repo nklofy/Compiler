@@ -25,7 +25,7 @@ public class AST_CalcExp extends AST {
 	public boolean eval(Interpreter interpreter) {
 		if(this.bool_exp!=null){
 			interpreter.interpret(this.bool_exp);			
-			if(this.bool_exp.base_type!=null){
+			if(this.bool_exp.base_type!=null&&this.bool_exp.data_obj==null){
 				this.base_type=this.bool_exp.base_type;
 				Type_Obj t = null;
 				switch(bool_exp.base_type){
@@ -54,8 +54,10 @@ public class AST_CalcExp extends AST {
 				}
 				this.data_obj=boxObj();
 				this.data_obj.setTypeObj(t);
+				return true;
 			}else if(this.bool_exp.data_obj!=null){
 				this.data_obj=new Data_Obj(this.bool_exp.data_obj);
+				return true;
 			}else
 				return false;
 		}else if(str_exp!=null){

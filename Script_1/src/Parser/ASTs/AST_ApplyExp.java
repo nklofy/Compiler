@@ -18,6 +18,7 @@ public class AST_ApplyExp extends AST {
 	char char_value;
 	String string_value;
 	Data_Obj data_obj;
+	Data_Obj in_obj;
 	public boolean setApplyExp(AST_ApplyExp apply_exp, AST_Var var, AST_ArgList arg_list){
 		this.apply_exp=apply_exp;
 		this.var=var;
@@ -29,7 +30,7 @@ public class AST_ApplyExp extends AST {
 		Data_Obj obj=null;
 		if(apply_exp!=null){//not used currently
 			interpreter.interpret(apply_exp);
-			obj=apply_exp.data_obj;
+			this.in_obj=apply_exp.data_obj;
 		}
 		if(arg_list!=null){//function apply
 			interpreter.interpret(var);
@@ -46,15 +47,17 @@ public class AST_ApplyExp extends AST {
 					interpreter.getCtrFlow().setFlow(RT_CtrFlow.Flow_State.s_go);
 					break;
 				default:
-					if(this.data_obj==null){					//function()
+					if(this.in_obj==null){					//function()
 						this.data_obj=var.getFunc(this.arg_list.arg_types).getDataFunc().run(interpreter, arg_list.getArgs());
 						interpreter.getCtrFlow().setFlow(RT_CtrFlow.Flow_State.s_go);
 					}else{										//obj.method()
-						this.data_obj=this.data_obj.getFunc(var.name,arg_list.arg_types).run(interpreter, arg_list.getArgs());
+						this.data_obj=this.in_obj.getFunc(var.name,arg_list.arg_types).run(interpreter, arg_list.getArgs());
 						interpreter.getCtrFlow().setFlow(RT_CtrFlow.Flow_State.s_go);
 					}
 					break;
 				}
+			arg_list.args.clear();
+			arg_list.arg_types.clear();
 			}else{
 				System.out.println("undefined function "+var.name);
 				return false;
@@ -89,8 +92,8 @@ public class AST_ApplyExp extends AST {
 					this.data_obj=new Data_Obj(var.data_obj);
 				}
 				return true;
-			}else{// data_obj exists
-				this.data_obj=this.data_obj.getField(var.name);
+			}else{// in_obj exists
+				this.data_obj=this.in_obj.getField(var.name);
 			}
 			return true;
 		}		

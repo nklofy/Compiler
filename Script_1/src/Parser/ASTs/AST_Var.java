@@ -56,10 +56,10 @@ public class AST_Var extends AST {
 			obj=interpreter.getStcEnv().getObj(this.name);
 		}
 		if(obj!=null){
-			this.data_obj= new Data_Obj(obj);
+			this.data_obj= obj;
 			return true;
 		}else{
-			System.out.println("not in env "+this.name);
+			System.out.println("var not in env "+this.name);
 			return false;
 		}		
 	}

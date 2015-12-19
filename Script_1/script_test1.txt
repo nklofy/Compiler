@@ -1,7 +1,12 @@
-int a=1;
+int a=5;
 int b(int a){
-  return a*2+1 ;
+ int c=0;
+ while(a>0){
+ c=a+c;
+ a=a-1;
+ println(a);
+ }
+ return c;
 }
-println(a);
-int c =b(2);
+int c=b(a);
 println(c);
