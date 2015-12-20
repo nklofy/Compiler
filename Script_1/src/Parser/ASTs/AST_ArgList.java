@@ -23,6 +23,8 @@ public class AST_ArgList extends AST {
 			interpreter.interpret(this.arg_list);
 			this.args.addAll(arg_list.getArgs());
 			this.arg_types.addAll(arg_list.getTypes());
+			arg_list.args.clear();
+			arg_list.arg_types.clear();
 		}
 		if(this.calc_exp!=null){
 			interpreter.interpret(this.calc_exp);

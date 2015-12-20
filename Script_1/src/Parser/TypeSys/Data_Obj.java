@@ -2,11 +2,10 @@
 package Parser.TypeSys;
 import java.util.*;
 public class Data_Obj {
-	private Type_Obj type_obj;		//real type
-	
+	private Type_Obj type_obj;		//real type	
 	private Type_Obj type_ref;		//ref pointer's type
 	private boolean hasInit=false;
-	private String var_name;
+	//private String var_name;
 	private long int_value;
 	private double double_value;
 	private boolean bool_value;
@@ -24,18 +23,12 @@ public class Data_Obj {
 	}
 	public void setTypeRef(Type_Obj type_ref) {
 		this.type_ref = type_ref;
-	}
-	public boolean hasInit() {
+	}	
+	public boolean isInit() {
 		return hasInit;
 	}
 	public void setInit(boolean hasInit) {
 		this.hasInit = hasInit;
-	}
-	public String getVarName() {
-		return var_name;
-	}
-	public void setVarName(String var_name) {
-		this.var_name = var_name;
 	}
 	public long getIntV() {
 		return int_value;
@@ -135,7 +128,8 @@ public class Data_Obj {
 		}
 		if(obj.type_ref!=null)
 			this.type_ref=obj.type_ref;
-		this.var_name=obj.var_name;
+		//this.var_name=obj.var_name;
 		return true;
 	}
+	
 }

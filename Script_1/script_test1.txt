@@ -1,12 +1,11 @@
-int a=5;
+int a;
+a=5;
 int b(int a){
- int c=0;
- while(a>0){
- c=a+c;
- a=a-1;
+ if(a==0)
+  return 0;
  println(a);
- }
- return c;
+ return (b(a-1)+a);
+ println(a);
 }
 int c=b(a);
 println(c);

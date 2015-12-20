@@ -8,6 +8,7 @@ import Parser.TypeSys.*;
 
 public class AST_Var extends AST {
 	String name;
+	Type_Idn idn_type;
 	Data_Obj data_obj;
 	ArrayList<Type_Func> funcs=new ArrayList<Type_Func>();
 	//Object obj_value; 
@@ -15,7 +16,7 @@ public class AST_Var extends AST {
 		this.name=name;
 		return true;
 	}
-	public Type_Func getFunc(ArrayList<Type_Obj> par_types){
+	public Data_Func getFunc(ArrayList<Type_Obj> par_types){
 		for(Type_Func f :funcs){
 			if(f.getParTypes().size()!=par_types.size()){
 				continue;
@@ -31,8 +32,9 @@ public class AST_Var extends AST {
 					break;
 			}
 			if(hasF)
-				return f;			
+				return f.getDataFunc();			
 		}
+		System.out.println("error unknown function "+this.name);
 		return null;
 	}
 	@Override
@@ -46,6 +48,7 @@ public class AST_Var extends AST {
 		}
 		if(fs!=null){
 			this.funcs=fs;
+			this.idn_type=Type_Idn.t_func;
 			return true;
 		}
 		Data_Obj obj=interpreter.getCrtFrm().getCrtEnv().getObj(this.name);
@@ -56,10 +59,12 @@ public class AST_Var extends AST {
 			obj=interpreter.getStcEnv().getObj(this.name);
 		}
 		if(obj!=null){
+			//System.out.println(this.name+" "+obj.getIntV());
 			this.data_obj= obj;
+			this.idn_type=Type_Idn.t_obj;
 			return true;
 		}else{
-			System.out.println("var not in env "+this.name);
+			//System.out.println("new var "+this.name);
 			return false;
 		}		
 	}

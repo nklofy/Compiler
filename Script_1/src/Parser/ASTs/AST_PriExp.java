@@ -34,67 +34,60 @@ public class AST_PriExp extends AST {
 			}else if(num.type==Type_Base.t_double){
 				this.double_value=num.double_value;
 			}
+			this.data_obj=boxObj(interpreter);
 			return true;
 		}else if(add_exp!=null){
 			interpreter.interpret(add_exp);
-			if(add_exp.base_type!=null){
-				this.base_type=add_exp.base_type;
-				switch(add_exp.base_type){
-				case t_int:
-					this.int_value=add_exp.int_value;
-					break;
-				case t_double:
-					this.double_value=add_exp.double_value;
-					break;
-				case t_bool:
-					this.bool_value=add_exp.bool_value;
-					break;
-				case t_char:
-					this.char_value=add_exp.char_value;
-					break;
-				case t_string:
-					this.string_value=add_exp.string_value;
-					break;
-				default:
-					break;	
-				}
-			}else if(add_exp.data_obj!=null){
-				this.data_obj=new Data_Obj(add_exp.data_obj);
-			}else
+			if(add_exp.data_obj!=null){
+				this.data_obj=add_exp.data_obj;
+			}else{
+				System.out.println("error PriExp eval AddExp with null value");
 				return false;
+			}
 			return true;
 		}else if(apply_exp!=null){
 			interpreter.interpret(apply_exp);
-			if(apply_exp.base_type!=null){
-				this.base_type=apply_exp.base_type;
-				switch(apply_exp.base_type){
-				case t_int:
-					this.int_value=apply_exp.int_value;
-					break;
-				case t_double:
-					this.double_value=apply_exp.double_value;
-					break;
-				case t_bool:
-					this.bool_value=apply_exp.bool_value;
-					break;
-				case t_char:
-					this.char_value=apply_exp.char_value;
-					break;
-				case t_string:
-					this.string_value=apply_exp.string_value;
-					break;
-				default:
-					break;	
-				} 
-			}else if(apply_exp.data_obj!=null){
-				this.data_obj=new Data_Obj(apply_exp.data_obj);
+			if(apply_exp.data_obj!=null){
+				this.data_obj=apply_exp.data_obj;				
+			}else{
+				System.out.println("error PriExp eval AppExp with null value");
+				return false;
 			}	
 			return true;
 		}else if(this.str_exp!=null){
 			interpreter.interpret(str_exp);
 			this.base_type=Type_Base.t_string;
+			this.data_obj=boxObj(interpreter);
 			return true;
 		}
-		return false;
+		return false;	
+	}
+	private Data_Obj boxObj(Interpreter interpreter){
+		Data_Obj obj=new Data_Obj();
+		switch(this.base_type){
+		case t_int:
+			obj.setTypeObj(interpreter.getGlbEnv().getType("int"));
+			obj.setIntV(this.int_value);
+			break;
+		case t_double:
+			obj.setTypeObj(interpreter.getGlbEnv().getType("double"));
+			obj.setDoubleV(this.double_value);
+			break;
+		case t_bool:
+			obj.setTypeObj(interpreter.getGlbEnv().getType("bool"));
+			obj.setBoolV(this.bool_value);
+			break;
+		case t_char:
+			obj.setTypeObj(interpreter.getGlbEnv().getType("char"));
+			obj.setCharV(this.char_value);
+			break;
+		case t_string:
+			obj.setTypeObj(interpreter.getGlbEnv().getType("string"));
+			obj.setStringV(this.string_value);
+			break;
+		default:
+			break;	
+		}
+		return obj;
 	}
 }

@@ -3,7 +3,10 @@
 package Parser;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.PrintWriter;
 import java.util.*;
 
 import LexAnalyzer.Token;
@@ -37,7 +40,7 @@ public class Parser {
 		parser.analyzeLex("out_lexAnalyzer.txt");	System.out.println("analyzeLex out_lexAnalyzer.txt");
 		parser.input("script_test1.txt");	
 		parser.parse();
-		parser.output("out_parser.txt");
+		parser.output("out_parser.txt");		System.out.println("output out_parser.txt");
 		
 	}
 	public boolean analyzeGrm(String filename){ 	//read and analyze the grammar table and action table
@@ -316,7 +319,7 @@ public class Parser {
 
 				state_stack.addFirst(crt_state);
 				symbol_stack.addFirst(smb);
-				System.out.println("s "+crt_state+" "+token_name);
+				//System.out.println("s "+crt_state+" "+token_name);
 				token=tokenizer.getToken();
 				gotNewToken=true;
 				continue;
@@ -544,7 +547,7 @@ public class Parser {
 					ast=ast_gen.astPriExp(null, symbol_stack.get(0).ast, null, null);
 					break;	
 				case "crtPriExpAdd":// $1	
-					ast=ast_gen.astPriExp(symbol_stack.get(0).ast, null, null, null);
+					ast=ast_gen.astPriExp(symbol_stack.get(1).ast, null, null, null);
 					break;	
 				case "crtPriExpApp":// $0	
 					ast=ast_gen.astPriExp(null, null,  symbol_stack.get(0).ast, null);
@@ -577,7 +580,7 @@ public class Parser {
 					break;
 				}
 				reduce_smb.ast=ast;
-				System.out.println("create ast: "+ ast.getClass().getName());
+				//System.out.println("create ast: "+ ast.getClass().getName());
 				int ct=grammar_table.get(reduce_grammar).symbol_count;
 				for(int i=0;i<ct;i++){
 					state_stack.remove();	
@@ -587,21 +590,30 @@ public class Parser {
 				crt_state=goto_table.get(crt_state).get(symbol_sn.get(reduce_head));
 				state_stack.addFirst(crt_state);
 				symbol_stack.addFirst(reduce_smb);
-				System.out.println("r "+reduce_grammar+" g "+crt_state+" "+token_name);
+				//System.out.println("r "+reduce_grammar+" g "+crt_state+" "+token_name);
 				if(reduce_grammar==0 && token_name.equals("eof")){//TODO
-					System.out.println("eof");
+					System.out.println("eof, "+"finished parsing");
 					ast_tree=ast;
 					return true;				
 				}
 			}else{
-				//System.out.println("error parser state "+token_name+crt_state);
+				System.out.println("error parser state "+token_name+crt_state);
 				return false;
 			}			
 		}
 	}
 	
 	public boolean output(String filename){
-		
+		PrintWriter out=null;
+		String line="";
+		try {
+			out=new PrintWriter(new BufferedWriter(new FileWriter(filename)));
+			//TODO ouput IR
+		} catch (Exception e) {			
+			e.printStackTrace();
+		}finally{
+			out.close();
+		}
 		return false;
 	}
 }

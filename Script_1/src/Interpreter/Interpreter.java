@@ -14,7 +14,7 @@ public class Interpreter {
 		parser.analyzeAST("grammar_AST.txt");	System.out.println("analyzeAST grammar_AST.txt");
 		parser.analyzeLex("out_lexAnalyzer.txt");	System.out.println("analyzeLex out_lexAnalyzer.txt");
 		parser.input("script_test1.txt");	
-		parser.parse();
+		parser.parse();							System.out.println("finished parsing");
 		AST ast_tree=parser.getAST();
 		Interpreter interpreter=new Interpreter();
 		interpreter.env_global=new RT_Env();
@@ -24,7 +24,7 @@ public class Interpreter {
 		interpreter.crt_frm.crt_env=interpreter.env_global;
 		interpreter.ctr_flow=new RT_CtrFlow();
 		TypeSystem.initTypes(interpreter);
-		TypeSystem.initFuncs(interpreter);
+		TypeSystem.initFuncs(interpreter);				System.out.println("evaluation results:");
 		interpreter.interpret((AST_StmtList) ast_tree);//TODO
 		//parser.output("out_interpret.txt");
 		

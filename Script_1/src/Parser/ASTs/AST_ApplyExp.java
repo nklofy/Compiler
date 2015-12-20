@@ -2,21 +2,14 @@ package Parser.ASTs;
 
 import java.util.*;
 
-import Interpreter.Interpreter;
-import Parser.AST;
-import Parser.TypeSys.Data_Obj;
-import Parser.TypeSys.Type_Base;
+import Interpreter.*;
+import Parser.*;
+import Parser.TypeSys.*;
 import Interpreter.RT_CtrFlow;
 public class AST_ApplyExp extends AST {
 	private AST_ApplyExp apply_exp;
 	private AST_Var var;
-	private AST_ArgList arg_list;
-	Type_Base base_type;
-	long int_value;
-	double double_value;
-	boolean bool_value;
-	char char_value;
-	String string_value;
+	private AST_ArgList arg_list;	
 	Data_Obj data_obj;
 	Data_Obj in_obj;
 	public boolean setApplyExp(AST_ApplyExp apply_exp, AST_Var var, AST_ArgList arg_list){
@@ -40,24 +33,24 @@ public class AST_ApplyExp extends AST {
 				case "println":
 					Data_Obj o=arg_list.getArgs().get(0);
 					this.data_obj=Native_Func.runPrint(interpreter, o);
-					interpreter.getCtrFlow().setFlow(RT_CtrFlow.Flow_State.s_go);
+					this.arg_list.arg_types.clear();
+					this.arg_list.args.clear();
 					break;
 				case "scan":
-					this.data_obj=Native_Func.runScan(interpreter);
-					interpreter.getCtrFlow().setFlow(RT_CtrFlow.Flow_State.s_go);
+					this.data_obj=Native_Func.runScan(interpreter);	
 					break;
 				default:
 					if(this.in_obj==null){					//function()
-						this.data_obj=var.getFunc(this.arg_list.arg_types).getDataFunc().run(interpreter, arg_list.getArgs());
-						interpreter.getCtrFlow().setFlow(RT_CtrFlow.Flow_State.s_go);
+						Data_Func f=var.getFunc(this.arg_list.arg_types);
+						this.arg_list.arg_types.clear();
+						this.data_obj=f.run(interpreter, arg_list.getArgs());		
 					}else{										//obj.method()
-						this.data_obj=this.in_obj.getFunc(var.name,arg_list.arg_types).run(interpreter, arg_list.getArgs());
-						interpreter.getCtrFlow().setFlow(RT_CtrFlow.Flow_State.s_go);
+						Data_Func f=this.in_obj.getFunc(var.name,arg_list.arg_types);
+						this.arg_list.arg_types.clear();
+						this.data_obj=f.run(interpreter, arg_list.getArgs());
 					}
 					break;
 				}
-			arg_list.args.clear();
-			arg_list.arg_types.clear();
 			}else{
 				System.out.println("undefined function "+var.name);
 				return false;
@@ -66,37 +59,20 @@ public class AST_ApplyExp extends AST {
 		}
 		if(var!=null){
 			interpreter.interpret(var);
-			if(this.data_obj==null){				
-				if(var.data_obj.getTypeObj().getTypeBase()!=null){ 	//get var base type
-					this.base_type=var.data_obj.getTypeObj().getTypeBase();	
-					switch(this.base_type){
-					case t_int:
-						this.int_value=var.data_obj.getIntV();
-						break;
-					case t_double:
-						this.double_value=var.data_obj.getDoubleV();
-						break;
-					case t_bool:
-						this.bool_value=var.data_obj.getBoolV();
-						break;
-					case t_char:
-						this.char_value=var.data_obj.getCharV();
-						break;
-					case t_string:
-						this.string_value=var.data_obj.getStringV();
-						break;
-					default:
-						break;				
-					}
+			if(this.in_obj==null){
+				if(var.data_obj==null){
+					System.out.println("error null var");
+					return false;
 				}else{// get var object
-					this.data_obj=new Data_Obj(var.data_obj);
-				}
+					this.data_obj=var.data_obj;					
+				}				
 				return true;
 			}else{// in_obj exists
-				this.data_obj=this.in_obj.getField(var.name);
+				this.data_obj=this.in_obj.getField(var.name);				
+				return true;
 			}
-			return true;
 		}		
 		return false;
 	}
+	
 }

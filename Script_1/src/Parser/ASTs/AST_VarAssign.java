@@ -1,8 +1,8 @@
 package Parser.ASTs;
 
-import Interpreter.Interpreter;
-import Parser.AST;
-import Parser.TypeSys.Type_Obj;
+import Interpreter.*;
+import Parser.*;
+import Parser.TypeSys.*;
 
 public class AST_VarAssign extends AST {
 	private AST_Var var;
@@ -27,11 +27,12 @@ public class AST_VarAssign extends AST {
 		interpreter.interpret(this.calc_exp);
 		if(this.opt.equals("=")){
 			if(this.calc_exp.data_obj==null){
-				this.var.data_obj=this.calc_exp.boxObj();
+				System.out.println("error VarAssign eval CalcExp null value");
+				return false;
 			}else{
-				this.var.data_obj=this.calc_exp.data_obj;
+				this.var.data_obj=new Data_Obj(this.calc_exp.data_obj);
 			}
-			this.var.data_obj.setInit(true);
+			//this.var.data_obj.setInit(true);
 			interpreter.getCrtFrm().getCrtEnv().addObj(var.name, var.data_obj);
 		}else{
 			switch(this.opt){//TODO

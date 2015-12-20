@@ -18,11 +18,15 @@ public class AST_IfStmt extends AST {
 	@Override
 	public boolean eval(Interpreter interpreter) {
 		interpreter.interpret(this.bool_exp);
-		if(bool_exp.base_type==null)
-			return false;		
-		else if(bool_exp.base_type!=Type_Base.t_bool)
+		if(bool_exp.data_obj.getTypeObj().getTypeBase()==null){
+			System.out.println("error IfStmt eval boolExp type");
 			return false;
-		boolean cond=this.bool_exp.bool_value; 
+		}					
+		else if(bool_exp.data_obj.getTypeObj().getTypeBase()!=Type_Base.t_bool){
+			System.out.println("error IfStmt eval boolExp type");
+			return false;
+		}					
+		boolean cond=this.bool_exp.data_obj.getBoolV(); 
 		if(cond){
 			this.cond_value=true;
 			if(this.stmt_list!=null){

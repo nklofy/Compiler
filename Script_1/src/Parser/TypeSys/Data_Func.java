@@ -11,6 +11,7 @@ public class Data_Func {
 	private Type_Func type_func;	
 	private ArrayList<String> par_list=new ArrayList<String>();
 	private AST_StmtList stmt_list;
+	
 	public Data_Obj run(Interpreter interpreter, ArrayList<Data_Obj> arg_list){
 		RT_Frame crt_frm=interpreter.getCrtFrm();
 		RT_Frame new_frm=new RT_Frame();
@@ -22,9 +23,14 @@ public class Data_Func {
 			//new_frm.getArgs().add(arg_list.get(i));
 			new_env.addObj(par_list.get(i), arg_list.get(i));
 		}
+		arg_list.clear();
 		interpreter.interpret(stmt_list);
-		return new_frm.getRtnObj();
+		Data_Obj o=new_frm.getRtnObj();
+		interpreter.setCrtFrm(new_frm.getRtnFrm());
+		interpreter.getCtrFlow().setFlow(RT_CtrFlow.Flow_State.s_go);
+		return o;
 	}
+	
 	public boolean isMethod() {
 		return isMethod;
 	}
