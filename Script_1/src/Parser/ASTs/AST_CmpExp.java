@@ -22,6 +22,9 @@ public class AST_CmpExp extends AST {
 	}
 	@Override
 	public boolean eval(Interpreter interpreter) {
+		Data_Obj obj_bl=null;
+		Data_Obj obj_a1=null;
+		Data_Obj obj_a2=null;
 		if(this.bl_value==1){
 			this.data_obj=new Data_Obj();
 			this.data_obj.setTypeObj(interpreter.getGlbEnv().getType("bool"));
@@ -32,43 +35,47 @@ public class AST_CmpExp extends AST {
 			this.data_obj.setBoolV(false);
 		}else if(this.bool_exp!=null){
 			interpreter.interpret(this.bool_exp);
+			obj_bl=new Data_Obj(this.bool_exp.data_obj);
 			if(this.bool_exp.data_obj!=null){
-				this.data_obj=this.bool_exp.data_obj;
+				this.data_obj=obj_bl;
 			}else{
 				System.out.println("error CmpExp eval BoolExp null value");
 				return false;
 			}
 		}else if(this.opt!=null && this.add_exp1!=null && this.add_exp2!=null){
 			interpreter.interpret(this.add_exp1);
+			obj_a1=new Data_Obj(this.add_exp1.data_obj);
 			interpreter.interpret(this.add_exp2);
+			obj_a2=new Data_Obj(this.add_exp2.data_obj);
 			this.data_obj=new Data_Obj();
 			this.data_obj.setTypeObj(interpreter.getGlbEnv().getType("bool"));
 			switch(this.opt){
 			case "<":				
-				this.data_obj.setBoolV((add_exp1.data_obj.getIntV()+add_exp1.data_obj.getDoubleV())<(add_exp2.data_obj.getIntV()+add_exp2.data_obj.getDoubleV()));
+				this.data_obj.setBoolV((obj_a1.getIntV()+obj_a1.getDoubleV())<(obj_a2.getIntV()+obj_a2.getDoubleV()));
 				break;
 			case ">":
-				this.data_obj.setBoolV((add_exp1.data_obj.getIntV()+add_exp1.data_obj.getDoubleV())>(add_exp2.data_obj.getIntV()+add_exp2.data_obj.getDoubleV()));
+				this.data_obj.setBoolV((obj_a1.getIntV()+obj_a1.getDoubleV())>(obj_a2.getIntV()+obj_a2.getDoubleV()));
 				break;
 			case "<=":
-				this.data_obj.setBoolV((add_exp1.data_obj.getIntV()+add_exp1.data_obj.getDoubleV())<=(add_exp2.data_obj.getIntV()+add_exp2.data_obj.getDoubleV()));
+				this.data_obj.setBoolV((obj_a1.getIntV()+obj_a1.getDoubleV())<=(obj_a2.getIntV()+obj_a2.getDoubleV()));
 				break;
 			case ">=":
-				this.data_obj.setBoolV((add_exp1.data_obj.getIntV()+add_exp1.data_obj.getDoubleV())>=(add_exp2.data_obj.getIntV()+add_exp2.data_obj.getDoubleV()));
+				this.data_obj.setBoolV((obj_a1.getIntV()+obj_a1.getDoubleV())>=(obj_a2.getIntV()+obj_a2.getDoubleV()));
 				break;
 			case "==":
-				this.data_obj.setBoolV((add_exp1.data_obj.getIntV()+add_exp1.data_obj.getDoubleV())==(add_exp2.data_obj.getIntV()+add_exp2.data_obj.getDoubleV()));
+				this.data_obj.setBoolV((obj_a1.getIntV()+obj_a1.getDoubleV())==(obj_a2.getIntV()+obj_a2.getDoubleV()));
 				break;
 			case "!=":
-				this.data_obj.setBoolV((add_exp1.data_obj.getIntV()+add_exp1.data_obj.getDoubleV())!=(add_exp2.data_obj.getIntV()+add_exp2.data_obj.getDoubleV()));
+				this.data_obj.setBoolV((obj_a1.getIntV()+obj_a1.getDoubleV())!=(obj_a2.getIntV()+obj_a2.getDoubleV()));
 				break;
 			default:
 				break;
 			}
 		}else if(this.add_exp1!=null && this.add_exp2 == null){
 			interpreter.interpret(this.add_exp1);
-			if(add_exp1.data_obj!=null){
-				this.data_obj=add_exp1.data_obj;
+			obj_a1=new Data_Obj(this.add_exp1.data_obj);
+			if(this.add_exp1.data_obj!=null){
+				this.data_obj=obj_a1;
 			}else{
 				System.out.println("error CmpExp eval AddExp1 null value");
 				return false;

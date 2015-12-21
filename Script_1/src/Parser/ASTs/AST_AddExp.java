@@ -20,15 +20,24 @@ public class AST_AddExp extends AST {
 	}
 	@Override
 	public boolean eval(Interpreter interpreter) {
-		if(this.mul_exp!=null)
-			interpreter.interpret(mul_exp);
-		if(this.add_exp!=null)
+		Data_Obj obj=null;
+		Data_Obj obj_add=null;
+		Data_Obj obj_mul=null;
+		Data_Obj obj_var=null;
+		if(this.add_exp!=null){
 			interpreter.interpret(add_exp);
+			obj_add=new Data_Obj(add_exp.data_obj);
+		}
+		if(this.mul_exp!=null){		
+			interpreter.interpret(mul_exp);
+			obj_mul=new Data_Obj(mul_exp.data_obj);
+		}
 		if(this.var!=null)
 			interpreter.interpret(var);
+		
 		if(opt==null){
-			if(mul_exp.data_obj!=null){
-				this.data_obj=mul_exp.data_obj;
+			if(obj_mul!=null){
+				this.data_obj=obj_mul;
 			}else{
 				System.out.println("error AddExp eval MulExp with null value");
 				return false;
@@ -36,7 +45,7 @@ public class AST_AddExp extends AST {
 			return true;
 		}else if(opt.equals("-")){
 			if(this.add_exp==null){
-				this.data_obj=new Data_Obj(this.mul_exp.data_obj);
+				this.data_obj=obj_mul;
 				if(this.data_obj.getTypeObj().getTypeBase()==null){
 					System.out.println("error MddExp eval -MulExp type");
 					return false;
@@ -53,44 +62,44 @@ public class AST_AddExp extends AST {
 				}
 			}else{
 				this.data_obj=new Data_Obj();
-				if(add_exp.data_obj.getTypeObj().getTypeBase()==Type_Base.t_int&&mul_exp.data_obj.getTypeObj().getTypeBase()==Type_Base.t_int){
+				if(obj_add.getTypeObj().getTypeBase()==Type_Base.t_int&&obj_mul.getTypeObj().getTypeBase()==Type_Base.t_int){
 					this.data_obj.setTypeObj(interpreter.getGlbEnv().getType("int"));
-					this.data_obj.setIntV(add_exp.data_obj.getIntV()-mul_exp.data_obj.getIntV());
+					this.data_obj.setIntV(obj_add.getIntV()-obj_mul.getIntV());
 				}
-				else if(add_exp.data_obj.getTypeObj().getTypeBase()==Type_Base.t_double&&mul_exp.data_obj.getTypeObj().getTypeBase()==Type_Base.t_double){
+				else if(obj_add.getTypeObj().getTypeBase()==Type_Base.t_double&&obj_mul.getTypeObj().getTypeBase()==Type_Base.t_double){
 					this.data_obj.setTypeObj(interpreter.getGlbEnv().getType("double"));
-					this.data_obj.setDoubleV(add_exp.data_obj.getDoubleV()-mul_exp.data_obj.getDoubleV());
+					this.data_obj.setDoubleV(obj_add.getDoubleV()-obj_mul.getDoubleV());
 				}
-				else if(add_exp.data_obj.getTypeObj().getTypeBase()==Type_Base.t_double&&mul_exp.data_obj.getTypeObj().getTypeBase()==Type_Base.t_int){
+				else if(obj_add.getTypeObj().getTypeBase()==Type_Base.t_double&&obj_mul.getTypeObj().getTypeBase()==Type_Base.t_int){
 					this.data_obj.setTypeObj(interpreter.getGlbEnv().getType("double"));
-					this.data_obj.setDoubleV(add_exp.data_obj.getDoubleV()-mul_exp.data_obj.getIntV());
+					this.data_obj.setDoubleV(obj_add.getDoubleV()-obj_mul.getIntV());
 				}
-				else if(add_exp.data_obj.getTypeObj().getTypeBase()==Type_Base.t_int&&mul_exp.data_obj.getTypeObj().getTypeBase()==Type_Base.t_double){
+				else if(obj_add.getTypeObj().getTypeBase()==Type_Base.t_int&&obj_mul.getTypeObj().getTypeBase()==Type_Base.t_double){
 					this.data_obj.setTypeObj(interpreter.getGlbEnv().getType("double"));
-					this.data_obj.setDoubleV(add_exp.data_obj.getIntV()-mul_exp.data_obj.getDoubleV());
+					this.data_obj.setDoubleV(obj_add.getIntV()-obj_mul.getDoubleV());
 				}
-			}
+			}			
 			return true;
 		}else if(opt.equals("+")){
 			this.data_obj=new Data_Obj();
-			if(add_exp.data_obj.getTypeObj().getTypeBase()==Type_Base.t_int&&mul_exp.data_obj.getTypeObj().getTypeBase()==Type_Base.t_int){
+			if(obj_add.getTypeObj().getTypeBase()==Type_Base.t_int&&obj_mul.getTypeObj().getTypeBase()==Type_Base.t_int){
 				this.data_obj.setTypeObj(interpreter.getGlbEnv().getType("int"));
-				this.data_obj.setIntV(add_exp.data_obj.getIntV()+mul_exp.data_obj.getIntV());
+				this.data_obj.setIntV(obj_add.getIntV()+obj_mul.getIntV());
 			}
-			else if(add_exp.data_obj.getTypeObj().getTypeBase()==Type_Base.t_double&&mul_exp.data_obj.getTypeObj().getTypeBase()==Type_Base.t_double){
+			else if(obj_add.getTypeObj().getTypeBase()==Type_Base.t_double&&obj_mul.getTypeObj().getTypeBase()==Type_Base.t_double){
 				this.data_obj.setTypeObj(interpreter.getGlbEnv().getType("double"));
-				this.data_obj.setDoubleV(add_exp.data_obj.getDoubleV()+mul_exp.data_obj.getDoubleV());
+				this.data_obj.setDoubleV(obj_add.getDoubleV()+obj_mul.getDoubleV());
 			}
-			else if(add_exp.data_obj.getTypeObj().getTypeBase()==Type_Base.t_double&&mul_exp.data_obj.getTypeObj().getTypeBase()==Type_Base.t_int){
+			else if(obj_add.getTypeObj().getTypeBase()==Type_Base.t_double&&obj_mul.getTypeObj().getTypeBase()==Type_Base.t_int){
 				this.data_obj.setTypeObj(interpreter.getGlbEnv().getType("double"));
-				this.data_obj.setDoubleV(add_exp.data_obj.getDoubleV()+mul_exp.data_obj.getIntV());
+				this.data_obj.setDoubleV(obj_add.getDoubleV()+obj_mul.getIntV());
 			}
-			else if(add_exp.data_obj.getTypeObj().getTypeBase()==Type_Base.t_int&&mul_exp.data_obj.getTypeObj().getTypeBase()==Type_Base.t_double){
+			else if(obj_add.getTypeObj().getTypeBase()==Type_Base.t_int&&obj_mul.getTypeObj().getTypeBase()==Type_Base.t_double){
 				this.data_obj.setTypeObj(interpreter.getGlbEnv().getType("double"));
-				this.data_obj.setDoubleV(add_exp.data_obj.getIntV()+mul_exp.data_obj.getDoubleV());
+				this.data_obj.setDoubleV(obj_add.getIntV()+obj_mul.getDoubleV());
 			}
 			
-		}else if(opt.equals("++")){
+		}else if(opt.equals("++")){			
 			if(var.data_obj.getTypeObj().getTypeBase()!=Type_Base.t_int){
 				System.out.println("error AddExp eval Var type");
 				return false;
@@ -132,4 +141,5 @@ public class AST_AddExp extends AST {
 		}
 		return false;
 	}
+	
 }

@@ -20,13 +20,14 @@ public class AST_CalcExp extends AST {
 		if(this.bool_exp!=null){
 			interpreter.interpret(this.bool_exp);			
 			if(this.bool_exp.data_obj!=null){
-				this.data_obj=this.bool_exp.data_obj;
+				this.data_obj=new Data_Obj(this.bool_exp.data_obj);
 				return true;
 			}else
 				System.out.println("error CalcExp eval BoolExp with null value");
 				return false;
 		}else if(str_exp!=null){
-			//TODO
+			//TODO 
+			return true;
 		}
 		System.out.println("CalcExp eval error of null nodes");
 		return false;

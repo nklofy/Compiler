@@ -2,6 +2,7 @@ package Parser.ASTs;
 
 import Interpreter.Interpreter;
 import Parser.AST;
+import Parser.TypeSys.Data_Obj;
 import Interpreter.RT_CtrFlow;
 
 public class AST_CtrFlw extends AST {
@@ -20,10 +21,11 @@ public class AST_CtrFlw extends AST {
 	}
 	@Override
 	public boolean eval(Interpreter interpreter) {
-		switch(flw_type){
-		case "return":
+		if(this.calc_exp!=null)
 			interpreter.interpret(this.calc_exp);
-			interpreter.getCrtFrm().setRtnObj(this.calc_exp.data_obj);			
+		switch(flw_type){
+		case "return":			
+			interpreter.getCrtFrm().setRtnObj(new Data_Obj(this.calc_exp.data_obj));			
 			interpreter.getCtrFlow().setFlow(RT_CtrFlow.Flow_State.s_return);
 			break;
 		case "break":

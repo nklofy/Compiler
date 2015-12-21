@@ -24,6 +24,7 @@ public class AST_VarAssign extends AST {
 	@Override
 	public boolean eval(Interpreter interpreter) {	
 		interpreter.interpret(this.var);
+		String name_v=var.name;
 		interpreter.interpret(this.calc_exp);
 		if(this.opt.equals("=")){
 			if(this.calc_exp.data_obj==null){
@@ -33,7 +34,7 @@ public class AST_VarAssign extends AST {
 				this.var.data_obj=new Data_Obj(this.calc_exp.data_obj);
 			}
 			//this.var.data_obj.setInit(true);
-			interpreter.getCrtFrm().getCrtEnv().addObj(var.name, var.data_obj);
+			interpreter.getCrtFrm().getCrtEnv().addObj(name_v, var.data_obj);
 		}else{
 			switch(this.opt){//TODO
 			case "+=":

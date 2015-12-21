@@ -1,6 +1,8 @@
 package Parser;
 import java.util.*;
+
 import Interpreter.*;
+import Parser.TypeSys.Data_Obj;
 
 class AstRule{
 	AstRule(){}
@@ -31,4 +33,8 @@ class Grammar{
 
 public abstract class AST {
 	public abstract boolean eval(Interpreter interpreter);
+	public Data_Obj getV(Interpreter interpreter){
+		Data_Obj obj=interpreter.getCrtFrm().getCrtEnv().getTmpV(this);
+		return obj;
+	}
 }

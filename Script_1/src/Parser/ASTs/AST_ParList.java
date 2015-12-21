@@ -24,6 +24,8 @@ public class AST_ParList extends AST {
 			interpreter.interpret(this.par_list);
 			this.par_names.addAll(this.par_list.par_names);
 			this.par_types.addAll(this.par_list.par_types);
+			this.par_list.par_names.clear();
+			this.par_list.par_types.clear();
 		}
 		if(this.var!=null && this.type_exp!=null){
 			interpreter.interpret(this.var);

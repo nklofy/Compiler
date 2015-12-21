@@ -24,7 +24,7 @@ public class AST_Num extends AST {
 			type=Type_Base.t_double;
 			double_value=Double.parseDouble(buffer);
 		}
-		return false;
+		return true;
 	}
 
 }

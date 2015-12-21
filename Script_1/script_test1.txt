@@ -1,11 +1,11 @@
 int a;
 a=5;
 int b(int a){
- if(a==0)
-  return 0;
- println(a);
- return (b(a-1)+a);
- println(a);
+println(a);
+ if(a==1)
+  return 1; 
+ int c= b(a-1)*a;
+ return c; 
 }
 int c=b(a);
 println(c);

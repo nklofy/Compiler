@@ -39,7 +39,7 @@ public class AST_PriExp extends AST {
 		}else if(add_exp!=null){
 			interpreter.interpret(add_exp);
 			if(add_exp.data_obj!=null){
-				this.data_obj=add_exp.data_obj;
+				this.data_obj=new Data_Obj(add_exp.data_obj);
 			}else{
 				System.out.println("error PriExp eval AddExp with null value");
 				return false;
@@ -48,7 +48,7 @@ public class AST_PriExp extends AST {
 		}else if(apply_exp!=null){
 			interpreter.interpret(apply_exp);
 			if(apply_exp.data_obj!=null){
-				this.data_obj=apply_exp.data_obj;				
+				this.data_obj=new Data_Obj(apply_exp.data_obj);				
 			}else{
 				System.out.println("error PriExp eval AppExp with null value");
 				return false;

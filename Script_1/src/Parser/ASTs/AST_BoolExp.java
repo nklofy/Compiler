@@ -18,38 +18,45 @@ public class AST_BoolExp extends AST {
 	}
 	@Override
 	public boolean eval(Interpreter interpreter) {
-		if(this.cmp_exp!=null)
+		Data_Obj obj_bl=null;
+		Data_Obj obj_cmp=null;
+		if(this.bool_exp!=null){
+			interpreter.interpret(this.bool_exp);
+			obj_bl=new Data_Obj(this.bool_exp.data_obj);
+		}
+		if(this.cmp_exp!=null){
 			interpreter.interpret(this.cmp_exp);
+			obj_cmp=new Data_Obj(this.cmp_exp.data_obj);
+		}
 		if(this.opt==null){
 			if(this.cmp_exp.data_obj!=null){
-				this.data_obj=this.cmp_exp.data_obj;
+				this.data_obj=obj_cmp;
 			}else{
 				System.out.println("error BoolExp eval CmpExp with null value");
 				return false;
 				}			
 		}else if(this.bool_exp!=null){
-			interpreter.interpret(this.bool_exp);
 			this.data_obj=new Data_Obj();
 			this.data_obj.setTypeObj(interpreter.getGlbEnv().getType("bool"));
 			switch(this.opt){
 			case "&&":
-				this.data_obj.setBoolV(this.bool_exp.data_obj.getBoolV() && this.cmp_exp.data_obj.getBoolV());
+				this.data_obj.setBoolV(obj_bl.getBoolV() && obj_cmp.getBoolV());
 				break;
 			case "||":
-				this.data_obj.setBoolV(this.bool_exp.data_obj.getBoolV() || this.cmp_exp.data_obj.getBoolV());
+				this.data_obj.setBoolV(obj_bl.getBoolV() || obj_cmp.getBoolV());
 				break;
 				default:
 					break;
 			}
 		}
 		else if(this.opt=="!"){
-			if(this.cmp_exp.data_obj.getTypeObj().getTypeBase()!=Type_Base.t_bool){
+			if(obj_cmp.getTypeObj().getTypeBase()!=Type_Base.t_bool){
 				System.out.println("error BoolExp eval !CmpExp type");
 				return false;
 			}
 			else{
-				this.data_obj=new Data_Obj(this.cmp_exp.data_obj);
-				this.data_obj.setBoolV(!this.cmp_exp.data_obj.getBoolV());
+				this.data_obj=obj_cmp;
+				this.data_obj.setBoolV(!obj_cmp.getBoolV());
 			}
 		}else{
 			System.out.println("error BoolExp eval null nodes");

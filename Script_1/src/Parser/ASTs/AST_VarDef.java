@@ -42,11 +42,10 @@ public class AST_VarDef extends AST {
 			interpreter.interpret(this.var);
 			if(this.calc_exp!=null){
 				interpreter.interpret(this.calc_exp);
-				this.var.data_obj=this.calc_exp.data_obj;				
+				this.var.data_obj=new Data_Obj(this.calc_exp.data_obj);				
 				this.var.data_obj.setInit(true);
-				Data_Obj obj=this.var.data_obj;
-				obj.setTypeObj(this.type);
-				interpreter.getCrtFrm().getCrtEnv().addObj(var.name, obj);
+				this.var.data_obj.setTypeObj(this.type);
+				interpreter.getCrtFrm().getCrtEnv().addObj(var.name, this.var.data_obj);
 			}else{
 				Data_Obj obj=new Data_Obj();
 				interpreter.getCrtFrm().getCrtEnv().addObj(var.name, obj);

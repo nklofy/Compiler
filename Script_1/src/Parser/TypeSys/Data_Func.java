@@ -2,6 +2,7 @@
 package Parser.TypeSys;
 
 import java.util.ArrayList;
+
 import Interpreter.*;
 import Parser.ASTs.AST_StmtList;
 
@@ -20,15 +21,16 @@ public class Data_Func {
 		RT_Env new_env=new RT_Env();
 		new_frm.setCrtEnv(new_env);
 		for(int i=0;i<par_list.size();i++){
-			//new_frm.getArgs().add(arg_list.get(i));
-			new_env.addObj(par_list.get(i), arg_list.get(i));
+			Data_Obj o=new Data_Obj(arg_list.get(i));
+			new_env.addObj(par_list.get(i), o);
 		}
+		
 		arg_list.clear();
 		interpreter.interpret(stmt_list);
 		Data_Obj o=new_frm.getRtnObj();
-		interpreter.setCrtFrm(new_frm.getRtnFrm());
+		interpreter.setCrtFrm(crt_frm);
 		interpreter.getCtrFlow().setFlow(RT_CtrFlow.Flow_State.s_go);
-		return o;
+		return new Data_Obj(o);
 	}
 	
 	public boolean isMethod() {

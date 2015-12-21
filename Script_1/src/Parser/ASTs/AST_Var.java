@@ -60,7 +60,7 @@ public class AST_Var extends AST {
 		}
 		if(obj!=null){
 			//System.out.println(this.name+" "+obj.getIntV());
-			this.data_obj= obj;
+			this.data_obj= new Data_Obj(obj);
 			this.idn_type=Type_Idn.t_obj;
 			return true;
 		}else{
