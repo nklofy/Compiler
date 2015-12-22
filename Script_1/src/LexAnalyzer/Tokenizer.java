@@ -125,7 +125,16 @@ public class Tokenizer {
 	private int index_pre=0;
 	private int index_crt=0;
 	
-	public Token getToken(){		
+	String buffer="";
+	String pattern="";
+	char chr;
+	int state=1;
+	boolean is_inToken=false;
+	boolean is_inNote=false;
+	
+	public Token getToken(){	
+		is_inToken=false;
+		state=1;
 		if(buffered_line==null){
 			if(!in.hasNextLine()){
 				in.close();
@@ -136,11 +145,6 @@ public class Tokenizer {
 				index_crt=0;
 			}
 		}		
-		String buffer="";
-		String pattern="";
-		char chr;
-		int state=1;
-		boolean is_inToken=false;
 		while(index_crt<buffered_line.length()){
 			chr=buffered_line.charAt(index_crt++);
 			if(chr==' '|| chr=='	'){
@@ -151,7 +155,17 @@ public class Tokenizer {
 					index_pre=index_crt;
 					continue;
 				}
+			}//TODO
+			if(getNote()){
+				Token token=Token.create(pattern, buffer);
+				return token;
 			}
+			if(getString()){
+				return Token.create(pattern, buffer);
+			}
+			if(getChar()){
+				return Token.create(pattern, buffer);
+			}//TODO
 			if(!transfer_table.get(state).keySet().contains(chr)){
 				if(state!=1){		//for example, int oprator 
 					index_crt--;
@@ -166,7 +180,7 @@ public class Tokenizer {
 			is_inToken=true;
 		}//while(index_crt<buffered_line.length())
 		if(state==1){
-			if(index_crt>=buffered_line.length()){
+			if(index_crt>=buffered_line.length()){//empty line
 				buffered_line=null;	
 				index_pre=0;
 				index_crt=0;
@@ -194,7 +208,7 @@ public class Tokenizer {
 			}
 			index_pre=index_crt;			
 		}else{
-			System.out.println("unkown token "+buffered_line.substring(index_pre,index_crt)+" in "+buffered_line); //TODO
+			System.out.println("unkown token "+buffered_line.substring(index_pre,index_crt)+" in "+buffered_line); 
 		}
 		if(index_crt>=buffered_line.length()){
 			buffered_line=null;			
@@ -203,6 +217,105 @@ public class Tokenizer {
 			
 		return token;		
 	}
+	private boolean getNote(){//TODO
+		if(is_inNote){
+			while(index_crt<buffered_line.length()){
+				chr=buffered_line.charAt(index_crt++);
+				if(chr=='*'){
+					if(index_crt>=buffered_line.length()){
+						buffer=buffered_line.substring(index_pre, index_crt);pattern="note";
+						buffered_line=null;
+						return true;
+					}
+					chr=buffered_line.charAt(index_crt++);
+					if(chr=='/'){
+						buffer=buffered_line.substring(index_pre,index_crt);pattern="note";
+						if(index_crt>=buffered_line.length()){
+							buffered_line=null;
+						}
+						is_inNote=false;
+						index_pre=index_crt;
+						return true;
+					}
+				}
+			}
+			buffer=buffered_line;pattern="note";
+			buffered_line=null;
+			return true;
+		}
+		if(chr=='/'){ // find "//" or "/*"
+			if(index_crt>=buffered_line.length()){
+				return false;
+			}
+			chr=buffered_line.charAt(index_crt++);
+			if(chr=='/'){
+				buffer=buffered_line.substring(index_crt-2, buffered_line.length());pattern="note";
+				buffered_line=null;
+				return true;
+			}else if(chr=='*'){
+				while(index_crt<buffered_line.length()){
+					chr=buffered_line.charAt(index_crt++);
+					if(chr=='*'){
+						if(index_crt>=buffered_line.length()){
+							buffer=buffered_line.substring(index_pre, index_crt);pattern="note";
+							buffered_line=null;
+							return true;
+						}
+						chr=buffered_line.charAt(index_crt++);
+						if(chr=='/'){
+							buffer=buffered_line.substring(index_pre,index_crt);pattern="note";
+							if(index_crt>=buffered_line.length()){
+								buffered_line=null;
+							}
+							is_inNote=false;
+							index_pre=index_crt;
+							return true;
+						}
+					}
+				}
+				buffer=buffered_line.substring(index_pre, buffered_line.length());pattern="note";
+				is_inNote=true;
+			}else{
+				index_crt--;
+				chr='/';
+				return false;
+			}	
+		}else if(chr=='*'){
+			if(index_crt>=buffered_line.length()){
+				return false;
+			}
+			chr=buffered_line.charAt(index_crt++);
+			if(chr=='/'){
+				buffer=buffered_line.substring(index_pre,index_crt);pattern="note";
+				if(index_crt>=buffered_line.length()){
+					buffered_line=null;
+				}
+				index_pre=index_crt;
+				return true;
+			}else{
+				return false;
+			}
+		}
+		else{
+			return false;
+		}
+		pattern="note";
+		if(index_crt>=buffered_line.length()){
+			buffered_line=null;
+		}
+		return true;
+	}
+	private boolean getString(){
+		
+		//pattern="string";
+		return false;
+	}
+	private boolean getChar(){
+		
+		//pattern="char";
+		return false;
+	}
+	
 	private LinkedList<Token> all_tokens;
 	private boolean input(String filename){		
 		setScanFile(filename);
@@ -254,6 +367,18 @@ public class Tokenizer {
 					break;
 				case t_opt:
 					line="oprator :"+token.opt_name;
+					out.println(line);
+					break;
+				case t_note:
+					line="note :"+token.note_value;
+					out.println(line);
+					break;
+				case t_str:
+					line="string :"+token.str_value;
+					out.println(line);
+					break;
+				case t_chr:
+					line="char :"+token.chr_value;
 					out.println(line);
 					break;
 				default:

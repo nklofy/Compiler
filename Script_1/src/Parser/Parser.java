@@ -306,6 +306,13 @@ public class Parser {
 				case "opt":
 					token_name=token.getOptName();smb.name=token_name;
 					break;
+				case "note":
+					//TODO
+					break;
+				case "string":
+					break;
+				case "char":
+					break;
 				default:
 					return false;
 				}
@@ -591,7 +598,7 @@ public class Parser {
 				state_stack.addFirst(crt_state);
 				symbol_stack.addFirst(reduce_smb);
 				//System.out.println("r "+reduce_grammar+" g "+crt_state+" "+token_name);
-				if(reduce_grammar==0 && token_name.equals("eof")){//TODO
+				if(reduce_grammar==0 && token_name.equals("eof")){
 					System.out.println("eof, "+"finished parsing");
 					ast_tree=ast;
 					return true;				
@@ -608,7 +615,7 @@ public class Parser {
 		String line="";
 		try {
 			out=new PrintWriter(new BufferedWriter(new FileWriter(filename)));
-			//TODO ouput IR
+			
 		} catch (Exception e) {			
 			e.printStackTrace();
 		}finally{

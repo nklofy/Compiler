@@ -19,6 +19,15 @@ public class Token {
 		case "opt":
 			token.createOpt(buffer);
 			break;
+		case "note":
+			token.createNote(buffer);
+			break;
+		case "string":
+			token.createStr(buffer);
+			break;
+		case "char":
+			token.createChr(buffer);
+			break;
 		default:
 			return null;
 		}
@@ -28,6 +37,9 @@ public class Token {
 	String res_name;
 	String idn_name;
 	String opt_name;
+	String note_value;
+	String str_value;
+	String chr_value;	
 	TokenType type;
 	public String getType(){
 		switch(type){
@@ -41,6 +53,12 @@ public class Token {
 			return "res";
 		case t_opt:
 			return "opt";
+		case t_note:
+			return "note";
+		case t_str:
+			return "string";
+		case t_chr:
+			return "char";
 		}
 		return null;
 	}	
@@ -76,8 +94,20 @@ public class Token {
 		this.type=TokenType.t_opt;
 		this.opt_name=buffer;
 	}
+	void createNote(String buffer){
+		this.type=TokenType.t_note;
+		this.note_value=buffer;
+	}
+	void createStr(String buffer){
+		this.type=TokenType.t_str;
+		this.str_value=buffer;
+	}
+	void createChr(String buffer){
+		this.type=TokenType.t_chr;
+		this.chr_value=buffer;
+	}
 	enum TokenType{
-		t_int,t_double,t_idn,t_res,t_opt
+		t_int,t_double,t_idn,t_res,t_opt,t_note,t_str,t_chr
 	};
 }
 
