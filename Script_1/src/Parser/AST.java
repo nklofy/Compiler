@@ -18,9 +18,9 @@ class Symbol{		//why use new symbol class instead of parsergenerator's symbol?
 	AST ast;		//because it is simpler without many unnecessary things 
 	String type;
 	String name;
-	String num_value;
-	public String getNumValue() {
-		return num_value;
+	String value;
+	public String getValue() {
+		return value;
 	}
 	
 }

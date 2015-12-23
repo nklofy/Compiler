@@ -73,7 +73,13 @@ public class Token {
 	}
 	public String getNumValue(){
 		return num_value;
-	}	
+	}
+	public String getStrValue(){
+		return num_value;
+	}
+	public String getChrValue(){
+		return num_value;
+	}
 	void createInt(String buffer){
 		this.type=TokenType.t_int;
 		this.num_value=buffer;

@@ -136,8 +136,9 @@ public class ASTGenerator {
 		ast.setCmpExp((AST_BoolExp)bool_exp, (AST_AddExp)add_exp1, opt, (AST_AddExp)add_exp2, bl_value);
 		return ast;
 	}
-	AST astStrExp(AST str){
+	AST astStrExp(String str, String chr){
 		AST_StrExp ast=new AST_StrExp();
+		ast.setStr(str, chr);
 		return ast;
 	}
 	AST astCalcExp(AST bool_exp, AST str_exp){

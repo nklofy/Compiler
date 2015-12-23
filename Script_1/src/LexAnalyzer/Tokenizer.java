@@ -155,17 +155,19 @@ public class Tokenizer {
 					index_pre=index_crt;
 					continue;
 				}
-			}//TODO
-			if(getNote()){
+			}
+			if(!is_inToken && getNote()){
 				Token token=Token.create(pattern, buffer);
 				return token;
 			}
-			if(getString()){
-				return Token.create(pattern, buffer);
+			if(!is_inToken && getString()){
+				Token token=Token.create(pattern, buffer);
+				return token;
 			}
-			if(getChar()){
-				return Token.create(pattern, buffer);
-			}//TODO
+			if(!is_inToken && getChar()){
+				Token token=Token.create(pattern, buffer);
+				return token;
+			}
 			if(!transfer_table.get(state).keySet().contains(chr)){
 				if(state!=1){		//for example, int oprator 
 					index_crt--;
@@ -217,10 +219,9 @@ public class Tokenizer {
 			
 		return token;		
 	}
-	private boolean getNote(){//TODO
+	private boolean getNote(){
 		if(is_inNote){
 			while(index_crt<buffered_line.length()){
-				chr=buffered_line.charAt(index_crt++);
 				if(chr=='*'){
 					if(index_crt>=buffered_line.length()){
 						buffer=buffered_line.substring(index_pre, index_crt);pattern="note";
@@ -238,6 +239,7 @@ public class Tokenizer {
 						return true;
 					}
 				}
+				chr=buffered_line.charAt(index_crt++);
 			}
 			buffer=buffered_line;pattern="note";
 			buffered_line=null;
@@ -306,13 +308,57 @@ public class Tokenizer {
 		return true;
 	}
 	private boolean getString(){
-		
-		//pattern="string";
+		boolean is_inString=false;
+		while(index_crt<buffered_line.length()){
+			if(chr=='"' && is_inString==false){
+				is_inString=true;
+				chr=buffered_line.charAt(index_crt++);	
+				continue;
+			}else if(is_inString==true){
+				while(chr=='\\'){
+					index_crt++;
+					continue;
+				}
+				if(chr=='"'){
+					pattern="string";buffer=buffered_line.substring(index_pre, index_crt);
+					index_pre=index_crt;
+					if(index_crt>=buffered_line.length()){
+						buffered_line=null;
+					}
+					return true;
+				}
+			}else if(is_inString==false){
+				return false;
+			}
+			chr=buffered_line.charAt(index_crt++);			
+		}
 		return false;
 	}
 	private boolean getChar(){
-		
-		//pattern="char";
+		boolean is_inChar=false;
+		while(index_crt<buffered_line.length()){
+			if(chr=='\'' && is_inChar==false){
+				is_inChar=true;
+				chr=buffered_line.charAt(index_crt++);	
+				continue;
+			}else if(is_inChar==true){
+				while(chr=='\\'){
+					index_crt++;
+					continue;
+				}
+				if(chr=='\''){
+					pattern="char";buffer=buffered_line.substring(index_pre, index_crt);
+					index_pre=index_crt;
+					if(index_crt>=buffered_line.length()){
+						buffered_line=null;
+					}
+					return true;
+				}
+			}else if(is_inChar==false){
+				return false;
+			}
+			chr=buffered_line.charAt(index_crt++);			
+		}
 		return false;
 	}
 	

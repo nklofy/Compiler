@@ -282,16 +282,16 @@ public class Parser {
 				switch(smb.type){
 				case "int":
 					token_name="number";smb.name=token_name;
-					smb.num_value=token.getNumValue();
+					smb.value=token.getNumValue();
 					AST_Num tn_ast=new AST_Num();
-					tn_ast.setNum("int", smb.num_value);
+					tn_ast.setNum("int", smb.value);
 					smb.ast=tn_ast;
 					break;
 				case "double":
 					token_name="number";smb.name=token_name;
-					smb.num_value=token.getNumValue();
+					smb.value=token.getNumValue();
 					AST_Num td_ast=new AST_Num();
-					td_ast.setNum("double", smb.num_value);
+					td_ast.setNum("double", smb.value);
 					smb.ast=td_ast;
 					break;
 				case "idn":
@@ -307,11 +307,15 @@ public class Parser {
 					token_name=token.getOptName();smb.name=token_name;
 					break;
 				case "note":
-					//TODO
-					break;
+					token=tokenizer.getToken();
+					continue;
 				case "string":
+					token_name="str";smb.name=token_name;
+					smb.value=token.getStrValue();
 					break;
 				case "char":
+					token_name="chr";smb.name=token_name;
+					smb.value=token.getChrValue();
 					break;
 				default:
 					return false;
@@ -471,10 +475,10 @@ public class Parser {
 					ast=ast_gen.astCalcExp(null, symbol_stack.get(0).ast);
 					break;
 				case "crtStrS":// $0      
-					ast=ast_gen.astStrExp(symbol_stack.get(0).ast);
+					ast=ast_gen.astStrExp(symbol_stack.get(0).value, null);
 					break;  
 				case "crtStrC":// $0      
-					ast=ast_gen.astStrExp(symbol_stack.get(0).ast);
+					ast=ast_gen.astStrExp(null, symbol_stack.get(0).value);
 					break;  
 				case "crtBlExpAnd":// $2 $0       
 					ast=ast_gen.astBoolExp(symbol_stack.get(2).ast, "&&", symbol_stack.get(0).ast);

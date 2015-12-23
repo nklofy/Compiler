@@ -1,5 +1,2 @@
-int a=1;
-a=2;/*to
-do*/int b=1;
-//todo
-int c=1;
+string b="1";//todo
+/*123*/char a='2';
