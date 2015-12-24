@@ -75,10 +75,10 @@ public class Token {
 		return num_value;
 	}
 	public String getStrValue(){
-		return num_value;
+		return str_value;
 	}
 	public String getChrValue(){
-		return num_value;
+		return chr_value;
 	}
 	void createInt(String buffer){
 		this.type=TokenType.t_int;

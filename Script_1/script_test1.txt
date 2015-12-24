@@ -1,2 +1,3 @@
 string b="1";//todo
 /*123*/char a='2';
+println(a);
