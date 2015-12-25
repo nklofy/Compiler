@@ -56,7 +56,17 @@ public class AST_PriExp extends AST {
 			return true;
 		}else if(this.str_exp!=null){
 			interpreter.interpret(str_exp);
-			this.base_type=Type_Base.t_string;
+			this.base_type=str_exp.type;
+			switch(this.base_type){
+			case t_string:
+				this.string_value=this.str_exp.str_value;
+				break;
+			case t_char:
+				this.char_value=this.str_exp.chr_value;
+				break;
+			default:
+				this.string_value="";
+			}
 			this.data_obj=boxObj(interpreter);
 			return true;
 		}

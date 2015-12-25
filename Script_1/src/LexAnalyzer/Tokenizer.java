@@ -244,8 +244,8 @@ public class Tokenizer {
 			buffer=buffered_line;pattern="note";
 			buffered_line=null;
 			return true;
-		}
-		if(chr=='/'){ // find "//" or "/*"
+		}//if(is_inNote)
+		else if(chr=='/'){ // find "//" or "/*"
 			if(index_crt>=buffered_line.length()){
 				return false;
 			}
@@ -282,23 +282,7 @@ public class Tokenizer {
 				chr='/';
 				return false;
 			}	
-		}else if(chr=='*'){
-			if(index_crt>=buffered_line.length()){
-				return false;
-			}
-			chr=buffered_line.charAt(index_crt++);
-			if(chr=='/'){
-				buffer=buffered_line.substring(index_pre,index_crt);pattern="note";
-				if(index_crt>=buffered_line.length()){
-					buffered_line=null;
-				}
-				index_pre=index_crt;
-				return true;
-			}else{
-				return false;
-			}
-		}
-		else{
+		}else{
 			return false;
 		}
 		pattern="note";

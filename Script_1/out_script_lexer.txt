@@ -1,12 +1,63 @@
-identifier :b
-oprator :=
-string :"1"
+reserved :int
+identifier :a
 oprator :;
-note ://d
-note :/*1*/
 identifier :a
 oprator :=
-char :'2'
+int_number :5
 oprator :;
-note ://d
+note :/*int fb(int a){
+note : if(a<=1)
+note :  return 1; 
+note : int c= fb(a-1)+fb(a-2);
+note : return c; 
+note :}*/
+reserved :int
+identifier :fact
+oprator :(
+reserved :int
+identifier :b
+oprator :)
+oprator :{
+reserved :if
+oprator :(
+identifier :b
+oprator :<=
+int_number :1
+oprator :)
+reserved :return
+int_number :1
+oprator :;
+reserved :int
+identifier :c
+oprator :=
+oprator :(
+identifier :fact
+oprator :(
+identifier :b
+oprator :-
+int_number :1
+oprator :)
+oprator :)
+oprator :*
+identifier :b
+oprator :;
+reserved :return
+identifier :c
+oprator :;
+oprator :}
+note ://int c=fb(a);
+note ://println(c);
+reserved :int
+identifier :d
+oprator :=
+identifier :fact
+oprator :(
+identifier :a
+oprator :)
+oprator :;
+identifier :println
+oprator :(
+identifier :d
+oprator :)
+oprator :;
 eof: end of file!

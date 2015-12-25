@@ -608,7 +608,7 @@ public class Parser {
 					return true;				
 				}
 			}else{
-				System.out.println("error parser state "+token_name+crt_state);
+				System.out.println("error parser state "+crt_state+" "+symbol_stack.get(1).name+" "+symbol_stack.get(0).name+" token "+token_name);
 				return false;
 			}			
 		}

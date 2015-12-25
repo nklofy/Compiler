@@ -98,7 +98,19 @@ public class AST_AddExp extends AST {
 				this.data_obj.setTypeObj(interpreter.getGlbEnv().getType("double"));
 				this.data_obj.setDoubleV(obj_add.getIntV()+obj_mul.getDoubleV());
 			}
-			
+			else if(obj_add.getTypeObj().getTypeBase()==Type_Base.t_string||obj_mul.getTypeObj().getTypeBase()==Type_Base.t_string){
+				this.data_obj.setTypeObj(interpreter.getGlbEnv().getType("string"));
+				this.data_obj.setStringV(obj_add.getStringV()+obj_mul.getStringV());
+			}/*else if(obj_add.getTypeObj().getTypeBase()==Type_Base.t_char&&obj_mul.getTypeObj().getTypeBase()==Type_Base.t_string){
+				this.data_obj.setTypeObj(interpreter.getGlbEnv().getType("string"));
+				this.data_obj.setStringV(obj_add.getCharV()+obj_mul.getStringV());
+			}else if(obj_add.getTypeObj().getTypeBase()==Type_Base.t_string&&obj_mul.getTypeObj().getTypeBase()==Type_Base.t_char){
+				this.data_obj.setTypeObj(interpreter.getGlbEnv().getType("string"));
+				this.data_obj.setStringV(obj_add.getStringV()+obj_mul.getCharV());
+			}else if(obj_add.getTypeObj().getTypeBase()==Type_Base.t_char&&obj_mul.getTypeObj().getTypeBase()==Type_Base.t_char){
+				this.data_obj.setTypeObj(interpreter.getGlbEnv().getType("string"));
+				this.data_obj.setStringV(String.valueOf(obj_add.getCharV())+String.valueOf(obj_mul.getCharV()));
+			}*/			
 		}else if(opt.equals("++")){			
 			if(var.data_obj.getTypeObj().getTypeBase()!=Type_Base.t_int){
 				System.out.println("error AddExp eval Var type");

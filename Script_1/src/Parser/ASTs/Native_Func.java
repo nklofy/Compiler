@@ -29,7 +29,7 @@ public class Native_Func {
 				s=String.valueOf(arg.getDoubleV());
 				break;
 			case t_string:
-				s=String.valueOf(arg.getStringV());
+				s=arg.getStringV();
 				break;
 			case t_char:
 				s=String.valueOf(arg.getCharV());

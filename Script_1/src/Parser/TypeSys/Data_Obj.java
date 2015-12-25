@@ -49,7 +49,26 @@ public class Data_Obj {
 		this.bool_value = bool_value;
 	}
 	public String getStringV() {
-		return string_value;
+		switch(this.type_obj.getTypeBase()){
+		case t_int:
+			this.string_value=String.valueOf(this.int_value);
+			break;
+		case t_double:
+			this.string_value=String.valueOf(this.double_value);
+			break;
+		case t_bool:
+			this.string_value=String.valueOf(this.bool_value);
+			break;
+		case t_string:
+			break;
+		case t_char:
+			this.string_value=String.valueOf(this.char_value);
+			break;
+		default:
+			this.string_value="unkown string";
+			break;
+		}
+		return this.string_value;
 	}
 	public void setStringV(String string_value) {
 		this.string_value = string_value;
@@ -115,8 +134,8 @@ public class Data_Obj {
 				case t_char:
 					this.char_value=obj.char_value;
 					break;
-					default:
-						break;
+				default:
+					break;
 				}
 			}else{//object type
 				for(String str:obj.type_obj.getFields().keySet()){
