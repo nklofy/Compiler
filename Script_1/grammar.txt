@@ -2,12 +2,16 @@
 Goal stmt_list stmt 
 var_def type_def func_def if_exp while_exp sg_stmt control_flow
 var_assign calc_exp type_exp par_list if_stmt else_stmt bool_exp str_exp
-add_exp cmp_exp mul_exp pri_exp apply_exp arg_list
+add_exp cmp_exp mul_exp pri_exp apply_exp arg_list 
+basic_type array_type idn_type func_type generic_type generic_exp 
+class_def scope_info_e generic_info_e inherit_info_list_e class_member_def field_def method_def
+scope_info generic_info inherit_info_list array_exp new_exp
 
 //tokens
 if else while return break continue int double bool true false string char number var str chr 
-|| && ! > >= < <= == != + - ++ -- * / += -= *= /= = 
-e ( ) { } , . ; eof 
+class interface extends implements public private static type new
+|| && ! > >= < <= == != + - ++ -- * / += -= *= /= = ? ->
+e ( ) { } [ ] , . ; eof 
 
 //grammars
 Goal |>
@@ -19,23 +23,24 @@ stmt_list |>
 
 stmt |> 
    var_def ;
->| func_def  
->| if_exp 
->| while_exp 
->| sg_stmt ; 
+>| type_def 
+>| func_def
+>| if_exp
+>| while_exp
+>| sg_stmt ;
 
-sg_stmt |>   
-   var_assign 
->| calc_exp 
->| control_flow 
+sg_stmt |>
+   var_assign
+>| calc_exp
+>| control_flow
 
-control_flow |> 
-   return calc_exp 
->| continue 
->| break 
+control_flow |>
+   return calc_exp
+>| continue
+>| break
 
 var_def |>
-   var_def , var 
+   var_def , var
 >| var_def , var = calc_exp
 >| type_exp var
 >| type_exp var = calc_exp
@@ -48,12 +53,83 @@ var_assign |>
 >| var /= calc_exp
 
 type_exp |>
+   basic_type
+>| array_type
+>| idn_type
+>| generic_type 
+
+basic_type |>
    int
 >| double
 >| bool
 >| string
 >| char
+
+array_type |>
+   array_type [ ]
+>| basic_type [ ]
+>| idn_type [ ]
+
+idn_type |>
+   idn_type . var
 >| var
+
+func_type |>
+   func_type -> type_exp
+>| ( func_type -> type_exp )
+>| type_exp
+
+generic_type |>
+   idn_type generic_exp
+
+generic_exp |>
+   < var >
+>| < ? inherit_info_list >
+
+type_def |>
+   type var = func_type ;
+>| class_def
+
+class_def |>
+   scope_info_e class var generic_info_e inherit_info_list_e { class_member_def }
+   
+scope_info_e |>
+   e
+>| scope_info
+
+scope_info |>
+   static
+>| static public
+>| static private
+>| public
+>| private
+
+generic_info_e |>
+   generic_info
+>| e
+
+generic_info |>
+   < var inherit_info_list_e >
+
+inherit_info_list_e |>
+   inherit_info_list
+>| e
+
+inherit_info_list |>
+   inherit_info_list extends var
+>| inherit_info_list implements var
+>| extends var
+>| implements var
+
+class_member_def |>
+   class_def field_def ;
+>| class_def method_def 
+
+field_def |>
+   scope_info_e type_exp var
+
+method_def |>
+   scope_info_e generic_info_e func_def
 
 func_def |>
    type_exp var ( par_list ) { stmt_list }
@@ -82,10 +158,14 @@ while_exp |>
 calc_exp |> 
    bool_exp 
 >| str_exp 
+>| new_exp
 
 str_exp |> 
    str 
 >| chr 
+
+new_exp |>
+   new type_exp ( arg_list )
 
 bool_exp |> 
    bool_exp && cmp_exp 
@@ -94,8 +174,7 @@ bool_exp |>
 >| cmp_exp 
 
 cmp_exp |> 
-   ( bool_exp ) 
->| add_exp > add_exp 
+   add_exp > add_exp 
 >| add_exp >= add_exp 
 >| add_exp < add_exp 
 >| add_exp <= add_exp 
@@ -122,7 +201,7 @@ mul_exp |>
 
 pri_exp |> 
    number 
->| ( add_exp ) 
+>| ( bool_exp ) 
 >| apply_exp 
 >| str_exp 
 
@@ -131,10 +210,15 @@ apply_exp |>
 >| apply_exp . var 
 >| var ( arg_list ) 
 >| var 
+>| array_exp
 
 arg_list |> 
    arg_list , calc_exp 
 >| calc_exp 
 >| e 
+
+array_exp |>
+   array_exp [ number ]
+>| idn_type [ number ]   
 
 //end

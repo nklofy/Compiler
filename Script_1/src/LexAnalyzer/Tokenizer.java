@@ -7,6 +7,7 @@ import java.util.*;
 public class Tokenizer {
 	private Token eof_token=Token.create("res","eof");
 	private Token token;
+	private int line_in=0;
 	private HashMap<Integer,HashMap<Character, Integer>> transfer_table=new HashMap<Integer,HashMap<Character, Integer>> ();
 	private HashMap<Integer,String> terminal_opt=new HashMap<Integer,String> ();
 	private HashMap<Integer,String> terminal_res=new HashMap<Integer,String> ();
@@ -141,6 +142,7 @@ public class Tokenizer {
 				return eof_token;
 			}else{
 				buffered_line=in.nextLine();
+				line_in++;
 				index_pre=0;
 				index_crt=0;
 			}
@@ -158,14 +160,17 @@ public class Tokenizer {
 			}
 			if(!is_inToken && getNote()){
 				Token token=Token.create(pattern, buffer);
+				token.line_in=this.line_in;
 				return token;
 			}
 			if(!is_inToken && getString()){
 				Token token=Token.create(pattern, buffer);
+				token.line_in=this.line_in;
 				return token;
 			}
 			if(!is_inToken && getChar()){
 				Token token=Token.create(pattern, buffer);
+				token.line_in=this.line_in;
 				return token;
 			}
 			if(!transfer_table.get(state).keySet().contains(chr)){
@@ -188,6 +193,7 @@ public class Tokenizer {
 				index_crt=0;
 			}
 			token=getToken();
+			token.line_in=this.line_in;
 			return token;
 		}
 		if(terminal_opt.keySet().contains(state)){
@@ -216,7 +222,7 @@ public class Tokenizer {
 			buffered_line=null;			
 		}	
 		token=Token.create(pattern, buffer);
-			
+		token.line_in=this.line_in;
 		return token;		
 	}
 	private boolean getNote(){

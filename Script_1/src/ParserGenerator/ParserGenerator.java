@@ -19,8 +19,8 @@ public class ParserGenerator {
 	
 	static public void main(String[] args){
 		
-		ParserGenerator pg=new ParserGenerator();
-		pg.input("grammar.txt");       System.out.println("start");
+		ParserGenerator pg=new ParserGenerator(); System.out.println("start");
+		pg.input("grammar.txt");       
 		pg.generateGrammarTable();     System.out.println("read grammar");
 		pg.getFirst();                 
 		pg.getFollow();                System.out.println("first and follow");
@@ -43,6 +43,9 @@ public class ParserGenerator {
 				word=in.next();
 				while(!word.equals("//tokens")){
 					Symbol symbol=new Symbol(word,false);
+					if(gen_symbols.containsKey(word)){
+						System.out.println("existing symbol "+symbol.name);
+					}
 					gen_symbols.put(word,symbol);		//a table recording all symbols
 					gen_NTs.add(symbol);				//non terminal
 					word=in.next();
@@ -52,8 +55,13 @@ public class ParserGenerator {
 				word=in.next();
 				while(!word.equals("//grammars")){					
 					Symbol symbol=new Symbol(word,true);
+					if(gen_symbols.containsKey(word)){
+						System.out.println("existing symbol "+symbol.name);
+					}
 					gen_symbols.put(word,symbol);		//symbols table
 					gen_tokens.add(symbol);				//token, terminal
+					if(gen_NTs.contains(symbol))
+						System.out.println("token in NT "+ symbol.name);
 					word=in.next();
 				}
 				gen_NTs.removeAll(gen_tokens);
@@ -96,8 +104,11 @@ public class ParserGenerator {
 	private Grammar buildGrammar(LinkedList<String> list){
 		Grammar grammar = new Grammar();
 		Production production = new Production();
-		String word=null;
-		Symbol head = gen_symbols.get(list.removeFirst());
+		String word=list.removeFirst();
+		Symbol head = gen_symbols.get(word);
+		if(head==null){
+			System.out.println("null head "+word);
+		}
 		grammar.head=head;
 		grammar.productions.add(production);
 		while(!list.isEmpty()){
@@ -107,7 +118,11 @@ public class ParserGenerator {
 				grammar.productions.add(production);
 				continue;
 			}
-			production.symbols.add(gen_symbols.get(word));						
+			Symbol s_t=gen_symbols.get(word);
+			if(s_t==null){
+				System.out.println("null symbol "+word);
+			}
+			production.symbols.add(s_t);						
 		}
 		head.head_grammar.addAll(grammar.productions);
 		return grammar;
@@ -139,25 +154,27 @@ public class ParserGenerator {
 			for(int i=count-1;i>=0;i--){
 				Grammar grammar=gen_grammars.get(i);
 				Symbol head=grammar.head;
-				Set<Symbol> first_set=new HashSet<Symbol>();
 				for(Production production : grammar.productions){
 					ArrayList<Symbol> symbols=production.symbols;
+					Set<Symbol> first_set=new HashSet<Symbol>();
 					int count1=symbols.size();
 					for(int j=0;j<count1;j++){
 						Symbol sym=symbols.get(j);				
-						first_set.addAll(sym.First);	
-						if(!sym.First.contains(sym_e)){
+						first_set.addAll(sym.First);
+						if(j==count1-1&&sym.First.contains(sym_e)){
 							break;
 						}
-						if(j==count1-1){
-							first_set.add(sym_e);
-						}
+						if(sym.First.contains(sym_e)){
+							continue;
+						}else{
+							break;
+						}						
 					}//for(int j=0;j<count1;j++)
-				}//for(Production production : grammar.productions)
-				if(!head.First.containsAll(first_set)){
-					head.First.addAll(first_set);
-					loop=true;
-				}
+					if(!head.First.containsAll(first_set)){
+						head.First.addAll(first_set);
+						loop=true;
+					}
+				}//for(Production production : grammar.productions)				
 			}//for(int i=count-1;i>=0;i--)
 		}//while(loop)
 		return true;
@@ -255,7 +272,7 @@ public class ParserGenerator {
 					Item item_1=new Item(sym_head, production.symbols, 0, follow_set, production.index_gr_tb);
 					cl_items.add(item_1);
 					addItemTable(item_1);
-					item_1.cc_in=cc;					
+					item_1.cc_in=cc;
 				}
 			}
 		}
@@ -269,7 +286,7 @@ public class ParserGenerator {
 		HashSet<Item> its=gen_items.get(kr_item.head);//find if core is already exist
 		if(its!=null){
 			for(Item it:its){
-				if(kr_item.inItem(it)){	
+				if(kr_item.eqItem(it)){	
 					return it.cc_in;
 				}
 			}
@@ -294,7 +311,7 @@ public class ParserGenerator {
 		item0.cc_in=cc0;
 		item0.look_ahead.add(gen_symbols.get("eof"));
 		item0.index_gr_tb=grammar0.productions.get(0).index_gr_tb;
-		cc0.index_gr=item0.index_gr_tb;
+		//cc0.index_gr=item0.index_gr_tb;
 		cc0.items.add(item0);
 		cc0.index_cc=0;
 		gen_CCs.add(cc0);
@@ -312,9 +329,17 @@ public class ParserGenerator {
 			cc.got_Goto=true;
 			
 			for(Item item:cc.items){
-				if(item.position==item.symbols.size()){
+				if(item.position==item.symbols.size()){//position is at end, then reduce
+					/*if(cc.is_reduce){
+						for(Symbol s:item.look_ahead){
+							if(cc.token_reduce.contains(s))
+								System.out.println("reduce conflict "+item.head.name+" cc "+cc.index_cc);
+						}
+						
+					}*/
 					cc.is_reduce=true;
-					cc.index_gr=item.index_gr_tb;
+					//cc.index_gr=item.index_gr_tb;
+					cc.item_reduce.add(item);
 					cc.token_reduce.addAll(item.look_ahead);
 					continue;
 				}
@@ -325,13 +350,13 @@ public class ParserGenerator {
 					CC cc_tmp=cc.goto_tb.get(sym);
 					boolean isInCC=false;
 					for(Item item1:cc_tmp.items){
-						if(item_tmp.inItem(item1)){//find if item in cc
+						if(item_tmp.eqItem(item1)){//find if item in cc
 							isInCC=true;
 							break;
 						}
 					}
-					if(!isInCC){
-						cc_tmp.items.add(item_tmp);//not in cc, add it
+					if(!isInCC){//not in cc, add it
+						cc_tmp.items.add(item_tmp);
 						addItemTable(item_tmp);
 						item_tmp.cc_in=cc_tmp;
 					}
@@ -339,8 +364,8 @@ public class ParserGenerator {
 					CC new_cc=getGoto(item);
 					cc.goto_tb.put(sym, new_cc);
 				}
-				//System.out.println(cc.index_cc+" "+sym.name+" "+cc.goto_tb.get(sym).index_cc);//TODO
-			}
+				//System.out.println(cc.index_cc+" "+sym.name+" "+cc.goto_tb.get(sym).index_cc);
+			}//for(Item item:cc.items)
 			for(Symbol smb:cc.goto_tb.keySet()){
 				CC cc1=cc.goto_tb.get(smb);
 				getClosure(cc1);
@@ -348,7 +373,7 @@ public class ParserGenerator {
 		}
 		return true;
 	}
-		
+
 	private void generateActionTable(){		//action table and goto table
 		for(CC cc:gen_CCs){
 			ActionTable table=new ActionTable();
@@ -368,10 +393,15 @@ public class ParserGenerator {
 		if(cc.goto_tb.containsKey(token)){
 				int obj_cc=cc.goto_tb.get(token).index_cc;
 				value="s"+obj_cc;
+				if(cc.token_reduce.contains(token)){
+					System.out.println("shift reduce conflict "+cc.index_cc+" token "+token.name);
+				}
 		}else if(cc.is_reduce && cc.token_reduce.contains(token)){
-			int obj_gr=cc.index_gr;
-			value="r"+obj_gr;
-		}		
+			Set<Item> its_gr=cc.item_reduce;
+			for(Item it:its_gr){
+				value="r"+it.index_gr_tb;
+			}			
+		}
 		table.action_t.put(key, value);
 	}
 	
@@ -463,21 +493,30 @@ public class ParserGenerator {
 					line=line+fs.name+" ";
 				}
 				out.println(line);
+				if(sym.First.isEmpty()){
+					line="error empty firset set of"+sym.name;
+					System.out.println(line);
+					out.println(line);
+				}
 			}
 			out.println("");out.println("//all CCs");out.println("");
 			//print all CCs
 			for(CC cc:gen_CCs){
-				line=cc.index_cc+" : ";
-				if(cc.is_reduce){
-					line=line+"reduce "+cc.index_gr;
+				line=cc.index_cc+" : ";	out.println(line);
+				if(cc.is_reduce){					
+					line="reduce : "; out.println(line);
+					for(Item it_r:cc.item_reduce){
+						line=it_r.index_gr_tb+" "+it_r.head.name;
+						out.println(line);
+					}
 				}
-				out.println(line);
+				line="items: "; out.println(line);
 				for(Item item:cc.items){
-					line=item.head.name+" -> ";
+					line=item.head.name+" ::=  ";
 					for(Symbol sym:item.symbols){
 						line=line+sym.name+" ";
 					}
-					line=line+String.valueOf(item.position)+" look_ahead: ";					
+					line=line+"  "+String.valueOf(item.position)+"  look_ahead: ";					
 					for(Symbol sym:item.look_ahead){
 						line=line+sym.name+" ";
 					}
@@ -567,8 +606,6 @@ class Item{
 			if(this.symbols.get(i)!=item.symbols.get(i))
 				return false;
 		}
-		if(!item.look_ahead.containsAll(this.look_ahead))
-			return false;
 		return true;
 	}
 }
@@ -582,8 +619,9 @@ class CC{//need to edit as look_ahead is wrong
 	boolean in_table=false;
 	boolean is_reduce=false;
 	int index_cc=-1;
-	int index_gr=-1;
+	//int index_gr=-1;
 	HashSet<Symbol> token_reduce=new HashSet<Symbol>();
+	HashSet<Item> item_reduce=new HashSet<Item>();
 }
 
 class ActionTable{

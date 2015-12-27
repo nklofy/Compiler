@@ -330,7 +330,7 @@ public class Parser {
 
 				state_stack.addFirst(crt_state);
 				symbol_stack.addFirst(smb);
-				//System.out.println("s "+crt_state+" "+token_name);
+				System.out.println("s "+crt_state+" "+token_name);
 				token=tokenizer.getToken();
 				gotNewToken=true;
 				continue;
@@ -345,7 +345,7 @@ public class Parser {
 				AST ast = null;
 				switch(method){
 				
-				case "crtGoal"://$0
+/*			case "crtGoal"://$0
 					ast=ast_gen.astStmtList(symbol_stack.get(0).ast, null);
 					break;
 				case "lnkStmtLst"://$1 $0	
@@ -586,7 +586,7 @@ public class Parser {
 					break;
 				case "crtArgLstE"://
 					ast=ast_gen.astArgList(null, null);
-					break;
+					break;*/
 				default:
 					break;
 				}
@@ -601,14 +601,14 @@ public class Parser {
 				crt_state=goto_table.get(crt_state).get(symbol_sn.get(reduce_head));
 				state_stack.addFirst(crt_state);
 				symbol_stack.addFirst(reduce_smb);
-				//System.out.println("r "+reduce_grammar+" g "+crt_state+" "+token_name);
+				System.out.println("r "+reduce_grammar+" "+reduce_smb.name+" g "+crt_state+" "+token_name);
 				if(reduce_grammar==0 && token_name.equals("eof")){
 					System.out.println("eof, "+"finished parsing");
 					ast_tree=ast;
 					return true;				
 				}
 			}else{
-				System.out.println("error parser state "+crt_state+" "+symbol_stack.get(1).name+" "+symbol_stack.get(0).name+" token "+token_name);
+				System.out.println("error in line "+token.getLine()+", state "+crt_state+" "+symbol_stack.get(0).name+", token "+token_name);
 				return false;
 			}			
 		}

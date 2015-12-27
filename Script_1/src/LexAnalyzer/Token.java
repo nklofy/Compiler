@@ -33,6 +33,7 @@ public class Token {
 		}
 		return token;
 	}
+	int line_in;
 	String num_value;
 	String res_name;
 	String idn_name;
@@ -41,6 +42,9 @@ public class Token {
 	String str_value;
 	String chr_value;	
 	TokenType type;
+	public int getLine(){
+		return line_in;
+	}
 	public String getType(){
 		switch(type){
 		case t_int:
