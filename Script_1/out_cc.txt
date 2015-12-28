@@ -330,8 +330,7 @@ stmt ::=  sg_stmt ;   1  look_ahead: true int bool var ! class if chr - public c
 items: 
 var_def ::=  type_exp var   1  look_ahead: , ; 
 var_def ::=  type_exp var = calc_exp   1  look_ahead: , ; 
-func_def ::=  type_exp var ( par_list ) { stmt_list }   1  look_ahead: true int bool var ! class if chr - public continue type ++ double str new eof -- number false private static break string while return ( char 
-func_def ::=  type_exp var ( par_list ) { stmt_list }   1  look_ahead: true int bool var } ! class if chr - public continue type ++ double str new -- number false private static break string while return ( char 
+func_def ::=  type_exp var ( par_list ) { stmt_list }   1  look_ahead: true int bool var ! } class if chr - public continue type ++ double str new eof -- number false private static break string while return ( char 
 
 10 : 
 items: 
@@ -397,7 +396,6 @@ generic_type ::=  idn_type generic_exp   1  look_ahead: var
 array_exp ::=  idn_type [ number ]   1  look_ahead: * == + >= != < ; && <= [ > || - / . 
 generic_exp ::=  < var >   0  look_ahead: var 
 generic_exp ::=  < ? inherit_info_list >   0  look_ahead: var 
-idn_type ::=  idn_type . var   1  look_ahead: [ . 
 
 20 : 
 reduce : 
@@ -429,7 +427,6 @@ add_exp ::=  var ++   1  look_ahead: <= == + >= > || != - < ; &&
 add_exp ::=  var --   1  look_ahead: <= == + >= > || != - < ; && 
 apply_exp ::=  var ( arg_list )   1  look_ahead: * == + >= != < ; && <= > || - / . 
 apply_exp ::=  var   1  look_ahead: * == + >= != < ; && <= > || - / . 
-idn_type ::=  var   1  look_ahead: [ . 
 
 24 : 
 reduce : 
@@ -2467,8 +2464,8 @@ add_exp ::=  -- var   1  look_ahead: <= == + >= ) > || != - < , &&
 
 174 : 
 reduce : 
-116 apply_exp
 37 idn_type
+116 apply_exp
 items: 
 add_exp ::=  var ++   1  look_ahead: <= == + >= ) > || != - < , && 
 add_exp ::=  var --   1  look_ahead: <= == + >= ) > || != - < , && 
@@ -3389,8 +3386,8 @@ bool_exp ::=  bool_exp || cmp_exp   1  look_ahead: || , ; &&
 
 244 : 
 reduce : 
-80 calc_exp
 112 pri_exp
+80 calc_exp
 items: 
 calc_exp ::=  str_exp   1  look_ahead: , ; 
 pri_exp ::=  str_exp   1  look_ahead: * == + >= != < ; && <= > || - / , 
@@ -6279,8 +6276,8 @@ add_exp ::=  -- var   1  look_ahead: + ) || - , &&
 
 469 : 
 reduce : 
-37 idn_type
 116 apply_exp
+37 idn_type
 items: 
 add_exp ::=  var ++   1  look_ahead: + ) || - , && 
 add_exp ::=  var --   1  look_ahead: + ) || - , && 
@@ -6913,8 +6910,8 @@ add_exp ::=  -- var   1  look_ahead: + || - , ; &&
 
 532 : 
 reduce : 
-37 idn_type
 116 apply_exp
+37 idn_type
 items: 
 add_exp ::=  var ++   1  look_ahead: + || - , ; && 
 add_exp ::=  var --   1  look_ahead: + || - , ; && 

@@ -237,8 +237,15 @@ public class ParserGenerator {
 			Item k_item=cl_items.get(index_cl++);
 			ArrayList<Symbol> symbols=k_item.symbols;
 			int position=k_item.position;
-			if(position==symbols.size())
+			if(position==symbols.size()){//position is at end of item, then reduce
+				if(cc.is_reduce){
+					//System.out.println("reduce conflex "+cc.index_cc+" "+k_item.head.name);
+				}
+				cc.is_reduce=true;
+				cc.item_reduce.add(k_item);
+				cc.token_reduce.addAll(k_item.look_ahead);
 				continue;
+			}
 			Symbol sym_head=symbols.get(position);
 			HashSet<Symbol> follow_set=new HashSet<Symbol>();			//get follow_set of the symbol sym_head
 			int rest_count=symbols.size()-position;
@@ -280,7 +287,7 @@ public class ParserGenerator {
 		return true;
 	}
 	
-	private CC getGoto(Item item){	
+	private CC getGoto(Item item){
 		Item kr_item=new Item(item);
 		kr_item.position++;
 		HashSet<Item> its=gen_items.get(kr_item.head);//find if core is already exist
@@ -329,18 +336,7 @@ public class ParserGenerator {
 			cc.got_Goto=true;
 			
 			for(Item item:cc.items){
-				if(item.position==item.symbols.size()){//position is at end, then reduce
-					/*if(cc.is_reduce){
-						for(Symbol s:item.look_ahead){
-							if(cc.token_reduce.contains(s))
-								System.out.println("reduce conflict "+item.head.name+" cc "+cc.index_cc);
-						}
-						
-					}*/
-					cc.is_reduce=true;
-					//cc.index_gr=item.index_gr_tb;
-					cc.item_reduce.add(item);
-					cc.token_reduce.addAll(item.look_ahead);
+				if(item.position==item.symbols.size()){
 					continue;
 				}
 				Symbol sym=item.symbols.get(item.position);
@@ -350,7 +346,8 @@ public class ParserGenerator {
 					CC cc_tmp=cc.goto_tb.get(sym);
 					boolean isInCC=false;
 					for(Item item1:cc_tmp.items){
-						if(item_tmp.eqItem(item1)){//find if item in cc
+						if(item_tmp.inItem(item1)){//find if item in cc
+							item1.look_ahead.addAll(item_tmp.look_ahead);
 							isInCC=true;
 							break;
 						}
