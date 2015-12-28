@@ -36,6 +36,8 @@ lambda lambda
 public public
 private private
 static static
+new new
+main main
 
 //operator
 || ||
@@ -77,4 +79,5 @@ $ $
 . . 
 ; ; 
 eof eof 
+
 //end 

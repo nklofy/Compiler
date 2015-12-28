@@ -386,7 +386,7 @@ public class ParserGenerator {
 	
 	private void createActionTable(ActionTable table,CC cc,Symbol token){//action table
 		String key=token.name;
-		String value=" ";
+		String value="";
 		if(cc.goto_tb.containsKey(token)){
 				int obj_cc=cc.goto_tb.get(token).index_cc;
 				value="s"+obj_cc;
@@ -395,8 +395,9 @@ public class ParserGenerator {
 				}
 		}else if(cc.is_reduce && cc.token_reduce.contains(token)){
 			Set<Item> its_gr=cc.item_reduce;
+			value="";
 			for(Item it:its_gr){
-				value="r"+it.index_gr_tb;
+				value=value+"r"+it.index_gr_tb;
 			}			
 		}
 		table.action_t.put(key, value);
@@ -404,7 +405,7 @@ public class ParserGenerator {
 	
 	private void createGotoTable(ActionTable table,CC cc,Symbol sym){//goto table
 		String key=sym.name;
-		String value=" ";
+		String value="";
 		if(cc.goto_tb.containsKey(sym)){
 			int obj_cc=cc.goto_tb.get(sym).index_cc;
 			value="g"+obj_cc;	
@@ -630,20 +631,3 @@ class GrammarRule{
 	String head;
 	ArrayList<String> symbols=new ArrayList<String>();
 }
-/*
-class CoreItem{
-//	CC cc_in;
-	Symbol head;
-	ArrayList<Symbol> symbols=new ArrayList<Symbol>();
-	int position;
-	int index_gr_tb;
-	CoreItem(Item item){
-		this.head=item.head;
-		this.symbols.addAll(item.symbols);
-		this.position=item.position;
-		this.index_gr_tb=item.index_gr_tb;
-	}
-	//boolean hasItem(Item item){
-	//	return item_in.eqItem(item);
-	//}	
-}*/

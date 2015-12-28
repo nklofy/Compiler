@@ -25,7 +25,7 @@ public class Parser {
 	private Map<String,Integer> token_sn=new HashMap<String,Integer>();
 	private List<AstRule> astRule_list=new ArrayList<AstRule>();
 	private List<ArrayList<Integer>> shift_table=new ArrayList<ArrayList<Integer>>();	
-	private List<ArrayList<Integer>> reduce_table=new ArrayList<ArrayList<Integer>>();
+	private List<ArrayList<List<Integer>>> reduce_table=new ArrayList<ArrayList<List<Integer>>>();
 	private List<ArrayList<Integer>> goto_table=new ArrayList<ArrayList<Integer>>();
 	private LinkedList<Symbol> symbol_stack=new LinkedList<Symbol>();
 	private LinkedList<Integer> state_stack=new LinkedList<Integer>();
@@ -39,8 +39,8 @@ public class Parser {
 		parser.analyzeAST("grammar_AST.txt");	System.out.println("analyzeAST grammar_AST.txt");
 		parser.analyzeLex("out_lexAnalyzer.txt");	System.out.println("analyzeLex out_lexAnalyzer.txt");
 		parser.input("script_test1.txt");	
-		parser.parse();
-		parser.output("out_parser.txt");		System.out.println("output out_parser.txt");
+		parser.parse();							System.out.println("finish parsing");
+		parser.output("out_parser.txt");		
 		
 	}
 	public boolean analyzeGrm(String filename){ 	//read and analyze the grammar table and action table
@@ -122,7 +122,7 @@ public class Parser {
 			while(!word.equals("//gotos") && !word.equals("")){	
 				String actions[]=word.split(" ");
 				ArrayList<Integer> shift=new ArrayList<Integer>();
-				ArrayList<Integer> reduce=new ArrayList<Integer>();
+				ArrayList<List<Integer>> reduce=new ArrayList<List<Integer>>();
 				shift_table.add(shift);		//add all shift action
 				reduce_table.add(reduce);	//add all reduce action
 				for(int i=1;i<actions.length;i++){
@@ -130,14 +130,20 @@ public class Parser {
 						String str_tmp=actions[i];
 						if(str_tmp.equals("/")){
 							shift.add(-1);		//"-1" means illegal action
-							reduce.add(-1);
+							//reduce.add(-1);
 						}else{
 							i++;
 							if(str_tmp.charAt(0)=='s'){
 								shift.add(Integer.parseInt(str_tmp.substring(1)));//shift
-								reduce.add(-1);
+								//reduce.add(-1);
 							}else if(str_tmp.charAt(0)=='r'){
-								reduce.add(Integer.parseInt(str_tmp.substring(1)));//reduce
+								String[] rdc_strs=str_tmp.split("r");
+								List<Integer> rdc_sta=new LinkedList<Integer>();
+								for(String rs:rdc_strs){
+									if(!rs.equals(""))
+										rdc_sta.add(Integer.parseInt(rs));
+								}
+								reduce.add(rdc_sta);//reduce
 								shift.add(-1);
 							}else return false;
 						}
@@ -323,8 +329,8 @@ public class Parser {
 			}			
 			int crt_token_sn=token_sn.get(token_name);
 			int shift_state=shift_table.get(crt_state).get(crt_token_sn);
-			int reduce_grammar=reduce_table.get(crt_state).get(crt_token_sn);
-
+			List<Integer> reduce_grammars=reduce_table.get(crt_state).get(crt_token_sn);//TODO
+			int reduce_grammar=0;
 			if(shift_state!=-1){//in shift table
 				crt_state=shift_state;//shift
 
@@ -335,7 +341,7 @@ public class Parser {
 				gotNewToken=true;
 				continue;
 				
-			}else if(reduce_grammar!=-1){//in reduce table
+			}else if(reduce_grammar!=0){//in reduce table
 				gotNewToken=false;
 				String reduce_head=grammar_table.get(reduce_grammar).head;
 				Symbol reduce_smb=new Symbol();
