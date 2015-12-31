@@ -16,6 +16,8 @@ public class ParserGenerator {
 	private ArrayList<CC> gen_CCs=new ArrayList<CC>();
 	private Map<Symbol,HashSet<Item>> gen_items=new HashMap<Symbol,HashSet<Item>>();
 	private ArrayList<ActionTable> gen_action_tables=new ArrayList<ActionTable>();
+	private ArrayList<String> sr_conflicts=new ArrayList<String>();
+	private ArrayList<String> rr_conflicts=new ArrayList<String>();
 	
 	static public void main(String[] args){
 		
@@ -237,14 +239,19 @@ public class ParserGenerator {
 			Item k_item=cl_items.get(index_cl++);
 			ArrayList<Symbol> symbols=k_item.symbols;
 			int position=k_item.position;
-			if(position==symbols.size()){//position is at end of item, then reduce
-				if(cc.is_reduce){
-					//System.out.println("reduce conflex "+cc.index_cc+" "+k_item.head.name);
+			if(position==symbols.size()){//position is at end of item, then reduce				
+				if(cc.item_reduce.contains(k_item)){
+						continue;
+				}else{
+					cc.item_reduce.add(k_item);
+					cc.token_reduce.addAll(k_item.look_ahead);
+					if(cc.is_reduce){
+						rr_conflicts.add("rr "+cc.index_cc+" "+k_item.head.name);
+					}else{
+						cc.is_reduce=true;
+					}					
+					continue;
 				}
-				cc.is_reduce=true;
-				cc.item_reduce.add(k_item);
-				cc.token_reduce.addAll(k_item.look_ahead);
-				continue;
 			}
 			Symbol sym_head=symbols.get(position);
 			HashSet<Symbol> follow_set=new HashSet<Symbol>();			//get follow_set of the symbol sym_head
@@ -318,7 +325,6 @@ public class ParserGenerator {
 		item0.cc_in=cc0;
 		item0.look_ahead.add(gen_symbols.get("eof"));
 		item0.index_gr_tb=grammar0.productions.get(0).index_gr_tb;
-		//cc0.index_gr=item0.index_gr_tb;
 		cc0.items.add(item0);
 		cc0.index_cc=0;
 		gen_CCs.add(cc0);
@@ -383,26 +389,26 @@ public class ParserGenerator {
 			}
 		}
 	}
-	
+
 	private void createActionTable(ActionTable table,CC cc,Symbol token){//action table
 		String key=token.name;
 		String value="";
 		if(cc.goto_tb.containsKey(token)){
-				int obj_cc=cc.goto_tb.get(token).index_cc;
-				value="s"+obj_cc;
-				if(cc.token_reduce.contains(token)){
-					System.out.println("shift reduce conflict "+cc.index_cc+" token "+token.name);
-				}
-		}else if(cc.is_reduce && cc.token_reduce.contains(token)){
+			int obj_cc=cc.goto_tb.get(token).index_cc;
+			value="s"+obj_cc;
+			if(cc.token_reduce.contains(token)){
+				sr_conflicts.add("sr "+cc.index_cc+" token "+token.name);
+			}
+		}
+		if(cc.is_reduce && cc.token_reduce.contains(token)){
 			Set<Item> its_gr=cc.item_reduce;
-			value="";
 			for(Item it:its_gr){
 				value=value+"r"+it.index_gr_tb;
 			}			
 		}
 		table.action_t.put(key, value);
 	}
-	
+
 	private void createGotoTable(ActionTable table,CC cc,Symbol sym){//goto table
 		String key=sym.name;
 		String value="";
@@ -494,15 +500,22 @@ public class ParserGenerator {
 				if(sym.First.isEmpty()){
 					line="error empty firset set of"+sym.name;
 					System.out.println(line);
-					out.println(line);
 				}
 			}
-			out.println("");out.println("//all CCs");out.println("");
+			out.println();out.println("//shift-reduece conflicts");
+			for(String rsline:sr_conflicts){
+				out.println(rsline);
+			}
+			out.println();out.println("//reduce-reduece conflicts");
+			for(String rrline:rr_conflicts){
+				out.println(rrline);
+			}
+			out.println();out.println("//all CCs");out.println();
 			//print all CCs
 			for(CC cc:gen_CCs){
 				line=cc.index_cc+" : ";	out.println(line);
 				if(cc.is_reduce){					
-					line="reduce : "; out.println(line);
+					line="reduce: "; out.println(line);
 					for(Item it_r:cc.item_reduce){
 						line=it_r.index_gr_tb+" "+it_r.head.name;
 						out.println(line);
@@ -510,11 +523,11 @@ public class ParserGenerator {
 				}
 				line="items: "; out.println(line);
 				for(Item item:cc.items){
-					line=item.head.name+" ::=  ";
+					line=item.head.name+" ::= ";
 					for(Symbol sym:item.symbols){
 						line=line+sym.name+" ";
 					}
-					line=line+"  "+String.valueOf(item.position)+"  look_ahead: ";					
+					line=line+"    p: "+String.valueOf(item.position)+"    lok: ";					
 					for(Symbol sym:item.look_ahead){
 						line=line+sym.name+" ";
 					}

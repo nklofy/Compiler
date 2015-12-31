@@ -79,49 +79,48 @@
 77 else_stmt sg_stmt ; 
 78 while_exp while ( bool_exp ) { stmt_list } 
 79 calc_exp bool_exp 
-80 calc_exp str_exp 
-81 calc_exp new_exp 
-82 str_exp str 
-83 str_exp chr 
-84 new_exp new type_exp ( arg_list ) 
-85 bool_exp bool_exp && cmp_exp 
-86 bool_exp bool_exp || cmp_exp 
-87 bool_exp ! cmp_exp 
-88 bool_exp cmp_exp 
-89 cmp_exp add_exp > add_exp 
-90 cmp_exp add_exp >= add_exp 
-91 cmp_exp add_exp < add_exp 
-92 cmp_exp add_exp <= add_exp 
-93 cmp_exp add_exp == add_exp 
-94 cmp_exp add_exp != add_exp 
-95 cmp_exp add_exp 
-96 cmp_exp true 
-97 cmp_exp false 
-98 add_exp add_exp + mul_exp 
-99 add_exp add_exp - mul_exp 
-100 add_exp - mul_exp 
-101 add_exp mul_exp 
-102 add_exp ++ var 
-103 add_exp -- var 
-104 add_exp var ++ 
-105 add_exp var -- 
-106 mul_exp mul_exp * pri_exp 
-107 mul_exp mul_exp / pri_exp 
-108 mul_exp pri_exp 
-109 pri_exp number 
-110 pri_exp ( bool_exp ) 
-111 pri_exp apply_exp 
-112 pri_exp str_exp 
-113 apply_exp apply_exp . var ( arg_list ) 
-114 apply_exp apply_exp . var 
-115 apply_exp var ( arg_list ) 
-116 apply_exp var 
-117 apply_exp array_exp 
-118 arg_list arg_list , calc_exp 
-119 arg_list calc_exp 
-120 arg_list e 
-121 array_exp array_exp [ number ] 
-122 array_exp idn_type [ number ] 
+80 calc_exp new_exp 
+81 new_exp new type_exp ( arg_list ) 
+82 bool_exp bool_exp && cmp_exp 
+83 bool_exp bool_exp || cmp_exp 
+84 bool_exp ! cmp_exp 
+85 bool_exp cmp_exp 
+86 cmp_exp add_exp > add_exp 
+87 cmp_exp add_exp >= add_exp 
+88 cmp_exp add_exp < add_exp 
+89 cmp_exp add_exp <= add_exp 
+90 cmp_exp add_exp == add_exp 
+91 cmp_exp add_exp != add_exp 
+92 cmp_exp add_exp 
+93 cmp_exp true 
+94 cmp_exp false 
+95 add_exp add_exp + mul_exp 
+96 add_exp add_exp - mul_exp 
+97 add_exp - mul_exp 
+98 add_exp mul_exp 
+99 add_exp ++ var 
+100 add_exp -- var 
+101 add_exp var ++ 
+102 add_exp var -- 
+103 mul_exp mul_exp * pri_exp 
+104 mul_exp mul_exp / pri_exp 
+105 mul_exp pri_exp 
+106 pri_exp number 
+107 pri_exp ( bool_exp ) 
+108 pri_exp apply_exp 
+109 pri_exp str_exp 
+110 str_exp str 
+111 str_exp chr 
+112 apply_exp apply_exp . var ( arg_list ) 
+113 apply_exp apply_exp . var 
+114 apply_exp var ( arg_list ) 
+115 apply_exp var 
+116 apply_exp array_exp 
+117 arg_list arg_list , calc_exp 
+118 arg_list calc_exp 
+119 arg_list e 
+120 array_exp array_exp [ number ] 
+121 array_exp idn_type [ number ] 
 
 //AST
 0 crtGoal $0
