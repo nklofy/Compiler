@@ -1,16 +1,41 @@
 reserved :int
+identifier :fb
+oprator :(
+reserved :int
 identifier :a
+oprator :)
+oprator :{
+note :// fibonacci function
+reserved :if
+oprator :(
+identifier :a
+oprator :<=
+int_number :1
+oprator :)
+reserved :return
+int_number :1
 oprator :;
-identifier :a
+reserved :int
+identifier :c
 oprator :=
-int_number :5
+identifier :fb
+oprator :(
+identifier :a
+oprator :-
+int_number :1
+oprator :)
+oprator :+
+identifier :fb
+oprator :(
+identifier :a
+oprator :-
+int_number :2
+oprator :)
 oprator :;
-note :/*int fb(int a){
-note : if(a<=1)
-note :  return 1; 
-note : int c= fb(a-1)+fb(a-2);
-note : return c; 
-note :}*/
+reserved :return
+identifier :c
+oprator :;
+oprator :}
 reserved :int
 identifier :fact
 oprator :(
@@ -18,6 +43,7 @@ reserved :int
 identifier :b
 oprator :)
 oprator :{
+note ://factorial function
 reserved :if
 oprator :(
 identifier :b
@@ -30,13 +56,11 @@ oprator :;
 reserved :int
 identifier :c
 oprator :=
-oprator :(
 identifier :fact
 oprator :(
 identifier :b
 oprator :-
 int_number :1
-oprator :)
 oprator :)
 oprator :*
 identifier :b
@@ -45,8 +69,32 @@ reserved :return
 identifier :c
 oprator :;
 oprator :}
-note ://int c=fb(a);
-note ://println(c);
+reserved :int
+identifier :a
+oprator :;
+identifier :a
+oprator :=
+int_number :5
+oprator :;
+reserved :int
+identifier :c
+oprator :=
+identifier :fb
+oprator :(
+identifier :a
+oprator :)
+oprator :;
+identifier :println
+oprator :(
+string :"fb("
+oprator :+
+identifier :a
+oprator :+
+string :")= "
+oprator :+
+identifier :c
+oprator :)
+oprator :;
 reserved :int
 identifier :d
 oprator :=
@@ -57,6 +105,12 @@ oprator :)
 oprator :;
 identifier :println
 oprator :(
+string :"fact("
+oprator :+
+identifier :a
+oprator :+
+string :")= "
+oprator :+
 identifier :d
 oprator :)
 oprator :;

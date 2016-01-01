@@ -6,7 +6,7 @@ import Parser.TypeSys.Type_SgStmt;
 import Parser.TypeSys.Type_Stmt;
 
 public class ASTGenerator {
-	AST crtAST(String method, HashMap<String,ParseState> state_act){
+	AST crtAST(String method, ParseState crt_state){
 		return null;
 	}
 	/*switch(method){

@@ -406,6 +406,9 @@ public class ParserGenerator {
 				value=value+"r"+it.index_gr_tb;
 			}			
 		}
+		if(!(cc.goto_tb.containsKey(token) || cc.token_reduce.contains(token))){
+			value="/";
+		}
 		table.action_t.put(key, value);
 	}
 
@@ -415,6 +418,8 @@ public class ParserGenerator {
 		if(cc.goto_tb.containsKey(sym)){
 			int obj_cc=cc.goto_tb.get(sym).index_cc;
 			value="g"+obj_cc;	
+		}else{
+			value="/";
 		}		
 		table.goto_t.put(key, value);
 	}
@@ -453,7 +458,7 @@ public class ParserGenerator {
 			i=0;
 			for(ActionTable table:gen_action_tables){				
 				for(Symbol token:gen_tokens){
-					line=line+table.action_t.get(token.name)+" / ";
+					line=line+table.action_t.get(token.name)+" ";
 				}
 				out.println(i+" "+line);
 				line="";
@@ -467,7 +472,7 @@ public class ParserGenerator {
 			for(ActionTable table:gen_action_tables){				
 				
 				for(Symbol sym:gen_NTs){
-					line=line+table.goto_t.get(sym.name)+" / ";	
+					line=line+table.goto_t.get(sym.name)+" ";	
 				}
 				out.println(i+" "+line);
 				line="";

@@ -18,6 +18,7 @@ import Parser.TypeSys.Type_Stmt;
 
 public class Parser {
 	private Tokenizer tokenizer=new Tokenizer();
+	private ASTGenerator ast_gen=new ASTGenerator();
 	private ArrayList<String> symbol_table=new ArrayList<String>();
 	private ArrayList<String> token_table=new ArrayList<String>();
 	private ArrayList<Grammar> grammar_table=new ArrayList<Grammar>();
@@ -25,12 +26,13 @@ public class Parser {
 	private HashMap<String,Integer> token_sn=new HashMap<String,Integer>();
 	private ArrayList<AstRule> astRule_list=new ArrayList<AstRule>();
 	private ArrayList<ArrayList<Integer>> shift_table=new ArrayList<ArrayList<Integer>>();	
-	private ArrayList<ArrayList<int[]>> reduce_table=new ArrayList<ArrayList<int[]>>();
+	private ArrayList<ArrayList<LinkedList<Integer>>> reduce_table=new ArrayList<ArrayList<LinkedList<Integer>>>();
 	private ArrayList<ArrayList<Integer>> goto_table=new ArrayList<ArrayList<Integer>>();
 	private AST ast_tree;
 	private HashMap<Integer,ParseState> states_act=new HashMap<Integer,ParseState>();
 	private HashMap<Integer,ParseState> states_amb=new HashMap<Integer,ParseState>();
 	private int sym_e;
+	private ArrayList<String> parse_log=new ArrayList<String>();
 	public AST getAST(){
 		return ast_tree;
 	}
@@ -123,36 +125,43 @@ public class Parser {
 			while(!word.equals("//gotos") && !word.equals("")){	
 				String actions[]=word.split(" ");
 				ArrayList<Integer> shift=new ArrayList<Integer>();
-				ArrayList<int[]> reduce=new ArrayList<int[]>();
+				ArrayList<LinkedList<Integer>> reduce=new ArrayList<LinkedList<Integer>>();
 				shift_table.add(shift);		//add all shift action
 				reduce_table.add(reduce);	//add all reduce action
 				for(int i=1;i<actions.length;i++){
 					if(!actions[i].equals("")){	
 						String str_tmp=actions[i];
 						if(str_tmp.equals("/")){
-							shift.add(-1);		//"-1" means illegal action		
-							reduce.add(new int[]{-1});
+							shift.add(-1);		//"-1" means no action		
+							reduce.add(new LinkedList<Integer>());
+							reduce.get(reduce.size()-1).add(-1);
 						}else{
-							int j=0,jp=0,k=0;
+							int j=0,jp=0;
 							if(str_tmp.charAt(0)=='s'){		//shift, maybe reduce
 								while(j<str_tmp.length()&&str_tmp.charAt(j)!='r'){
 									j++;
 								}
 								shift.add(Integer.parseInt(str_tmp.substring(1, j)));
-								reduce.add(new int[]{-1});								
-							}else{ 			//no shift, but reduce
+								reduce.add(new LinkedList<Integer>());
+								reduce.get(reduce.size()-1).add(-1);							
+							}else if(str_tmp.charAt(0)=='r'){ 			//no shift, but reduce
 								shift.add(-1);	
-								reduce.add(new int[]{-1});
+								reduce.add(new LinkedList<Integer>());
+								reduce.get(reduce.size()-1).add(-1);
+							}else{
+								System.out.println("unkown action "+str_tmp);
 							}
 							if(j<str_tmp.length()&&str_tmp.charAt(j)=='r'){
-								jp=j;
-								int[] intl=reduce.get(reduce.size()-1);
-								while(j<str_tmp.length()){
-									j++;
-									if(str_tmp.charAt(j)=='r'||j==str_tmp.length()){
-										intl[k++]=Integer.parseInt(str_tmp.substring(jp+1, j));
+								jp=j++;
+								LinkedList<Integer> intl=reduce.get(reduce.size()-1);								
+								while(j<=str_tmp.length()){
+									if(j==str_tmp.length()||str_tmp.charAt(j)=='r'){
+										String s=str_tmp.substring(jp+1, j);
+										//System.out.println(s);
+										intl.add(Integer.parseInt(s));
 										jp=j;
-									}	
+									}
+									j++;
 								}
 								
 							}
@@ -197,16 +206,12 @@ public class Parser {
 		}finally{
 			in.close();
 		}
-		//int j=0;
+		
 		for(int i=0;i<symbol_table.size();i++){
 			symbol_sn.put(symbol_table.get(i),i);
-			//symbol_sn_stk.put(symbol_table.get(j),j);
-			//j++;
 		}
 		for(int i=0;i<token_table.size();i++){
-			token_sn.put(token_table.get(i),i);
-			//symbol_sn_stk.put(token_table.get(j),j);
-			//j++;
+			token_sn.put(token_table.get(i),i);	
 		}
 		
 		return true;		
@@ -280,18 +285,16 @@ public class Parser {
 		return true;
 	}
 	
-	public boolean parse(){//TODO
+	public boolean parse(){
 		ParseState state_start=new ParseState();
-		sym_e=symbol_sn.get("e");
+		sym_e=token_sn.get("e");
 		Token token=tokenizer.getToken();
 		int crt_state=0;
-		//boolean gotNewToken=true;
-		//ASTGenerator ast_gen=new ASTGenerator();
-		state_start.state=crt_state;
+		state_start.state_sn=crt_state;
 		Symbol symbol=new Symbol();
 		symbol.name="Goal";
 		state_start.symbol=symbol;
-		
+		states_act.put(0, state_start);
 		String token_name="";
 		Symbol smb=new Symbol();
 		while(true){	
@@ -338,113 +341,155 @@ public class Parser {
 			default:
 				return false;
 			}
-			int crt_token_sn=token_sn.get(token_name);
-			doReduce(crt_token_sn);
-			doShift(crt_token_sn);
-				
-			
-			if(true){
-				break;
+
+			doAllReduce(token_name);
+			doAllShift(token_name,smb);				
+
+			if(token_name.equals("eof") && states_act.size()==1 && states_act.containsKey(0) ){//end of parsing
+				System.out.println("eof, "+"finished parsing");
+				ast_tree=states_act.get(0).symbol.ast;
+				return true;	
 			}
-			
-			/*int shift_state=shift_table.get(crt_state).get(crt_token_sn);
-			int[] reduce_grammars=reduce_table.get(crt_state).get(crt_token_sn);//TODO
-			int reduce_grammar=0;
-			if(shift_state!=-1){//in shift table
-				crt_state=shift_state;//shift
-				
-				state_stack.addFirst(crt_state);
-				symbol_stack.addFirst(smb);
-				System.out.println("s "+crt_state+" "+token_name);
-				token=tokenizer.getToken();
-				gotNewToken=true;
-				continue;
-				
-			}else if(reduce_grammar!=0){//in reduce table
-				gotNewToken=false;
-				String reduce_head=grammar_table.get(reduce_grammar).head;
-				Symbol reduce_smb=new Symbol();
-				reduce_smb.name=reduce_head;
-				AstRule rule=astRule_list.get(reduce_grammar);
-				String method=rule.method;
-				AST ast = null;
-				ast=ast_gen.crtAST(method,state_act);
-				
-				reduce_smb.ast=ast;
-				//System.out.println("create ast: "+ ast.getClass().getName());
-				int ct=grammar_table.get(reduce_grammar).symbol_count;
-				for(int i=0;i<ct;i++){
-					state_stack.remove();	
-					symbol_stack.remove();						
-				}	
-				crt_state=state_stack.peek();
-				crt_state=goto_table.get(crt_state).get(symbol_sn.get(reduce_head));
-				state_stack.addFirst(crt_state);
-				symbol_stack.addFirst(reduce_smb);
-				System.out.println("r "+reduce_grammar+" "+reduce_smb.name+" g "+crt_state+" "+token_name);
-				if(reduce_grammar==0 && token_name.equals("eof")){
-					System.out.println("eof, "+"finished parsing");
-					ast_tree=ast;
-					return true;				
-				}
-			}else{
-				System.out.println("error in line "+token.getLine()+", state "+crt_state+" "+symbol_stack.get(0).name+", token "+token_name);
-				return false;
-			}	*/		
+			return false;
 		}
-		return false;
 	}
-	
-	private boolean doShift(int crt_token_sn){
-		for(ParseState pst:states_act.values()){
-			int crt_state=pst.state;
-			int shift_state=shift_table.get(crt_state).get(crt_token_sn);
+	private boolean doAllShift(String token_name,Symbol smb){
+		int crt_token_sn=token_sn.get(token_name);
+		ArrayList<ParseState> states_e=new ArrayList<ParseState>();
+		ArrayList<ParseState> states_e_rm=new ArrayList<ParseState>();
+		ArrayList<ParseState> states_e_add=new ArrayList<ParseState>();
+		ArrayList<ParseState> states_rm=new ArrayList<ParseState>();
+		ArrayList<ParseState> states_add=new ArrayList<ParseState>();
+		int shift_state;
+		for(ParseState pst:states_act.values()){//check for e shift
+			int crt_state=pst.state_sn;
+			shift_state=shift_table.get(crt_state).get(crt_token_sn);
 			if(shift_state==-1){	
 				shift_state=shift_table.get(crt_state).get(sym_e);
 				if(shift_state==-1){
-					states_act.remove(pst.state);
+					states_rm.add(pst);
+					parse_log.add("wrong branch when shift "+crt_state+" "+token_name);
 					continue;
 				}else{
-					doSignleReduce(crt_token_sn);
+					states_e.add(pst);
+					continue;
 				}
-			}
-			ParseState new_pst=states_act.get(shift_state);
-			if(new_pst==null){
-				new_pst=new ParseState();
-				init; count; depth;
-				states_act.remove(pst.state);
-				states_act.put(shift_state, new_pst);
-			}else{
-				new_pst.pre_states.add(pst);
 			}
 			
 		}
+		for(ParseState pst_rm:states_rm){
+			states_act.remove(pst_rm.state_sn);
+		}
+		states_rm.clear();
+		if(!states_e.isEmpty()){
+			for(ParseState pst_e:states_e){
+				int shift_e=shift_table.get(pst_e.state_sn).get(sym_e);
+				ParseState pst_ep=pst_e.pre_state;
+				ParseState new_pst=new ParseState();
+				new_pst.pre_state=pst_ep;
+				new_pst.state_sn=shift_e;
+				states_e_rm.add(pst_e);
+				states_e_add.add(new_pst);
+			}
+			for(ParseState pst_rm:states_e_rm){
+				states_act.remove(pst_rm.state_sn);
+			}
+			for(ParseState pst_add:states_e_add){
+				states_act.put(pst_add.state_sn,pst_add);
+			}
+			doAllReduce(token_name);
+		}		
+		
+		for(ParseState pst:states_act.values()){//do shift
+			int crt_state=pst.state_sn;
+			shift_state=shift_table.get(crt_state).get(crt_token_sn);
+			ParseState new_pst=new ParseState();
+			new_pst.state_sn=shift_state;
+			new_pst.symbol=smb;
+			new_pst.det_depth=pst.det_depth+1;
+			new_pst.out_count++;
+			states_rm.add(pst);
+			states_add.add(new_pst);
+			parse_log.add("shift "+pst.state_sn+" "+token_name+" goto "+new_pst.state_sn);
+		}
+		for(ParseState pst_rm:states_rm){
+			states_act.remove(pst_rm.state_sn);
+		}
+		for(ParseState pst_add:states_add){
+			states_act.put(pst_add.state_sn, pst_add);
+		}		
 		return true;
 	}
-	private boolean doReduce(int crt_token_sn){
+	private boolean doAllReduce(String token_name){
+		int crt_token_sn=token_sn.get(token_name);
+		LinkedList<ParseState> states_rlst=new LinkedList<ParseState>();
+		LinkedList<ParseState> states_rm=new LinkedList<ParseState>();
+		LinkedList<ParseState> states_add=new LinkedList<ParseState>();		
 		for(ParseState pst:states_act.values()){
-			int[] reduce_grammars=reduce_table.get(pst.state).get(crt_token_sn);
-			for(int i:reduce_grammars){
-				doSingleReduce();
-			}
+			states_rlst.add(pst);
 		}
+		while(true){
+			if(states_rlst.isEmpty())
+				break;
+			ParseState pst=states_rlst.removeFirst();
+			LinkedList<Integer> r_grms=reduce_table.get(pst.state_sn).get(crt_token_sn);
+			if(r_grms.get(0)==-1){
+				continue;
+			}
+			for(int r:r_grms){
+				ParseState nps=doReduce(pst,r);
+				pst.out_count--;
+				if(pst.out_count==0)
+					states_act.remove(pst.state_sn);
+				states_act.put(nps.state_sn,nps);
+				states_rlst.add(nps);
+			}
+		}		
 		return true;
 	}
 	
-	private boolean doSingleReduce(int i){
-		move states_act;
-		refresh count and depth;
-		build new ast;
-		add to amb;
-		return;
+	private ParseState doReduce(ParseState crt_state, int reduce_grammar){
+		String reduce_head=grammar_table.get(reduce_grammar).head;		
+		AstRule rule=astRule_list.get(reduce_grammar);
+		String method=rule.method;
+		AST ast =ast_gen.crtAST(method,crt_state);		//build new ast;
+		parse_log.add("create ast: "+ ast.getClass().getName());
+		int ct=grammar_table.get(reduce_grammar).symbol_count;	
+		ParseState pre_state=crt_state;
+		for(int i=0;i<ct;i++){							//move states_act;
+			pre_state=pre_state.pre_state;
+		}
+		int nss=goto_table.get(pre_state.state_sn).get(symbol_sn.get(reduce_head));
+		ParseState nps=null;
+		if(states_act.containsKey(nss)){
+			nps=states_act.get(nss);
+			nps.pre_states.add(pre_state);
+			nps.symbol.asts.add(ast);
+			nps.det_depth=0;							//refresh count and depth;
+			nps.out_count++;
+		}else{
+			Symbol smb=new Symbol();
+			smb.name=reduce_head;
+			smb.ast=ast;
+			nps=new ParseState();
+			nps.state_sn=nss;
+			nps.pre_state=pre_state;
+			nps.symbol=smb;
+			nps.det_depth=pre_state.det_depth+1;
+			nps.out_count++;
+			
+		}
+		parse_log.add("reduce "+reduce_grammar+" "+reduce_head+" goto "+nss);
+		return nps;
 	}
 	
 	public boolean output(String filename){
 		PrintWriter out=null;
-		String line="";
 		try {
 			out=new PrintWriter(new BufferedWriter(new FileWriter(filename)));
-			
+			for(String s:parse_log){
+				out.println(s);
+			}
 		} catch (Exception e) {			
 			e.printStackTrace();
 		}finally{

@@ -16,6 +16,7 @@ class AstRule{		//currently just method name is used
 
 class Symbol{		//symbol in graph stack	
 	AST ast;
+	LinkedList<AST> asts;
 	String type;
 	String name;
 	String value;
@@ -28,9 +29,9 @@ class ParseState{		//graph stack
 	ParseState pre_state;
 	LinkedList<ParseState> pre_states;
 	Symbol symbol;
-	int state;
-	int out_count;
-	int det_depth;
+	int state_sn=-1;
+	int out_count=0;
+	int det_depth=0;
 }
 
 class Grammar{		//grammar production
