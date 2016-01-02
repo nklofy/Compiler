@@ -344,7 +344,7 @@ public class Parser {
 							
 
 			if(token_name.equals("eof")  ){//end of parsing
-				if(states_act.size()==1 && states_act.containsKey(1)){
+				if(states_act.containsKey(0)){
 					System.out.println("eof, "+"finished parsing");
 					parse_log.add("eof, "+"finished parsing");
 					//ast_tree=states_act.get(0).symbol.ast;
@@ -375,7 +375,7 @@ public class Parser {
 				if(shift_state==-1){
 					states_rm.add(pst);
 					parse_log.add("wrong branch when shift "+crt_state+" "+token_name);
-					System.out.println("wrong branch when shift "+crt_state+" "+token_name);
+					//System.out.println("wrong branch when shift "+crt_state+" "+token_name);
 					continue;
 				}else{
 					states_e.add(pst);
@@ -410,6 +410,21 @@ public class Parser {
 		for(ParseState pst:states_act.values()){//do shift
 			int crt_state=pst.state_sn;
 			shift_state=shift_table.get(crt_state).get(crt_token_sn);
+			if(states_act.containsKey(shift_table)){
+				ParseState nps=states_act.get(shift_table);
+				nps.pre_state=null;
+				nps.pre_states.add(pst);
+				if(nps.symbols==null){
+					nps.symbols=new LinkedList<Symbol>();
+					nps.symbols.add(nps.symbol);
+				}
+				nps.symbols.add(smb);
+				nps.symbol=null;
+				nps.det_depth=0;							//refresh count and depth;
+				nps.out_count++;
+				parse_log.add("shift to existing "+pst.state_sn+" "+token_name);
+				System.out.println("shift to existing "+pst.state_sn+" "+token_name);
+			}
 			ParseState new_pst=new ParseState();
 			new_pst.state_sn=shift_state;
 			new_pst.symbol=smb;
@@ -431,9 +446,7 @@ public class Parser {
 	}
 	private boolean doAllReduce(String token_name){
 		int crt_token_sn=token_sn.get(token_name);
-		LinkedList<ParseState> states_rlst=new LinkedList<ParseState>();
-		LinkedList<ParseState> states_rm=new LinkedList<ParseState>();
-		LinkedList<ParseState> states_add=new LinkedList<ParseState>();		
+		LinkedList<ParseState> states_rlst=new LinkedList<ParseState>();	
 		for(ParseState pst:states_act.values()){
 			states_rlst.add(pst);
 		}
@@ -444,28 +457,19 @@ public class Parser {
 			ParseState pst=states_rlst.removeFirst();
 			LinkedList<Integer> r_grms=reduce_table.get(pst.state_sn).get(crt_token_sn);
 			if(r_grms.get(0)==-1){
+				 if(!states_act.containsKey(pst.state_sn)){
+					states_act.put(pst.state_sn,pst);
+				 }
 				continue;
 			}
 			for(int r:r_grms){
-				ParseState nps=doReduce(pst,r);
-				if(nps==null){
-					continue;
-				}
-				pst.out_count--;
-				if(pst.out_count==0){
-					states_act.remove(pst.state_sn);
-				}
-				states_act.put(nps.state_sn,nps);
-				if(nps.state_sn==1){
-					return true;
-				}
-				states_rlst.add(nps);
+				doReduce(pst,r,states_rlst);
 			}
-		}		
+		}
 		return true;
 	}
 	
-	private ParseState doReduce(ParseState crt_state, int reduce_grammar){
+	private boolean doReduce(ParseState crt_state, int reduce_grammar,LinkedList<ParseState> states_rlst){
 		String reduce_head=grammar_table.get(reduce_grammar).head;		
 		AstRule rule=astRule_list.get(reduce_grammar);
 		String method=rule.method;
@@ -473,39 +477,102 @@ public class Parser {
 		//parse_log.add("create ast: "+ ast.getClass().getName());
 		//System.out.println("create ast: "+ ast.getClass().getName());
 		int ct=grammar_table.get(reduce_grammar).symbol_count;	
-		ParseState pre_state=crt_state;
-		if(ct<=crt_state.det_depth){//fast LR
+		ParseState pst_pre=crt_state;
+		if(ct<=crt_state.det_depth){						//fast LR
 			for(int i=0;i<ct;i++){							//move states_act;
-				pre_state=pre_state.pre_state;			
+				pst_pre=pst_pre.pre_state;			
 			}
+			int nss=goto_table.get(pst_pre.state_sn).get(symbol_sn.get(reduce_head));
+			//if(nss==-1){
+			//	return false;
+			//}
+			ParseState nps=null;
+			if(states_act.containsKey(nss)){
+				nps=states_act.get(nss);
+				if(nps.pre_states==null){
+					nps.pre_states=new LinkedList<ParseState>();
+					nps.pre_states.add(nps.pre_state);
+				}
+				nps.pre_states.add(pst_pre);
+				nps.pre_state=null;
+				nps.symbol.asts.add(ast);
+				nps.det_depth=0;							//refresh count and depth;
+				nps.out_count++;
+				parse_log.add("reduce to existing "+reduce_grammar+" "+reduce_head+" goto "+nss);
+				System.out.println("reduce to existing "+reduce_grammar+" "+reduce_head+" goto "+nss);
+			}else{
+				Symbol smb=new Symbol();
+				smb.name=reduce_head;
+				smb.ast=ast;
+				nps=new ParseState();
+				nps.state_sn=nss;
+				nps.pre_state=pst_pre;
+				nps.symbol=smb;
+				nps.det_depth=pst_pre.det_depth+1;
+				nps.out_count++;
+				parse_log.add("reduce "+reduce_grammar+" "+reduce_head+" goto "+nss);
+				System.out.println("reduce "+reduce_grammar+" "+reduce_head+" goto "+nss);
+			}			
+			states_rlst.add(nps);
+			return true;
 		}else{
-			
+			LinkedList<ParseState> states_b=new LinkedList<ParseState>();
+			LinkedList<ParseState> states_bl=new LinkedList<ParseState>();
+			for(int i=crt_state.det_depth;i>0;i--){							//move states_act;
+				pst_pre=pst_pre.pre_state;			
+			}
+			states_b.add(pst_pre);
+			for(int i=ct-crt_state.det_depth;i>0;i--){
+				states_bl.clear();
+				for(ParseState pst_b:states_b){
+					if(pst_b.pre_state==null){
+						states_bl.addAll(pst_b.pre_states);
+					}else{
+						states_bl.add(pst_b.pre_state);
+					}
+				}
+				states_b.clear();
+				states_b.addAll(states_bl);
+			}
+			for(ParseState pre_mr:states_b){
+				int nss=goto_table.get(pre_mr.state_sn).get(symbol_sn.get(reduce_head));
+				//if(nss==-1){
+				//	return false;
+				//}
+				ParseState nps=null;
+				if(states_act.containsKey(nss)){
+					nps=states_act.get(nss);
+					if(nps.pre_states==null){
+						nps.pre_states=new LinkedList<ParseState>();
+						nps.pre_states.add(nps.pre_state);
+					}
+					nps.pre_states.add(pre_mr);
+					nps.pre_state=null;
+					nps.symbol.asts.add(ast);
+					nps.det_depth=0;							//refresh count and depth;
+					nps.out_count++;
+					parse_log.add("reduce to existing "+reduce_grammar+" "+reduce_head+" goto "+nss);
+					System.out.println("reduce to existing "+reduce_grammar+" "+reduce_head+" goto "+nss);
+				}else{
+					Symbol smb=new Symbol();
+					smb.name=reduce_head;
+					smb.ast=ast;
+					nps=new ParseState();
+					nps.state_sn=nss;
+					nps.pre_state=pre_mr;
+					nps.symbol=smb;
+					nps.det_depth=pre_mr.det_depth+1;
+					nps.out_count++;
+					parse_log.add("reduce "+reduce_grammar+" "+reduce_head+" goto "+nss);
+					System.out.println("reduce "+reduce_grammar+" "+reduce_head+" goto "+nss);
+				}			
+				states_rlst.add(nps);
+				return true;
+			}
+			return true;
 		}
 		
-		int nss=goto_table.get(pre_state.state_sn).get(symbol_sn.get(reduce_head));
-		ParseState nps=null;
-		if(states_act.containsKey(nss)){
-			nps=states_act.get(nss);
-			nps.pre_states.add(pre_state);
-			nps.symbol.asts.add(ast);
-			nps.det_depth=0;							//refresh count and depth;
-			nps.out_count++;
-		}else if(nss!=-1){
-			Symbol smb=new Symbol();
-			smb.name=reduce_head;
-			smb.ast=ast;
-			nps=new ParseState();
-			nps.state_sn=nss;
-			nps.pre_state=pre_state;
-			nps.symbol=smb;
-			nps.det_depth=pre_state.det_depth+1;
-			nps.out_count++;
-		}else{
-			return null;
-		}
-		parse_log.add("reduce "+reduce_grammar+" "+reduce_head+" goto "+nss);
-		System.out.println("reduce "+reduce_grammar+" "+reduce_head+" goto "+nss);
-		return nps;
+		
 	}
 	
 	public boolean output(String filename){

@@ -388,6 +388,7 @@ public class ParserGenerator {
 				createGotoTable(table,cc,sym);  //goto table
 			}
 		}
+		gen_action_tables.get(0).goto_t.put("Goal", "g0");
 	}
 
 	private void createActionTable(ActionTable table,CC cc,Symbol token){//action table

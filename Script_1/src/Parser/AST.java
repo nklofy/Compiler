@@ -29,6 +29,7 @@ class ParseState{		//graph stack
 	ParseState pre_state;
 	LinkedList<ParseState> pre_states;
 	Symbol symbol;
+	LinkedList<Symbol> symbols;
 	int state_sn=-1;
 	int out_count=0;
 	int det_depth=0;
