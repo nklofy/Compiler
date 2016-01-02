@@ -147,7 +147,6 @@ public class Parser {
 							}else if(str_tmp.charAt(0)=='r'){ 			//no shift, but reduce
 								shift.add(-1);	
 								reduce.add(new LinkedList<Integer>());
-								reduce.get(reduce.size()-1).add(-1);
 							}else{
 								System.out.println("unkown action "+str_tmp);
 							}
@@ -189,7 +188,6 @@ public class Parser {
 						if(str_tmp.equals("/")){
 							gt.add(-1);		//"-1" means illegal action
 						}else{
-							i++;
 							if(str_tmp.charAt(0)=='g'){
 								gt.add(Integer.parseInt(str_tmp.substring(1)));//goto
 							}else return false;
@@ -343,15 +341,23 @@ public class Parser {
 			}
 
 			doAllReduce(token_name);
-			doAllShift(token_name,smb);				
+							
 
-			if(token_name.equals("eof") && states_act.size()==1 && states_act.containsKey(0) ){//end of parsing
-				System.out.println("eof, "+"finished parsing");
-				ast_tree=states_act.get(0).symbol.ast;
-				return true;	
+			if(token_name.equals("eof")  ){//end of parsing
+				if(states_act.size()==1 && states_act.containsKey(1)){
+					System.out.println("eof, "+"finished parsing");
+					parse_log.add("eof, "+"finished parsing");
+					//ast_tree=states_act.get(0).symbol.ast;
+					return true;	
+				}
 			}
-			return false;
+			doAllShift(token_name,smb);
+			if(states_act.isEmpty()){
+				break;
+			}
+			token=tokenizer.getToken();
 		}
+		return false;
 	}
 	private boolean doAllShift(String token_name,Symbol smb){
 		int crt_token_sn=token_sn.get(token_name);
@@ -369,6 +375,7 @@ public class Parser {
 				if(shift_state==-1){
 					states_rm.add(pst);
 					parse_log.add("wrong branch when shift "+crt_state+" "+token_name);
+					System.out.println("wrong branch when shift "+crt_state+" "+token_name);
 					continue;
 				}else{
 					states_e.add(pst);
@@ -408,9 +415,11 @@ public class Parser {
 			new_pst.symbol=smb;
 			new_pst.det_depth=pst.det_depth+1;
 			new_pst.out_count++;
+			new_pst.pre_state=pst;
 			states_rm.add(pst);
 			states_add.add(new_pst);
 			parse_log.add("shift "+pst.state_sn+" "+token_name+" goto "+new_pst.state_sn);
+			System.out.println("shift "+pst.state_sn+" "+token_name+" goto "+new_pst.state_sn);
 		}
 		for(ParseState pst_rm:states_rm){
 			states_act.remove(pst_rm.state_sn);
@@ -429,8 +438,9 @@ public class Parser {
 			states_rlst.add(pst);
 		}
 		while(true){
-			if(states_rlst.isEmpty())
+			if(states_rlst.isEmpty()){
 				break;
+			}
 			ParseState pst=states_rlst.removeFirst();
 			LinkedList<Integer> r_grms=reduce_table.get(pst.state_sn).get(crt_token_sn);
 			if(r_grms.get(0)==-1){
@@ -438,10 +448,17 @@ public class Parser {
 			}
 			for(int r:r_grms){
 				ParseState nps=doReduce(pst,r);
+				if(nps==null){
+					continue;
+				}
 				pst.out_count--;
-				if(pst.out_count==0)
+				if(pst.out_count==0){
 					states_act.remove(pst.state_sn);
+				}
 				states_act.put(nps.state_sn,nps);
+				if(nps.state_sn==1){
+					return true;
+				}
 				states_rlst.add(nps);
 			}
 		}		
@@ -453,12 +470,18 @@ public class Parser {
 		AstRule rule=astRule_list.get(reduce_grammar);
 		String method=rule.method;
 		AST ast =ast_gen.crtAST(method,crt_state);		//build new ast;
-		parse_log.add("create ast: "+ ast.getClass().getName());
+		//parse_log.add("create ast: "+ ast.getClass().getName());
+		//System.out.println("create ast: "+ ast.getClass().getName());
 		int ct=grammar_table.get(reduce_grammar).symbol_count;	
 		ParseState pre_state=crt_state;
-		for(int i=0;i<ct;i++){							//move states_act;
-			pre_state=pre_state.pre_state;
+		if(ct<=crt_state.det_depth){//fast LR
+			for(int i=0;i<ct;i++){							//move states_act;
+				pre_state=pre_state.pre_state;			
+			}
+		}else{
+			
 		}
+		
 		int nss=goto_table.get(pre_state.state_sn).get(symbol_sn.get(reduce_head));
 		ParseState nps=null;
 		if(states_act.containsKey(nss)){
@@ -467,7 +490,7 @@ public class Parser {
 			nps.symbol.asts.add(ast);
 			nps.det_depth=0;							//refresh count and depth;
 			nps.out_count++;
-		}else{
+		}else if(nss!=-1){
 			Symbol smb=new Symbol();
 			smb.name=reduce_head;
 			smb.ast=ast;
@@ -477,9 +500,11 @@ public class Parser {
 			nps.symbol=smb;
 			nps.det_depth=pre_state.det_depth+1;
 			nps.out_count++;
-			
+		}else{
+			return null;
 		}
 		parse_log.add("reduce "+reduce_grammar+" "+reduce_head+" goto "+nss);
+		System.out.println("reduce "+reduce_grammar+" "+reduce_head+" goto "+nss);
 		return nps;
 	}
 	
