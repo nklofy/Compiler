@@ -14,15 +14,19 @@ class AstRule{		//currently just method name is used
 	ArrayList<Integer> parameters=new ArrayList<Integer>();
 }
 
-class Symbol{		//symbol in graph stack	
+class Symbol{		//symbol in graph stack correspond to reduce path or merged paths
 	AST ast;
-	LinkedList<AST> asts;
+	Symbol merged_symbol; 
+	boolean fixed=true;	//fixed or ambiguous
+	ParseState path_start;	//start of reduce
+	ParseState path_end;	//end of reduce
+	int path_count; 	//edges in reduce path
 	String type;
 	String name;
 	String value;
-	public String getValue() {
-		return value;
-	}	
+	///public String getValue() {
+	//	return value;
+	//}
 }
 
 class ParseState{		//graph stack

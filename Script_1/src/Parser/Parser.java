@@ -25,12 +25,16 @@ public class Parser {
 	private HashMap<String,Integer> symbol_sn=new HashMap<String,Integer>();
 	private HashMap<String,Integer> token_sn=new HashMap<String,Integer>();
 	private ArrayList<AstRule> astRule_list=new ArrayList<AstRule>();
-	private ArrayList<ArrayList<Integer>> shift_table=new ArrayList<ArrayList<Integer>>();	
-	private ArrayList<ArrayList<LinkedList<Integer>>> reduce_table=new ArrayList<ArrayList<LinkedList<Integer>>>();
+	private ArrayList<ArrayList<Integer>> shift_table=new ArrayList<ArrayList<Integer>>();
 	private ArrayList<ArrayList<Integer>> goto_table=new ArrayList<ArrayList<Integer>>();
+	private ArrayList<ArrayList<Integer>> reduce_table=new ArrayList<ArrayList<Integer>>();
+	private ArrayList<ArrayList<ArrayList<Integer>>> reduces_table=new ArrayList<ArrayList<ArrayList<Integer>>>();	
 	private AST ast_tree;
 	private HashMap<Integer,ParseState> states_act=new HashMap<Integer,ParseState>();
-	private HashMap<Integer,ParseState> states_amb=new HashMap<Integer,ParseState>();
+	//private HashSet<Integer> parse_line=new HashSet<Integer>(); //states with line LR 
+	//private HashSet<Integer> parse_e=new HashSet<Integer>(); //states with e shift 
+	//private HashSet<Integer> parse_rr=new HashSet<Integer>();	//states with rr conflict
+	//private HashSet<Integer> parse_rs=new HashSet<Integer>();	//states with rs conflict
 	private int sym_e;
 	private ArrayList<String> parse_log=new ArrayList<String>();
 	public AST getAST(){
@@ -125,16 +129,18 @@ public class Parser {
 			while(!word.equals("//gotos") && !word.equals("")){	
 				String actions[]=word.split(" ");
 				ArrayList<Integer> shift=new ArrayList<Integer>();
-				ArrayList<LinkedList<Integer>> reduce=new ArrayList<LinkedList<Integer>>();
+				ArrayList<Integer> reduce=new ArrayList<Integer>();
+				ArrayList<ArrayList<Integer>> reduces=new ArrayList<ArrayList<Integer>>();
 				shift_table.add(shift);		//add all shift action
-				reduce_table.add(reduce);	//add all reduce action
+				reduce_table.add(reduce);
+				reduces_table.add(reduces);	//add all reduce action
 				for(int i=1;i<actions.length;i++){
 					if(!actions[i].equals("")){	
 						String str_tmp=actions[i];
 						if(str_tmp.equals("/")){
 							shift.add(-1);		//"-1" means no action		
-							reduce.add(new LinkedList<Integer>());
-							reduce.get(reduce.size()-1).add(-1);
+							reduce.add(-1);
+							continue;
 						}else{
 							int j=0,jp=0;
 							if(str_tmp.charAt(0)=='s'){		//shift, maybe reduce
@@ -142,28 +148,54 @@ public class Parser {
 									j++;
 								}
 								shift.add(Integer.parseInt(str_tmp.substring(1, j)));
-								reduce.add(new LinkedList<Integer>());
-								reduce.get(reduce.size()-1).add(-1);							
-							}else if(str_tmp.charAt(0)=='r'){ 			//no shift, but reduce
-								shift.add(-1);	
-								reduce.add(new LinkedList<Integer>());
+								if(j==str_tmp.length()){
+									reduce.add(-1);		//-1 means no reduce
+									continue;
+								}else if(str_tmp.charAt(j)!='r'){
+									System.out.println("error action table at "+ shift_table.size());
+								}
+							}else if(str_tmp.charAt(0)=='r'){ 			//no shift, only reduce
+								shift.add(-1);
 							}else{
 								System.out.println("unkown action "+str_tmp);
-							}
-							if(j<str_tmp.length()&&str_tmp.charAt(j)=='r'){
-								jp=j++;
-								LinkedList<Integer> intl=reduce.get(reduce.size()-1);								
-								while(j<=str_tmp.length()){
-									if(j==str_tmp.length()||str_tmp.charAt(j)=='r'){
-										String s=str_tmp.substring(jp+1, j);
-										//System.out.println(s);
-										intl.add(Integer.parseInt(s));
-										jp=j;
-									}
-									j++;
+							}		
+							ArrayList<Integer> rs=new ArrayList<Integer>();
+							reduces.add(rs);
+							jp=j++;
+							while(j<str_tmp.length()){
+								j++;
+								if(j==str_tmp.length()&&rs.isEmpty()){	//only one reduce
+									int r=Integer.parseInt(str_tmp.substring(jp+1, j));
+									reduce.add(r);
+									break;
 								}
-								
+								if(j==str_tmp.length()&&rs.size()>1){
+									if(shift.get(shift.size()-1)==-1){
+										reduce.add(-2); //-2 means r-r conflict
+									}else{
+										reduce.add(-3);	//-3 means s-r-r conflict
+									}
+									break;
+								}
+								if(j==str_tmp.length()||str_tmp.charAt(j)=='r'){
+									int r=Integer.parseInt(str_tmp.substring(jp+1, j));
+									rs.add(r);
+								}
 							}
+							
+							
+							
+								//while(j<=str_tmp.length()){
+								//	if(j==str_tmp.length()||str_tmp.charAt(j)=='r'){
+								//		String s=str_tmp.substring(jp+1, j);
+								//		//System.out.println(s);
+								//		intl.add(Integer.parseInt(s));
+								//		jp=j;
+								//	}
+								//	j++;
+								//}
+								
+							
 						}
 					}
 				}
@@ -399,7 +431,7 @@ public class Parser {
 			}
 			states_e_add.clear();
 			for(ParseState pst_e:states_e){				
-				LinkedList<Integer> r_grms=reduce_table.get(pst_e.state_sn).get(crt_token_sn);
+				LinkedList<Integer> r_grms=reduces_table.get(pst_e.state_sn).get(crt_token_sn);
 				if(r_grms.get(0)!=-1){			
 					for(int r:r_grms){
 						doReduce(pst_e,r,states_e_add);		//add new state to states_e
@@ -411,7 +443,7 @@ public class Parser {
 				if(shift_e==-1){
 					continue;
 				}
-				r_grms=reduce_table.get(shift_e).get(crt_token_sn); //reduce grammars
+				r_grms=reduces_table.get(shift_e).get(crt_token_sn); //reduce grammars
 				if(r_grms.get(0)==-1){					//no red grammar
 					continue;
 				}
@@ -472,7 +504,7 @@ public class Parser {
 				break;
 			}
 			ParseState pst=states_rlst.removeFirst();
-			LinkedList<Integer> r_grms=reduce_table.get(pst.state_sn).get(crt_token_sn);
+			LinkedList<Integer> r_grms=reduces_table.get(pst.state_sn).get(crt_token_sn);
 			if(r_grms.get(0)==-1){
 				continue;
 			}
