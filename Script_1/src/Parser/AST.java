@@ -16,8 +16,6 @@ class AstRule{		//currently just method name is used
 
 class Symbol{		//symbol in graph stack correspond to reduce path or merged paths
 	AST ast;
-	Symbol merged_symbol; 
-	boolean fixed=true;	//fixed or ambiguous
 	ParseState path_start;	//start of reduce
 	ParseState path_end;	//end of reduce
 	int path_count; 	//edges in reduce path
@@ -30,6 +28,7 @@ class Symbol{		//symbol in graph stack correspond to reduce path or merged paths
 }
 
 class ParseState{		//graph stack
+	boolean fixed=true;	//fixed or ambiguous
 	ParseState pre_state;
 	LinkedList<ParseState> pre_states;	//multi path
 	Symbol symbol;
@@ -39,7 +38,7 @@ class ParseState{		//graph stack
 	int det_depth=0;
 	boolean addLink(ParseState pre_state,Symbol symbol){
 		if(this.pre_state==null){
-			if(this.pre_states==null){
+			if(this.fixed){
 				this.pre_state=pre_state;
 				this.symbol=symbol;
 			}else{
@@ -47,7 +46,8 @@ class ParseState{		//graph stack
 				this.symbols.add(symbol);
 			}			
 		}else{
-			if(this.pre_states==null){
+			if(this.fixed){
+				this.fixed=false;
 				this.pre_states=new LinkedList<ParseState>();
 				this.symbols=new LinkedList<Symbol>();
 				this.pre_states.add(this.pre_state);
