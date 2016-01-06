@@ -88,14 +88,14 @@ generic_exp |>
 
 type_def |>
    type var = func_type ;
->| class_def
+>| class_def 
 
 class_def |>
    scope_info_e class var generic_info_e inherit_info_list_e { class_member_def }
    
 scope_info_e |>
-   e
->| scope_info
+   scope_info
+>| e
 
 scope_info |>
    static
@@ -105,7 +105,7 @@ scope_info |>
 >| private
 
 generic_info_e |>
-   generic_info
+   generic_info 
 >| e
 
 generic_info |>
@@ -122,11 +122,12 @@ inherit_info_list |>
 >| implements var
 
 class_member_def |>
-   class_def field_def ;
->| class_def method_def 
-
+   class_member_def field_def
+>| class_member_def method_def
+>| e
+ 
 field_def |>
-   scope_info_e type_exp var
+   var_def ;
 
 method_def |>
    scope_info_e generic_info_e func_def
