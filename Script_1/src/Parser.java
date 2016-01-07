@@ -1,6 +1,0 @@
-//Parser
-
-class Parser {
-	
-	
-}

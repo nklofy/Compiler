@@ -1,4 +1,0 @@
-//Runtime
-class Runtime {
-
-}
