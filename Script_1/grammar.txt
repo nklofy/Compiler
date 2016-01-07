@@ -100,7 +100,6 @@ scope_info_e |>
 scope_info |>
    static
 >| static public
->| static private
 >| public
 >| private
 
@@ -127,7 +126,7 @@ class_member_def |>
 >| e
  
 field_def |>
-   var_def ;
+   scope_info_e var_def ;
 
 method_def |>
    scope_info_e generic_info_e func_def

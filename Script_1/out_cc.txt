@@ -47,7 +47,7 @@ double int bool string char
 sg_stmt :
 continue true ++ var str new ! -- number false chr break - return ( 
 class_member_def :
-private e double static int bool var string < public char 
+private e static double int bool var string < public char 
 stmt :
 true int bool var ! class if chr e - public continue type ++ double str new -- number false private static break string while return ( char 
 calc_exp :
@@ -59,7 +59,7 @@ type private static e public class
 apply_exp :
 var 
 field_def :
-double int bool var string char 
+private static e double int bool var string public char 
 var_assign :
 var 
 bool_exp :
@@ -89,13 +89,13 @@ generic_info :
 
 //reduce-reduece conflicts
 rr 23 apply_exp
-rr 121 idn_type
-rr 171 idn_type
-rr 195 idn_type
-rr 255 idn_type
-rr 361 idn_type
-rr 469 idn_type
-rr 532 idn_type
+rr 120 idn_type
+rr 170 idn_type
+rr 194 idn_type
+rr 254 idn_type
+rr 360 idn_type
+rr 468 idn_type
+rr 531 idn_type
 
 //all CCs
 
@@ -160,7 +160,6 @@ bool_exp ::= cmp_exp     p: 0    lok: || ; &&
 new_exp ::= new type_exp ( arg_list )     p: 0    lok: ; 
 scope_info ::= static     p: 0    lok: class 
 scope_info ::= static public     p: 0    lok: class 
-scope_info ::= static private     p: 0    lok: class 
 scope_info ::= public     p: 0    lok: class 
 scope_info ::= private     p: 0    lok: class 
 cmp_exp ::= add_exp > add_exp     p: 0    lok: || ; && 
@@ -259,7 +258,6 @@ bool_exp ::= cmp_exp     p: 0    lok: || ; &&
 new_exp ::= new type_exp ( arg_list )     p: 0    lok: ; 
 scope_info ::= static     p: 0    lok: class 
 scope_info ::= static public     p: 0    lok: class 
-scope_info ::= static private     p: 0    lok: class 
 scope_info ::= public     p: 0    lok: class 
 scope_info ::= private     p: 0    lok: class 
 cmp_exp ::= add_exp > add_exp     p: 0    lok: || ; && 
@@ -354,7 +352,7 @@ type_def ::= class_def     p: 1    lok: true int bool var ! class if chr - publi
 
 12 : 
 reduce: 
-72 if_exp
+71 if_exp
 items: 
 if_exp ::= if_stmt     p: 1    lok: true int bool var ! class if chr - public continue type ++ double str new eof -- number false private static break string while return ( char 
 if_exp ::= if_stmt else else_stmt     p: 1    lok: true int bool var ! class if chr - public continue type ++ double str new eof -- number false private static break string while return ( char 
@@ -424,8 +422,8 @@ if_stmt ::= if ( bool_exp ) sg_stmt ;     p: 1    lok: true int bool var else ! 
 
 23 : 
 reduce: 
+115 apply_exp
 37 idn_type
-116 apply_exp
 items: 
 var_assign ::= var = calc_exp     p: 1    lok: ; 
 var_assign ::= var += calc_exp     p: 1    lok: ; 
@@ -440,7 +438,7 @@ apply_exp ::= var     p: 1    lok: * == + >= != < ; && <= > || - / .
 
 24 : 
 reduce: 
-80 calc_exp
+79 calc_exp
 items: 
 calc_exp ::= bool_exp     p: 1    lok: ; 
 bool_exp ::= bool_exp && cmp_exp     p: 1    lok: || ; && 
@@ -448,7 +446,7 @@ bool_exp ::= bool_exp || cmp_exp     p: 1    lok: || ; &&
 
 25 : 
 reduce: 
-81 calc_exp
+80 calc_exp
 items: 
 calc_exp ::= new_exp     p: 1    lok: ; 
 
@@ -593,7 +591,7 @@ idn_type ::= var     p: 0    lok: [ .
 
 37 : 
 reduce: 
-86 bool_exp
+85 bool_exp
 items: 
 bool_exp ::= cmp_exp     p: 1    lok: || ; && 
 
@@ -622,23 +620,22 @@ reduce:
 items: 
 scope_info ::= static     p: 1    lok: class 
 scope_info ::= static public     p: 1    lok: class 
-scope_info ::= static private     p: 1    lok: class 
 
 40 : 
 reduce: 
-52 scope_info
+51 scope_info
 items: 
 scope_info ::= public     p: 1    lok: class 
 
 41 : 
 reduce: 
-53 scope_info
+52 scope_info
 items: 
 scope_info ::= private     p: 1    lok: class 
 
 42 : 
 reduce: 
-93 cmp_exp
+92 cmp_exp
 items: 
 cmp_exp ::= add_exp > add_exp     p: 1    lok: || ; && 
 cmp_exp ::= add_exp >= add_exp     p: 1    lok: || ; && 
@@ -652,13 +649,13 @@ add_exp ::= add_exp - mul_exp     p: 1    lok: <= == + >= > || != - < ; &&
 
 43 : 
 reduce: 
-94 cmp_exp
+93 cmp_exp
 items: 
 cmp_exp ::= true     p: 1    lok: || ; && 
 
 44 : 
 reduce: 
-95 cmp_exp
+94 cmp_exp
 items: 
 cmp_exp ::= false     p: 1    lok: || ; && 
 
@@ -686,7 +683,7 @@ idn_type ::= var     p: 0    lok: [ .
 
 46 : 
 reduce: 
-99 add_exp
+98 add_exp
 items: 
 add_exp ::= mul_exp     p: 1    lok: <= == + >= > || != - < ; && 
 mul_exp ::= mul_exp * pri_exp     p: 1    lok: * == + >= != < ; && <= > || - / 
@@ -702,13 +699,13 @@ add_exp ::= -- var     p: 1    lok: <= == + >= > || != - < ; &&
 
 49 : 
 reduce: 
-106 mul_exp
+105 mul_exp
 items: 
 mul_exp ::= pri_exp     p: 1    lok: * == + >= != < ; && <= > || - / 
 
 50 : 
 reduce: 
-107 pri_exp
+106 pri_exp
 items: 
 pri_exp ::= number     p: 1    lok: * == + >= != < ; && <= > || - / 
 
@@ -757,7 +754,7 @@ idn_type ::= var     p: 0    lok: [ .
 
 52 : 
 reduce: 
-109 pri_exp
+108 pri_exp
 items: 
 pri_exp ::= apply_exp     p: 1    lok: * == + >= != < ; && <= > || - / 
 apply_exp ::= apply_exp . var ( arg_list )     p: 1    lok: * == + >= != < ; && <= > || - / . 
@@ -765,26 +762,26 @@ apply_exp ::= apply_exp . var     p: 1    lok: * == + >= != < ; && <= > || - / .
 
 53 : 
 reduce: 
-110 pri_exp
+109 pri_exp
 items: 
 pri_exp ::= str_exp     p: 1    lok: * == + >= != < ; && <= > || - / 
 
 54 : 
 reduce: 
-117 apply_exp
+116 apply_exp
 items: 
 apply_exp ::= array_exp     p: 1    lok: * == + >= != < ; && <= > || - / . 
 array_exp ::= array_exp [ number ]     p: 1    lok: * == + >= != < ; && <= [ > || - / . 
 
 55 : 
 reduce: 
-111 str_exp
+110 str_exp
 items: 
 str_exp ::= str     p: 1    lok: * == + >= != < ; && <= > || - / 
 
 56 : 
 reduce: 
-112 str_exp
+111 str_exp
 items: 
 str_exp ::= chr     p: 1    lok: * == + >= != < ; && <= > || - / 
 
@@ -1238,13 +1235,13 @@ idn_type ::= var     p: 0    lok: [ .
 
 78 : 
 reduce: 
-102 add_exp
+101 add_exp
 items: 
 add_exp ::= var ++     p: 2    lok: <= == + >= > || != - < ; && 
 
 79 : 
 reduce: 
-103 add_exp
+102 add_exp
 items: 
 add_exp ::= var --     p: 2    lok: <= == + >= > || != - < ; && 
 
@@ -1383,7 +1380,7 @@ control_flow ::= return calc_exp     p: 2    lok: ;
 
 84 : 
 reduce: 
-85 bool_exp
+84 bool_exp
 items: 
 bool_exp ::= ! cmp_exp     p: 2    lok: || ; && 
 
@@ -1465,12 +1462,6 @@ items:
 scope_info ::= static public     p: 2    lok: class 
 
 97 : 
-reduce: 
-51 scope_info
-items: 
-scope_info ::= static private     p: 2    lok: class 
-
-98 : 
 items: 
 cmp_exp ::= add_exp > add_exp     p: 2    lok: || ; && 
 add_exp ::= add_exp + mul_exp     p: 0    lok: + || - ; && 
@@ -1500,7 +1491,7 @@ array_exp ::= idn_type [ number ]     p: 0    lok: * [ + || - / . ; &&
 idn_type ::= idn_type . var     p: 0    lok: [ . 
 idn_type ::= var     p: 0    lok: [ . 
 
-99 : 
+98 : 
 items: 
 cmp_exp ::= add_exp >= add_exp     p: 2    lok: || ; && 
 add_exp ::= add_exp + mul_exp     p: 0    lok: + || - ; && 
@@ -1530,7 +1521,7 @@ array_exp ::= idn_type [ number ]     p: 0    lok: * [ + || - / . ; &&
 idn_type ::= idn_type . var     p: 0    lok: [ . 
 idn_type ::= var     p: 0    lok: [ . 
 
-100 : 
+99 : 
 items: 
 cmp_exp ::= add_exp < add_exp     p: 2    lok: || ; && 
 add_exp ::= add_exp + mul_exp     p: 0    lok: + || - ; && 
@@ -1560,7 +1551,7 @@ array_exp ::= idn_type [ number ]     p: 0    lok: * [ + || - / . ; &&
 idn_type ::= idn_type . var     p: 0    lok: [ . 
 idn_type ::= var     p: 0    lok: [ . 
 
-101 : 
+100 : 
 items: 
 cmp_exp ::= add_exp <= add_exp     p: 2    lok: || ; && 
 add_exp ::= add_exp + mul_exp     p: 0    lok: + || - ; && 
@@ -1590,7 +1581,7 @@ array_exp ::= idn_type [ number ]     p: 0    lok: * [ + || - / . ; &&
 idn_type ::= idn_type . var     p: 0    lok: [ . 
 idn_type ::= var     p: 0    lok: [ . 
 
-102 : 
+101 : 
 items: 
 cmp_exp ::= add_exp == add_exp     p: 2    lok: || ; && 
 add_exp ::= add_exp + mul_exp     p: 0    lok: + || - ; && 
@@ -1620,7 +1611,7 @@ array_exp ::= idn_type [ number ]     p: 0    lok: * [ + || - / . ; &&
 idn_type ::= idn_type . var     p: 0    lok: [ . 
 idn_type ::= var     p: 0    lok: [ . 
 
-103 : 
+102 : 
 items: 
 cmp_exp ::= add_exp != add_exp     p: 2    lok: || ; && 
 add_exp ::= add_exp + mul_exp     p: 0    lok: + || - ; && 
@@ -1650,7 +1641,7 @@ array_exp ::= idn_type [ number ]     p: 0    lok: * [ + || - / . ; &&
 idn_type ::= idn_type . var     p: 0    lok: [ . 
 idn_type ::= var     p: 0    lok: [ . 
 
-104 : 
+103 : 
 items: 
 add_exp ::= add_exp + mul_exp     p: 2    lok: <= == + >= > || != - < ; && 
 mul_exp ::= mul_exp * pri_exp     p: 0    lok: * == + >= != < ; && <= > || - / 
@@ -1672,7 +1663,7 @@ array_exp ::= idn_type [ number ]     p: 0    lok: * == + >= != < ; && <= [ > ||
 idn_type ::= idn_type . var     p: 0    lok: [ . 
 idn_type ::= var     p: 0    lok: [ . 
 
-105 : 
+104 : 
 items: 
 add_exp ::= add_exp - mul_exp     p: 2    lok: <= == + >= > || != - < ; && 
 mul_exp ::= mul_exp * pri_exp     p: 0    lok: * == + >= != < ; && <= > || - / 
@@ -1694,15 +1685,15 @@ array_exp ::= idn_type [ number ]     p: 0    lok: * == + >= != < ; && <= [ > ||
 idn_type ::= idn_type . var     p: 0    lok: [ . 
 idn_type ::= var     p: 0    lok: [ . 
 
-106 : 
+105 : 
 reduce: 
-98 add_exp
+97 add_exp
 items: 
 add_exp ::= - mul_exp     p: 2    lok: <= == + >= > || != - < ; && 
 mul_exp ::= mul_exp * pri_exp     p: 1    lok: * == + >= != < ; && <= > || - / 
 mul_exp ::= mul_exp / pri_exp     p: 1    lok: * == + >= != < ; && <= > || - / 
 
-107 : 
+106 : 
 items: 
 mul_exp ::= mul_exp * pri_exp     p: 2    lok: * == + >= != < ; && <= > || - / 
 pri_exp ::= number     p: 0    lok: * == + >= != < ; && <= > || - / 
@@ -1721,7 +1712,7 @@ array_exp ::= idn_type [ number ]     p: 0    lok: * == + >= != < ; && <= [ > ||
 idn_type ::= idn_type . var     p: 0    lok: [ . 
 idn_type ::= var     p: 0    lok: [ . 
 
-108 : 
+107 : 
 items: 
 mul_exp ::= mul_exp / pri_exp     p: 2    lok: * == + >= != < ; && <= > || - / 
 pri_exp ::= number     p: 0    lok: * == + >= != < ; && <= > || - / 
@@ -1740,25 +1731,25 @@ array_exp ::= idn_type [ number ]     p: 0    lok: * == + >= != < ; && <= [ > ||
 idn_type ::= idn_type . var     p: 0    lok: [ . 
 idn_type ::= var     p: 0    lok: [ . 
 
+108 : 
+reduce: 
+99 add_exp
+items: 
+add_exp ::= ++ var     p: 2    lok: <= == + >= > || != - < ; && 
+
 109 : 
 reduce: 
 100 add_exp
 items: 
-add_exp ::= ++ var     p: 2    lok: <= == + >= > || != - < ; && 
-
-110 : 
-reduce: 
-101 add_exp
-items: 
 add_exp ::= -- var     p: 2    lok: <= == + >= > || != - < ; && 
 
-111 : 
+110 : 
 items: 
 pri_exp ::= ( bool_exp )     p: 2    lok: * == + >= != < ; && <= > || - / 
 bool_exp ::= bool_exp && cmp_exp     p: 1    lok: ) || && 
 bool_exp ::= bool_exp || cmp_exp     p: 1    lok: ) || && 
 
-112 : 
+111 : 
 items: 
 bool_exp ::= ! cmp_exp     p: 1    lok: ) || && 
 cmp_exp ::= add_exp > add_exp     p: 0    lok: ) || && 
@@ -1797,15 +1788,15 @@ array_exp ::= idn_type [ number ]     p: 0    lok: * == + >= ) != < && <= [ > ||
 idn_type ::= idn_type . var     p: 0    lok: [ . 
 idn_type ::= var     p: 0    lok: [ . 
 
-113 : 
+112 : 
 reduce: 
-86 bool_exp
+85 bool_exp
 items: 
 bool_exp ::= cmp_exp     p: 1    lok: ) || && 
 
-114 : 
+113 : 
 reduce: 
-93 cmp_exp
+92 cmp_exp
 items: 
 cmp_exp ::= add_exp > add_exp     p: 1    lok: ) || && 
 cmp_exp ::= add_exp >= add_exp     p: 1    lok: ) || && 
@@ -1817,19 +1808,19 @@ cmp_exp ::= add_exp     p: 1    lok: ) || &&
 add_exp ::= add_exp + mul_exp     p: 1    lok: <= == + >= ) > || != - < && 
 add_exp ::= add_exp - mul_exp     p: 1    lok: <= == + >= ) > || != - < && 
 
+114 : 
+reduce: 
+93 cmp_exp
+items: 
+cmp_exp ::= true     p: 1    lok: ) || && 
+
 115 : 
 reduce: 
 94 cmp_exp
 items: 
-cmp_exp ::= true     p: 1    lok: ) || && 
-
-116 : 
-reduce: 
-95 cmp_exp
-items: 
 cmp_exp ::= false     p: 1    lok: ) || && 
 
-117 : 
+116 : 
 items: 
 add_exp ::= - mul_exp     p: 1    lok: <= == + >= ) > || != - < && 
 mul_exp ::= mul_exp * pri_exp     p: 0    lok: * == + >= ) != < && <= > || - / 
@@ -1851,25 +1842,25 @@ array_exp ::= idn_type [ number ]     p: 0    lok: * == + >= ) != < && <= [ > ||
 idn_type ::= idn_type . var     p: 0    lok: [ . 
 idn_type ::= var     p: 0    lok: [ . 
 
-118 : 
+117 : 
 reduce: 
-99 add_exp
+98 add_exp
 items: 
 add_exp ::= mul_exp     p: 1    lok: <= == + >= ) > || != - < && 
 mul_exp ::= mul_exp * pri_exp     p: 1    lok: * == + >= ) != < && <= > || - / 
 mul_exp ::= mul_exp / pri_exp     p: 1    lok: * == + >= ) != < && <= > || - / 
 
-119 : 
+118 : 
 items: 
 add_exp ::= ++ var     p: 1    lok: <= == + >= ) > || != - < && 
 
-120 : 
+119 : 
 items: 
 add_exp ::= -- var     p: 1    lok: <= == + >= ) > || != - < && 
 
-121 : 
+120 : 
 reduce: 
-116 apply_exp
+115 apply_exp
 37 idn_type
 items: 
 add_exp ::= var ++     p: 1    lok: <= == + >= ) > || != - < && 
@@ -1878,19 +1869,19 @@ apply_exp ::= var ( arg_list )     p: 1    lok: * == + >= ) != < && <= > || - / 
 apply_exp ::= var     p: 1    lok: * == + >= ) != < && <= > || - / . 
 idn_type ::= var     p: 1    lok: [ . 
 
-122 : 
+121 : 
 reduce: 
-106 mul_exp
+105 mul_exp
 items: 
 mul_exp ::= pri_exp     p: 1    lok: * == + >= ) != < && <= > || - / 
 
-123 : 
+122 : 
 reduce: 
-107 pri_exp
+106 pri_exp
 items: 
 pri_exp ::= number     p: 1    lok: * == + >= ) != < && <= > || - / 
 
-124 : 
+123 : 
 items: 
 pri_exp ::= ( bool_exp )     p: 1    lok: * == + >= ) != < && <= > || - / 
 bool_exp ::= bool_exp && cmp_exp     p: 0    lok: ) || && 
@@ -1933,61 +1924,61 @@ array_exp ::= idn_type [ number ]     p: 0    lok: * == + >= ) != < && <= [ > ||
 idn_type ::= idn_type . var     p: 0    lok: [ . 
 idn_type ::= var     p: 0    lok: [ . 
 
-125 : 
+124 : 
 reduce: 
-109 pri_exp
+108 pri_exp
 items: 
 pri_exp ::= apply_exp     p: 1    lok: * == + >= ) != < && <= > || - / 
 apply_exp ::= apply_exp . var ( arg_list )     p: 1    lok: * == + >= ) != < && <= > || - / . 
 apply_exp ::= apply_exp . var     p: 1    lok: * == + >= ) != < && <= > || - / . 
 
-126 : 
+125 : 
 reduce: 
-110 pri_exp
+109 pri_exp
 items: 
 pri_exp ::= str_exp     p: 1    lok: * == + >= ) != < && <= > || - / 
 
-127 : 
+126 : 
 reduce: 
-117 apply_exp
+116 apply_exp
 items: 
 apply_exp ::= array_exp     p: 1    lok: * == + >= ) != < && <= > || - / . 
 array_exp ::= array_exp [ number ]     p: 1    lok: * == + >= ) != < && <= [ > || - / . 
+
+127 : 
+reduce: 
+110 str_exp
+items: 
+str_exp ::= str     p: 1    lok: * == + >= ) != < && <= > || - / 
 
 128 : 
 reduce: 
 111 str_exp
 items: 
-str_exp ::= str     p: 1    lok: * == + >= ) != < && <= > || - / 
-
-129 : 
-reduce: 
-112 str_exp
-items: 
 str_exp ::= chr     p: 1    lok: * == + >= ) != < && <= > || - / 
 
-130 : 
+129 : 
 items: 
 array_exp ::= idn_type [ number ]     p: 1    lok: * == + >= ) != < && <= [ > || - / . 
 idn_type ::= idn_type . var     p: 1    lok: [ . 
 
-131 : 
+130 : 
 items: 
 apply_exp ::= apply_exp . var ( arg_list )     p: 2    lok: * == + >= != < ; && <= > || - / . 
 apply_exp ::= apply_exp . var     p: 2    lok: * == + >= != < ; && <= > || - / . 
 
-132 : 
+131 : 
 items: 
 array_exp ::= array_exp [ number ]     p: 2    lok: * == + >= != < ; && <= [ > || - / . 
 
-133 : 
+132 : 
 reduce: 
 15 var_def
 items: 
 var_def ::= var_def , var     p: 3    lok: , ; 
 var_def ::= var_def , var = calc_exp     p: 3    lok: , ; 
 
-134 : 
+133 : 
 items: 
 var_def ::= type_exp var = calc_exp     p: 3    lok: , ; 
 calc_exp ::= bool_exp     p: 0    lok: , ; 
@@ -2033,7 +2024,7 @@ array_exp ::= idn_type [ number ]     p: 0    lok: * == + >= != < ; && <= [ > ||
 idn_type ::= idn_type . var     p: 0    lok: [ . 
 idn_type ::= var     p: 0    lok: [ . 
 
-135 : 
+134 : 
 items: 
 func_def ::= type_exp var ( par_list ) { stmt_list }     p: 3    lok: true int bool var ! class if chr - public continue type ++ double str new eof -- number false private static break string while return ( char 
 par_list ::= par_list , type_exp var     p: 0    lok: ) , 
@@ -2055,7 +2046,7 @@ idn_type ::= idn_type . var     p: 0    lok: [ var < .
 idn_type ::= var     p: 0    lok: [ var < . 
 generic_type ::= idn_type generic_exp     p: 0    lok: var 
 
-136 : 
+135 : 
 items: 
 type_def ::= type var = func_type ;     p: 3    lok: true int bool var ! class if chr - public continue type ++ double str new eof -- number false private static break string while return ( char 
 func_type ::= func_type -> type_exp     p: 0    lok: -> ; 
@@ -2077,19 +2068,19 @@ idn_type ::= idn_type . var     p: 0    lok: [ -> < . ;
 idn_type ::= var     p: 0    lok: [ -> < . ; 
 generic_type ::= idn_type generic_exp     p: 0    lok: -> ; 
 
-137 : 
+136 : 
 reduce: 
-73 if_exp
+72 if_exp
 items: 
 if_exp ::= if_stmt else else_stmt     p: 3    lok: true int bool var ! class if chr - public continue type ++ double str new eof -- number false private static break string while return ( char 
 
-138 : 
+137 : 
 reduce: 
-76 else_stmt
+75 else_stmt
 items: 
 else_stmt ::= if_exp     p: 1    lok: true int bool var ! class if chr - public continue type ++ double str new eof -- number false private static break string while return ( char 
 
-139 : 
+138 : 
 items: 
 else_stmt ::= { stmt_list }     p: 1    lok: true int bool var ! class if chr - public continue type ++ double str new eof -- number false private static break string while return ( char 
 stmt_list ::= stmt_list stmt     p: 0    lok: true int bool var } ! class if chr - public continue type ++ double str new -- number false private static break string while return ( char 
@@ -2150,7 +2141,6 @@ bool_exp ::= cmp_exp     p: 0    lok: || ; &&
 new_exp ::= new type_exp ( arg_list )     p: 0    lok: ; 
 scope_info ::= static     p: 0    lok: class 
 scope_info ::= static public     p: 0    lok: class 
-scope_info ::= static private     p: 0    lok: class 
 scope_info ::= public     p: 0    lok: class 
 scope_info ::= private     p: 0    lok: class 
 cmp_exp ::= add_exp > add_exp     p: 0    lok: || ; && 
@@ -2187,49 +2177,49 @@ str_exp ::= chr     p: 0    lok: * == + >= != < ; && <= > || - /
 array_exp ::= array_exp [ number ]     p: 0    lok: * == + >= != < ; && <= [ > || - / . 
 array_exp ::= idn_type [ number ]     p: 0    lok: * == + >= != < ; && <= [ > || - / . 
 
-140 : 
+139 : 
 items: 
 else_stmt ::= sg_stmt ;     p: 1    lok: true int bool var ! class if chr - public continue type ++ double str new eof -- number false private static break string while return ( char 
 
-141 : 
+140 : 
 items: 
 while_exp ::= while ( bool_exp ) { stmt_list }     p: 3    lok: true int bool var ! class if chr - public continue type ++ double str new eof -- number false private static break string while return ( char 
 bool_exp ::= bool_exp && cmp_exp     p: 1    lok: ) || && 
 bool_exp ::= bool_exp || cmp_exp     p: 1    lok: ) || && 
 
-142 : 
+141 : 
 reduce: 
 34 array_type
 items: 
 array_type ::= basic_type [ ]     p: 3    lok: [ var 
 
-143 : 
+142 : 
 reduce: 
 33 array_type
 items: 
 array_type ::= array_type [ ]     p: 3    lok: [ var 
 
-144 : 
+143 : 
 reduce: 
 35 array_type
 items: 
 array_type ::= idn_type [ ]     p: 3    lok: [ var 
 
-145 : 
+144 : 
 items: 
 array_exp ::= idn_type [ number ]     p: 3    lok: * == + >= != < ; && <= [ > || - / . 
 
-146 : 
+145 : 
 reduce: 
 36 idn_type
 items: 
 idn_type ::= idn_type . var     p: 3    lok: [ var < . 
 
-147 : 
+146 : 
 items: 
 generic_exp ::= < var >     p: 2    lok: var 
 
-148 : 
+147 : 
 items: 
 generic_exp ::= < ? inherit_info_list >     p: 2    lok: var 
 inherit_info_list ::= inherit_info_list extends var     p: 0    lok: extends > implements 
@@ -2237,82 +2227,82 @@ inherit_info_list ::= inherit_info_list implements var     p: 0    lok: extends 
 inherit_info_list ::= extends var     p: 0    lok: extends > implements 
 inherit_info_list ::= implements var     p: 0    lok: extends > implements 
 
-149 : 
+148 : 
 items: 
 class_def ::= scope_info_e class var generic_info_e inherit_info_list_e { class_member_def }     p: 3    lok: true int bool var ! class if chr - public continue type ++ double str new eof -- number false private static break string while return ( char 
 generic_info_e ::= generic_info     p: 0    lok: extends implements { 
 generic_info_e ::= e     p: 0    lok: extends implements { 
 generic_info ::= < var inherit_info_list_e >     p: 0    lok: extends implements { 
 
-150 : 
+149 : 
 items: 
 if_stmt ::= if ( bool_exp ) { stmt_list }     p: 3    lok: true int bool var else ! class if chr - public continue type ++ double str new eof -- number false private static break string while return ( char 
 if_stmt ::= if ( bool_exp ) sg_stmt ;     p: 3    lok: true int bool var else ! class if chr - public continue type ++ double str new eof -- number false private static break string while return ( char 
 bool_exp ::= bool_exp && cmp_exp     p: 1    lok: ) || && 
 bool_exp ::= bool_exp || cmp_exp     p: 1    lok: ) || && 
 
-151 : 
+150 : 
 reduce: 
 19 var_assign
 items: 
 var_assign ::= var = calc_exp     p: 3    lok: ; 
 
-152 : 
+151 : 
 reduce: 
 20 var_assign
 items: 
 var_assign ::= var += calc_exp     p: 3    lok: ; 
 
-153 : 
+152 : 
 reduce: 
 21 var_assign
 items: 
 var_assign ::= var -= calc_exp     p: 3    lok: ; 
 
-154 : 
+153 : 
 reduce: 
 22 var_assign
 items: 
 var_assign ::= var *= calc_exp     p: 3    lok: ; 
 
-155 : 
+154 : 
 reduce: 
 23 var_assign
 items: 
 var_assign ::= var /= calc_exp     p: 3    lok: ; 
 
-156 : 
+155 : 
 items: 
 apply_exp ::= var ( arg_list )     p: 3    lok: * == + >= != < ; && <= > || - / . 
 arg_list ::= arg_list , calc_exp     p: 1    lok: ) , 
+
+156 : 
+reduce: 
+118 arg_list
+items: 
+arg_list ::= calc_exp     p: 1    lok: ) , 
 
 157 : 
 reduce: 
 119 arg_list
 items: 
-arg_list ::= calc_exp     p: 1    lok: ) , 
+arg_list ::= e     p: 1    lok: ) , 
 
 158 : 
 reduce: 
-120 arg_list
-items: 
-arg_list ::= e     p: 1    lok: ) , 
-
-159 : 
-reduce: 
-80 calc_exp
+79 calc_exp
 items: 
 calc_exp ::= bool_exp     p: 1    lok: ) , 
 bool_exp ::= bool_exp && cmp_exp     p: 1    lok: ) || , && 
 bool_exp ::= bool_exp || cmp_exp     p: 1    lok: ) || , && 
 
-160 : 
+159 : 
 reduce: 
-81 calc_exp
+80 calc_exp
 items: 
 calc_exp ::= new_exp     p: 1    lok: ) , 
 
-161 : 
+160 : 
 items: 
 bool_exp ::= ! cmp_exp     p: 1    lok: ) || , && 
 cmp_exp ::= add_exp > add_exp     p: 0    lok: ) || , && 
@@ -2351,13 +2341,13 @@ array_exp ::= idn_type [ number ]     p: 0    lok: * == + >= ) != < && <= [ > ||
 idn_type ::= idn_type . var     p: 0    lok: [ . 
 idn_type ::= var     p: 0    lok: [ . 
 
-162 : 
+161 : 
 reduce: 
-86 bool_exp
+85 bool_exp
 items: 
 bool_exp ::= cmp_exp     p: 1    lok: ) || , && 
 
-163 : 
+162 : 
 items: 
 new_exp ::= new type_exp ( arg_list )     p: 1    lok: ) , 
 type_exp ::= basic_type     p: 0    lok: ( 
@@ -2376,9 +2366,9 @@ idn_type ::= idn_type . var     p: 0    lok: [ < ( .
 idn_type ::= var     p: 0    lok: [ < ( . 
 generic_type ::= idn_type generic_exp     p: 0    lok: ( 
 
-164 : 
+163 : 
 reduce: 
-93 cmp_exp
+92 cmp_exp
 items: 
 cmp_exp ::= add_exp > add_exp     p: 1    lok: ) || , && 
 cmp_exp ::= add_exp >= add_exp     p: 1    lok: ) || , && 
@@ -2390,19 +2380,19 @@ cmp_exp ::= add_exp     p: 1    lok: ) || , &&
 add_exp ::= add_exp + mul_exp     p: 1    lok: <= == + >= ) > || != - < , && 
 add_exp ::= add_exp - mul_exp     p: 1    lok: <= == + >= ) > || != - < , && 
 
+164 : 
+reduce: 
+93 cmp_exp
+items: 
+cmp_exp ::= true     p: 1    lok: ) || , && 
+
 165 : 
 reduce: 
 94 cmp_exp
 items: 
-cmp_exp ::= true     p: 1    lok: ) || , && 
-
-166 : 
-reduce: 
-95 cmp_exp
-items: 
 cmp_exp ::= false     p: 1    lok: ) || , && 
 
-167 : 
+166 : 
 items: 
 add_exp ::= - mul_exp     p: 1    lok: <= == + >= ) > || != - < , && 
 mul_exp ::= mul_exp * pri_exp     p: 0    lok: * == + >= ) != < && <= > || - / , 
@@ -2424,26 +2414,26 @@ array_exp ::= idn_type [ number ]     p: 0    lok: * == + >= ) != < && <= [ > ||
 idn_type ::= idn_type . var     p: 0    lok: [ . 
 idn_type ::= var     p: 0    lok: [ . 
 
-168 : 
+167 : 
 reduce: 
-99 add_exp
+98 add_exp
 items: 
 add_exp ::= mul_exp     p: 1    lok: <= == + >= ) > || != - < , && 
 mul_exp ::= mul_exp * pri_exp     p: 1    lok: * == + >= ) != < && <= > || - / , 
 mul_exp ::= mul_exp / pri_exp     p: 1    lok: * == + >= ) != < && <= > || - / , 
 
-169 : 
+168 : 
 items: 
 add_exp ::= ++ var     p: 1    lok: <= == + >= ) > || != - < , && 
 
-170 : 
+169 : 
 items: 
 add_exp ::= -- var     p: 1    lok: <= == + >= ) > || != - < , && 
 
-171 : 
+170 : 
 reduce: 
 37 idn_type
-116 apply_exp
+115 apply_exp
 items: 
 add_exp ::= var ++     p: 1    lok: <= == + >= ) > || != - < , && 
 add_exp ::= var --     p: 1    lok: <= == + >= ) > || != - < , && 
@@ -2451,19 +2441,19 @@ apply_exp ::= var ( arg_list )     p: 1    lok: * == + >= ) != < && <= > || - / 
 apply_exp ::= var     p: 1    lok: * == + >= ) != < && <= > || - / , . 
 idn_type ::= var     p: 1    lok: [ . 
 
-172 : 
+171 : 
 reduce: 
-106 mul_exp
+105 mul_exp
 items: 
 mul_exp ::= pri_exp     p: 1    lok: * == + >= ) != < && <= > || - / , 
 
-173 : 
+172 : 
 reduce: 
-107 pri_exp
+106 pri_exp
 items: 
 pri_exp ::= number     p: 1    lok: * == + >= ) != < && <= > || - / , 
 
-174 : 
+173 : 
 items: 
 pri_exp ::= ( bool_exp )     p: 1    lok: * == + >= ) != < && <= > || - / , 
 bool_exp ::= bool_exp && cmp_exp     p: 0    lok: ) || && 
@@ -2506,57 +2496,57 @@ array_exp ::= idn_type [ number ]     p: 0    lok: * == + >= ) != < && <= [ > ||
 idn_type ::= idn_type . var     p: 0    lok: [ . 
 idn_type ::= var     p: 0    lok: [ . 
 
-175 : 
+174 : 
 reduce: 
-109 pri_exp
+108 pri_exp
 items: 
 pri_exp ::= apply_exp     p: 1    lok: * == + >= ) != < && <= > || - / , 
 apply_exp ::= apply_exp . var ( arg_list )     p: 1    lok: * == + >= ) != < && <= > || - / , . 
 apply_exp ::= apply_exp . var     p: 1    lok: * == + >= ) != < && <= > || - / , . 
 
-176 : 
+175 : 
 reduce: 
-110 pri_exp
+109 pri_exp
 items: 
 pri_exp ::= str_exp     p: 1    lok: * == + >= ) != < && <= > || - / , 
 
-177 : 
+176 : 
 reduce: 
-117 apply_exp
+116 apply_exp
 items: 
 apply_exp ::= array_exp     p: 1    lok: * == + >= ) != < && <= > || - / , . 
 array_exp ::= array_exp [ number ]     p: 1    lok: * == + >= ) != < && <= [ > || - / , . 
+
+177 : 
+reduce: 
+110 str_exp
+items: 
+str_exp ::= str     p: 1    lok: * == + >= ) != < && <= > || - / , 
 
 178 : 
 reduce: 
 111 str_exp
 items: 
-str_exp ::= str     p: 1    lok: * == + >= ) != < && <= > || - / , 
-
-179 : 
-reduce: 
-112 str_exp
-items: 
 str_exp ::= chr     p: 1    lok: * == + >= ) != < && <= > || - / , 
 
-180 : 
+179 : 
 items: 
 array_exp ::= idn_type [ number ]     p: 1    lok: * == + >= ) != < && <= [ > || - / , . 
 idn_type ::= idn_type . var     p: 1    lok: [ . 
+
+180 : 
+reduce: 
+82 bool_exp
+items: 
+bool_exp ::= bool_exp && cmp_exp     p: 3    lok: || ; && 
 
 181 : 
 reduce: 
 83 bool_exp
 items: 
-bool_exp ::= bool_exp && cmp_exp     p: 3    lok: || ; && 
-
-182 : 
-reduce: 
-84 bool_exp
-items: 
 bool_exp ::= bool_exp || cmp_exp     p: 3    lok: || ; && 
 
-183 : 
+182 : 
 items: 
 new_exp ::= new type_exp ( arg_list )     p: 3    lok: ; 
 arg_list ::= arg_list , calc_exp     p: 0    lok: ) , 
@@ -2605,42 +2595,42 @@ array_exp ::= idn_type [ number ]     p: 0    lok: * == + >= ) != < && <= [ > ||
 idn_type ::= idn_type . var     p: 0    lok: [ . 
 idn_type ::= var     p: 0    lok: [ . 
 
-184 : 
+183 : 
 items: 
 array_type ::= basic_type [ ]     p: 2    lok: [ ( 
 
-185 : 
+184 : 
 items: 
 array_type ::= array_type [ ]     p: 2    lok: [ ( 
 
-186 : 
+185 : 
 items: 
 array_type ::= idn_type [ ]     p: 2    lok: [ ( 
 
-187 : 
+186 : 
 items: 
 idn_type ::= idn_type . var     p: 2    lok: [ < ( . 
 
-188 : 
+187 : 
 reduce: 
 41 generic_type
 items: 
 generic_type ::= idn_type generic_exp     p: 2    lok: ( 
 
-189 : 
+188 : 
 items: 
 generic_exp ::= < var >     p: 1    lok: ( 
 generic_exp ::= < ? inherit_info_list >     p: 1    lok: ( 
 
-190 : 
+189 : 
 reduce: 
-87 cmp_exp
+86 cmp_exp
 items: 
 cmp_exp ::= add_exp > add_exp     p: 3    lok: || ; && 
 add_exp ::= add_exp + mul_exp     p: 1    lok: + || - ; && 
 add_exp ::= add_exp - mul_exp     p: 1    lok: + || - ; && 
 
-191 : 
+190 : 
 items: 
 add_exp ::= - mul_exp     p: 1    lok: + || - ; && 
 mul_exp ::= mul_exp * pri_exp     p: 0    lok: * + || - / ; && 
@@ -2662,26 +2652,26 @@ array_exp ::= idn_type [ number ]     p: 0    lok: * [ + || - / . ; &&
 idn_type ::= idn_type . var     p: 0    lok: [ . 
 idn_type ::= var     p: 0    lok: [ . 
 
-192 : 
+191 : 
 reduce: 
-99 add_exp
+98 add_exp
 items: 
 add_exp ::= mul_exp     p: 1    lok: + || - ; && 
 mul_exp ::= mul_exp * pri_exp     p: 1    lok: * + || - / ; && 
 mul_exp ::= mul_exp / pri_exp     p: 1    lok: * + || - / ; && 
 
-193 : 
+192 : 
 items: 
 add_exp ::= ++ var     p: 1    lok: + || - ; && 
 
-194 : 
+193 : 
 items: 
 add_exp ::= -- var     p: 1    lok: + || - ; && 
 
-195 : 
+194 : 
 reduce: 
+115 apply_exp
 37 idn_type
-116 apply_exp
 items: 
 add_exp ::= var ++     p: 1    lok: + || - ; && 
 add_exp ::= var --     p: 1    lok: + || - ; && 
@@ -2689,19 +2679,19 @@ apply_exp ::= var ( arg_list )     p: 1    lok: * + || - / . ; &&
 apply_exp ::= var     p: 1    lok: * + || - / . ; && 
 idn_type ::= var     p: 1    lok: [ . 
 
-196 : 
+195 : 
 reduce: 
-106 mul_exp
+105 mul_exp
 items: 
 mul_exp ::= pri_exp     p: 1    lok: * + || - / ; && 
 
-197 : 
+196 : 
 reduce: 
-107 pri_exp
+106 pri_exp
 items: 
 pri_exp ::= number     p: 1    lok: * + || - / ; && 
 
-198 : 
+197 : 
 items: 
 pri_exp ::= ( bool_exp )     p: 1    lok: * + || - / ; && 
 bool_exp ::= bool_exp && cmp_exp     p: 0    lok: ) || && 
@@ -2744,49 +2734,57 @@ array_exp ::= idn_type [ number ]     p: 0    lok: * == + >= ) != < && <= [ > ||
 idn_type ::= idn_type . var     p: 0    lok: [ . 
 idn_type ::= var     p: 0    lok: [ . 
 
-199 : 
+198 : 
 reduce: 
-109 pri_exp
+108 pri_exp
 items: 
 pri_exp ::= apply_exp     p: 1    lok: * + || - / ; && 
 apply_exp ::= apply_exp . var ( arg_list )     p: 1    lok: * + || - / . ; && 
 apply_exp ::= apply_exp . var     p: 1    lok: * + || - / . ; && 
 
-200 : 
+199 : 
 reduce: 
-110 pri_exp
+109 pri_exp
 items: 
 pri_exp ::= str_exp     p: 1    lok: * + || - / ; && 
 
-201 : 
+200 : 
 reduce: 
-117 apply_exp
+116 apply_exp
 items: 
 apply_exp ::= array_exp     p: 1    lok: * + || - / . ; && 
 array_exp ::= array_exp [ number ]     p: 1    lok: * [ + || - / . ; && 
+
+201 : 
+reduce: 
+110 str_exp
+items: 
+str_exp ::= str     p: 1    lok: * + || - / ; && 
 
 202 : 
 reduce: 
 111 str_exp
 items: 
-str_exp ::= str     p: 1    lok: * + || - / ; && 
-
-203 : 
-reduce: 
-112 str_exp
-items: 
 str_exp ::= chr     p: 1    lok: * + || - / ; && 
 
-204 : 
+203 : 
 items: 
 array_exp ::= idn_type [ number ]     p: 1    lok: * [ + || - / . ; && 
 idn_type ::= idn_type . var     p: 1    lok: [ . 
+
+204 : 
+reduce: 
+87 cmp_exp
+items: 
+cmp_exp ::= add_exp >= add_exp     p: 3    lok: || ; && 
+add_exp ::= add_exp + mul_exp     p: 1    lok: + || - ; && 
+add_exp ::= add_exp - mul_exp     p: 1    lok: + || - ; && 
 
 205 : 
 reduce: 
 88 cmp_exp
 items: 
-cmp_exp ::= add_exp >= add_exp     p: 3    lok: || ; && 
+cmp_exp ::= add_exp < add_exp     p: 3    lok: || ; && 
 add_exp ::= add_exp + mul_exp     p: 1    lok: + || - ; && 
 add_exp ::= add_exp - mul_exp     p: 1    lok: + || - ; && 
 
@@ -2794,7 +2792,7 @@ add_exp ::= add_exp - mul_exp     p: 1    lok: + || - ; &&
 reduce: 
 89 cmp_exp
 items: 
-cmp_exp ::= add_exp < add_exp     p: 3    lok: || ; && 
+cmp_exp ::= add_exp <= add_exp     p: 3    lok: || ; && 
 add_exp ::= add_exp + mul_exp     p: 1    lok: + || - ; && 
 add_exp ::= add_exp - mul_exp     p: 1    lok: + || - ; && 
 
@@ -2802,7 +2800,7 @@ add_exp ::= add_exp - mul_exp     p: 1    lok: + || - ; &&
 reduce: 
 90 cmp_exp
 items: 
-cmp_exp ::= add_exp <= add_exp     p: 3    lok: || ; && 
+cmp_exp ::= add_exp == add_exp     p: 3    lok: || ; && 
 add_exp ::= add_exp + mul_exp     p: 1    lok: + || - ; && 
 add_exp ::= add_exp - mul_exp     p: 1    lok: + || - ; && 
 
@@ -2810,53 +2808,45 @@ add_exp ::= add_exp - mul_exp     p: 1    lok: + || - ; &&
 reduce: 
 91 cmp_exp
 items: 
-cmp_exp ::= add_exp == add_exp     p: 3    lok: || ; && 
+cmp_exp ::= add_exp != add_exp     p: 3    lok: || ; && 
 add_exp ::= add_exp + mul_exp     p: 1    lok: + || - ; && 
 add_exp ::= add_exp - mul_exp     p: 1    lok: + || - ; && 
 
 209 : 
 reduce: 
-92 cmp_exp
-items: 
-cmp_exp ::= add_exp != add_exp     p: 3    lok: || ; && 
-add_exp ::= add_exp + mul_exp     p: 1    lok: + || - ; && 
-add_exp ::= add_exp - mul_exp     p: 1    lok: + || - ; && 
-
-210 : 
-reduce: 
-96 add_exp
+95 add_exp
 items: 
 add_exp ::= add_exp + mul_exp     p: 3    lok: <= == + >= > || != - < ; && 
 mul_exp ::= mul_exp * pri_exp     p: 1    lok: * == + >= != < ; && <= > || - / 
 mul_exp ::= mul_exp / pri_exp     p: 1    lok: * == + >= != < ; && <= > || - / 
 
-211 : 
+210 : 
 reduce: 
-97 add_exp
+96 add_exp
 items: 
 add_exp ::= add_exp - mul_exp     p: 3    lok: <= == + >= > || != - < ; && 
 mul_exp ::= mul_exp * pri_exp     p: 1    lok: * == + >= != < ; && <= > || - / 
 mul_exp ::= mul_exp / pri_exp     p: 1    lok: * == + >= != < ; && <= > || - / 
 
+211 : 
+reduce: 
+103 mul_exp
+items: 
+mul_exp ::= mul_exp * pri_exp     p: 3    lok: * == + >= != < ; && <= > || - / 
+
 212 : 
 reduce: 
 104 mul_exp
 items: 
-mul_exp ::= mul_exp * pri_exp     p: 3    lok: * == + >= != < ; && <= > || - / 
+mul_exp ::= mul_exp / pri_exp     p: 3    lok: * == + >= != < ; && <= > || - / 
 
 213 : 
 reduce: 
-105 mul_exp
-items: 
-mul_exp ::= mul_exp / pri_exp     p: 3    lok: * == + >= != < ; && <= > || - / 
-
-214 : 
-reduce: 
-108 pri_exp
+107 pri_exp
 items: 
 pri_exp ::= ( bool_exp )     p: 3    lok: * == + >= != < ; && <= > || - / 
 
-215 : 
+214 : 
 items: 
 bool_exp ::= bool_exp && cmp_exp     p: 2    lok: ) || && 
 cmp_exp ::= add_exp > add_exp     p: 0    lok: ) || && 
@@ -2895,7 +2885,7 @@ array_exp ::= idn_type [ number ]     p: 0    lok: * == + >= ) != < && <= [ > ||
 idn_type ::= idn_type . var     p: 0    lok: [ . 
 idn_type ::= var     p: 0    lok: [ . 
 
-216 : 
+215 : 
 items: 
 bool_exp ::= bool_exp || cmp_exp     p: 2    lok: ) || && 
 cmp_exp ::= add_exp > add_exp     p: 0    lok: ) || && 
@@ -2934,13 +2924,13 @@ array_exp ::= idn_type [ number ]     p: 0    lok: * == + >= ) != < && <= [ > ||
 idn_type ::= idn_type . var     p: 0    lok: [ . 
 idn_type ::= var     p: 0    lok: [ . 
 
-217 : 
+216 : 
 reduce: 
-85 bool_exp
+84 bool_exp
 items: 
 bool_exp ::= ! cmp_exp     p: 2    lok: ) || && 
 
-218 : 
+217 : 
 items: 
 cmp_exp ::= add_exp > add_exp     p: 2    lok: ) || && 
 add_exp ::= add_exp + mul_exp     p: 0    lok: + ) || - && 
@@ -2970,7 +2960,7 @@ array_exp ::= idn_type [ number ]     p: 0    lok: * [ + ) || - / . &&
 idn_type ::= idn_type . var     p: 0    lok: [ . 
 idn_type ::= var     p: 0    lok: [ . 
 
-219 : 
+218 : 
 items: 
 cmp_exp ::= add_exp >= add_exp     p: 2    lok: ) || && 
 add_exp ::= add_exp + mul_exp     p: 0    lok: + ) || - && 
@@ -3000,7 +2990,7 @@ array_exp ::= idn_type [ number ]     p: 0    lok: * [ + ) || - / . &&
 idn_type ::= idn_type . var     p: 0    lok: [ . 
 idn_type ::= var     p: 0    lok: [ . 
 
-220 : 
+219 : 
 items: 
 cmp_exp ::= add_exp < add_exp     p: 2    lok: ) || && 
 add_exp ::= add_exp + mul_exp     p: 0    lok: + ) || - && 
@@ -3030,7 +3020,7 @@ array_exp ::= idn_type [ number ]     p: 0    lok: * [ + ) || - / . &&
 idn_type ::= idn_type . var     p: 0    lok: [ . 
 idn_type ::= var     p: 0    lok: [ . 
 
-221 : 
+220 : 
 items: 
 cmp_exp ::= add_exp <= add_exp     p: 2    lok: ) || && 
 add_exp ::= add_exp + mul_exp     p: 0    lok: + ) || - && 
@@ -3060,7 +3050,7 @@ array_exp ::= idn_type [ number ]     p: 0    lok: * [ + ) || - / . &&
 idn_type ::= idn_type . var     p: 0    lok: [ . 
 idn_type ::= var     p: 0    lok: [ . 
 
-222 : 
+221 : 
 items: 
 cmp_exp ::= add_exp == add_exp     p: 2    lok: ) || && 
 add_exp ::= add_exp + mul_exp     p: 0    lok: + ) || - && 
@@ -3090,7 +3080,7 @@ array_exp ::= idn_type [ number ]     p: 0    lok: * [ + ) || - / . &&
 idn_type ::= idn_type . var     p: 0    lok: [ . 
 idn_type ::= var     p: 0    lok: [ . 
 
-223 : 
+222 : 
 items: 
 cmp_exp ::= add_exp != add_exp     p: 2    lok: ) || && 
 add_exp ::= add_exp + mul_exp     p: 0    lok: + ) || - && 
@@ -3120,7 +3110,7 @@ array_exp ::= idn_type [ number ]     p: 0    lok: * [ + ) || - / . &&
 idn_type ::= idn_type . var     p: 0    lok: [ . 
 idn_type ::= var     p: 0    lok: [ . 
 
-224 : 
+223 : 
 items: 
 add_exp ::= add_exp + mul_exp     p: 2    lok: <= == + >= ) > || != - < && 
 mul_exp ::= mul_exp * pri_exp     p: 0    lok: * == + >= ) != < && <= > || - / 
@@ -3142,7 +3132,7 @@ array_exp ::= idn_type [ number ]     p: 0    lok: * == + >= ) != < && <= [ > ||
 idn_type ::= idn_type . var     p: 0    lok: [ . 
 idn_type ::= var     p: 0    lok: [ . 
 
-225 : 
+224 : 
 items: 
 add_exp ::= add_exp - mul_exp     p: 2    lok: <= == + >= ) > || != - < && 
 mul_exp ::= mul_exp * pri_exp     p: 0    lok: * == + >= ) != < && <= > || - / 
@@ -3164,15 +3154,15 @@ array_exp ::= idn_type [ number ]     p: 0    lok: * == + >= ) != < && <= [ > ||
 idn_type ::= idn_type . var     p: 0    lok: [ . 
 idn_type ::= var     p: 0    lok: [ . 
 
-226 : 
+225 : 
 reduce: 
-98 add_exp
+97 add_exp
 items: 
 add_exp ::= - mul_exp     p: 2    lok: <= == + >= ) > || != - < && 
 mul_exp ::= mul_exp * pri_exp     p: 1    lok: * == + >= ) != < && <= > || - / 
 mul_exp ::= mul_exp / pri_exp     p: 1    lok: * == + >= ) != < && <= > || - / 
 
-227 : 
+226 : 
 items: 
 mul_exp ::= mul_exp * pri_exp     p: 2    lok: * == + >= ) != < && <= > || - / 
 pri_exp ::= number     p: 0    lok: * == + >= ) != < && <= > || - / 
@@ -3191,7 +3181,7 @@ array_exp ::= idn_type [ number ]     p: 0    lok: * == + >= ) != < && <= [ > ||
 idn_type ::= idn_type . var     p: 0    lok: [ . 
 idn_type ::= var     p: 0    lok: [ . 
 
-228 : 
+227 : 
 items: 
 mul_exp ::= mul_exp / pri_exp     p: 2    lok: * == + >= ) != < && <= > || - / 
 pri_exp ::= number     p: 0    lok: * == + >= ) != < && <= > || - / 
@@ -3210,31 +3200,31 @@ array_exp ::= idn_type [ number ]     p: 0    lok: * == + >= ) != < && <= [ > ||
 idn_type ::= idn_type . var     p: 0    lok: [ . 
 idn_type ::= var     p: 0    lok: [ . 
 
+228 : 
+reduce: 
+99 add_exp
+items: 
+add_exp ::= ++ var     p: 2    lok: <= == + >= ) > || != - < && 
+
 229 : 
 reduce: 
 100 add_exp
 items: 
-add_exp ::= ++ var     p: 2    lok: <= == + >= ) > || != - < && 
+add_exp ::= -- var     p: 2    lok: <= == + >= ) > || != - < && 
 
 230 : 
 reduce: 
 101 add_exp
 items: 
-add_exp ::= -- var     p: 2    lok: <= == + >= ) > || != - < && 
+add_exp ::= var ++     p: 2    lok: <= == + >= ) > || != - < && 
 
 231 : 
 reduce: 
 102 add_exp
 items: 
-add_exp ::= var ++     p: 2    lok: <= == + >= ) > || != - < && 
-
-232 : 
-reduce: 
-103 add_exp
-items: 
 add_exp ::= var --     p: 2    lok: <= == + >= ) > || != - < && 
 
-233 : 
+232 : 
 items: 
 apply_exp ::= var ( arg_list )     p: 2    lok: * == + >= ) != < && <= > || - / . 
 arg_list ::= arg_list , calc_exp     p: 0    lok: ) , 
@@ -3283,41 +3273,41 @@ array_exp ::= idn_type [ number ]     p: 0    lok: * == + >= ) != < && <= [ > ||
 idn_type ::= idn_type . var     p: 0    lok: [ . 
 idn_type ::= var     p: 0    lok: [ . 
 
-234 : 
+233 : 
 items: 
 pri_exp ::= ( bool_exp )     p: 2    lok: * == + >= ) != < && <= > || - / 
 bool_exp ::= bool_exp && cmp_exp     p: 1    lok: ) || && 
 bool_exp ::= bool_exp || cmp_exp     p: 1    lok: ) || && 
 
-235 : 
+234 : 
 items: 
 apply_exp ::= apply_exp . var ( arg_list )     p: 2    lok: * == + >= ) != < && <= > || - / . 
 apply_exp ::= apply_exp . var     p: 2    lok: * == + >= ) != < && <= > || - / . 
 
-236 : 
+235 : 
 items: 
 array_exp ::= array_exp [ number ]     p: 2    lok: * == + >= ) != < && <= [ > || - / . 
 
-237 : 
+236 : 
 items: 
 array_exp ::= idn_type [ number ]     p: 2    lok: * == + >= ) != < && <= [ > || - / . 
 
-238 : 
+237 : 
 items: 
 idn_type ::= idn_type . var     p: 2    lok: [ . 
 
-239 : 
+238 : 
 reduce: 
-114 apply_exp
+113 apply_exp
 items: 
 apply_exp ::= apply_exp . var ( arg_list )     p: 3    lok: * == + >= != < ; && <= > || - / . 
 apply_exp ::= apply_exp . var     p: 3    lok: * == + >= != < ; && <= > || - / . 
 
-240 : 
+239 : 
 items: 
 array_exp ::= array_exp [ number ]     p: 3    lok: * == + >= != < ; && <= [ > || - / . 
 
-241 : 
+240 : 
 items: 
 var_def ::= var_def , var = calc_exp     p: 4    lok: , ; 
 calc_exp ::= bool_exp     p: 0    lok: , ; 
@@ -3363,27 +3353,27 @@ array_exp ::= idn_type [ number ]     p: 0    lok: * == + >= != < ; && <= [ > ||
 idn_type ::= idn_type . var     p: 0    lok: [ . 
 idn_type ::= var     p: 0    lok: [ . 
 
-242 : 
+241 : 
 reduce: 
 18 var_def
 items: 
 var_def ::= type_exp var = calc_exp     p: 4    lok: , ; 
 
-243 : 
+242 : 
 reduce: 
-80 calc_exp
+79 calc_exp
 items: 
 calc_exp ::= bool_exp     p: 1    lok: , ; 
 bool_exp ::= bool_exp && cmp_exp     p: 1    lok: || , ; && 
 bool_exp ::= bool_exp || cmp_exp     p: 1    lok: || , ; && 
 
-244 : 
+243 : 
 reduce: 
-81 calc_exp
+80 calc_exp
 items: 
 calc_exp ::= new_exp     p: 1    lok: , ; 
 
-245 : 
+244 : 
 items: 
 bool_exp ::= ! cmp_exp     p: 1    lok: || , ; && 
 cmp_exp ::= add_exp > add_exp     p: 0    lok: || , ; && 
@@ -3422,13 +3412,13 @@ array_exp ::= idn_type [ number ]     p: 0    lok: * == + >= != < ; && <= [ > ||
 idn_type ::= idn_type . var     p: 0    lok: [ . 
 idn_type ::= var     p: 0    lok: [ . 
 
-246 : 
+245 : 
 reduce: 
-86 bool_exp
+85 bool_exp
 items: 
 bool_exp ::= cmp_exp     p: 1    lok: || , ; && 
 
-247 : 
+246 : 
 items: 
 new_exp ::= new type_exp ( arg_list )     p: 1    lok: , ; 
 type_exp ::= basic_type     p: 0    lok: ( 
@@ -3447,9 +3437,9 @@ idn_type ::= idn_type . var     p: 0    lok: [ < ( .
 idn_type ::= var     p: 0    lok: [ < ( . 
 generic_type ::= idn_type generic_exp     p: 0    lok: ( 
 
-248 : 
+247 : 
 reduce: 
-93 cmp_exp
+92 cmp_exp
 items: 
 cmp_exp ::= add_exp > add_exp     p: 1    lok: || , ; && 
 cmp_exp ::= add_exp >= add_exp     p: 1    lok: || , ; && 
@@ -3461,19 +3451,19 @@ cmp_exp ::= add_exp     p: 1    lok: || , ; &&
 add_exp ::= add_exp + mul_exp     p: 1    lok: <= == + >= > || != - < , ; && 
 add_exp ::= add_exp - mul_exp     p: 1    lok: <= == + >= > || != - < , ; && 
 
+248 : 
+reduce: 
+93 cmp_exp
+items: 
+cmp_exp ::= true     p: 1    lok: || , ; && 
+
 249 : 
 reduce: 
 94 cmp_exp
 items: 
-cmp_exp ::= true     p: 1    lok: || , ; && 
-
-250 : 
-reduce: 
-95 cmp_exp
-items: 
 cmp_exp ::= false     p: 1    lok: || , ; && 
 
-251 : 
+250 : 
 items: 
 add_exp ::= - mul_exp     p: 1    lok: <= == + >= > || != - < , ; && 
 mul_exp ::= mul_exp * pri_exp     p: 0    lok: * == + >= != < ; && <= > || - / , 
@@ -3495,25 +3485,25 @@ array_exp ::= idn_type [ number ]     p: 0    lok: * == + >= != < ; && <= [ > ||
 idn_type ::= idn_type . var     p: 0    lok: [ . 
 idn_type ::= var     p: 0    lok: [ . 
 
-252 : 
+251 : 
 reduce: 
-99 add_exp
+98 add_exp
 items: 
 add_exp ::= mul_exp     p: 1    lok: <= == + >= > || != - < , ; && 
 mul_exp ::= mul_exp * pri_exp     p: 1    lok: * == + >= != < ; && <= > || - / , 
 mul_exp ::= mul_exp / pri_exp     p: 1    lok: * == + >= != < ; && <= > || - / , 
 
-253 : 
+252 : 
 items: 
 add_exp ::= ++ var     p: 1    lok: <= == + >= > || != - < , ; && 
 
-254 : 
+253 : 
 items: 
 add_exp ::= -- var     p: 1    lok: <= == + >= > || != - < , ; && 
 
-255 : 
+254 : 
 reduce: 
-116 apply_exp
+115 apply_exp
 37 idn_type
 items: 
 add_exp ::= var ++     p: 1    lok: <= == + >= > || != - < , ; && 
@@ -3522,19 +3512,19 @@ apply_exp ::= var ( arg_list )     p: 1    lok: * == + >= != < ; && <= > || - / 
 apply_exp ::= var     p: 1    lok: * == + >= != < ; && <= > || - / , . 
 idn_type ::= var     p: 1    lok: [ . 
 
-256 : 
+255 : 
 reduce: 
-106 mul_exp
+105 mul_exp
 items: 
 mul_exp ::= pri_exp     p: 1    lok: * == + >= != < ; && <= > || - / , 
 
-257 : 
+256 : 
 reduce: 
-107 pri_exp
+106 pri_exp
 items: 
 pri_exp ::= number     p: 1    lok: * == + >= != < ; && <= > || - / , 
 
-258 : 
+257 : 
 items: 
 pri_exp ::= ( bool_exp )     p: 1    lok: * == + >= != < ; && <= > || - / , 
 bool_exp ::= bool_exp && cmp_exp     p: 0    lok: ) || && 
@@ -3577,65 +3567,65 @@ array_exp ::= idn_type [ number ]     p: 0    lok: * == + >= ) != < && <= [ > ||
 idn_type ::= idn_type . var     p: 0    lok: [ . 
 idn_type ::= var     p: 0    lok: [ . 
 
-259 : 
+258 : 
 reduce: 
-109 pri_exp
+108 pri_exp
 items: 
 pri_exp ::= apply_exp     p: 1    lok: * == + >= != < ; && <= > || - / , 
 apply_exp ::= apply_exp . var ( arg_list )     p: 1    lok: * == + >= != < ; && <= > || - / , . 
 apply_exp ::= apply_exp . var     p: 1    lok: * == + >= != < ; && <= > || - / , . 
 
-260 : 
+259 : 
 reduce: 
-110 pri_exp
+109 pri_exp
 items: 
 pri_exp ::= str_exp     p: 1    lok: * == + >= != < ; && <= > || - / , 
 
-261 : 
+260 : 
 reduce: 
-117 apply_exp
+116 apply_exp
 items: 
 apply_exp ::= array_exp     p: 1    lok: * == + >= != < ; && <= > || - / , . 
 array_exp ::= array_exp [ number ]     p: 1    lok: * == + >= != < ; && <= [ > || - / , . 
+
+261 : 
+reduce: 
+110 str_exp
+items: 
+str_exp ::= str     p: 1    lok: * == + >= != < ; && <= > || - / , 
 
 262 : 
 reduce: 
 111 str_exp
 items: 
-str_exp ::= str     p: 1    lok: * == + >= != < ; && <= > || - / , 
-
-263 : 
-reduce: 
-112 str_exp
-items: 
 str_exp ::= chr     p: 1    lok: * == + >= != < ; && <= > || - / , 
 
-264 : 
+263 : 
 items: 
 array_exp ::= idn_type [ number ]     p: 1    lok: * == + >= != < ; && <= [ > || - / , . 
 idn_type ::= idn_type . var     p: 1    lok: [ . 
 
-265 : 
+264 : 
 items: 
 func_def ::= type_exp var ( par_list ) { stmt_list }     p: 4    lok: true int bool var ! class if chr - public continue type ++ double str new eof -- number false private static break string while return ( char 
 par_list ::= par_list , type_exp var     p: 1    lok: ) , 
 
-266 : 
+265 : 
 items: 
 par_list ::= type_exp var     p: 1    lok: ) , 
 
-267 : 
+266 : 
 reduce: 
-71 par_list
+70 par_list
 items: 
 par_list ::= e     p: 1    lok: ) , 
 
-268 : 
+267 : 
 items: 
 type_def ::= type var = func_type ;     p: 4    lok: true int bool var ! class if chr - public continue type ++ double str new eof -- number false private static break string while return ( char 
 func_type ::= func_type -> type_exp     p: 1    lok: -> ; 
 
-269 : 
+268 : 
 items: 
 func_type ::= ( func_type -> type_exp )     p: 1    lok: -> ; 
 func_type ::= func_type -> type_exp     p: 0    lok: -> 
@@ -3657,27 +3647,27 @@ idn_type ::= idn_type . var     p: 0    lok: [ -> < .
 idn_type ::= var     p: 0    lok: [ -> < . 
 generic_type ::= idn_type generic_exp     p: 0    lok: -> 
 
-270 : 
+269 : 
 reduce: 
 40 func_type
 items: 
 func_type ::= type_exp     p: 1    lok: -> ; 
 
-271 : 
+270 : 
 reduce: 
 24 type_exp
 items: 
 type_exp ::= basic_type     p: 1    lok: -> ; 
 array_type ::= basic_type [ ]     p: 1    lok: [ -> ; 
 
-272 : 
+271 : 
 reduce: 
 25 type_exp
 items: 
 type_exp ::= array_type     p: 1    lok: -> ; 
 array_type ::= array_type [ ]     p: 1    lok: [ -> ; 
 
-273 : 
+272 : 
 reduce: 
 26 type_exp
 items: 
@@ -3688,49 +3678,49 @@ generic_type ::= idn_type generic_exp     p: 1    lok: -> ;
 generic_exp ::= < var >     p: 0    lok: -> ; 
 generic_exp ::= < ? inherit_info_list >     p: 0    lok: -> ; 
 
-274 : 
+273 : 
 reduce: 
 27 type_exp
 items: 
 type_exp ::= generic_type     p: 1    lok: -> ; 
 
-275 : 
+274 : 
 reduce: 
 28 basic_type
 items: 
 basic_type ::= int     p: 1    lok: [ -> ; 
 
-276 : 
+275 : 
 reduce: 
 29 basic_type
 items: 
 basic_type ::= double     p: 1    lok: [ -> ; 
 
-277 : 
+276 : 
 reduce: 
 30 basic_type
 items: 
 basic_type ::= bool     p: 1    lok: [ -> ; 
 
-278 : 
+277 : 
 reduce: 
 31 basic_type
 items: 
 basic_type ::= string     p: 1    lok: [ -> ; 
 
-279 : 
+278 : 
 reduce: 
 32 basic_type
 items: 
 basic_type ::= char     p: 1    lok: [ -> ; 
 
-280 : 
+279 : 
 reduce: 
 37 idn_type
 items: 
 idn_type ::= var     p: 1    lok: [ -> < . ; 
 
-281 : 
+280 : 
 items: 
 else_stmt ::= { stmt_list }     p: 2    lok: true int bool var ! class if chr - public continue type ++ double str new eof -- number false private static break string while return ( char 
 stmt_list ::= stmt_list stmt     p: 1    lok: true int bool var } ! class if chr - public continue type ++ double str new -- number false private static break string while return ( char 
@@ -3790,7 +3780,6 @@ bool_exp ::= cmp_exp     p: 0    lok: || ; &&
 new_exp ::= new type_exp ( arg_list )     p: 0    lok: ; 
 scope_info ::= static     p: 0    lok: class 
 scope_info ::= static public     p: 0    lok: class 
-scope_info ::= static private     p: 0    lok: class 
 scope_info ::= public     p: 0    lok: class 
 scope_info ::= private     p: 0    lok: class 
 cmp_exp ::= add_exp > add_exp     p: 0    lok: || ; && 
@@ -3827,113 +3816,113 @@ str_exp ::= chr     p: 0    lok: * == + >= != < ; && <= > || - /
 array_exp ::= array_exp [ number ]     p: 0    lok: * == + >= != < ; && <= [ > || - / . 
 array_exp ::= idn_type [ number ]     p: 0    lok: * == + >= != < ; && <= [ > || - / . 
 
-282 : 
+281 : 
 reduce: 
 2 stmt_list
 items: 
 stmt_list ::= stmt     p: 1    lok: true int bool var } ! class if chr - public continue type ++ double str new -- number false private static break string while return ( char 
 
-283 : 
+282 : 
 items: 
 stmt ::= var_def ;     p: 1    lok: true int bool var } ! class if chr - public continue type ++ double str new -- number false private static break string while return ( char 
 var_def ::= var_def , var     p: 1    lok: , ; 
 var_def ::= var_def , var = calc_exp     p: 1    lok: , ; 
 
-284 : 
+283 : 
 reduce: 
 4 stmt
 items: 
 stmt ::= type_def     p: 1    lok: true int bool var } ! class if chr - public continue type ++ double str new -- number false private static break string while return ( char 
 
-285 : 
+284 : 
 reduce: 
 5 stmt
 items: 
 stmt ::= func_def     p: 1    lok: true int bool var } ! class if chr - public continue type ++ double str new -- number false private static break string while return ( char 
 
-286 : 
+285 : 
 reduce: 
 6 stmt
 items: 
 stmt ::= if_exp     p: 1    lok: true int bool var } ! class if chr - public continue type ++ double str new -- number false private static break string while return ( char 
 
-287 : 
+286 : 
 reduce: 
 7 stmt
 items: 
 stmt ::= while_exp     p: 1    lok: true int bool var } ! class if chr - public continue type ++ double str new -- number false private static break string while return ( char 
 
-288 : 
+287 : 
 items: 
 stmt ::= sg_stmt ;     p: 1    lok: true int bool var } ! class if chr - public continue type ++ double str new -- number false private static break string while return ( char 
 
-289 : 
+288 : 
 items: 
 type_def ::= type var = func_type ;     p: 1    lok: true int bool var } ! class if chr - public continue type ++ double str new -- number false private static break string while return ( char 
 
-290 : 
+289 : 
 reduce: 
 45 type_def
 items: 
 type_def ::= class_def     p: 1    lok: true int bool var } ! class if chr - public continue type ++ double str new -- number false private static break string while return ( char 
 
-291 : 
+290 : 
 reduce: 
-72 if_exp
+71 if_exp
 items: 
 if_exp ::= if_stmt     p: 1    lok: true int bool var } ! class if chr - public continue type ++ double str new -- number false private static break string while return ( char 
 if_exp ::= if_stmt else else_stmt     p: 1    lok: true int bool var } ! class if chr - public continue type ++ double str new -- number false private static break string while return ( char 
 
-292 : 
+291 : 
 items: 
 while_exp ::= while ( bool_exp ) { stmt_list }     p: 1    lok: true int bool var } ! class if chr - public continue type ++ double str new -- number false private static break string while return ( char 
 
-293 : 
+292 : 
 items: 
 class_def ::= scope_info_e class var generic_info_e inherit_info_list_e { class_member_def }     p: 1    lok: true int bool var } ! class if chr - public continue type ++ double str new -- number false private static break string while return ( char 
 
-294 : 
+293 : 
 items: 
 if_stmt ::= if ( bool_exp ) { stmt_list }     p: 1    lok: true int bool var else } ! class if chr - public continue type ++ double str new -- number false private static break string while return ( char 
 if_stmt ::= if ( bool_exp ) sg_stmt ;     p: 1    lok: true int bool var else } ! class if chr - public continue type ++ double str new -- number false private static break string while return ( char 
 
-295 : 
+294 : 
 reduce: 
-78 else_stmt
+77 else_stmt
 items: 
 else_stmt ::= sg_stmt ;     p: 2    lok: true int bool var ! class if chr - public continue type ++ double str new eof -- number false private static break string while return ( char 
 
-296 : 
+295 : 
 items: 
 while_exp ::= while ( bool_exp ) { stmt_list }     p: 4    lok: true int bool var ! class if chr - public continue type ++ double str new eof -- number false private static break string while return ( char 
 
-297 : 
+296 : 
 reduce: 
-122 array_exp
+121 array_exp
 items: 
 array_exp ::= idn_type [ number ]     p: 4    lok: * == + >= != < ; && <= [ > || - / . 
 
-298 : 
+297 : 
 reduce: 
 42 generic_exp
 items: 
 generic_exp ::= < var >     p: 3    lok: var 
 
-299 : 
+298 : 
 items: 
 generic_exp ::= < ? inherit_info_list >     p: 3    lok: var 
 inherit_info_list ::= inherit_info_list extends var     p: 1    lok: extends > implements 
 inherit_info_list ::= inherit_info_list implements var     p: 1    lok: extends > implements 
 
-300 : 
+299 : 
 items: 
 inherit_info_list ::= extends var     p: 1    lok: extends > implements 
 
-301 : 
+300 : 
 items: 
 inherit_info_list ::= implements var     p: 1    lok: extends > implements 
 
-302 : 
+301 : 
 items: 
 class_def ::= scope_info_e class var generic_info_e inherit_info_list_e { class_member_def }     p: 4    lok: true int bool var ! class if chr - public continue type ++ double str new eof -- number false private static break string while return ( char 
 inherit_info_list_e ::= inherit_info_list     p: 0    lok: { 
@@ -3943,23 +3932,23 @@ inherit_info_list ::= inherit_info_list implements var     p: 0    lok: extends 
 inherit_info_list ::= extends var     p: 0    lok: extends implements { 
 inherit_info_list ::= implements var     p: 0    lok: extends implements { 
 
+302 : 
+reduce: 
+53 generic_info_e
+items: 
+generic_info_e ::= generic_info     p: 1    lok: extends implements { 
+
 303 : 
 reduce: 
 54 generic_info_e
 items: 
-generic_info_e ::= generic_info     p: 1    lok: extends implements { 
-
-304 : 
-reduce: 
-55 generic_info_e
-items: 
 generic_info_e ::= e     p: 1    lok: extends implements { 
 
-305 : 
+304 : 
 items: 
 generic_info ::= < var inherit_info_list_e >     p: 1    lok: extends implements { 
 
-306 : 
+305 : 
 items: 
 if_stmt ::= if ( bool_exp ) { stmt_list }     p: 4    lok: true int bool var else ! class if chr - public continue type ++ double str new eof -- number false private static break string while return ( char 
 if_stmt ::= if ( bool_exp ) sg_stmt ;     p: 4    lok: true int bool var else ! class if chr - public continue type ++ double str new eof -- number false private static break string while return ( char 
@@ -4017,13 +4006,13 @@ array_exp ::= idn_type [ number ]     p: 0    lok: * == + >= != < ; && <= [ > ||
 idn_type ::= idn_type . var     p: 0    lok: [ . 
 idn_type ::= var     p: 0    lok: [ . 
 
-307 : 
+306 : 
 reduce: 
-115 apply_exp
+114 apply_exp
 items: 
 apply_exp ::= var ( arg_list )     p: 4    lok: * == + >= != < ; && <= > || - / . 
 
-308 : 
+307 : 
 items: 
 arg_list ::= arg_list , calc_exp     p: 2    lok: ) , 
 calc_exp ::= bool_exp     p: 0    lok: ) , 
@@ -4069,7 +4058,7 @@ array_exp ::= idn_type [ number ]     p: 0    lok: * == + >= ) != < && <= [ > ||
 idn_type ::= idn_type . var     p: 0    lok: [ . 
 idn_type ::= var     p: 0    lok: [ . 
 
-309 : 
+308 : 
 items: 
 bool_exp ::= bool_exp && cmp_exp     p: 2    lok: ) || , && 
 cmp_exp ::= add_exp > add_exp     p: 0    lok: ) || , && 
@@ -4108,7 +4097,7 @@ array_exp ::= idn_type [ number ]     p: 0    lok: * == + >= ) != < && <= [ > ||
 idn_type ::= idn_type . var     p: 0    lok: [ . 
 idn_type ::= var     p: 0    lok: [ . 
 
-310 : 
+309 : 
 items: 
 bool_exp ::= bool_exp || cmp_exp     p: 2    lok: ) || , && 
 cmp_exp ::= add_exp > add_exp     p: 0    lok: ) || , && 
@@ -4147,17 +4136,17 @@ array_exp ::= idn_type [ number ]     p: 0    lok: * == + >= ) != < && <= [ > ||
 idn_type ::= idn_type . var     p: 0    lok: [ . 
 idn_type ::= var     p: 0    lok: [ . 
 
-311 : 
+310 : 
 reduce: 
-85 bool_exp
+84 bool_exp
 items: 
 bool_exp ::= ! cmp_exp     p: 2    lok: ) || , && 
 
-312 : 
+311 : 
 items: 
 new_exp ::= new type_exp ( arg_list )     p: 2    lok: ) , 
 
-313 : 
+312 : 
 items: 
 cmp_exp ::= add_exp > add_exp     p: 2    lok: ) || , && 
 add_exp ::= add_exp + mul_exp     p: 0    lok: + ) || - , && 
@@ -4187,7 +4176,7 @@ array_exp ::= idn_type [ number ]     p: 0    lok: * [ + ) || - / , . &&
 idn_type ::= idn_type . var     p: 0    lok: [ . 
 idn_type ::= var     p: 0    lok: [ . 
 
-314 : 
+313 : 
 items: 
 cmp_exp ::= add_exp >= add_exp     p: 2    lok: ) || , && 
 add_exp ::= add_exp + mul_exp     p: 0    lok: + ) || - , && 
@@ -4217,7 +4206,7 @@ array_exp ::= idn_type [ number ]     p: 0    lok: * [ + ) || - / , . &&
 idn_type ::= idn_type . var     p: 0    lok: [ . 
 idn_type ::= var     p: 0    lok: [ . 
 
-315 : 
+314 : 
 items: 
 cmp_exp ::= add_exp < add_exp     p: 2    lok: ) || , && 
 add_exp ::= add_exp + mul_exp     p: 0    lok: + ) || - , && 
@@ -4247,7 +4236,7 @@ array_exp ::= idn_type [ number ]     p: 0    lok: * [ + ) || - / , . &&
 idn_type ::= idn_type . var     p: 0    lok: [ . 
 idn_type ::= var     p: 0    lok: [ . 
 
-316 : 
+315 : 
 items: 
 cmp_exp ::= add_exp <= add_exp     p: 2    lok: ) || , && 
 add_exp ::= add_exp + mul_exp     p: 0    lok: + ) || - , && 
@@ -4277,7 +4266,7 @@ array_exp ::= idn_type [ number ]     p: 0    lok: * [ + ) || - / , . &&
 idn_type ::= idn_type . var     p: 0    lok: [ . 
 idn_type ::= var     p: 0    lok: [ . 
 
-317 : 
+316 : 
 items: 
 cmp_exp ::= add_exp == add_exp     p: 2    lok: ) || , && 
 add_exp ::= add_exp + mul_exp     p: 0    lok: + ) || - , && 
@@ -4307,7 +4296,7 @@ array_exp ::= idn_type [ number ]     p: 0    lok: * [ + ) || - / , . &&
 idn_type ::= idn_type . var     p: 0    lok: [ . 
 idn_type ::= var     p: 0    lok: [ . 
 
-318 : 
+317 : 
 items: 
 cmp_exp ::= add_exp != add_exp     p: 2    lok: ) || , && 
 add_exp ::= add_exp + mul_exp     p: 0    lok: + ) || - , && 
@@ -4337,7 +4326,7 @@ array_exp ::= idn_type [ number ]     p: 0    lok: * [ + ) || - / , . &&
 idn_type ::= idn_type . var     p: 0    lok: [ . 
 idn_type ::= var     p: 0    lok: [ . 
 
-319 : 
+318 : 
 items: 
 add_exp ::= add_exp + mul_exp     p: 2    lok: <= == + >= ) > || != - < , && 
 mul_exp ::= mul_exp * pri_exp     p: 0    lok: * == + >= ) != < && <= > || - / , 
@@ -4359,7 +4348,7 @@ array_exp ::= idn_type [ number ]     p: 0    lok: * == + >= ) != < && <= [ > ||
 idn_type ::= idn_type . var     p: 0    lok: [ . 
 idn_type ::= var     p: 0    lok: [ . 
 
-320 : 
+319 : 
 items: 
 add_exp ::= add_exp - mul_exp     p: 2    lok: <= == + >= ) > || != - < , && 
 mul_exp ::= mul_exp * pri_exp     p: 0    lok: * == + >= ) != < && <= > || - / , 
@@ -4381,15 +4370,15 @@ array_exp ::= idn_type [ number ]     p: 0    lok: * == + >= ) != < && <= [ > ||
 idn_type ::= idn_type . var     p: 0    lok: [ . 
 idn_type ::= var     p: 0    lok: [ . 
 
-321 : 
+320 : 
 reduce: 
-98 add_exp
+97 add_exp
 items: 
 add_exp ::= - mul_exp     p: 2    lok: <= == + >= ) > || != - < , && 
 mul_exp ::= mul_exp * pri_exp     p: 1    lok: * == + >= ) != < && <= > || - / , 
 mul_exp ::= mul_exp / pri_exp     p: 1    lok: * == + >= ) != < && <= > || - / , 
 
-322 : 
+321 : 
 items: 
 mul_exp ::= mul_exp * pri_exp     p: 2    lok: * == + >= ) != < && <= > || - / , 
 pri_exp ::= number     p: 0    lok: * == + >= ) != < && <= > || - / , 
@@ -4408,7 +4397,7 @@ array_exp ::= idn_type [ number ]     p: 0    lok: * == + >= ) != < && <= [ > ||
 idn_type ::= idn_type . var     p: 0    lok: [ . 
 idn_type ::= var     p: 0    lok: [ . 
 
-323 : 
+322 : 
 items: 
 mul_exp ::= mul_exp / pri_exp     p: 2    lok: * == + >= ) != < && <= > || - / , 
 pri_exp ::= number     p: 0    lok: * == + >= ) != < && <= > || - / , 
@@ -4427,31 +4416,31 @@ array_exp ::= idn_type [ number ]     p: 0    lok: * == + >= ) != < && <= [ > ||
 idn_type ::= idn_type . var     p: 0    lok: [ . 
 idn_type ::= var     p: 0    lok: [ . 
 
+323 : 
+reduce: 
+99 add_exp
+items: 
+add_exp ::= ++ var     p: 2    lok: <= == + >= ) > || != - < , && 
+
 324 : 
 reduce: 
 100 add_exp
 items: 
-add_exp ::= ++ var     p: 2    lok: <= == + >= ) > || != - < , && 
+add_exp ::= -- var     p: 2    lok: <= == + >= ) > || != - < , && 
 
 325 : 
 reduce: 
 101 add_exp
 items: 
-add_exp ::= -- var     p: 2    lok: <= == + >= ) > || != - < , && 
+add_exp ::= var ++     p: 2    lok: <= == + >= ) > || != - < , && 
 
 326 : 
 reduce: 
 102 add_exp
 items: 
-add_exp ::= var ++     p: 2    lok: <= == + >= ) > || != - < , && 
-
-327 : 
-reduce: 
-103 add_exp
-items: 
 add_exp ::= var --     p: 2    lok: <= == + >= ) > || != - < , && 
 
-328 : 
+327 : 
 items: 
 apply_exp ::= var ( arg_list )     p: 2    lok: * == + >= ) != < && <= > || - / , . 
 arg_list ::= arg_list , calc_exp     p: 0    lok: ) , 
@@ -4500,59 +4489,59 @@ array_exp ::= idn_type [ number ]     p: 0    lok: * == + >= ) != < && <= [ > ||
 idn_type ::= idn_type . var     p: 0    lok: [ . 
 idn_type ::= var     p: 0    lok: [ . 
 
-329 : 
+328 : 
 items: 
 pri_exp ::= ( bool_exp )     p: 2    lok: * == + >= ) != < && <= > || - / , 
 bool_exp ::= bool_exp && cmp_exp     p: 1    lok: ) || && 
 bool_exp ::= bool_exp || cmp_exp     p: 1    lok: ) || && 
 
-330 : 
+329 : 
 items: 
 apply_exp ::= apply_exp . var ( arg_list )     p: 2    lok: * == + >= ) != < && <= > || - / , . 
 apply_exp ::= apply_exp . var     p: 2    lok: * == + >= ) != < && <= > || - / , . 
 
-331 : 
+330 : 
 items: 
 array_exp ::= array_exp [ number ]     p: 2    lok: * == + >= ) != < && <= [ > || - / , . 
 
-332 : 
+331 : 
 items: 
 array_exp ::= idn_type [ number ]     p: 2    lok: * == + >= ) != < && <= [ > || - / , . 
 
-333 : 
+332 : 
 items: 
 new_exp ::= new type_exp ( arg_list )     p: 4    lok: ; 
 arg_list ::= arg_list , calc_exp     p: 1    lok: ) , 
 
-334 : 
+333 : 
 reduce: 
 34 array_type
 items: 
 array_type ::= basic_type [ ]     p: 3    lok: [ ( 
 
-335 : 
+334 : 
 reduce: 
 33 array_type
 items: 
 array_type ::= array_type [ ]     p: 3    lok: [ ( 
 
-336 : 
+335 : 
 reduce: 
 35 array_type
 items: 
 array_type ::= idn_type [ ]     p: 3    lok: [ ( 
 
-337 : 
+336 : 
 reduce: 
 36 idn_type
 items: 
 idn_type ::= idn_type . var     p: 3    lok: [ < ( . 
 
-338 : 
+337 : 
 items: 
 generic_exp ::= < var >     p: 2    lok: ( 
 
-339 : 
+338 : 
 items: 
 generic_exp ::= < ? inherit_info_list >     p: 2    lok: ( 
 inherit_info_list ::= inherit_info_list extends var     p: 0    lok: extends > implements 
@@ -4560,7 +4549,7 @@ inherit_info_list ::= inherit_info_list implements var     p: 0    lok: extends 
 inherit_info_list ::= extends var     p: 0    lok: extends > implements 
 inherit_info_list ::= implements var     p: 0    lok: extends > implements 
 
-340 : 
+339 : 
 items: 
 add_exp ::= add_exp + mul_exp     p: 2    lok: + || - ; && 
 mul_exp ::= mul_exp * pri_exp     p: 0    lok: * + || - / ; && 
@@ -4582,7 +4571,7 @@ array_exp ::= idn_type [ number ]     p: 0    lok: * [ + || - / . ; &&
 idn_type ::= idn_type . var     p: 0    lok: [ . 
 idn_type ::= var     p: 0    lok: [ . 
 
-341 : 
+340 : 
 items: 
 add_exp ::= add_exp - mul_exp     p: 2    lok: + || - ; && 
 mul_exp ::= mul_exp * pri_exp     p: 0    lok: * + || - / ; && 
@@ -4604,15 +4593,15 @@ array_exp ::= idn_type [ number ]     p: 0    lok: * [ + || - / . ; &&
 idn_type ::= idn_type . var     p: 0    lok: [ . 
 idn_type ::= var     p: 0    lok: [ . 
 
-342 : 
+341 : 
 reduce: 
-98 add_exp
+97 add_exp
 items: 
 add_exp ::= - mul_exp     p: 2    lok: + || - ; && 
 mul_exp ::= mul_exp * pri_exp     p: 1    lok: * + || - / ; && 
 mul_exp ::= mul_exp / pri_exp     p: 1    lok: * + || - / ; && 
 
-343 : 
+342 : 
 items: 
 mul_exp ::= mul_exp * pri_exp     p: 2    lok: * + || - / ; && 
 pri_exp ::= number     p: 0    lok: * + || - / ; && 
@@ -4631,7 +4620,7 @@ array_exp ::= idn_type [ number ]     p: 0    lok: * [ + || - / . ; &&
 idn_type ::= idn_type . var     p: 0    lok: [ . 
 idn_type ::= var     p: 0    lok: [ . 
 
-344 : 
+343 : 
 items: 
 mul_exp ::= mul_exp / pri_exp     p: 2    lok: * + || - / ; && 
 pri_exp ::= number     p: 0    lok: * + || - / ; && 
@@ -4650,31 +4639,31 @@ array_exp ::= idn_type [ number ]     p: 0    lok: * [ + || - / . ; &&
 idn_type ::= idn_type . var     p: 0    lok: [ . 
 idn_type ::= var     p: 0    lok: [ . 
 
+344 : 
+reduce: 
+99 add_exp
+items: 
+add_exp ::= ++ var     p: 2    lok: + || - ; && 
+
 345 : 
 reduce: 
 100 add_exp
 items: 
-add_exp ::= ++ var     p: 2    lok: + || - ; && 
+add_exp ::= -- var     p: 2    lok: + || - ; && 
 
 346 : 
 reduce: 
 101 add_exp
 items: 
-add_exp ::= -- var     p: 2    lok: + || - ; && 
+add_exp ::= var ++     p: 2    lok: + || - ; && 
 
 347 : 
 reduce: 
 102 add_exp
 items: 
-add_exp ::= var ++     p: 2    lok: + || - ; && 
-
-348 : 
-reduce: 
-103 add_exp
-items: 
 add_exp ::= var --     p: 2    lok: + || - ; && 
 
-349 : 
+348 : 
 items: 
 apply_exp ::= var ( arg_list )     p: 2    lok: * + || - / . ; && 
 arg_list ::= arg_list , calc_exp     p: 0    lok: ) , 
@@ -4723,46 +4712,46 @@ array_exp ::= idn_type [ number ]     p: 0    lok: * == + >= ) != < && <= [ > ||
 idn_type ::= idn_type . var     p: 0    lok: [ . 
 idn_type ::= var     p: 0    lok: [ . 
 
-350 : 
+349 : 
 items: 
 pri_exp ::= ( bool_exp )     p: 2    lok: * + || - / ; && 
 bool_exp ::= bool_exp && cmp_exp     p: 1    lok: ) || && 
 bool_exp ::= bool_exp || cmp_exp     p: 1    lok: ) || && 
 
-351 : 
+350 : 
 items: 
 apply_exp ::= apply_exp . var ( arg_list )     p: 2    lok: * + || - / . ; && 
 apply_exp ::= apply_exp . var     p: 2    lok: * + || - / . ; && 
 
-352 : 
+351 : 
 items: 
 array_exp ::= array_exp [ number ]     p: 2    lok: * [ + || - / . ; && 
 
-353 : 
+352 : 
 items: 
 array_exp ::= idn_type [ number ]     p: 2    lok: * [ + || - / . ; && 
+
+353 : 
+reduce: 
+82 bool_exp
+items: 
+bool_exp ::= bool_exp && cmp_exp     p: 3    lok: ) || && 
 
 354 : 
 reduce: 
 83 bool_exp
 items: 
-bool_exp ::= bool_exp && cmp_exp     p: 3    lok: ) || && 
+bool_exp ::= bool_exp || cmp_exp     p: 3    lok: ) || && 
 
 355 : 
 reduce: 
-84 bool_exp
-items: 
-bool_exp ::= bool_exp || cmp_exp     p: 3    lok: ) || && 
-
-356 : 
-reduce: 
-87 cmp_exp
+86 cmp_exp
 items: 
 cmp_exp ::= add_exp > add_exp     p: 3    lok: ) || && 
 add_exp ::= add_exp + mul_exp     p: 1    lok: + ) || - && 
 add_exp ::= add_exp - mul_exp     p: 1    lok: + ) || - && 
 
-357 : 
+356 : 
 items: 
 add_exp ::= - mul_exp     p: 1    lok: + ) || - && 
 mul_exp ::= mul_exp * pri_exp     p: 0    lok: * + ) || - / && 
@@ -4784,26 +4773,26 @@ array_exp ::= idn_type [ number ]     p: 0    lok: * [ + ) || - / . &&
 idn_type ::= idn_type . var     p: 0    lok: [ . 
 idn_type ::= var     p: 0    lok: [ . 
 
-358 : 
+357 : 
 reduce: 
-99 add_exp
+98 add_exp
 items: 
 add_exp ::= mul_exp     p: 1    lok: + ) || - && 
 mul_exp ::= mul_exp * pri_exp     p: 1    lok: * + ) || - / && 
 mul_exp ::= mul_exp / pri_exp     p: 1    lok: * + ) || - / && 
 
-359 : 
+358 : 
 items: 
 add_exp ::= ++ var     p: 1    lok: + ) || - && 
 
-360 : 
+359 : 
 items: 
 add_exp ::= -- var     p: 1    lok: + ) || - && 
 
-361 : 
+360 : 
 reduce: 
-116 apply_exp
 37 idn_type
+115 apply_exp
 items: 
 add_exp ::= var ++     p: 1    lok: + ) || - && 
 add_exp ::= var --     p: 1    lok: + ) || - && 
@@ -4811,19 +4800,19 @@ apply_exp ::= var ( arg_list )     p: 1    lok: * + ) || - / . &&
 apply_exp ::= var     p: 1    lok: * + ) || - / . && 
 idn_type ::= var     p: 1    lok: [ . 
 
-362 : 
+361 : 
 reduce: 
-106 mul_exp
+105 mul_exp
 items: 
 mul_exp ::= pri_exp     p: 1    lok: * + ) || - / && 
 
-363 : 
+362 : 
 reduce: 
-107 pri_exp
+106 pri_exp
 items: 
 pri_exp ::= number     p: 1    lok: * + ) || - / && 
 
-364 : 
+363 : 
 items: 
 pri_exp ::= ( bool_exp )     p: 1    lok: * + ) || - / && 
 bool_exp ::= bool_exp && cmp_exp     p: 0    lok: ) || && 
@@ -4866,49 +4855,57 @@ array_exp ::= idn_type [ number ]     p: 0    lok: * == + >= ) != < && <= [ > ||
 idn_type ::= idn_type . var     p: 0    lok: [ . 
 idn_type ::= var     p: 0    lok: [ . 
 
-365 : 
+364 : 
 reduce: 
-109 pri_exp
+108 pri_exp
 items: 
 pri_exp ::= apply_exp     p: 1    lok: * + ) || - / && 
 apply_exp ::= apply_exp . var ( arg_list )     p: 1    lok: * + ) || - / . && 
 apply_exp ::= apply_exp . var     p: 1    lok: * + ) || - / . && 
 
-366 : 
+365 : 
 reduce: 
-110 pri_exp
+109 pri_exp
 items: 
 pri_exp ::= str_exp     p: 1    lok: * + ) || - / && 
 
-367 : 
+366 : 
 reduce: 
-117 apply_exp
+116 apply_exp
 items: 
 apply_exp ::= array_exp     p: 1    lok: * + ) || - / . && 
 array_exp ::= array_exp [ number ]     p: 1    lok: * [ + ) || - / . && 
+
+367 : 
+reduce: 
+110 str_exp
+items: 
+str_exp ::= str     p: 1    lok: * + ) || - / && 
 
 368 : 
 reduce: 
 111 str_exp
 items: 
-str_exp ::= str     p: 1    lok: * + ) || - / && 
-
-369 : 
-reduce: 
-112 str_exp
-items: 
 str_exp ::= chr     p: 1    lok: * + ) || - / && 
 
-370 : 
+369 : 
 items: 
 array_exp ::= idn_type [ number ]     p: 1    lok: * [ + ) || - / . && 
 idn_type ::= idn_type . var     p: 1    lok: [ . 
+
+370 : 
+reduce: 
+87 cmp_exp
+items: 
+cmp_exp ::= add_exp >= add_exp     p: 3    lok: ) || && 
+add_exp ::= add_exp + mul_exp     p: 1    lok: + ) || - && 
+add_exp ::= add_exp - mul_exp     p: 1    lok: + ) || - && 
 
 371 : 
 reduce: 
 88 cmp_exp
 items: 
-cmp_exp ::= add_exp >= add_exp     p: 3    lok: ) || && 
+cmp_exp ::= add_exp < add_exp     p: 3    lok: ) || && 
 add_exp ::= add_exp + mul_exp     p: 1    lok: + ) || - && 
 add_exp ::= add_exp - mul_exp     p: 1    lok: + ) || - && 
 
@@ -4916,7 +4913,7 @@ add_exp ::= add_exp - mul_exp     p: 1    lok: + ) || - &&
 reduce: 
 89 cmp_exp
 items: 
-cmp_exp ::= add_exp < add_exp     p: 3    lok: ) || && 
+cmp_exp ::= add_exp <= add_exp     p: 3    lok: ) || && 
 add_exp ::= add_exp + mul_exp     p: 1    lok: + ) || - && 
 add_exp ::= add_exp - mul_exp     p: 1    lok: + ) || - && 
 
@@ -4924,7 +4921,7 @@ add_exp ::= add_exp - mul_exp     p: 1    lok: + ) || - &&
 reduce: 
 90 cmp_exp
 items: 
-cmp_exp ::= add_exp <= add_exp     p: 3    lok: ) || && 
+cmp_exp ::= add_exp == add_exp     p: 3    lok: ) || && 
 add_exp ::= add_exp + mul_exp     p: 1    lok: + ) || - && 
 add_exp ::= add_exp - mul_exp     p: 1    lok: + ) || - && 
 
@@ -4932,79 +4929,71 @@ add_exp ::= add_exp - mul_exp     p: 1    lok: + ) || - &&
 reduce: 
 91 cmp_exp
 items: 
-cmp_exp ::= add_exp == add_exp     p: 3    lok: ) || && 
+cmp_exp ::= add_exp != add_exp     p: 3    lok: ) || && 
 add_exp ::= add_exp + mul_exp     p: 1    lok: + ) || - && 
 add_exp ::= add_exp - mul_exp     p: 1    lok: + ) || - && 
 
 375 : 
 reduce: 
-92 cmp_exp
-items: 
-cmp_exp ::= add_exp != add_exp     p: 3    lok: ) || && 
-add_exp ::= add_exp + mul_exp     p: 1    lok: + ) || - && 
-add_exp ::= add_exp - mul_exp     p: 1    lok: + ) || - && 
-
-376 : 
-reduce: 
-96 add_exp
+95 add_exp
 items: 
 add_exp ::= add_exp + mul_exp     p: 3    lok: <= == + >= ) > || != - < && 
 mul_exp ::= mul_exp * pri_exp     p: 1    lok: * == + >= ) != < && <= > || - / 
 mul_exp ::= mul_exp / pri_exp     p: 1    lok: * == + >= ) != < && <= > || - / 
 
-377 : 
+376 : 
 reduce: 
-97 add_exp
+96 add_exp
 items: 
 add_exp ::= add_exp - mul_exp     p: 3    lok: <= == + >= ) > || != - < && 
 mul_exp ::= mul_exp * pri_exp     p: 1    lok: * == + >= ) != < && <= > || - / 
 mul_exp ::= mul_exp / pri_exp     p: 1    lok: * == + >= ) != < && <= > || - / 
 
+377 : 
+reduce: 
+103 mul_exp
+items: 
+mul_exp ::= mul_exp * pri_exp     p: 3    lok: * == + >= ) != < && <= > || - / 
+
 378 : 
 reduce: 
 104 mul_exp
 items: 
-mul_exp ::= mul_exp * pri_exp     p: 3    lok: * == + >= ) != < && <= > || - / 
-
-379 : 
-reduce: 
-105 mul_exp
-items: 
 mul_exp ::= mul_exp / pri_exp     p: 3    lok: * == + >= ) != < && <= > || - / 
 
-380 : 
+379 : 
 items: 
 apply_exp ::= var ( arg_list )     p: 3    lok: * == + >= ) != < && <= > || - / . 
 arg_list ::= arg_list , calc_exp     p: 1    lok: ) , 
 
-381 : 
+380 : 
 reduce: 
-108 pri_exp
+107 pri_exp
 items: 
 pri_exp ::= ( bool_exp )     p: 3    lok: * == + >= ) != < && <= > || - / 
 
-382 : 
+381 : 
 reduce: 
-114 apply_exp
+113 apply_exp
 items: 
 apply_exp ::= apply_exp . var ( arg_list )     p: 3    lok: * == + >= ) != < && <= > || - / . 
 apply_exp ::= apply_exp . var     p: 3    lok: * == + >= ) != < && <= > || - / . 
 
-383 : 
+382 : 
 items: 
 array_exp ::= array_exp [ number ]     p: 3    lok: * == + >= ) != < && <= [ > || - / . 
 
-384 : 
+383 : 
 items: 
 array_exp ::= idn_type [ number ]     p: 3    lok: * == + >= ) != < && <= [ > || - / . 
 
-385 : 
+384 : 
 reduce: 
 36 idn_type
 items: 
 idn_type ::= idn_type . var     p: 3    lok: [ . 
 
-386 : 
+385 : 
 items: 
 apply_exp ::= apply_exp . var ( arg_list )     p: 4    lok: * == + >= != < ; && <= > || - / . 
 arg_list ::= arg_list , calc_exp     p: 0    lok: ) , 
@@ -5053,19 +5042,19 @@ array_exp ::= idn_type [ number ]     p: 0    lok: * == + >= ) != < && <= [ > ||
 idn_type ::= idn_type . var     p: 0    lok: [ . 
 idn_type ::= var     p: 0    lok: [ . 
 
-387 : 
+386 : 
 reduce: 
-121 array_exp
+120 array_exp
 items: 
 array_exp ::= array_exp [ number ]     p: 4    lok: * == + >= != < ; && <= [ > || - / . 
 
-388 : 
+387 : 
 reduce: 
 16 var_def
 items: 
 var_def ::= var_def , var = calc_exp     p: 5    lok: , ; 
 
-389 : 
+388 : 
 items: 
 bool_exp ::= bool_exp && cmp_exp     p: 2    lok: || , ; && 
 cmp_exp ::= add_exp > add_exp     p: 0    lok: || , ; && 
@@ -5104,7 +5093,7 @@ array_exp ::= idn_type [ number ]     p: 0    lok: * == + >= != < ; && <= [ > ||
 idn_type ::= idn_type . var     p: 0    lok: [ . 
 idn_type ::= var     p: 0    lok: [ . 
 
-390 : 
+389 : 
 items: 
 bool_exp ::= bool_exp || cmp_exp     p: 2    lok: || , ; && 
 cmp_exp ::= add_exp > add_exp     p: 0    lok: || , ; && 
@@ -5143,17 +5132,17 @@ array_exp ::= idn_type [ number ]     p: 0    lok: * == + >= != < ; && <= [ > ||
 idn_type ::= idn_type . var     p: 0    lok: [ . 
 idn_type ::= var     p: 0    lok: [ . 
 
-391 : 
+390 : 
 reduce: 
-85 bool_exp
+84 bool_exp
 items: 
 bool_exp ::= ! cmp_exp     p: 2    lok: || , ; && 
 
-392 : 
+391 : 
 items: 
 new_exp ::= new type_exp ( arg_list )     p: 2    lok: , ; 
 
-393 : 
+392 : 
 items: 
 cmp_exp ::= add_exp > add_exp     p: 2    lok: || , ; && 
 add_exp ::= add_exp + mul_exp     p: 0    lok: + || - , ; && 
@@ -5183,7 +5172,7 @@ array_exp ::= idn_type [ number ]     p: 0    lok: * [ + || - / , . ; &&
 idn_type ::= idn_type . var     p: 0    lok: [ . 
 idn_type ::= var     p: 0    lok: [ . 
 
-394 : 
+393 : 
 items: 
 cmp_exp ::= add_exp >= add_exp     p: 2    lok: || , ; && 
 add_exp ::= add_exp + mul_exp     p: 0    lok: + || - , ; && 
@@ -5213,7 +5202,7 @@ array_exp ::= idn_type [ number ]     p: 0    lok: * [ + || - / , . ; &&
 idn_type ::= idn_type . var     p: 0    lok: [ . 
 idn_type ::= var     p: 0    lok: [ . 
 
-395 : 
+394 : 
 items: 
 cmp_exp ::= add_exp < add_exp     p: 2    lok: || , ; && 
 add_exp ::= add_exp + mul_exp     p: 0    lok: + || - , ; && 
@@ -5243,7 +5232,7 @@ array_exp ::= idn_type [ number ]     p: 0    lok: * [ + || - / , . ; &&
 idn_type ::= idn_type . var     p: 0    lok: [ . 
 idn_type ::= var     p: 0    lok: [ . 
 
-396 : 
+395 : 
 items: 
 cmp_exp ::= add_exp <= add_exp     p: 2    lok: || , ; && 
 add_exp ::= add_exp + mul_exp     p: 0    lok: + || - , ; && 
@@ -5273,7 +5262,7 @@ array_exp ::= idn_type [ number ]     p: 0    lok: * [ + || - / , . ; &&
 idn_type ::= idn_type . var     p: 0    lok: [ . 
 idn_type ::= var     p: 0    lok: [ . 
 
-397 : 
+396 : 
 items: 
 cmp_exp ::= add_exp == add_exp     p: 2    lok: || , ; && 
 add_exp ::= add_exp + mul_exp     p: 0    lok: + || - , ; && 
@@ -5303,7 +5292,7 @@ array_exp ::= idn_type [ number ]     p: 0    lok: * [ + || - / , . ; &&
 idn_type ::= idn_type . var     p: 0    lok: [ . 
 idn_type ::= var     p: 0    lok: [ . 
 
-398 : 
+397 : 
 items: 
 cmp_exp ::= add_exp != add_exp     p: 2    lok: || , ; && 
 add_exp ::= add_exp + mul_exp     p: 0    lok: + || - , ; && 
@@ -5333,7 +5322,7 @@ array_exp ::= idn_type [ number ]     p: 0    lok: * [ + || - / , . ; &&
 idn_type ::= idn_type . var     p: 0    lok: [ . 
 idn_type ::= var     p: 0    lok: [ . 
 
-399 : 
+398 : 
 items: 
 add_exp ::= add_exp + mul_exp     p: 2    lok: <= == + >= > || != - < , ; && 
 mul_exp ::= mul_exp * pri_exp     p: 0    lok: * == + >= != < ; && <= > || - / , 
@@ -5355,7 +5344,7 @@ array_exp ::= idn_type [ number ]     p: 0    lok: * == + >= != < ; && <= [ > ||
 idn_type ::= idn_type . var     p: 0    lok: [ . 
 idn_type ::= var     p: 0    lok: [ . 
 
-400 : 
+399 : 
 items: 
 add_exp ::= add_exp - mul_exp     p: 2    lok: <= == + >= > || != - < , ; && 
 mul_exp ::= mul_exp * pri_exp     p: 0    lok: * == + >= != < ; && <= > || - / , 
@@ -5377,15 +5366,15 @@ array_exp ::= idn_type [ number ]     p: 0    lok: * == + >= != < ; && <= [ > ||
 idn_type ::= idn_type . var     p: 0    lok: [ . 
 idn_type ::= var     p: 0    lok: [ . 
 
-401 : 
+400 : 
 reduce: 
-98 add_exp
+97 add_exp
 items: 
 add_exp ::= - mul_exp     p: 2    lok: <= == + >= > || != - < , ; && 
 mul_exp ::= mul_exp * pri_exp     p: 1    lok: * == + >= != < ; && <= > || - / , 
 mul_exp ::= mul_exp / pri_exp     p: 1    lok: * == + >= != < ; && <= > || - / , 
 
-402 : 
+401 : 
 items: 
 mul_exp ::= mul_exp * pri_exp     p: 2    lok: * == + >= != < ; && <= > || - / , 
 pri_exp ::= number     p: 0    lok: * == + >= != < ; && <= > || - / , 
@@ -5404,7 +5393,7 @@ array_exp ::= idn_type [ number ]     p: 0    lok: * == + >= != < ; && <= [ > ||
 idn_type ::= idn_type . var     p: 0    lok: [ . 
 idn_type ::= var     p: 0    lok: [ . 
 
-403 : 
+402 : 
 items: 
 mul_exp ::= mul_exp / pri_exp     p: 2    lok: * == + >= != < ; && <= > || - / , 
 pri_exp ::= number     p: 0    lok: * == + >= != < ; && <= > || - / , 
@@ -5423,31 +5412,31 @@ array_exp ::= idn_type [ number ]     p: 0    lok: * == + >= != < ; && <= [ > ||
 idn_type ::= idn_type . var     p: 0    lok: [ . 
 idn_type ::= var     p: 0    lok: [ . 
 
+403 : 
+reduce: 
+99 add_exp
+items: 
+add_exp ::= ++ var     p: 2    lok: <= == + >= > || != - < , ; && 
+
 404 : 
 reduce: 
 100 add_exp
 items: 
-add_exp ::= ++ var     p: 2    lok: <= == + >= > || != - < , ; && 
+add_exp ::= -- var     p: 2    lok: <= == + >= > || != - < , ; && 
 
 405 : 
 reduce: 
 101 add_exp
 items: 
-add_exp ::= -- var     p: 2    lok: <= == + >= > || != - < , ; && 
+add_exp ::= var ++     p: 2    lok: <= == + >= > || != - < , ; && 
 
 406 : 
 reduce: 
 102 add_exp
 items: 
-add_exp ::= var ++     p: 2    lok: <= == + >= > || != - < , ; && 
-
-407 : 
-reduce: 
-103 add_exp
-items: 
 add_exp ::= var --     p: 2    lok: <= == + >= > || != - < , ; && 
 
-408 : 
+407 : 
 items: 
 apply_exp ::= var ( arg_list )     p: 2    lok: * == + >= != < ; && <= > || - / , . 
 arg_list ::= arg_list , calc_exp     p: 0    lok: ) , 
@@ -5496,30 +5485,30 @@ array_exp ::= idn_type [ number ]     p: 0    lok: * == + >= ) != < && <= [ > ||
 idn_type ::= idn_type . var     p: 0    lok: [ . 
 idn_type ::= var     p: 0    lok: [ . 
 
-409 : 
+408 : 
 items: 
 pri_exp ::= ( bool_exp )     p: 2    lok: * == + >= != < ; && <= > || - / , 
 bool_exp ::= bool_exp && cmp_exp     p: 1    lok: ) || && 
 bool_exp ::= bool_exp || cmp_exp     p: 1    lok: ) || && 
 
-410 : 
+409 : 
 items: 
 apply_exp ::= apply_exp . var ( arg_list )     p: 2    lok: * == + >= != < ; && <= > || - / , . 
 apply_exp ::= apply_exp . var     p: 2    lok: * == + >= != < ; && <= > || - / , . 
 
-411 : 
+410 : 
 items: 
 array_exp ::= array_exp [ number ]     p: 2    lok: * == + >= != < ; && <= [ > || - / , . 
 
-412 : 
+411 : 
 items: 
 array_exp ::= idn_type [ number ]     p: 2    lok: * == + >= != < ; && <= [ > || - / , . 
 
-413 : 
+412 : 
 items: 
 func_def ::= type_exp var ( par_list ) { stmt_list }     p: 5    lok: true int bool var ! class if chr - public continue type ++ double str new eof -- number false private static break string while return ( char 
 
-414 : 
+413 : 
 items: 
 par_list ::= par_list , type_exp var     p: 2    lok: ) , 
 type_exp ::= basic_type     p: 0    lok: var 
@@ -5538,19 +5527,19 @@ idn_type ::= idn_type . var     p: 0    lok: [ var < .
 idn_type ::= var     p: 0    lok: [ var < . 
 generic_type ::= idn_type generic_exp     p: 0    lok: var 
 
-415 : 
+414 : 
 reduce: 
-70 par_list
+69 par_list
 items: 
 par_list ::= type_exp var     p: 2    lok: ) , 
 
-416 : 
+415 : 
 reduce: 
 44 type_def
 items: 
 type_def ::= type var = func_type ;     p: 5    lok: true int bool var ! class if chr - public continue type ++ double str new eof -- number false private static break string while return ( char 
 
-417 : 
+416 : 
 items: 
 func_type ::= func_type -> type_exp     p: 2    lok: -> ; 
 type_exp ::= basic_type     p: 0    lok: -> ; 
@@ -5569,12 +5558,12 @@ idn_type ::= idn_type . var     p: 0    lok: [ -> < . ;
 idn_type ::= var     p: 0    lok: [ -> < . ; 
 generic_type ::= idn_type generic_exp     p: 0    lok: -> ; 
 
-418 : 
+417 : 
 items: 
 func_type ::= ( func_type -> type_exp )     p: 2    lok: -> ; 
 func_type ::= func_type -> type_exp     p: 1    lok: -> 
 
-419 : 
+418 : 
 items: 
 func_type ::= ( func_type -> type_exp )     p: 1    lok: -> 
 func_type ::= func_type -> type_exp     p: 0    lok: -> 
@@ -5596,27 +5585,27 @@ idn_type ::= idn_type . var     p: 0    lok: [ -> < .
 idn_type ::= var     p: 0    lok: [ -> < . 
 generic_type ::= idn_type generic_exp     p: 0    lok: -> 
 
-420 : 
+419 : 
 reduce: 
 40 func_type
 items: 
 func_type ::= type_exp     p: 1    lok: -> 
 
-421 : 
+420 : 
 reduce: 
 24 type_exp
 items: 
 type_exp ::= basic_type     p: 1    lok: -> 
 array_type ::= basic_type [ ]     p: 1    lok: [ -> 
 
-422 : 
+421 : 
 reduce: 
 25 type_exp
 items: 
 type_exp ::= array_type     p: 1    lok: -> 
 array_type ::= array_type [ ]     p: 1    lok: [ -> 
 
-423 : 
+422 : 
 reduce: 
 26 type_exp
 items: 
@@ -5627,104 +5616,104 @@ generic_type ::= idn_type generic_exp     p: 1    lok: ->
 generic_exp ::= < var >     p: 0    lok: -> 
 generic_exp ::= < ? inherit_info_list >     p: 0    lok: -> 
 
-424 : 
+423 : 
 reduce: 
 27 type_exp
 items: 
 type_exp ::= generic_type     p: 1    lok: -> 
 
-425 : 
+424 : 
 reduce: 
 28 basic_type
 items: 
 basic_type ::= int     p: 1    lok: [ -> 
 
-426 : 
+425 : 
 reduce: 
 29 basic_type
 items: 
 basic_type ::= double     p: 1    lok: [ -> 
 
-427 : 
+426 : 
 reduce: 
 30 basic_type
 items: 
 basic_type ::= bool     p: 1    lok: [ -> 
 
-428 : 
+427 : 
 reduce: 
 31 basic_type
 items: 
 basic_type ::= string     p: 1    lok: [ -> 
 
-429 : 
+428 : 
 reduce: 
 32 basic_type
 items: 
 basic_type ::= char     p: 1    lok: [ -> 
 
-430 : 
+429 : 
 reduce: 
 37 idn_type
 items: 
 idn_type ::= var     p: 1    lok: [ -> < . 
 
-431 : 
+430 : 
 items: 
 array_type ::= basic_type [ ]     p: 2    lok: [ -> ; 
 
-432 : 
+431 : 
 items: 
 array_type ::= array_type [ ]     p: 2    lok: [ -> ; 
 
-433 : 
+432 : 
 items: 
 array_type ::= idn_type [ ]     p: 2    lok: [ -> ; 
 
-434 : 
+433 : 
 items: 
 idn_type ::= idn_type . var     p: 2    lok: [ -> < . ; 
 
-435 : 
+434 : 
 reduce: 
 41 generic_type
 items: 
 generic_type ::= idn_type generic_exp     p: 2    lok: -> ; 
 
-436 : 
+435 : 
 items: 
 generic_exp ::= < var >     p: 1    lok: -> ; 
 generic_exp ::= < ? inherit_info_list >     p: 1    lok: -> ; 
 
-437 : 
+436 : 
 reduce: 
-77 else_stmt
+76 else_stmt
 items: 
 else_stmt ::= { stmt_list }     p: 3    lok: true int bool var ! class if chr - public continue type ++ double str new eof -- number false private static break string while return ( char 
 
-438 : 
+437 : 
 reduce: 
 1 stmt_list
 items: 
 stmt_list ::= stmt_list stmt     p: 2    lok: true int bool var } ! class if chr - public continue type ++ double str new -- number false private static break string while return ( char 
 
-439 : 
+438 : 
 reduce: 
 3 stmt
 items: 
 stmt ::= var_def ;     p: 2    lok: true int bool var } ! class if chr - public continue type ++ double str new -- number false private static break string while return ( char 
 
-440 : 
+439 : 
 reduce: 
 8 stmt
 items: 
 stmt ::= sg_stmt ;     p: 2    lok: true int bool var } ! class if chr - public continue type ++ double str new -- number false private static break string while return ( char 
 
-441 : 
+440 : 
 items: 
 type_def ::= type var = func_type ;     p: 2    lok: true int bool var } ! class if chr - public continue type ++ double str new -- number false private static break string while return ( char 
 
-442 : 
+441 : 
 items: 
 if_exp ::= if_stmt else else_stmt     p: 2    lok: true int bool var } ! class if chr - public continue type ++ double str new -- number false private static break string while return ( char 
 else_stmt ::= if_exp     p: 0    lok: true int bool var } ! class if chr - public continue type ++ double str new -- number false private static break string while return ( char 
@@ -5788,7 +5777,7 @@ array_exp ::= idn_type [ number ]     p: 0    lok: * == + >= != < ; && <= [ > ||
 idn_type ::= idn_type . var     p: 0    lok: [ . 
 idn_type ::= var     p: 0    lok: [ . 
 
-443 : 
+442 : 
 items: 
 while_exp ::= while ( bool_exp ) { stmt_list }     p: 2    lok: true int bool var } ! class if chr - public continue type ++ double str new -- number false private static break string while return ( char 
 bool_exp ::= bool_exp && cmp_exp     p: 0    lok: ) || && 
@@ -5831,11 +5820,11 @@ array_exp ::= idn_type [ number ]     p: 0    lok: * == + >= ) != < && <= [ > ||
 idn_type ::= idn_type . var     p: 0    lok: [ . 
 idn_type ::= var     p: 0    lok: [ . 
 
-444 : 
+443 : 
 items: 
 class_def ::= scope_info_e class var generic_info_e inherit_info_list_e { class_member_def }     p: 2    lok: true int bool var } ! class if chr - public continue type ++ double str new -- number false private static break string while return ( char 
 
-445 : 
+444 : 
 items: 
 if_stmt ::= if ( bool_exp ) { stmt_list }     p: 2    lok: true int bool var else } ! class if chr - public continue type ++ double str new -- number false private static break string while return ( char 
 if_stmt ::= if ( bool_exp ) sg_stmt ;     p: 2    lok: true int bool var else } ! class if chr - public continue type ++ double str new -- number false private static break string while return ( char 
@@ -5879,7 +5868,7 @@ array_exp ::= idn_type [ number ]     p: 0    lok: * == + >= ) != < && <= [ > ||
 idn_type ::= idn_type . var     p: 0    lok: [ . 
 idn_type ::= var     p: 0    lok: [ . 
 
-446 : 
+445 : 
 items: 
 while_exp ::= while ( bool_exp ) { stmt_list }     p: 5    lok: true int bool var ! class if chr - public continue type ++ double str new eof -- number false private static break string while return ( char 
 stmt_list ::= stmt_list stmt     p: 0    lok: true int bool var } ! class if chr - public continue type ++ double str new -- number false private static break string while return ( char 
@@ -5940,7 +5929,6 @@ bool_exp ::= cmp_exp     p: 0    lok: || ; &&
 new_exp ::= new type_exp ( arg_list )     p: 0    lok: ; 
 scope_info ::= static     p: 0    lok: class 
 scope_info ::= static public     p: 0    lok: class 
-scope_info ::= static private     p: 0    lok: class 
 scope_info ::= public     p: 0    lok: class 
 scope_info ::= private     p: 0    lok: class 
 cmp_exp ::= add_exp > add_exp     p: 0    lok: || ; && 
@@ -5977,59 +5965,59 @@ str_exp ::= chr     p: 0    lok: * == + >= != < ; && <= > || - /
 array_exp ::= array_exp [ number ]     p: 0    lok: * == + >= != < ; && <= [ > || - / . 
 array_exp ::= idn_type [ number ]     p: 0    lok: * == + >= != < ; && <= [ > || - / . 
 
-447 : 
+446 : 
 reduce: 
 43 generic_exp
 items: 
 generic_exp ::= < ? inherit_info_list >     p: 4    lok: var 
 
-448 : 
+447 : 
 items: 
 inherit_info_list ::= inherit_info_list extends var     p: 2    lok: extends > implements 
 
-449 : 
+448 : 
 items: 
 inherit_info_list ::= inherit_info_list implements var     p: 2    lok: extends > implements 
+
+449 : 
+reduce: 
+60 inherit_info_list
+items: 
+inherit_info_list ::= extends var     p: 2    lok: extends > implements 
 
 450 : 
 reduce: 
 61 inherit_info_list
 items: 
-inherit_info_list ::= extends var     p: 2    lok: extends > implements 
-
-451 : 
-reduce: 
-62 inherit_info_list
-items: 
 inherit_info_list ::= implements var     p: 2    lok: extends > implements 
 
-452 : 
+451 : 
 items: 
 class_def ::= scope_info_e class var generic_info_e inherit_info_list_e { class_member_def }     p: 5    lok: true int bool var ! class if chr - public continue type ++ double str new eof -- number false private static break string while return ( char 
 
-453 : 
+452 : 
 reduce: 
-57 inherit_info_list_e
+56 inherit_info_list_e
 items: 
 inherit_info_list_e ::= inherit_info_list     p: 1    lok: { 
 inherit_info_list ::= inherit_info_list extends var     p: 1    lok: extends implements { 
 inherit_info_list ::= inherit_info_list implements var     p: 1    lok: extends implements { 
 
-454 : 
+453 : 
 reduce: 
-58 inherit_info_list_e
+57 inherit_info_list_e
 items: 
 inherit_info_list_e ::= e     p: 1    lok: { 
 
-455 : 
+454 : 
 items: 
 inherit_info_list ::= extends var     p: 1    lok: extends implements { 
 
-456 : 
+455 : 
 items: 
 inherit_info_list ::= implements var     p: 1    lok: extends implements { 
 
-457 : 
+456 : 
 items: 
 generic_info ::= < var inherit_info_list_e >     p: 2    lok: extends implements { 
 inherit_info_list_e ::= inherit_info_list     p: 0    lok: > 
@@ -6039,7 +6027,7 @@ inherit_info_list ::= inherit_info_list implements var     p: 0    lok: extends 
 inherit_info_list ::= extends var     p: 0    lok: extends > implements 
 inherit_info_list ::= implements var     p: 0    lok: extends > implements 
 
-458 : 
+457 : 
 items: 
 if_stmt ::= if ( bool_exp ) { stmt_list }     p: 5    lok: true int bool var else ! class if chr - public continue type ++ double str new eof -- number false private static break string while return ( char 
 stmt_list ::= stmt_list stmt     p: 0    lok: true int bool var } ! class if chr - public continue type ++ double str new -- number false private static break string while return ( char 
@@ -6100,7 +6088,6 @@ bool_exp ::= cmp_exp     p: 0    lok: || ; &&
 new_exp ::= new type_exp ( arg_list )     p: 0    lok: ; 
 scope_info ::= static     p: 0    lok: class 
 scope_info ::= static public     p: 0    lok: class 
-scope_info ::= static private     p: 0    lok: class 
 scope_info ::= public     p: 0    lok: class 
 scope_info ::= private     p: 0    lok: class 
 cmp_exp ::= add_exp > add_exp     p: 0    lok: || ; && 
@@ -6137,29 +6124,29 @@ str_exp ::= chr     p: 0    lok: * == + >= != < ; && <= > || - /
 array_exp ::= array_exp [ number ]     p: 0    lok: * == + >= != < ; && <= [ > || - / . 
 array_exp ::= idn_type [ number ]     p: 0    lok: * == + >= != < ; && <= [ > || - / . 
 
-459 : 
+458 : 
 items: 
 if_stmt ::= if ( bool_exp ) sg_stmt ;     p: 5    lok: true int bool var else ! class if chr - public continue type ++ double str new eof -- number false private static break string while return ( char 
 
-460 : 
+459 : 
 reduce: 
-118 arg_list
+117 arg_list
 items: 
 arg_list ::= arg_list , calc_exp     p: 3    lok: ) , 
+
+460 : 
+reduce: 
+82 bool_exp
+items: 
+bool_exp ::= bool_exp && cmp_exp     p: 3    lok: ) || , && 
 
 461 : 
 reduce: 
 83 bool_exp
 items: 
-bool_exp ::= bool_exp && cmp_exp     p: 3    lok: ) || , && 
-
-462 : 
-reduce: 
-84 bool_exp
-items: 
 bool_exp ::= bool_exp || cmp_exp     p: 3    lok: ) || , && 
 
-463 : 
+462 : 
 items: 
 new_exp ::= new type_exp ( arg_list )     p: 3    lok: ) , 
 arg_list ::= arg_list , calc_exp     p: 0    lok: ) , 
@@ -6208,15 +6195,15 @@ array_exp ::= idn_type [ number ]     p: 0    lok: * == + >= ) != < && <= [ > ||
 idn_type ::= idn_type . var     p: 0    lok: [ . 
 idn_type ::= var     p: 0    lok: [ . 
 
-464 : 
+463 : 
 reduce: 
-87 cmp_exp
+86 cmp_exp
 items: 
 cmp_exp ::= add_exp > add_exp     p: 3    lok: ) || , && 
 add_exp ::= add_exp + mul_exp     p: 1    lok: + ) || - , && 
 add_exp ::= add_exp - mul_exp     p: 1    lok: + ) || - , && 
 
-465 : 
+464 : 
 items: 
 add_exp ::= - mul_exp     p: 1    lok: + ) || - , && 
 mul_exp ::= mul_exp * pri_exp     p: 0    lok: * + ) || - / , && 
@@ -6238,26 +6225,26 @@ array_exp ::= idn_type [ number ]     p: 0    lok: * [ + ) || - / , . &&
 idn_type ::= idn_type . var     p: 0    lok: [ . 
 idn_type ::= var     p: 0    lok: [ . 
 
-466 : 
+465 : 
 reduce: 
-99 add_exp
+98 add_exp
 items: 
 add_exp ::= mul_exp     p: 1    lok: + ) || - , && 
 mul_exp ::= mul_exp * pri_exp     p: 1    lok: * + ) || - / , && 
 mul_exp ::= mul_exp / pri_exp     p: 1    lok: * + ) || - / , && 
 
-467 : 
+466 : 
 items: 
 add_exp ::= ++ var     p: 1    lok: + ) || - , && 
 
-468 : 
+467 : 
 items: 
 add_exp ::= -- var     p: 1    lok: + ) || - , && 
 
-469 : 
+468 : 
 reduce: 
 37 idn_type
-116 apply_exp
+115 apply_exp
 items: 
 add_exp ::= var ++     p: 1    lok: + ) || - , && 
 add_exp ::= var --     p: 1    lok: + ) || - , && 
@@ -6265,19 +6252,19 @@ apply_exp ::= var ( arg_list )     p: 1    lok: * + ) || - / , . &&
 apply_exp ::= var     p: 1    lok: * + ) || - / , . && 
 idn_type ::= var     p: 1    lok: [ . 
 
-470 : 
+469 : 
 reduce: 
-106 mul_exp
+105 mul_exp
 items: 
 mul_exp ::= pri_exp     p: 1    lok: * + ) || - / , && 
 
-471 : 
+470 : 
 reduce: 
-107 pri_exp
+106 pri_exp
 items: 
 pri_exp ::= number     p: 1    lok: * + ) || - / , && 
 
-472 : 
+471 : 
 items: 
 pri_exp ::= ( bool_exp )     p: 1    lok: * + ) || - / , && 
 bool_exp ::= bool_exp && cmp_exp     p: 0    lok: ) || && 
@@ -6320,49 +6307,57 @@ array_exp ::= idn_type [ number ]     p: 0    lok: * == + >= ) != < && <= [ > ||
 idn_type ::= idn_type . var     p: 0    lok: [ . 
 idn_type ::= var     p: 0    lok: [ . 
 
-473 : 
+472 : 
 reduce: 
-109 pri_exp
+108 pri_exp
 items: 
 pri_exp ::= apply_exp     p: 1    lok: * + ) || - / , && 
 apply_exp ::= apply_exp . var ( arg_list )     p: 1    lok: * + ) || - / , . && 
 apply_exp ::= apply_exp . var     p: 1    lok: * + ) || - / , . && 
 
-474 : 
+473 : 
 reduce: 
-110 pri_exp
+109 pri_exp
 items: 
 pri_exp ::= str_exp     p: 1    lok: * + ) || - / , && 
 
-475 : 
+474 : 
 reduce: 
-117 apply_exp
+116 apply_exp
 items: 
 apply_exp ::= array_exp     p: 1    lok: * + ) || - / , . && 
 array_exp ::= array_exp [ number ]     p: 1    lok: * [ + ) || - / , . && 
+
+475 : 
+reduce: 
+110 str_exp
+items: 
+str_exp ::= str     p: 1    lok: * + ) || - / , && 
 
 476 : 
 reduce: 
 111 str_exp
 items: 
-str_exp ::= str     p: 1    lok: * + ) || - / , && 
-
-477 : 
-reduce: 
-112 str_exp
-items: 
 str_exp ::= chr     p: 1    lok: * + ) || - / , && 
 
-478 : 
+477 : 
 items: 
 array_exp ::= idn_type [ number ]     p: 1    lok: * [ + ) || - / , . && 
 idn_type ::= idn_type . var     p: 1    lok: [ . 
+
+478 : 
+reduce: 
+87 cmp_exp
+items: 
+cmp_exp ::= add_exp >= add_exp     p: 3    lok: ) || , && 
+add_exp ::= add_exp + mul_exp     p: 1    lok: + ) || - , && 
+add_exp ::= add_exp - mul_exp     p: 1    lok: + ) || - , && 
 
 479 : 
 reduce: 
 88 cmp_exp
 items: 
-cmp_exp ::= add_exp >= add_exp     p: 3    lok: ) || , && 
+cmp_exp ::= add_exp < add_exp     p: 3    lok: ) || , && 
 add_exp ::= add_exp + mul_exp     p: 1    lok: + ) || - , && 
 add_exp ::= add_exp - mul_exp     p: 1    lok: + ) || - , && 
 
@@ -6370,7 +6365,7 @@ add_exp ::= add_exp - mul_exp     p: 1    lok: + ) || - , &&
 reduce: 
 89 cmp_exp
 items: 
-cmp_exp ::= add_exp < add_exp     p: 3    lok: ) || , && 
+cmp_exp ::= add_exp <= add_exp     p: 3    lok: ) || , && 
 add_exp ::= add_exp + mul_exp     p: 1    lok: + ) || - , && 
 add_exp ::= add_exp - mul_exp     p: 1    lok: + ) || - , && 
 
@@ -6378,7 +6373,7 @@ add_exp ::= add_exp - mul_exp     p: 1    lok: + ) || - , &&
 reduce: 
 90 cmp_exp
 items: 
-cmp_exp ::= add_exp <= add_exp     p: 3    lok: ) || , && 
+cmp_exp ::= add_exp == add_exp     p: 3    lok: ) || , && 
 add_exp ::= add_exp + mul_exp     p: 1    lok: + ) || - , && 
 add_exp ::= add_exp - mul_exp     p: 1    lok: + ) || - , && 
 
@@ -6386,145 +6381,137 @@ add_exp ::= add_exp - mul_exp     p: 1    lok: + ) || - , &&
 reduce: 
 91 cmp_exp
 items: 
-cmp_exp ::= add_exp == add_exp     p: 3    lok: ) || , && 
+cmp_exp ::= add_exp != add_exp     p: 3    lok: ) || , && 
 add_exp ::= add_exp + mul_exp     p: 1    lok: + ) || - , && 
 add_exp ::= add_exp - mul_exp     p: 1    lok: + ) || - , && 
 
 483 : 
 reduce: 
-92 cmp_exp
-items: 
-cmp_exp ::= add_exp != add_exp     p: 3    lok: ) || , && 
-add_exp ::= add_exp + mul_exp     p: 1    lok: + ) || - , && 
-add_exp ::= add_exp - mul_exp     p: 1    lok: + ) || - , && 
-
-484 : 
-reduce: 
-96 add_exp
+95 add_exp
 items: 
 add_exp ::= add_exp + mul_exp     p: 3    lok: <= == + >= ) > || != - < , && 
 mul_exp ::= mul_exp * pri_exp     p: 1    lok: * == + >= ) != < && <= > || - / , 
 mul_exp ::= mul_exp / pri_exp     p: 1    lok: * == + >= ) != < && <= > || - / , 
 
-485 : 
+484 : 
 reduce: 
-97 add_exp
+96 add_exp
 items: 
 add_exp ::= add_exp - mul_exp     p: 3    lok: <= == + >= ) > || != - < , && 
 mul_exp ::= mul_exp * pri_exp     p: 1    lok: * == + >= ) != < && <= > || - / , 
 mul_exp ::= mul_exp / pri_exp     p: 1    lok: * == + >= ) != < && <= > || - / , 
 
+485 : 
+reduce: 
+103 mul_exp
+items: 
+mul_exp ::= mul_exp * pri_exp     p: 3    lok: * == + >= ) != < && <= > || - / , 
+
 486 : 
 reduce: 
 104 mul_exp
 items: 
-mul_exp ::= mul_exp * pri_exp     p: 3    lok: * == + >= ) != < && <= > || - / , 
-
-487 : 
-reduce: 
-105 mul_exp
-items: 
 mul_exp ::= mul_exp / pri_exp     p: 3    lok: * == + >= ) != < && <= > || - / , 
 
-488 : 
+487 : 
 items: 
 apply_exp ::= var ( arg_list )     p: 3    lok: * == + >= ) != < && <= > || - / , . 
 arg_list ::= arg_list , calc_exp     p: 1    lok: ) , 
 
-489 : 
+488 : 
 reduce: 
-108 pri_exp
+107 pri_exp
 items: 
 pri_exp ::= ( bool_exp )     p: 3    lok: * == + >= ) != < && <= > || - / , 
 
-490 : 
+489 : 
 reduce: 
-114 apply_exp
+113 apply_exp
 items: 
 apply_exp ::= apply_exp . var ( arg_list )     p: 3    lok: * == + >= ) != < && <= > || - / , . 
 apply_exp ::= apply_exp . var     p: 3    lok: * == + >= ) != < && <= > || - / , . 
 
-491 : 
+490 : 
 items: 
 array_exp ::= array_exp [ number ]     p: 3    lok: * == + >= ) != < && <= [ > || - / , . 
 
-492 : 
+491 : 
 items: 
 array_exp ::= idn_type [ number ]     p: 3    lok: * == + >= ) != < && <= [ > || - / , . 
 
-493 : 
+492 : 
 reduce: 
-82 new_exp
+81 new_exp
 items: 
 new_exp ::= new type_exp ( arg_list )     p: 5    lok: ; 
 
-494 : 
+493 : 
 reduce: 
 42 generic_exp
 items: 
 generic_exp ::= < var >     p: 3    lok: ( 
 
-495 : 
+494 : 
 items: 
 generic_exp ::= < ? inherit_info_list >     p: 3    lok: ( 
 inherit_info_list ::= inherit_info_list extends var     p: 1    lok: extends > implements 
 inherit_info_list ::= inherit_info_list implements var     p: 1    lok: extends > implements 
 
-496 : 
+495 : 
 reduce: 
-96 add_exp
+95 add_exp
 items: 
 add_exp ::= add_exp + mul_exp     p: 3    lok: + || - ; && 
 mul_exp ::= mul_exp * pri_exp     p: 1    lok: * + || - / ; && 
 mul_exp ::= mul_exp / pri_exp     p: 1    lok: * + || - / ; && 
 
-497 : 
+496 : 
 reduce: 
-97 add_exp
+96 add_exp
 items: 
 add_exp ::= add_exp - mul_exp     p: 3    lok: + || - ; && 
 mul_exp ::= mul_exp * pri_exp     p: 1    lok: * + || - / ; && 
 mul_exp ::= mul_exp / pri_exp     p: 1    lok: * + || - / ; && 
 
+497 : 
+reduce: 
+103 mul_exp
+items: 
+mul_exp ::= mul_exp * pri_exp     p: 3    lok: * + || - / ; && 
+
 498 : 
 reduce: 
 104 mul_exp
 items: 
-mul_exp ::= mul_exp * pri_exp     p: 3    lok: * + || - / ; && 
-
-499 : 
-reduce: 
-105 mul_exp
-items: 
 mul_exp ::= mul_exp / pri_exp     p: 3    lok: * + || - / ; && 
 
-500 : 
+499 : 
 items: 
 apply_exp ::= var ( arg_list )     p: 3    lok: * + || - / . ; && 
 arg_list ::= arg_list , calc_exp     p: 1    lok: ) , 
 
-501 : 
+500 : 
 reduce: 
-108 pri_exp
+107 pri_exp
 items: 
 pri_exp ::= ( bool_exp )     p: 3    lok: * + || - / ; && 
 
-502 : 
+501 : 
 reduce: 
-114 apply_exp
+113 apply_exp
 items: 
 apply_exp ::= apply_exp . var ( arg_list )     p: 3    lok: * + || - / . ; && 
 apply_exp ::= apply_exp . var     p: 3    lok: * + || - / . ; && 
 
-503 : 
+502 : 
 items: 
 array_exp ::= array_exp [ number ]     p: 3    lok: * [ + || - / . ; && 
 
-504 : 
+503 : 
 items: 
 array_exp ::= idn_type [ number ]     p: 3    lok: * [ + || - / . ; && 
 
-505 : 
+504 : 
 items: 
 add_exp ::= add_exp + mul_exp     p: 2    lok: + ) || - && 
 mul_exp ::= mul_exp * pri_exp     p: 0    lok: * + ) || - / && 
@@ -6546,7 +6533,7 @@ array_exp ::= idn_type [ number ]     p: 0    lok: * [ + ) || - / . &&
 idn_type ::= idn_type . var     p: 0    lok: [ . 
 idn_type ::= var     p: 0    lok: [ . 
 
-506 : 
+505 : 
 items: 
 add_exp ::= add_exp - mul_exp     p: 2    lok: + ) || - && 
 mul_exp ::= mul_exp * pri_exp     p: 0    lok: * + ) || - / && 
@@ -6568,15 +6555,15 @@ array_exp ::= idn_type [ number ]     p: 0    lok: * [ + ) || - / . &&
 idn_type ::= idn_type . var     p: 0    lok: [ . 
 idn_type ::= var     p: 0    lok: [ . 
 
-507 : 
+506 : 
 reduce: 
-98 add_exp
+97 add_exp
 items: 
 add_exp ::= - mul_exp     p: 2    lok: + ) || - && 
 mul_exp ::= mul_exp * pri_exp     p: 1    lok: * + ) || - / && 
 mul_exp ::= mul_exp / pri_exp     p: 1    lok: * + ) || - / && 
 
-508 : 
+507 : 
 items: 
 mul_exp ::= mul_exp * pri_exp     p: 2    lok: * + ) || - / && 
 pri_exp ::= number     p: 0    lok: * + ) || - / && 
@@ -6595,7 +6582,7 @@ array_exp ::= idn_type [ number ]     p: 0    lok: * [ + ) || - / . &&
 idn_type ::= idn_type . var     p: 0    lok: [ . 
 idn_type ::= var     p: 0    lok: [ . 
 
-509 : 
+508 : 
 items: 
 mul_exp ::= mul_exp / pri_exp     p: 2    lok: * + ) || - / && 
 pri_exp ::= number     p: 0    lok: * + ) || - / && 
@@ -6614,31 +6601,31 @@ array_exp ::= idn_type [ number ]     p: 0    lok: * [ + ) || - / . &&
 idn_type ::= idn_type . var     p: 0    lok: [ . 
 idn_type ::= var     p: 0    lok: [ . 
 
+509 : 
+reduce: 
+99 add_exp
+items: 
+add_exp ::= ++ var     p: 2    lok: + ) || - && 
+
 510 : 
 reduce: 
 100 add_exp
 items: 
-add_exp ::= ++ var     p: 2    lok: + ) || - && 
+add_exp ::= -- var     p: 2    lok: + ) || - && 
 
 511 : 
 reduce: 
 101 add_exp
 items: 
-add_exp ::= -- var     p: 2    lok: + ) || - && 
+add_exp ::= var ++     p: 2    lok: + ) || - && 
 
 512 : 
 reduce: 
 102 add_exp
 items: 
-add_exp ::= var ++     p: 2    lok: + ) || - && 
-
-513 : 
-reduce: 
-103 add_exp
-items: 
 add_exp ::= var --     p: 2    lok: + ) || - && 
 
-514 : 
+513 : 
 items: 
 apply_exp ::= var ( arg_list )     p: 2    lok: * + ) || - / . && 
 arg_list ::= arg_list , calc_exp     p: 0    lok: ) , 
@@ -6687,32 +6674,32 @@ array_exp ::= idn_type [ number ]     p: 0    lok: * == + >= ) != < && <= [ > ||
 idn_type ::= idn_type . var     p: 0    lok: [ . 
 idn_type ::= var     p: 0    lok: [ . 
 
-515 : 
+514 : 
 items: 
 pri_exp ::= ( bool_exp )     p: 2    lok: * + ) || - / && 
 bool_exp ::= bool_exp && cmp_exp     p: 1    lok: ) || && 
 bool_exp ::= bool_exp || cmp_exp     p: 1    lok: ) || && 
 
-516 : 
+515 : 
 items: 
 apply_exp ::= apply_exp . var ( arg_list )     p: 2    lok: * + ) || - / . && 
 apply_exp ::= apply_exp . var     p: 2    lok: * + ) || - / . && 
 
-517 : 
+516 : 
 items: 
 array_exp ::= array_exp [ number ]     p: 2    lok: * [ + ) || - / . && 
 
-518 : 
+517 : 
 items: 
 array_exp ::= idn_type [ number ]     p: 2    lok: * [ + ) || - / . && 
 
-519 : 
+518 : 
 reduce: 
-115 apply_exp
+114 apply_exp
 items: 
 apply_exp ::= var ( arg_list )     p: 4    lok: * == + >= ) != < && <= > || - / . 
 
-520 : 
+519 : 
 items: 
 apply_exp ::= apply_exp . var ( arg_list )     p: 4    lok: * == + >= ) != < && <= > || - / . 
 arg_list ::= arg_list , calc_exp     p: 0    lok: ) , 
@@ -6761,36 +6748,36 @@ array_exp ::= idn_type [ number ]     p: 0    lok: * == + >= ) != < && <= [ > ||
 idn_type ::= idn_type . var     p: 0    lok: [ . 
 idn_type ::= var     p: 0    lok: [ . 
 
+520 : 
+reduce: 
+120 array_exp
+items: 
+array_exp ::= array_exp [ number ]     p: 4    lok: * == + >= ) != < && <= [ > || - / . 
+
 521 : 
 reduce: 
 121 array_exp
 items: 
-array_exp ::= array_exp [ number ]     p: 4    lok: * == + >= ) != < && <= [ > || - / . 
-
-522 : 
-reduce: 
-122 array_exp
-items: 
 array_exp ::= idn_type [ number ]     p: 4    lok: * == + >= ) != < && <= [ > || - / . 
 
-523 : 
+522 : 
 items: 
 apply_exp ::= apply_exp . var ( arg_list )     p: 5    lok: * == + >= != < ; && <= > || - / . 
 arg_list ::= arg_list , calc_exp     p: 1    lok: ) , 
+
+523 : 
+reduce: 
+82 bool_exp
+items: 
+bool_exp ::= bool_exp && cmp_exp     p: 3    lok: || , ; && 
 
 524 : 
 reduce: 
 83 bool_exp
 items: 
-bool_exp ::= bool_exp && cmp_exp     p: 3    lok: || , ; && 
-
-525 : 
-reduce: 
-84 bool_exp
-items: 
 bool_exp ::= bool_exp || cmp_exp     p: 3    lok: || , ; && 
 
-526 : 
+525 : 
 items: 
 new_exp ::= new type_exp ( arg_list )     p: 3    lok: , ; 
 arg_list ::= arg_list , calc_exp     p: 0    lok: ) , 
@@ -6839,15 +6826,15 @@ array_exp ::= idn_type [ number ]     p: 0    lok: * == + >= ) != < && <= [ > ||
 idn_type ::= idn_type . var     p: 0    lok: [ . 
 idn_type ::= var     p: 0    lok: [ . 
 
-527 : 
+526 : 
 reduce: 
-87 cmp_exp
+86 cmp_exp
 items: 
 cmp_exp ::= add_exp > add_exp     p: 3    lok: || , ; && 
 add_exp ::= add_exp + mul_exp     p: 1    lok: + || - , ; && 
 add_exp ::= add_exp - mul_exp     p: 1    lok: + || - , ; && 
 
-528 : 
+527 : 
 items: 
 add_exp ::= - mul_exp     p: 1    lok: + || - , ; && 
 mul_exp ::= mul_exp * pri_exp     p: 0    lok: * + || - / , ; && 
@@ -6869,26 +6856,26 @@ array_exp ::= idn_type [ number ]     p: 0    lok: * [ + || - / , . ; &&
 idn_type ::= idn_type . var     p: 0    lok: [ . 
 idn_type ::= var     p: 0    lok: [ . 
 
-529 : 
+528 : 
 reduce: 
-99 add_exp
+98 add_exp
 items: 
 add_exp ::= mul_exp     p: 1    lok: + || - , ; && 
 mul_exp ::= mul_exp * pri_exp     p: 1    lok: * + || - / , ; && 
 mul_exp ::= mul_exp / pri_exp     p: 1    lok: * + || - / , ; && 
 
-530 : 
+529 : 
 items: 
 add_exp ::= ++ var     p: 1    lok: + || - , ; && 
 
-531 : 
+530 : 
 items: 
 add_exp ::= -- var     p: 1    lok: + || - , ; && 
 
-532 : 
+531 : 
 reduce: 
 37 idn_type
-116 apply_exp
+115 apply_exp
 items: 
 add_exp ::= var ++     p: 1    lok: + || - , ; && 
 add_exp ::= var --     p: 1    lok: + || - , ; && 
@@ -6896,19 +6883,19 @@ apply_exp ::= var ( arg_list )     p: 1    lok: * + || - / , . ; &&
 apply_exp ::= var     p: 1    lok: * + || - / , . ; && 
 idn_type ::= var     p: 1    lok: [ . 
 
-533 : 
+532 : 
 reduce: 
-106 mul_exp
+105 mul_exp
 items: 
 mul_exp ::= pri_exp     p: 1    lok: * + || - / , ; && 
 
-534 : 
+533 : 
 reduce: 
-107 pri_exp
+106 pri_exp
 items: 
 pri_exp ::= number     p: 1    lok: * + || - / , ; && 
 
-535 : 
+534 : 
 items: 
 pri_exp ::= ( bool_exp )     p: 1    lok: * + || - / , ; && 
 bool_exp ::= bool_exp && cmp_exp     p: 0    lok: ) || && 
@@ -6951,49 +6938,57 @@ array_exp ::= idn_type [ number ]     p: 0    lok: * == + >= ) != < && <= [ > ||
 idn_type ::= idn_type . var     p: 0    lok: [ . 
 idn_type ::= var     p: 0    lok: [ . 
 
-536 : 
+535 : 
 reduce: 
-109 pri_exp
+108 pri_exp
 items: 
 pri_exp ::= apply_exp     p: 1    lok: * + || - / , ; && 
 apply_exp ::= apply_exp . var ( arg_list )     p: 1    lok: * + || - / , . ; && 
 apply_exp ::= apply_exp . var     p: 1    lok: * + || - / , . ; && 
 
-537 : 
+536 : 
 reduce: 
-110 pri_exp
+109 pri_exp
 items: 
 pri_exp ::= str_exp     p: 1    lok: * + || - / , ; && 
 
-538 : 
+537 : 
 reduce: 
-117 apply_exp
+116 apply_exp
 items: 
 apply_exp ::= array_exp     p: 1    lok: * + || - / , . ; && 
 array_exp ::= array_exp [ number ]     p: 1    lok: * [ + || - / , . ; && 
+
+538 : 
+reduce: 
+110 str_exp
+items: 
+str_exp ::= str     p: 1    lok: * + || - / , ; && 
 
 539 : 
 reduce: 
 111 str_exp
 items: 
-str_exp ::= str     p: 1    lok: * + || - / , ; && 
-
-540 : 
-reduce: 
-112 str_exp
-items: 
 str_exp ::= chr     p: 1    lok: * + || - / , ; && 
 
-541 : 
+540 : 
 items: 
 array_exp ::= idn_type [ number ]     p: 1    lok: * [ + || - / , . ; && 
 idn_type ::= idn_type . var     p: 1    lok: [ . 
+
+541 : 
+reduce: 
+87 cmp_exp
+items: 
+cmp_exp ::= add_exp >= add_exp     p: 3    lok: || , ; && 
+add_exp ::= add_exp + mul_exp     p: 1    lok: + || - , ; && 
+add_exp ::= add_exp - mul_exp     p: 1    lok: + || - , ; && 
 
 542 : 
 reduce: 
 88 cmp_exp
 items: 
-cmp_exp ::= add_exp >= add_exp     p: 3    lok: || , ; && 
+cmp_exp ::= add_exp < add_exp     p: 3    lok: || , ; && 
 add_exp ::= add_exp + mul_exp     p: 1    lok: + || - , ; && 
 add_exp ::= add_exp - mul_exp     p: 1    lok: + || - , ; && 
 
@@ -7001,7 +6996,7 @@ add_exp ::= add_exp - mul_exp     p: 1    lok: + || - , ; &&
 reduce: 
 89 cmp_exp
 items: 
-cmp_exp ::= add_exp < add_exp     p: 3    lok: || , ; && 
+cmp_exp ::= add_exp <= add_exp     p: 3    lok: || , ; && 
 add_exp ::= add_exp + mul_exp     p: 1    lok: + || - , ; && 
 add_exp ::= add_exp - mul_exp     p: 1    lok: + || - , ; && 
 
@@ -7009,7 +7004,7 @@ add_exp ::= add_exp - mul_exp     p: 1    lok: + || - , ; &&
 reduce: 
 90 cmp_exp
 items: 
-cmp_exp ::= add_exp <= add_exp     p: 3    lok: || , ; && 
+cmp_exp ::= add_exp == add_exp     p: 3    lok: || , ; && 
 add_exp ::= add_exp + mul_exp     p: 1    lok: + || - , ; && 
 add_exp ::= add_exp - mul_exp     p: 1    lok: + || - , ; && 
 
@@ -7017,73 +7012,65 @@ add_exp ::= add_exp - mul_exp     p: 1    lok: + || - , ; &&
 reduce: 
 91 cmp_exp
 items: 
-cmp_exp ::= add_exp == add_exp     p: 3    lok: || , ; && 
+cmp_exp ::= add_exp != add_exp     p: 3    lok: || , ; && 
 add_exp ::= add_exp + mul_exp     p: 1    lok: + || - , ; && 
 add_exp ::= add_exp - mul_exp     p: 1    lok: + || - , ; && 
 
 546 : 
 reduce: 
-92 cmp_exp
-items: 
-cmp_exp ::= add_exp != add_exp     p: 3    lok: || , ; && 
-add_exp ::= add_exp + mul_exp     p: 1    lok: + || - , ; && 
-add_exp ::= add_exp - mul_exp     p: 1    lok: + || - , ; && 
-
-547 : 
-reduce: 
-96 add_exp
+95 add_exp
 items: 
 add_exp ::= add_exp + mul_exp     p: 3    lok: <= == + >= > || != - < , ; && 
 mul_exp ::= mul_exp * pri_exp     p: 1    lok: * == + >= != < ; && <= > || - / , 
 mul_exp ::= mul_exp / pri_exp     p: 1    lok: * == + >= != < ; && <= > || - / , 
 
-548 : 
+547 : 
 reduce: 
-97 add_exp
+96 add_exp
 items: 
 add_exp ::= add_exp - mul_exp     p: 3    lok: <= == + >= > || != - < , ; && 
 mul_exp ::= mul_exp * pri_exp     p: 1    lok: * == + >= != < ; && <= > || - / , 
 mul_exp ::= mul_exp / pri_exp     p: 1    lok: * == + >= != < ; && <= > || - / , 
 
+548 : 
+reduce: 
+103 mul_exp
+items: 
+mul_exp ::= mul_exp * pri_exp     p: 3    lok: * == + >= != < ; && <= > || - / , 
+
 549 : 
 reduce: 
 104 mul_exp
 items: 
-mul_exp ::= mul_exp * pri_exp     p: 3    lok: * == + >= != < ; && <= > || - / , 
-
-550 : 
-reduce: 
-105 mul_exp
-items: 
 mul_exp ::= mul_exp / pri_exp     p: 3    lok: * == + >= != < ; && <= > || - / , 
 
-551 : 
+550 : 
 items: 
 apply_exp ::= var ( arg_list )     p: 3    lok: * == + >= != < ; && <= > || - / , . 
 arg_list ::= arg_list , calc_exp     p: 1    lok: ) , 
 
-552 : 
+551 : 
 reduce: 
-108 pri_exp
+107 pri_exp
 items: 
 pri_exp ::= ( bool_exp )     p: 3    lok: * == + >= != < ; && <= > || - / , 
 
-553 : 
+552 : 
 reduce: 
-114 apply_exp
+113 apply_exp
 items: 
 apply_exp ::= apply_exp . var ( arg_list )     p: 3    lok: * == + >= != < ; && <= > || - / , . 
 apply_exp ::= apply_exp . var     p: 3    lok: * == + >= != < ; && <= > || - / , . 
 
-554 : 
+553 : 
 items: 
 array_exp ::= array_exp [ number ]     p: 3    lok: * == + >= != < ; && <= [ > || - / , . 
 
-555 : 
+554 : 
 items: 
 array_exp ::= idn_type [ number ]     p: 3    lok: * == + >= != < ; && <= [ > || - / , . 
 
-556 : 
+555 : 
 items: 
 func_def ::= type_exp var ( par_list ) { stmt_list }     p: 6    lok: true int bool var ! class if chr - public continue type ++ double str new eof -- number false private static break string while return ( char 
 stmt_list ::= stmt_list stmt     p: 0    lok: true int bool var } ! class if chr - public continue type ++ double str new -- number false private static break string while return ( char 
@@ -7144,7 +7131,6 @@ bool_exp ::= cmp_exp     p: 0    lok: || ; &&
 new_exp ::= new type_exp ( arg_list )     p: 0    lok: ; 
 scope_info ::= static     p: 0    lok: class 
 scope_info ::= static public     p: 0    lok: class 
-scope_info ::= static private     p: 0    lok: class 
 scope_info ::= public     p: 0    lok: class 
 scope_info ::= private     p: 0    lok: class 
 cmp_exp ::= add_exp > add_exp     p: 0    lok: || ; && 
@@ -7181,17 +7167,17 @@ str_exp ::= chr     p: 0    lok: * == + >= != < ; && <= > || - /
 array_exp ::= array_exp [ number ]     p: 0    lok: * == + >= != < ; && <= [ > || - / . 
 array_exp ::= idn_type [ number ]     p: 0    lok: * == + >= != < ; && <= [ > || - / . 
 
-557 : 
+556 : 
 items: 
 par_list ::= par_list , type_exp var     p: 3    lok: ) , 
 
-558 : 
+557 : 
 reduce: 
 38 func_type
 items: 
 func_type ::= func_type -> type_exp     p: 3    lok: -> ; 
 
-559 : 
+558 : 
 items: 
 func_type ::= ( func_type -> type_exp )     p: 3    lok: -> ; 
 func_type ::= func_type -> type_exp     p: 2    lok: -> 
@@ -7211,67 +7197,67 @@ idn_type ::= idn_type . var     p: 0    lok: [ ) -> < .
 idn_type ::= var     p: 0    lok: [ ) -> < . 
 generic_type ::= idn_type generic_exp     p: 0    lok: ) -> 
 
-560 : 
+559 : 
 items: 
 func_type ::= ( func_type -> type_exp )     p: 2    lok: -> 
 func_type ::= func_type -> type_exp     p: 1    lok: -> 
 
-561 : 
+560 : 
 items: 
 array_type ::= basic_type [ ]     p: 2    lok: [ -> 
 
-562 : 
+561 : 
 items: 
 array_type ::= array_type [ ]     p: 2    lok: [ -> 
 
-563 : 
+562 : 
 items: 
 array_type ::= idn_type [ ]     p: 2    lok: [ -> 
 
-564 : 
+563 : 
 items: 
 idn_type ::= idn_type . var     p: 2    lok: [ -> < . 
 
-565 : 
+564 : 
 reduce: 
 41 generic_type
 items: 
 generic_type ::= idn_type generic_exp     p: 2    lok: -> 
 
-566 : 
+565 : 
 items: 
 generic_exp ::= < var >     p: 1    lok: -> 
 generic_exp ::= < ? inherit_info_list >     p: 1    lok: -> 
 
-567 : 
+566 : 
 reduce: 
 34 array_type
 items: 
 array_type ::= basic_type [ ]     p: 3    lok: [ -> ; 
 
-568 : 
+567 : 
 reduce: 
 33 array_type
 items: 
 array_type ::= array_type [ ]     p: 3    lok: [ -> ; 
 
-569 : 
+568 : 
 reduce: 
 35 array_type
 items: 
 array_type ::= idn_type [ ]     p: 3    lok: [ -> ; 
 
-570 : 
+569 : 
 reduce: 
 36 idn_type
 items: 
 idn_type ::= idn_type . var     p: 3    lok: [ -> < . ; 
 
-571 : 
+570 : 
 items: 
 generic_exp ::= < var >     p: 2    lok: -> ; 
 
-572 : 
+571 : 
 items: 
 generic_exp ::= < ? inherit_info_list >     p: 2    lok: -> ; 
 inherit_info_list ::= inherit_info_list extends var     p: 0    lok: extends > implements 
@@ -7279,7 +7265,7 @@ inherit_info_list ::= inherit_info_list implements var     p: 0    lok: extends 
 inherit_info_list ::= extends var     p: 0    lok: extends > implements 
 inherit_info_list ::= implements var     p: 0    lok: extends > implements 
 
-573 : 
+572 : 
 items: 
 type_def ::= type var = func_type ;     p: 3    lok: true int bool var } ! class if chr - public continue type ++ double str new -- number false private static break string while return ( char 
 func_type ::= func_type -> type_exp     p: 0    lok: -> ; 
@@ -7301,19 +7287,19 @@ idn_type ::= idn_type . var     p: 0    lok: [ -> < . ;
 idn_type ::= var     p: 0    lok: [ -> < . ; 
 generic_type ::= idn_type generic_exp     p: 0    lok: -> ; 
 
-574 : 
+573 : 
 reduce: 
-73 if_exp
+72 if_exp
 items: 
 if_exp ::= if_stmt else else_stmt     p: 3    lok: true int bool var } ! class if chr - public continue type ++ double str new -- number false private static break string while return ( char 
 
-575 : 
+574 : 
 reduce: 
-76 else_stmt
+75 else_stmt
 items: 
 else_stmt ::= if_exp     p: 1    lok: true int bool var } ! class if chr - public continue type ++ double str new -- number false private static break string while return ( char 
 
-576 : 
+575 : 
 items: 
 else_stmt ::= { stmt_list }     p: 1    lok: true int bool var } ! class if chr - public continue type ++ double str new -- number false private static break string while return ( char 
 stmt_list ::= stmt_list stmt     p: 0    lok: true int bool var } ! class if chr - public continue type ++ double str new -- number false private static break string while return ( char 
@@ -7374,7 +7360,6 @@ bool_exp ::= cmp_exp     p: 0    lok: || ; &&
 new_exp ::= new type_exp ( arg_list )     p: 0    lok: ; 
 scope_info ::= static     p: 0    lok: class 
 scope_info ::= static public     p: 0    lok: class 
-scope_info ::= static private     p: 0    lok: class 
 scope_info ::= public     p: 0    lok: class 
 scope_info ::= private     p: 0    lok: class 
 cmp_exp ::= add_exp > add_exp     p: 0    lok: || ; && 
@@ -7411,31 +7396,31 @@ str_exp ::= chr     p: 0    lok: * == + >= != < ; && <= > || - /
 array_exp ::= array_exp [ number ]     p: 0    lok: * == + >= != < ; && <= [ > || - / . 
 array_exp ::= idn_type [ number ]     p: 0    lok: * == + >= != < ; && <= [ > || - / . 
 
-577 : 
+576 : 
 items: 
 else_stmt ::= sg_stmt ;     p: 1    lok: true int bool var } ! class if chr - public continue type ++ double str new -- number false private static break string while return ( char 
 
-578 : 
+577 : 
 items: 
 while_exp ::= while ( bool_exp ) { stmt_list }     p: 3    lok: true int bool var } ! class if chr - public continue type ++ double str new -- number false private static break string while return ( char 
 bool_exp ::= bool_exp && cmp_exp     p: 1    lok: ) || && 
 bool_exp ::= bool_exp || cmp_exp     p: 1    lok: ) || && 
 
-579 : 
+578 : 
 items: 
 class_def ::= scope_info_e class var generic_info_e inherit_info_list_e { class_member_def }     p: 3    lok: true int bool var } ! class if chr - public continue type ++ double str new -- number false private static break string while return ( char 
 generic_info_e ::= generic_info     p: 0    lok: extends implements { 
 generic_info_e ::= e     p: 0    lok: extends implements { 
 generic_info ::= < var inherit_info_list_e >     p: 0    lok: extends implements { 
 
-580 : 
+579 : 
 items: 
 if_stmt ::= if ( bool_exp ) { stmt_list }     p: 3    lok: true int bool var else } ! class if chr - public continue type ++ double str new -- number false private static break string while return ( char 
 if_stmt ::= if ( bool_exp ) sg_stmt ;     p: 3    lok: true int bool var else } ! class if chr - public continue type ++ double str new -- number false private static break string while return ( char 
 bool_exp ::= bool_exp && cmp_exp     p: 1    lok: ) || && 
 bool_exp ::= bool_exp || cmp_exp     p: 1    lok: ) || && 
 
-581 : 
+580 : 
 items: 
 while_exp ::= while ( bool_exp ) { stmt_list }     p: 6    lok: true int bool var ! class if chr - public continue type ++ double str new eof -- number false private static break string while return ( char 
 stmt_list ::= stmt_list stmt     p: 1    lok: true int bool var } ! class if chr - public continue type ++ double str new -- number false private static break string while return ( char 
@@ -7495,7 +7480,6 @@ bool_exp ::= cmp_exp     p: 0    lok: || ; &&
 new_exp ::= new type_exp ( arg_list )     p: 0    lok: ; 
 scope_info ::= static     p: 0    lok: class 
 scope_info ::= static public     p: 0    lok: class 
-scope_info ::= static private     p: 0    lok: class 
 scope_info ::= public     p: 0    lok: class 
 scope_info ::= private     p: 0    lok: class 
 cmp_exp ::= add_exp > add_exp     p: 0    lok: || ; && 
@@ -7532,64 +7516,64 @@ str_exp ::= chr     p: 0    lok: * == + >= != < ; && <= > || - /
 array_exp ::= array_exp [ number ]     p: 0    lok: * == + >= != < ; && <= [ > || - / . 
 array_exp ::= idn_type [ number ]     p: 0    lok: * == + >= != < ; && <= [ > || - / . 
 
+581 : 
+reduce: 
+58 inherit_info_list
+items: 
+inherit_info_list ::= inherit_info_list extends var     p: 3    lok: extends > implements 
+
 582 : 
 reduce: 
 59 inherit_info_list
 items: 
-inherit_info_list ::= inherit_info_list extends var     p: 3    lok: extends > implements 
+inherit_info_list ::= inherit_info_list implements var     p: 3    lok: extends > implements 
 
 583 : 
-reduce: 
-60 inherit_info_list
 items: 
-inherit_info_list ::= inherit_info_list implements var     p: 3    lok: extends > implements 
+class_def ::= scope_info_e class var generic_info_e inherit_info_list_e { class_member_def }     p: 6    lok: true int bool var ! class if chr - public continue type ++ double str new eof -- number false private static break string while return ( char 
+class_member_def ::= class_member_def field_def     p: 0    lok: private static double int bool var } string < public char 
+class_member_def ::= class_member_def method_def     p: 0    lok: private static double int bool var } string < public char 
+class_member_def ::= e     p: 0    lok: private static double int bool var } string < public char 
 
 584 : 
 items: 
-class_def ::= scope_info_e class var generic_info_e inherit_info_list_e { class_member_def }     p: 6    lok: true int bool var ! class if chr - public continue type ++ double str new eof -- number false private static break string while return ( char 
-class_member_def ::= class_member_def field_def     p: 0    lok: private double static int bool var } string < public char 
-class_member_def ::= class_member_def method_def     p: 0    lok: private double static int bool var } string < public char 
-class_member_def ::= e     p: 0    lok: private double static int bool var } string < public char 
+inherit_info_list ::= inherit_info_list extends var     p: 2    lok: extends implements { 
 
 585 : 
 items: 
-inherit_info_list ::= inherit_info_list extends var     p: 2    lok: extends implements { 
+inherit_info_list ::= inherit_info_list implements var     p: 2    lok: extends implements { 
 
 586 : 
+reduce: 
+60 inherit_info_list
 items: 
-inherit_info_list ::= inherit_info_list implements var     p: 2    lok: extends implements { 
+inherit_info_list ::= extends var     p: 2    lok: extends implements { 
 
 587 : 
 reduce: 
 61 inherit_info_list
 items: 
-inherit_info_list ::= extends var     p: 2    lok: extends implements { 
-
-588 : 
-reduce: 
-62 inherit_info_list
-items: 
 inherit_info_list ::= implements var     p: 2    lok: extends implements { 
 
-589 : 
+588 : 
 items: 
 generic_info ::= < var inherit_info_list_e >     p: 3    lok: extends implements { 
 
-590 : 
+589 : 
 reduce: 
-57 inherit_info_list_e
+56 inherit_info_list_e
 items: 
 inherit_info_list_e ::= inherit_info_list     p: 1    lok: > 
 inherit_info_list ::= inherit_info_list extends var     p: 1    lok: extends > implements 
 inherit_info_list ::= inherit_info_list implements var     p: 1    lok: extends > implements 
 
-591 : 
+590 : 
 reduce: 
-58 inherit_info_list_e
+57 inherit_info_list_e
 items: 
 inherit_info_list_e ::= e     p: 1    lok: > 
 
-592 : 
+591 : 
 items: 
 if_stmt ::= if ( bool_exp ) { stmt_list }     p: 6    lok: true int bool var else ! class if chr - public continue type ++ double str new eof -- number false private static break string while return ( char 
 stmt_list ::= stmt_list stmt     p: 1    lok: true int bool var } ! class if chr - public continue type ++ double str new -- number false private static break string while return ( char 
@@ -7649,7 +7633,6 @@ bool_exp ::= cmp_exp     p: 0    lok: || ; &&
 new_exp ::= new type_exp ( arg_list )     p: 0    lok: ; 
 scope_info ::= static     p: 0    lok: class 
 scope_info ::= static public     p: 0    lok: class 
-scope_info ::= static private     p: 0    lok: class 
 scope_info ::= public     p: 0    lok: class 
 scope_info ::= private     p: 0    lok: class 
 cmp_exp ::= add_exp > add_exp     p: 0    lok: || ; && 
@@ -7686,18 +7669,18 @@ str_exp ::= chr     p: 0    lok: * == + >= != < ; && <= > || - /
 array_exp ::= array_exp [ number ]     p: 0    lok: * == + >= != < ; && <= [ > || - / . 
 array_exp ::= idn_type [ number ]     p: 0    lok: * == + >= != < ; && <= [ > || - / . 
 
-593 : 
+592 : 
 reduce: 
-75 if_stmt
+74 if_stmt
 items: 
 if_stmt ::= if ( bool_exp ) sg_stmt ;     p: 6    lok: true int bool var else ! class if chr - public continue type ++ double str new eof -- number false private static break string while return ( char 
 
-594 : 
+593 : 
 items: 
 new_exp ::= new type_exp ( arg_list )     p: 4    lok: ) , 
 arg_list ::= arg_list , calc_exp     p: 1    lok: ) , 
 
-595 : 
+594 : 
 items: 
 add_exp ::= add_exp + mul_exp     p: 2    lok: + ) || - , && 
 mul_exp ::= mul_exp * pri_exp     p: 0    lok: * + ) || - / , && 
@@ -7719,7 +7702,7 @@ array_exp ::= idn_type [ number ]     p: 0    lok: * [ + ) || - / , . &&
 idn_type ::= idn_type . var     p: 0    lok: [ . 
 idn_type ::= var     p: 0    lok: [ . 
 
-596 : 
+595 : 
 items: 
 add_exp ::= add_exp - mul_exp     p: 2    lok: + ) || - , && 
 mul_exp ::= mul_exp * pri_exp     p: 0    lok: * + ) || - / , && 
@@ -7741,15 +7724,15 @@ array_exp ::= idn_type [ number ]     p: 0    lok: * [ + ) || - / , . &&
 idn_type ::= idn_type . var     p: 0    lok: [ . 
 idn_type ::= var     p: 0    lok: [ . 
 
-597 : 
+596 : 
 reduce: 
-98 add_exp
+97 add_exp
 items: 
 add_exp ::= - mul_exp     p: 2    lok: + ) || - , && 
 mul_exp ::= mul_exp * pri_exp     p: 1    lok: * + ) || - / , && 
 mul_exp ::= mul_exp / pri_exp     p: 1    lok: * + ) || - / , && 
 
-598 : 
+597 : 
 items: 
 mul_exp ::= mul_exp * pri_exp     p: 2    lok: * + ) || - / , && 
 pri_exp ::= number     p: 0    lok: * + ) || - / , && 
@@ -7768,7 +7751,7 @@ array_exp ::= idn_type [ number ]     p: 0    lok: * [ + ) || - / , . &&
 idn_type ::= idn_type . var     p: 0    lok: [ . 
 idn_type ::= var     p: 0    lok: [ . 
 
-599 : 
+598 : 
 items: 
 mul_exp ::= mul_exp / pri_exp     p: 2    lok: * + ) || - / , && 
 pri_exp ::= number     p: 0    lok: * + ) || - / , && 
@@ -7787,31 +7770,31 @@ array_exp ::= idn_type [ number ]     p: 0    lok: * [ + ) || - / , . &&
 idn_type ::= idn_type . var     p: 0    lok: [ . 
 idn_type ::= var     p: 0    lok: [ . 
 
+599 : 
+reduce: 
+99 add_exp
+items: 
+add_exp ::= ++ var     p: 2    lok: + ) || - , && 
+
 600 : 
 reduce: 
 100 add_exp
 items: 
-add_exp ::= ++ var     p: 2    lok: + ) || - , && 
+add_exp ::= -- var     p: 2    lok: + ) || - , && 
 
 601 : 
 reduce: 
 101 add_exp
 items: 
-add_exp ::= -- var     p: 2    lok: + ) || - , && 
+add_exp ::= var ++     p: 2    lok: + ) || - , && 
 
 602 : 
 reduce: 
 102 add_exp
 items: 
-add_exp ::= var ++     p: 2    lok: + ) || - , && 
-
-603 : 
-reduce: 
-103 add_exp
-items: 
 add_exp ::= var --     p: 2    lok: + ) || - , && 
 
-604 : 
+603 : 
 items: 
 apply_exp ::= var ( arg_list )     p: 2    lok: * + ) || - / , . && 
 arg_list ::= arg_list , calc_exp     p: 0    lok: ) , 
@@ -7860,32 +7843,32 @@ array_exp ::= idn_type [ number ]     p: 0    lok: * == + >= ) != < && <= [ > ||
 idn_type ::= idn_type . var     p: 0    lok: [ . 
 idn_type ::= var     p: 0    lok: [ . 
 
-605 : 
+604 : 
 items: 
 pri_exp ::= ( bool_exp )     p: 2    lok: * + ) || - / , && 
 bool_exp ::= bool_exp && cmp_exp     p: 1    lok: ) || && 
 bool_exp ::= bool_exp || cmp_exp     p: 1    lok: ) || && 
 
-606 : 
+605 : 
 items: 
 apply_exp ::= apply_exp . var ( arg_list )     p: 2    lok: * + ) || - / , . && 
 apply_exp ::= apply_exp . var     p: 2    lok: * + ) || - / , . && 
 
-607 : 
+606 : 
 items: 
 array_exp ::= array_exp [ number ]     p: 2    lok: * [ + ) || - / , . && 
 
-608 : 
+607 : 
 items: 
 array_exp ::= idn_type [ number ]     p: 2    lok: * [ + ) || - / , . && 
 
-609 : 
+608 : 
 reduce: 
-115 apply_exp
+114 apply_exp
 items: 
 apply_exp ::= var ( arg_list )     p: 4    lok: * == + >= ) != < && <= > || - / , . 
 
-610 : 
+609 : 
 items: 
 apply_exp ::= apply_exp . var ( arg_list )     p: 4    lok: * == + >= ) != < && <= > || - / , . 
 arg_list ::= arg_list , calc_exp     p: 0    lok: ) , 
@@ -7934,31 +7917,31 @@ array_exp ::= idn_type [ number ]     p: 0    lok: * == + >= ) != < && <= [ > ||
 idn_type ::= idn_type . var     p: 0    lok: [ . 
 idn_type ::= var     p: 0    lok: [ . 
 
+610 : 
+reduce: 
+120 array_exp
+items: 
+array_exp ::= array_exp [ number ]     p: 4    lok: * == + >= ) != < && <= [ > || - / , . 
+
 611 : 
 reduce: 
 121 array_exp
 items: 
-array_exp ::= array_exp [ number ]     p: 4    lok: * == + >= ) != < && <= [ > || - / , . 
-
-612 : 
-reduce: 
-122 array_exp
-items: 
 array_exp ::= idn_type [ number ]     p: 4    lok: * == + >= ) != < && <= [ > || - / , . 
 
-613 : 
+612 : 
 reduce: 
 43 generic_exp
 items: 
 generic_exp ::= < ? inherit_info_list >     p: 4    lok: ( 
 
-614 : 
+613 : 
 reduce: 
-115 apply_exp
+114 apply_exp
 items: 
 apply_exp ::= var ( arg_list )     p: 4    lok: * + || - / . ; && 
 
-615 : 
+614 : 
 items: 
 apply_exp ::= apply_exp . var ( arg_list )     p: 4    lok: * + || - / . ; && 
 arg_list ::= arg_list , calc_exp     p: 0    lok: ) , 
@@ -8007,89 +7990,89 @@ array_exp ::= idn_type [ number ]     p: 0    lok: * == + >= ) != < && <= [ > ||
 idn_type ::= idn_type . var     p: 0    lok: [ . 
 idn_type ::= var     p: 0    lok: [ . 
 
+615 : 
+reduce: 
+120 array_exp
+items: 
+array_exp ::= array_exp [ number ]     p: 4    lok: * [ + || - / . ; && 
+
 616 : 
 reduce: 
 121 array_exp
 items: 
-array_exp ::= array_exp [ number ]     p: 4    lok: * [ + || - / . ; && 
+array_exp ::= idn_type [ number ]     p: 4    lok: * [ + || - / . ; && 
 
 617 : 
 reduce: 
-122 array_exp
-items: 
-array_exp ::= idn_type [ number ]     p: 4    lok: * [ + || - / . ; && 
-
-618 : 
-reduce: 
-96 add_exp
+95 add_exp
 items: 
 add_exp ::= add_exp + mul_exp     p: 3    lok: + ) || - && 
 mul_exp ::= mul_exp * pri_exp     p: 1    lok: * + ) || - / && 
 mul_exp ::= mul_exp / pri_exp     p: 1    lok: * + ) || - / && 
 
-619 : 
+618 : 
 reduce: 
-97 add_exp
+96 add_exp
 items: 
 add_exp ::= add_exp - mul_exp     p: 3    lok: + ) || - && 
 mul_exp ::= mul_exp * pri_exp     p: 1    lok: * + ) || - / && 
 mul_exp ::= mul_exp / pri_exp     p: 1    lok: * + ) || - / && 
 
+619 : 
+reduce: 
+103 mul_exp
+items: 
+mul_exp ::= mul_exp * pri_exp     p: 3    lok: * + ) || - / && 
+
 620 : 
 reduce: 
 104 mul_exp
 items: 
-mul_exp ::= mul_exp * pri_exp     p: 3    lok: * + ) || - / && 
-
-621 : 
-reduce: 
-105 mul_exp
-items: 
 mul_exp ::= mul_exp / pri_exp     p: 3    lok: * + ) || - / && 
 
-622 : 
+621 : 
 items: 
 apply_exp ::= var ( arg_list )     p: 3    lok: * + ) || - / . && 
 arg_list ::= arg_list , calc_exp     p: 1    lok: ) , 
 
-623 : 
+622 : 
 reduce: 
-108 pri_exp
+107 pri_exp
 items: 
 pri_exp ::= ( bool_exp )     p: 3    lok: * + ) || - / && 
 
-624 : 
+623 : 
 reduce: 
-114 apply_exp
+113 apply_exp
 items: 
 apply_exp ::= apply_exp . var ( arg_list )     p: 3    lok: * + ) || - / . && 
 apply_exp ::= apply_exp . var     p: 3    lok: * + ) || - / . && 
 
-625 : 
+624 : 
 items: 
 array_exp ::= array_exp [ number ]     p: 3    lok: * [ + ) || - / . && 
 
-626 : 
+625 : 
 items: 
 array_exp ::= idn_type [ number ]     p: 3    lok: * [ + ) || - / . && 
 
-627 : 
+626 : 
 items: 
 apply_exp ::= apply_exp . var ( arg_list )     p: 5    lok: * == + >= ) != < && <= > || - / . 
 arg_list ::= arg_list , calc_exp     p: 1    lok: ) , 
 
-628 : 
+627 : 
 reduce: 
-113 apply_exp
+112 apply_exp
 items: 
 apply_exp ::= apply_exp . var ( arg_list )     p: 6    lok: * == + >= != < ; && <= > || - / . 
 
-629 : 
+628 : 
 items: 
 new_exp ::= new type_exp ( arg_list )     p: 4    lok: , ; 
 arg_list ::= arg_list , calc_exp     p: 1    lok: ) , 
 
-630 : 
+629 : 
 items: 
 add_exp ::= add_exp + mul_exp     p: 2    lok: + || - , ; && 
 mul_exp ::= mul_exp * pri_exp     p: 0    lok: * + || - / , ; && 
@@ -8111,7 +8094,7 @@ array_exp ::= idn_type [ number ]     p: 0    lok: * [ + || - / , . ; &&
 idn_type ::= idn_type . var     p: 0    lok: [ . 
 idn_type ::= var     p: 0    lok: [ . 
 
-631 : 
+630 : 
 items: 
 add_exp ::= add_exp - mul_exp     p: 2    lok: + || - , ; && 
 mul_exp ::= mul_exp * pri_exp     p: 0    lok: * + || - / , ; && 
@@ -8133,15 +8116,15 @@ array_exp ::= idn_type [ number ]     p: 0    lok: * [ + || - / , . ; &&
 idn_type ::= idn_type . var     p: 0    lok: [ . 
 idn_type ::= var     p: 0    lok: [ . 
 
-632 : 
+631 : 
 reduce: 
-98 add_exp
+97 add_exp
 items: 
 add_exp ::= - mul_exp     p: 2    lok: + || - , ; && 
 mul_exp ::= mul_exp * pri_exp     p: 1    lok: * + || - / , ; && 
 mul_exp ::= mul_exp / pri_exp     p: 1    lok: * + || - / , ; && 
 
-633 : 
+632 : 
 items: 
 mul_exp ::= mul_exp * pri_exp     p: 2    lok: * + || - / , ; && 
 pri_exp ::= number     p: 0    lok: * + || - / , ; && 
@@ -8160,7 +8143,7 @@ array_exp ::= idn_type [ number ]     p: 0    lok: * [ + || - / , . ; &&
 idn_type ::= idn_type . var     p: 0    lok: [ . 
 idn_type ::= var     p: 0    lok: [ . 
 
-634 : 
+633 : 
 items: 
 mul_exp ::= mul_exp / pri_exp     p: 2    lok: * + || - / , ; && 
 pri_exp ::= number     p: 0    lok: * + || - / , ; && 
@@ -8179,31 +8162,31 @@ array_exp ::= idn_type [ number ]     p: 0    lok: * [ + || - / , . ; &&
 idn_type ::= idn_type . var     p: 0    lok: [ . 
 idn_type ::= var     p: 0    lok: [ . 
 
+634 : 
+reduce: 
+99 add_exp
+items: 
+add_exp ::= ++ var     p: 2    lok: + || - , ; && 
+
 635 : 
 reduce: 
 100 add_exp
 items: 
-add_exp ::= ++ var     p: 2    lok: + || - , ; && 
+add_exp ::= -- var     p: 2    lok: + || - , ; && 
 
 636 : 
 reduce: 
 101 add_exp
 items: 
-add_exp ::= -- var     p: 2    lok: + || - , ; && 
+add_exp ::= var ++     p: 2    lok: + || - , ; && 
 
 637 : 
 reduce: 
 102 add_exp
 items: 
-add_exp ::= var ++     p: 2    lok: + || - , ; && 
-
-638 : 
-reduce: 
-103 add_exp
-items: 
 add_exp ::= var --     p: 2    lok: + || - , ; && 
 
-639 : 
+638 : 
 items: 
 apply_exp ::= var ( arg_list )     p: 2    lok: * + || - / , . ; && 
 arg_list ::= arg_list , calc_exp     p: 0    lok: ) , 
@@ -8252,32 +8235,32 @@ array_exp ::= idn_type [ number ]     p: 0    lok: * == + >= ) != < && <= [ > ||
 idn_type ::= idn_type . var     p: 0    lok: [ . 
 idn_type ::= var     p: 0    lok: [ . 
 
-640 : 
+639 : 
 items: 
 pri_exp ::= ( bool_exp )     p: 2    lok: * + || - / , ; && 
 bool_exp ::= bool_exp && cmp_exp     p: 1    lok: ) || && 
 bool_exp ::= bool_exp || cmp_exp     p: 1    lok: ) || && 
 
-641 : 
+640 : 
 items: 
 apply_exp ::= apply_exp . var ( arg_list )     p: 2    lok: * + || - / , . ; && 
 apply_exp ::= apply_exp . var     p: 2    lok: * + || - / , . ; && 
 
-642 : 
+641 : 
 items: 
 array_exp ::= array_exp [ number ]     p: 2    lok: * [ + || - / , . ; && 
 
-643 : 
+642 : 
 items: 
 array_exp ::= idn_type [ number ]     p: 2    lok: * [ + || - / , . ; && 
 
-644 : 
+643 : 
 reduce: 
-115 apply_exp
+114 apply_exp
 items: 
 apply_exp ::= var ( arg_list )     p: 4    lok: * == + >= != < ; && <= > || - / , . 
 
-645 : 
+644 : 
 items: 
 apply_exp ::= apply_exp . var ( arg_list )     p: 4    lok: * == + >= != < ; && <= > || - / , . 
 arg_list ::= arg_list , calc_exp     p: 0    lok: ) , 
@@ -8326,19 +8309,19 @@ array_exp ::= idn_type [ number ]     p: 0    lok: * == + >= ) != < && <= [ > ||
 idn_type ::= idn_type . var     p: 0    lok: [ . 
 idn_type ::= var     p: 0    lok: [ . 
 
+645 : 
+reduce: 
+120 array_exp
+items: 
+array_exp ::= array_exp [ number ]     p: 4    lok: * == + >= != < ; && <= [ > || - / , . 
+
 646 : 
 reduce: 
 121 array_exp
 items: 
-array_exp ::= array_exp [ number ]     p: 4    lok: * == + >= != < ; && <= [ > || - / , . 
-
-647 : 
-reduce: 
-122 array_exp
-items: 
 array_exp ::= idn_type [ number ]     p: 4    lok: * == + >= != < ; && <= [ > || - / , . 
 
-648 : 
+647 : 
 items: 
 func_def ::= type_exp var ( par_list ) { stmt_list }     p: 7    lok: true int bool var ! class if chr - public continue type ++ double str new eof -- number false private static break string while return ( char 
 stmt_list ::= stmt_list stmt     p: 1    lok: true int bool var } ! class if chr - public continue type ++ double str new -- number false private static break string while return ( char 
@@ -8398,7 +8381,6 @@ bool_exp ::= cmp_exp     p: 0    lok: || ; &&
 new_exp ::= new type_exp ( arg_list )     p: 0    lok: ; 
 scope_info ::= static     p: 0    lok: class 
 scope_info ::= static public     p: 0    lok: class 
-scope_info ::= static private     p: 0    lok: class 
 scope_info ::= public     p: 0    lok: class 
 scope_info ::= private     p: 0    lok: class 
 cmp_exp ::= add_exp > add_exp     p: 0    lok: || ; && 
@@ -8435,34 +8417,34 @@ str_exp ::= chr     p: 0    lok: * == + >= != < ; && <= > || - /
 array_exp ::= array_exp [ number ]     p: 0    lok: * == + >= != < ; && <= [ > || - / . 
 array_exp ::= idn_type [ number ]     p: 0    lok: * == + >= != < ; && <= [ > || - / . 
 
-649 : 
+648 : 
 reduce: 
-69 par_list
+68 par_list
 items: 
 par_list ::= par_list , type_exp var     p: 4    lok: ) , 
 
-650 : 
+649 : 
 reduce: 
 38 func_type
 items: 
 func_type ::= ( func_type -> type_exp )     p: 4    lok: -> ; 
 func_type ::= func_type -> type_exp     p: 3    lok: -> 
 
-651 : 
+650 : 
 reduce: 
 24 type_exp
 items: 
 type_exp ::= basic_type     p: 1    lok: ) -> 
 array_type ::= basic_type [ ]     p: 1    lok: [ ) -> 
 
-652 : 
+651 : 
 reduce: 
 25 type_exp
 items: 
 type_exp ::= array_type     p: 1    lok: ) -> 
 array_type ::= array_type [ ]     p: 1    lok: [ ) -> 
 
-653 : 
+652 : 
 reduce: 
 26 type_exp
 items: 
@@ -8473,49 +8455,49 @@ generic_type ::= idn_type generic_exp     p: 1    lok: ) ->
 generic_exp ::= < var >     p: 0    lok: ) -> 
 generic_exp ::= < ? inherit_info_list >     p: 0    lok: ) -> 
 
-654 : 
+653 : 
 reduce: 
 27 type_exp
 items: 
 type_exp ::= generic_type     p: 1    lok: ) -> 
 
-655 : 
+654 : 
 reduce: 
 28 basic_type
 items: 
 basic_type ::= int     p: 1    lok: [ ) -> 
 
-656 : 
+655 : 
 reduce: 
 29 basic_type
 items: 
 basic_type ::= double     p: 1    lok: [ ) -> 
 
-657 : 
+656 : 
 reduce: 
 30 basic_type
 items: 
 basic_type ::= bool     p: 1    lok: [ ) -> 
 
-658 : 
+657 : 
 reduce: 
 31 basic_type
 items: 
 basic_type ::= string     p: 1    lok: [ ) -> 
 
-659 : 
+658 : 
 reduce: 
 32 basic_type
 items: 
 basic_type ::= char     p: 1    lok: [ ) -> 
 
-660 : 
+659 : 
 reduce: 
 37 idn_type
 items: 
 idn_type ::= var     p: 1    lok: [ ) -> < . 
 
-661 : 
+660 : 
 items: 
 func_type ::= ( func_type -> type_exp )     p: 3    lok: -> 
 func_type ::= func_type -> type_exp     p: 2    lok: -> 
@@ -8535,35 +8517,35 @@ idn_type ::= idn_type . var     p: 0    lok: [ ) -> < .
 idn_type ::= var     p: 0    lok: [ ) -> < . 
 generic_type ::= idn_type generic_exp     p: 0    lok: ) -> 
 
-662 : 
+661 : 
 reduce: 
 34 array_type
 items: 
 array_type ::= basic_type [ ]     p: 3    lok: [ -> 
 
-663 : 
+662 : 
 reduce: 
 33 array_type
 items: 
 array_type ::= array_type [ ]     p: 3    lok: [ -> 
 
-664 : 
+663 : 
 reduce: 
 35 array_type
 items: 
 array_type ::= idn_type [ ]     p: 3    lok: [ -> 
 
-665 : 
+664 : 
 reduce: 
 36 idn_type
 items: 
 idn_type ::= idn_type . var     p: 3    lok: [ -> < . 
 
-666 : 
+665 : 
 items: 
 generic_exp ::= < var >     p: 2    lok: -> 
 
-667 : 
+666 : 
 items: 
 generic_exp ::= < ? inherit_info_list >     p: 2    lok: -> 
 inherit_info_list ::= inherit_info_list extends var     p: 0    lok: extends > implements 
@@ -8571,24 +8553,24 @@ inherit_info_list ::= inherit_info_list implements var     p: 0    lok: extends 
 inherit_info_list ::= extends var     p: 0    lok: extends > implements 
 inherit_info_list ::= implements var     p: 0    lok: extends > implements 
 
-668 : 
+667 : 
 reduce: 
 42 generic_exp
 items: 
 generic_exp ::= < var >     p: 3    lok: -> ; 
 
-669 : 
+668 : 
 items: 
 generic_exp ::= < ? inherit_info_list >     p: 3    lok: -> ; 
 inherit_info_list ::= inherit_info_list extends var     p: 1    lok: extends > implements 
 inherit_info_list ::= inherit_info_list implements var     p: 1    lok: extends > implements 
 
-670 : 
+669 : 
 items: 
 type_def ::= type var = func_type ;     p: 4    lok: true int bool var } ! class if chr - public continue type ++ double str new -- number false private static break string while return ( char 
 func_type ::= func_type -> type_exp     p: 1    lok: -> ; 
 
-671 : 
+670 : 
 items: 
 else_stmt ::= { stmt_list }     p: 2    lok: true int bool var } ! class if chr - public continue type ++ double str new -- number false private static break string while return ( char 
 stmt_list ::= stmt_list stmt     p: 1    lok: true int bool var } ! class if chr - public continue type ++ double str new -- number false private static break string while return ( char 
@@ -8648,7 +8630,6 @@ bool_exp ::= cmp_exp     p: 0    lok: || ; &&
 new_exp ::= new type_exp ( arg_list )     p: 0    lok: ; 
 scope_info ::= static     p: 0    lok: class 
 scope_info ::= static public     p: 0    lok: class 
-scope_info ::= static private     p: 0    lok: class 
 scope_info ::= public     p: 0    lok: class 
 scope_info ::= private     p: 0    lok: class 
 cmp_exp ::= add_exp > add_exp     p: 0    lok: || ; && 
@@ -8685,17 +8666,17 @@ str_exp ::= chr     p: 0    lok: * == + >= != < ; && <= > || - /
 array_exp ::= array_exp [ number ]     p: 0    lok: * == + >= != < ; && <= [ > || - / . 
 array_exp ::= idn_type [ number ]     p: 0    lok: * == + >= != < ; && <= [ > || - / . 
 
-672 : 
+671 : 
 reduce: 
-78 else_stmt
+77 else_stmt
 items: 
 else_stmt ::= sg_stmt ;     p: 2    lok: true int bool var } ! class if chr - public continue type ++ double str new -- number false private static break string while return ( char 
 
-673 : 
+672 : 
 items: 
 while_exp ::= while ( bool_exp ) { stmt_list }     p: 4    lok: true int bool var } ! class if chr - public continue type ++ double str new -- number false private static break string while return ( char 
 
-674 : 
+673 : 
 items: 
 class_def ::= scope_info_e class var generic_info_e inherit_info_list_e { class_member_def }     p: 4    lok: true int bool var } ! class if chr - public continue type ++ double str new -- number false private static break string while return ( char 
 inherit_info_list_e ::= inherit_info_list     p: 0    lok: { 
@@ -8705,7 +8686,7 @@ inherit_info_list ::= inherit_info_list implements var     p: 0    lok: extends 
 inherit_info_list ::= extends var     p: 0    lok: extends implements { 
 inherit_info_list ::= implements var     p: 0    lok: extends implements { 
 
-675 : 
+674 : 
 items: 
 if_stmt ::= if ( bool_exp ) { stmt_list }     p: 4    lok: true int bool var else } ! class if chr - public continue type ++ double str new -- number false private static break string while return ( char 
 if_stmt ::= if ( bool_exp ) sg_stmt ;     p: 4    lok: true int bool var else } ! class if chr - public continue type ++ double str new -- number false private static break string while return ( char 
@@ -8763,153 +8744,133 @@ array_exp ::= idn_type [ number ]     p: 0    lok: * == + >= != < ; && <= [ > ||
 idn_type ::= idn_type . var     p: 0    lok: [ . 
 idn_type ::= var     p: 0    lok: [ . 
 
-676 : 
+675 : 
 reduce: 
-79 while_exp
+78 while_exp
 items: 
 while_exp ::= while ( bool_exp ) { stmt_list }     p: 7    lok: true int bool var ! class if chr - public continue type ++ double str new eof -- number false private static break string while return ( char 
 
-677 : 
+676 : 
 items: 
 class_def ::= scope_info_e class var generic_info_e inherit_info_list_e { class_member_def }     p: 7    lok: true int bool var ! class if chr - public continue type ++ double str new eof -- number false private static break string while return ( char 
-class_member_def ::= class_member_def field_def     p: 1    lok: private double static int bool var } string < public char 
-class_member_def ::= class_member_def method_def     p: 1    lok: private double static int bool var } string < public char 
-field_def ::= var_def ;     p: 0    lok: private double static int bool var } string < public char 
-method_def ::= scope_info_e generic_info_e func_def     p: 0    lok: private double static int bool var } string < public char 
-var_def ::= var_def , var     p: 0    lok: , ; 
-var_def ::= var_def , var = calc_exp     p: 0    lok: , ; 
-var_def ::= type_exp var     p: 0    lok: , ; 
-var_def ::= type_exp var = calc_exp     p: 0    lok: , ; 
+class_member_def ::= class_member_def field_def     p: 1    lok: private static double int bool var } string < public char 
+class_member_def ::= class_member_def method_def     p: 1    lok: private static double int bool var } string < public char 
+field_def ::= scope_info_e var_def ;     p: 0    lok: private static double int bool var } string < public char 
+method_def ::= scope_info_e generic_info_e func_def     p: 0    lok: private static double int bool var } string < public char 
 scope_info_e ::= scope_info     p: 0    lok: double int bool var string < char 
 scope_info_e ::= e     p: 0    lok: double int bool var string < char 
-type_exp ::= basic_type     p: 0    lok: var 
-type_exp ::= array_type     p: 0    lok: var 
-type_exp ::= idn_type     p: 0    lok: var 
-type_exp ::= generic_type     p: 0    lok: var 
 scope_info ::= static     p: 0    lok: double int bool var string < char 
 scope_info ::= static public     p: 0    lok: double int bool var string < char 
-scope_info ::= static private     p: 0    lok: double int bool var string < char 
 scope_info ::= public     p: 0    lok: double int bool var string < char 
 scope_info ::= private     p: 0    lok: double int bool var string < char 
-basic_type ::= int     p: 0    lok: [ var 
-basic_type ::= double     p: 0    lok: [ var 
-basic_type ::= bool     p: 0    lok: [ var 
-basic_type ::= string     p: 0    lok: [ var 
-basic_type ::= char     p: 0    lok: [ var 
-array_type ::= array_type [ ]     p: 0    lok: [ var 
-array_type ::= basic_type [ ]     p: 0    lok: [ var 
-array_type ::= idn_type [ ]     p: 0    lok: [ var 
-idn_type ::= idn_type . var     p: 0    lok: [ var < . 
-idn_type ::= var     p: 0    lok: [ var < . 
-generic_type ::= idn_type generic_exp     p: 0    lok: var 
+
+677 : 
+reduce: 
+64 class_member_def
+items: 
+class_member_def ::= e     p: 1    lok: private static double int bool var } string < public char 
 
 678 : 
 reduce: 
-65 class_member_def
+58 inherit_info_list
 items: 
-class_member_def ::= e     p: 1    lok: private double static int bool var } string < public char 
+inherit_info_list ::= inherit_info_list extends var     p: 3    lok: extends implements { 
 
 679 : 
 reduce: 
 59 inherit_info_list
 items: 
-inherit_info_list ::= inherit_info_list extends var     p: 3    lok: extends implements { 
+inherit_info_list ::= inherit_info_list implements var     p: 3    lok: extends implements { 
 
 680 : 
 reduce: 
-60 inherit_info_list
-items: 
-inherit_info_list ::= inherit_info_list implements var     p: 3    lok: extends implements { 
-
-681 : 
-reduce: 
-56 generic_info
+55 generic_info
 items: 
 generic_info ::= < var inherit_info_list_e >     p: 4    lok: extends implements { 
 
-682 : 
+681 : 
 reduce: 
-74 if_stmt
+73 if_stmt
 items: 
 if_stmt ::= if ( bool_exp ) { stmt_list }     p: 7    lok: true int bool var else ! class if chr - public continue type ++ double str new eof -- number false private static break string while return ( char 
 
-683 : 
+682 : 
 reduce: 
-82 new_exp
+81 new_exp
 items: 
 new_exp ::= new type_exp ( arg_list )     p: 5    lok: ) , 
 
-684 : 
+683 : 
 reduce: 
-96 add_exp
+95 add_exp
 items: 
 add_exp ::= add_exp + mul_exp     p: 3    lok: + ) || - , && 
 mul_exp ::= mul_exp * pri_exp     p: 1    lok: * + ) || - / , && 
 mul_exp ::= mul_exp / pri_exp     p: 1    lok: * + ) || - / , && 
 
-685 : 
+684 : 
 reduce: 
-97 add_exp
+96 add_exp
 items: 
 add_exp ::= add_exp - mul_exp     p: 3    lok: + ) || - , && 
 mul_exp ::= mul_exp * pri_exp     p: 1    lok: * + ) || - / , && 
 mul_exp ::= mul_exp / pri_exp     p: 1    lok: * + ) || - / , && 
 
+685 : 
+reduce: 
+103 mul_exp
+items: 
+mul_exp ::= mul_exp * pri_exp     p: 3    lok: * + ) || - / , && 
+
 686 : 
 reduce: 
 104 mul_exp
 items: 
-mul_exp ::= mul_exp * pri_exp     p: 3    lok: * + ) || - / , && 
-
-687 : 
-reduce: 
-105 mul_exp
-items: 
 mul_exp ::= mul_exp / pri_exp     p: 3    lok: * + ) || - / , && 
 
-688 : 
+687 : 
 items: 
 apply_exp ::= var ( arg_list )     p: 3    lok: * + ) || - / , . && 
 arg_list ::= arg_list , calc_exp     p: 1    lok: ) , 
 
-689 : 
+688 : 
 reduce: 
-108 pri_exp
+107 pri_exp
 items: 
 pri_exp ::= ( bool_exp )     p: 3    lok: * + ) || - / , && 
 
-690 : 
+689 : 
 reduce: 
-114 apply_exp
+113 apply_exp
 items: 
 apply_exp ::= apply_exp . var ( arg_list )     p: 3    lok: * + ) || - / , . && 
 apply_exp ::= apply_exp . var     p: 3    lok: * + ) || - / , . && 
 
-691 : 
+690 : 
 items: 
 array_exp ::= array_exp [ number ]     p: 3    lok: * [ + ) || - / , . && 
 
-692 : 
+691 : 
 items: 
 array_exp ::= idn_type [ number ]     p: 3    lok: * [ + ) || - / , . && 
 
-693 : 
+692 : 
 items: 
 apply_exp ::= apply_exp . var ( arg_list )     p: 5    lok: * == + >= ) != < && <= > || - / , . 
 arg_list ::= arg_list , calc_exp     p: 1    lok: ) , 
 
-694 : 
+693 : 
 items: 
 apply_exp ::= apply_exp . var ( arg_list )     p: 5    lok: * + || - / . ; && 
 arg_list ::= arg_list , calc_exp     p: 1    lok: ) , 
 
-695 : 
+694 : 
 reduce: 
-115 apply_exp
+114 apply_exp
 items: 
 apply_exp ::= var ( arg_list )     p: 4    lok: * + ) || - / . && 
 
-696 : 
+695 : 
 items: 
 apply_exp ::= apply_exp . var ( arg_list )     p: 4    lok: * + ) || - / . && 
 arg_list ::= arg_list , calc_exp     p: 0    lok: ) , 
@@ -8958,166 +8919,166 @@ array_exp ::= idn_type [ number ]     p: 0    lok: * == + >= ) != < && <= [ > ||
 idn_type ::= idn_type . var     p: 0    lok: [ . 
 idn_type ::= var     p: 0    lok: [ . 
 
+696 : 
+reduce: 
+120 array_exp
+items: 
+array_exp ::= array_exp [ number ]     p: 4    lok: * [ + ) || - / . && 
+
 697 : 
 reduce: 
 121 array_exp
 items: 
-array_exp ::= array_exp [ number ]     p: 4    lok: * [ + ) || - / . && 
+array_exp ::= idn_type [ number ]     p: 4    lok: * [ + ) || - / . && 
 
 698 : 
 reduce: 
-122 array_exp
-items: 
-array_exp ::= idn_type [ number ]     p: 4    lok: * [ + ) || - / . && 
-
-699 : 
-reduce: 
-113 apply_exp
+112 apply_exp
 items: 
 apply_exp ::= apply_exp . var ( arg_list )     p: 6    lok: * == + >= ) != < && <= > || - / . 
 
-700 : 
+699 : 
 reduce: 
-82 new_exp
+81 new_exp
 items: 
 new_exp ::= new type_exp ( arg_list )     p: 5    lok: , ; 
 
-701 : 
+700 : 
 reduce: 
-96 add_exp
+95 add_exp
 items: 
 add_exp ::= add_exp + mul_exp     p: 3    lok: + || - , ; && 
 mul_exp ::= mul_exp * pri_exp     p: 1    lok: * + || - / , ; && 
 mul_exp ::= mul_exp / pri_exp     p: 1    lok: * + || - / , ; && 
 
-702 : 
+701 : 
 reduce: 
-97 add_exp
+96 add_exp
 items: 
 add_exp ::= add_exp - mul_exp     p: 3    lok: + || - , ; && 
 mul_exp ::= mul_exp * pri_exp     p: 1    lok: * + || - / , ; && 
 mul_exp ::= mul_exp / pri_exp     p: 1    lok: * + || - / , ; && 
 
+702 : 
+reduce: 
+103 mul_exp
+items: 
+mul_exp ::= mul_exp * pri_exp     p: 3    lok: * + || - / , ; && 
+
 703 : 
 reduce: 
 104 mul_exp
 items: 
-mul_exp ::= mul_exp * pri_exp     p: 3    lok: * + || - / , ; && 
-
-704 : 
-reduce: 
-105 mul_exp
-items: 
 mul_exp ::= mul_exp / pri_exp     p: 3    lok: * + || - / , ; && 
 
-705 : 
+704 : 
 items: 
 apply_exp ::= var ( arg_list )     p: 3    lok: * + || - / , . ; && 
 arg_list ::= arg_list , calc_exp     p: 1    lok: ) , 
 
-706 : 
+705 : 
 reduce: 
-108 pri_exp
+107 pri_exp
 items: 
 pri_exp ::= ( bool_exp )     p: 3    lok: * + || - / , ; && 
 
-707 : 
+706 : 
 reduce: 
-114 apply_exp
+113 apply_exp
 items: 
 apply_exp ::= apply_exp . var ( arg_list )     p: 3    lok: * + || - / , . ; && 
 apply_exp ::= apply_exp . var     p: 3    lok: * + || - / , . ; && 
 
-708 : 
+707 : 
 items: 
 array_exp ::= array_exp [ number ]     p: 3    lok: * [ + || - / , . ; && 
 
-709 : 
+708 : 
 items: 
 array_exp ::= idn_type [ number ]     p: 3    lok: * [ + || - / , . ; && 
 
-710 : 
+709 : 
 items: 
 apply_exp ::= apply_exp . var ( arg_list )     p: 5    lok: * == + >= != < ; && <= > || - / , . 
 arg_list ::= arg_list , calc_exp     p: 1    lok: ) , 
 
-711 : 
+710 : 
 reduce: 
-68 func_def
+67 func_def
 items: 
 func_def ::= type_exp var ( par_list ) { stmt_list }     p: 8    lok: true int bool var ! class if chr - public continue type ++ double str new eof -- number false private static break string while return ( char 
 
-712 : 
+711 : 
 reduce: 
 39 func_type
 items: 
 func_type ::= ( func_type -> type_exp )     p: 5    lok: -> ; 
 
-713 : 
+712 : 
 items: 
 array_type ::= basic_type [ ]     p: 2    lok: [ ) -> 
 
-714 : 
+713 : 
 items: 
 array_type ::= array_type [ ]     p: 2    lok: [ ) -> 
 
-715 : 
+714 : 
 items: 
 array_type ::= idn_type [ ]     p: 2    lok: [ ) -> 
 
-716 : 
+715 : 
 items: 
 idn_type ::= idn_type . var     p: 2    lok: [ ) -> < . 
 
-717 : 
+716 : 
 reduce: 
 41 generic_type
 items: 
 generic_type ::= idn_type generic_exp     p: 2    lok: ) -> 
 
-718 : 
+717 : 
 items: 
 generic_exp ::= < var >     p: 1    lok: ) -> 
 generic_exp ::= < ? inherit_info_list >     p: 1    lok: ) -> 
 
-719 : 
+718 : 
 reduce: 
 38 func_type
 items: 
 func_type ::= ( func_type -> type_exp )     p: 4    lok: -> 
 func_type ::= func_type -> type_exp     p: 3    lok: -> 
 
-720 : 
+719 : 
 reduce: 
 42 generic_exp
 items: 
 generic_exp ::= < var >     p: 3    lok: -> 
 
-721 : 
+720 : 
 items: 
 generic_exp ::= < ? inherit_info_list >     p: 3    lok: -> 
 inherit_info_list ::= inherit_info_list extends var     p: 1    lok: extends > implements 
 inherit_info_list ::= inherit_info_list implements var     p: 1    lok: extends > implements 
 
-722 : 
+721 : 
 reduce: 
 43 generic_exp
 items: 
 generic_exp ::= < ? inherit_info_list >     p: 4    lok: -> ; 
 
-723 : 
+722 : 
 reduce: 
 44 type_def
 items: 
 type_def ::= type var = func_type ;     p: 5    lok: true int bool var } ! class if chr - public continue type ++ double str new -- number false private static break string while return ( char 
 
-724 : 
+723 : 
 reduce: 
-77 else_stmt
+76 else_stmt
 items: 
 else_stmt ::= { stmt_list }     p: 3    lok: true int bool var } ! class if chr - public continue type ++ double str new -- number false private static break string while return ( char 
 
-725 : 
+724 : 
 items: 
 while_exp ::= while ( bool_exp ) { stmt_list }     p: 5    lok: true int bool var } ! class if chr - public continue type ++ double str new -- number false private static break string while return ( char 
 stmt_list ::= stmt_list stmt     p: 0    lok: true int bool var } ! class if chr - public continue type ++ double str new -- number false private static break string while return ( char 
@@ -9178,7 +9139,6 @@ bool_exp ::= cmp_exp     p: 0    lok: || ; &&
 new_exp ::= new type_exp ( arg_list )     p: 0    lok: ; 
 scope_info ::= static     p: 0    lok: class 
 scope_info ::= static public     p: 0    lok: class 
-scope_info ::= static private     p: 0    lok: class 
 scope_info ::= public     p: 0    lok: class 
 scope_info ::= private     p: 0    lok: class 
 cmp_exp ::= add_exp > add_exp     p: 0    lok: || ; && 
@@ -9215,11 +9175,11 @@ str_exp ::= chr     p: 0    lok: * == + >= != < ; && <= > || - /
 array_exp ::= array_exp [ number ]     p: 0    lok: * == + >= != < ; && <= [ > || - / . 
 array_exp ::= idn_type [ number ]     p: 0    lok: * == + >= != < ; && <= [ > || - / . 
 
-726 : 
+725 : 
 items: 
 class_def ::= scope_info_e class var generic_info_e inherit_info_list_e { class_member_def }     p: 5    lok: true int bool var } ! class if chr - public continue type ++ double str new -- number false private static break string while return ( char 
 
-727 : 
+726 : 
 items: 
 if_stmt ::= if ( bool_exp ) { stmt_list }     p: 5    lok: true int bool var else } ! class if chr - public continue type ++ double str new -- number false private static break string while return ( char 
 stmt_list ::= stmt_list stmt     p: 0    lok: true int bool var } ! class if chr - public continue type ++ double str new -- number false private static break string while return ( char 
@@ -9280,7 +9240,6 @@ bool_exp ::= cmp_exp     p: 0    lok: || ; &&
 new_exp ::= new type_exp ( arg_list )     p: 0    lok: ; 
 scope_info ::= static     p: 0    lok: class 
 scope_info ::= static public     p: 0    lok: class 
-scope_info ::= static private     p: 0    lok: class 
 scope_info ::= public     p: 0    lok: class 
 scope_info ::= private     p: 0    lok: class 
 cmp_exp ::= add_exp > add_exp     p: 0    lok: || ; && 
@@ -9317,80 +9276,93 @@ str_exp ::= chr     p: 0    lok: * == + >= != < ; && <= > || - /
 array_exp ::= array_exp [ number ]     p: 0    lok: * == + >= != < ; && <= [ > || - / . 
 array_exp ::= idn_type [ number ]     p: 0    lok: * == + >= != < ; && <= [ > || - / . 
 
-728 : 
+727 : 
 items: 
 if_stmt ::= if ( bool_exp ) sg_stmt ;     p: 5    lok: true int bool var else } ! class if chr - public continue type ++ double str new -- number false private static break string while return ( char 
 
-729 : 
+728 : 
 reduce: 
 46 class_def
 items: 
 class_def ::= scope_info_e class var generic_info_e inherit_info_list_e { class_member_def }     p: 8    lok: true int bool var ! class if chr - public continue type ++ double str new eof -- number false private static break string while return ( char 
 
+729 : 
+reduce: 
+62 class_member_def
+items: 
+class_member_def ::= class_member_def field_def     p: 2    lok: private static double int bool var } string < public char 
+
 730 : 
 reduce: 
 63 class_member_def
 items: 
-class_member_def ::= class_member_def field_def     p: 2    lok: private double static int bool var } string < public char 
+class_member_def ::= class_member_def method_def     p: 2    lok: private static double int bool var } string < public char 
 
 731 : 
-reduce: 
-64 class_member_def
 items: 
-class_member_def ::= class_member_def method_def     p: 2    lok: private double static int bool var } string < public char 
-
-732 : 
-items: 
-field_def ::= var_def ;     p: 1    lok: private double static int bool var } string < public char 
-var_def ::= var_def , var     p: 1    lok: , ; 
-var_def ::= var_def , var = calc_exp     p: 1    lok: , ; 
-
-733 : 
-items: 
-method_def ::= scope_info_e generic_info_e func_def     p: 1    lok: private double static int bool var } string < public char 
+field_def ::= scope_info_e var_def ;     p: 1    lok: private static double int bool var } string < public char 
+method_def ::= scope_info_e generic_info_e func_def     p: 1    lok: private static double int bool var } string < public char 
+var_def ::= var_def , var     p: 0    lok: , ; 
+var_def ::= var_def , var = calc_exp     p: 0    lok: , ; 
+var_def ::= type_exp var     p: 0    lok: , ; 
+var_def ::= type_exp var = calc_exp     p: 0    lok: , ; 
 generic_info_e ::= generic_info     p: 0    lok: double int bool var string char 
 generic_info_e ::= e     p: 0    lok: double int bool var string char 
+type_exp ::= basic_type     p: 0    lok: var 
+type_exp ::= array_type     p: 0    lok: var 
+type_exp ::= idn_type     p: 0    lok: var 
+type_exp ::= generic_type     p: 0    lok: var 
 generic_info ::= < var inherit_info_list_e >     p: 0    lok: double int bool var string char 
+basic_type ::= int     p: 0    lok: [ var 
+basic_type ::= double     p: 0    lok: [ var 
+basic_type ::= bool     p: 0    lok: [ var 
+basic_type ::= string     p: 0    lok: [ var 
+basic_type ::= char     p: 0    lok: [ var 
+array_type ::= array_type [ ]     p: 0    lok: [ var 
+array_type ::= basic_type [ ]     p: 0    lok: [ var 
+array_type ::= idn_type [ ]     p: 0    lok: [ var 
+idn_type ::= idn_type . var     p: 0    lok: [ var < . 
+idn_type ::= var     p: 0    lok: [ var < . 
+generic_type ::= idn_type generic_exp     p: 0    lok: var 
 
-734 : 
+732 : 
 reduce: 
 47 scope_info_e
 items: 
 scope_info_e ::= scope_info     p: 1    lok: double int bool var string < char 
 
-735 : 
+733 : 
 reduce: 
 48 scope_info_e
 items: 
 scope_info_e ::= e     p: 1    lok: double int bool var string < char 
 
-736 : 
+734 : 
 reduce: 
 49 scope_info
 items: 
 scope_info ::= static     p: 1    lok: double int bool var string < char 
 scope_info ::= static public     p: 1    lok: double int bool var string < char 
-scope_info ::= static private     p: 1    lok: double int bool var string < char 
 
-737 : 
+735 : 
 reduce: 
-52 scope_info
+51 scope_info
 items: 
 scope_info ::= public     p: 1    lok: double int bool var string < char 
 
-738 : 
+736 : 
 reduce: 
-53 scope_info
+52 scope_info
 items: 
 scope_info ::= private     p: 1    lok: double int bool var string < char 
 
-739 : 
+737 : 
 reduce: 
-115 apply_exp
+114 apply_exp
 items: 
 apply_exp ::= var ( arg_list )     p: 4    lok: * + ) || - / , . && 
 
-740 : 
+738 : 
 items: 
 apply_exp ::= apply_exp . var ( arg_list )     p: 4    lok: * + ) || - / , . && 
 arg_list ::= arg_list , calc_exp     p: 0    lok: ) , 
@@ -9439,42 +9411,42 @@ array_exp ::= idn_type [ number ]     p: 0    lok: * == + >= ) != < && <= [ > ||
 idn_type ::= idn_type . var     p: 0    lok: [ . 
 idn_type ::= var     p: 0    lok: [ . 
 
-741 : 
+739 : 
 reduce: 
-121 array_exp
+120 array_exp
 items: 
 array_exp ::= array_exp [ number ]     p: 4    lok: * [ + ) || - / , . && 
 
-742 : 
+740 : 
 reduce: 
-122 array_exp
+121 array_exp
 items: 
 array_exp ::= idn_type [ number ]     p: 4    lok: * [ + ) || - / , . && 
 
-743 : 
+741 : 
 reduce: 
-113 apply_exp
+112 apply_exp
 items: 
 apply_exp ::= apply_exp . var ( arg_list )     p: 6    lok: * == + >= ) != < && <= > || - / , . 
 
-744 : 
+742 : 
 reduce: 
-113 apply_exp
+112 apply_exp
 items: 
 apply_exp ::= apply_exp . var ( arg_list )     p: 6    lok: * + || - / . ; && 
 
-745 : 
+743 : 
 items: 
 apply_exp ::= apply_exp . var ( arg_list )     p: 5    lok: * + ) || - / . && 
 arg_list ::= arg_list , calc_exp     p: 1    lok: ) , 
 
-746 : 
+744 : 
 reduce: 
-115 apply_exp
+114 apply_exp
 items: 
 apply_exp ::= var ( arg_list )     p: 4    lok: * + || - / , . ; && 
 
-747 : 
+745 : 
 items: 
 apply_exp ::= apply_exp . var ( arg_list )     p: 4    lok: * + || - / , . ; && 
 arg_list ::= arg_list , calc_exp     p: 0    lok: ) , 
@@ -9523,53 +9495,53 @@ array_exp ::= idn_type [ number ]     p: 0    lok: * == + >= ) != < && <= [ > ||
 idn_type ::= idn_type . var     p: 0    lok: [ . 
 idn_type ::= var     p: 0    lok: [ . 
 
-748 : 
+746 : 
 reduce: 
-121 array_exp
+120 array_exp
 items: 
 array_exp ::= array_exp [ number ]     p: 4    lok: * [ + || - / , . ; && 
 
-749 : 
+747 : 
 reduce: 
-122 array_exp
+121 array_exp
 items: 
 array_exp ::= idn_type [ number ]     p: 4    lok: * [ + || - / , . ; && 
 
-750 : 
+748 : 
 reduce: 
-113 apply_exp
+112 apply_exp
 items: 
 apply_exp ::= apply_exp . var ( arg_list )     p: 6    lok: * == + >= != < ; && <= > || - / , . 
 
-751 : 
+749 : 
 reduce: 
 34 array_type
 items: 
 array_type ::= basic_type [ ]     p: 3    lok: [ ) -> 
 
-752 : 
+750 : 
 reduce: 
 33 array_type
 items: 
 array_type ::= array_type [ ]     p: 3    lok: [ ) -> 
 
-753 : 
+751 : 
 reduce: 
 35 array_type
 items: 
 array_type ::= idn_type [ ]     p: 3    lok: [ ) -> 
 
-754 : 
+752 : 
 reduce: 
 36 idn_type
 items: 
 idn_type ::= idn_type . var     p: 3    lok: [ ) -> < . 
 
-755 : 
+753 : 
 items: 
 generic_exp ::= < var >     p: 2    lok: ) -> 
 
-756 : 
+754 : 
 items: 
 generic_exp ::= < ? inherit_info_list >     p: 2    lok: ) -> 
 inherit_info_list ::= inherit_info_list extends var     p: 0    lok: extends > implements 
@@ -9577,19 +9549,19 @@ inherit_info_list ::= inherit_info_list implements var     p: 0    lok: extends 
 inherit_info_list ::= extends var     p: 0    lok: extends > implements 
 inherit_info_list ::= implements var     p: 0    lok: extends > implements 
 
-757 : 
+755 : 
 reduce: 
 39 func_type
 items: 
 func_type ::= ( func_type -> type_exp )     p: 5    lok: -> 
 
-758 : 
+756 : 
 reduce: 
 43 generic_exp
 items: 
 generic_exp ::= < ? inherit_info_list >     p: 4    lok: -> 
 
-759 : 
+757 : 
 items: 
 while_exp ::= while ( bool_exp ) { stmt_list }     p: 6    lok: true int bool var } ! class if chr - public continue type ++ double str new -- number false private static break string while return ( char 
 stmt_list ::= stmt_list stmt     p: 1    lok: true int bool var } ! class if chr - public continue type ++ double str new -- number false private static break string while return ( char 
@@ -9649,7 +9621,6 @@ bool_exp ::= cmp_exp     p: 0    lok: || ; &&
 new_exp ::= new type_exp ( arg_list )     p: 0    lok: ; 
 scope_info ::= static     p: 0    lok: class 
 scope_info ::= static public     p: 0    lok: class 
-scope_info ::= static private     p: 0    lok: class 
 scope_info ::= public     p: 0    lok: class 
 scope_info ::= private     p: 0    lok: class 
 cmp_exp ::= add_exp > add_exp     p: 0    lok: || ; && 
@@ -9686,14 +9657,14 @@ str_exp ::= chr     p: 0    lok: * == + >= != < ; && <= > || - /
 array_exp ::= array_exp [ number ]     p: 0    lok: * == + >= != < ; && <= [ > || - / . 
 array_exp ::= idn_type [ number ]     p: 0    lok: * == + >= != < ; && <= [ > || - / . 
 
-760 : 
+758 : 
 items: 
 class_def ::= scope_info_e class var generic_info_e inherit_info_list_e { class_member_def }     p: 6    lok: true int bool var } ! class if chr - public continue type ++ double str new -- number false private static break string while return ( char 
-class_member_def ::= class_member_def field_def     p: 0    lok: private double static int bool var } string < public char 
-class_member_def ::= class_member_def method_def     p: 0    lok: private double static int bool var } string < public char 
-class_member_def ::= e     p: 0    lok: private double static int bool var } string < public char 
+class_member_def ::= class_member_def field_def     p: 0    lok: private static double int bool var } string < public char 
+class_member_def ::= class_member_def method_def     p: 0    lok: private static double int bool var } string < public char 
+class_member_def ::= e     p: 0    lok: private static double int bool var } string < public char 
 
-761 : 
+759 : 
 items: 
 if_stmt ::= if ( bool_exp ) { stmt_list }     p: 6    lok: true int bool var else } ! class if chr - public continue type ++ double str new -- number false private static break string while return ( char 
 stmt_list ::= stmt_list stmt     p: 1    lok: true int bool var } ! class if chr - public continue type ++ double str new -- number false private static break string while return ( char 
@@ -9753,7 +9724,6 @@ bool_exp ::= cmp_exp     p: 0    lok: || ; &&
 new_exp ::= new type_exp ( arg_list )     p: 0    lok: ; 
 scope_info ::= static     p: 0    lok: class 
 scope_info ::= static public     p: 0    lok: class 
-scope_info ::= static private     p: 0    lok: class 
 scope_info ::= public     p: 0    lok: class 
 scope_info ::= private     p: 0    lok: class 
 cmp_exp ::= add_exp > add_exp     p: 0    lok: || ; && 
@@ -9790,22 +9760,22 @@ str_exp ::= chr     p: 0    lok: * == + >= != < ; && <= > || - /
 array_exp ::= array_exp [ number ]     p: 0    lok: * == + >= != < ; && <= [ > || - / . 
 array_exp ::= idn_type [ number ]     p: 0    lok: * == + >= != < ; && <= [ > || - / . 
 
-762 : 
+760 : 
 reduce: 
-75 if_stmt
+74 if_stmt
 items: 
 if_stmt ::= if ( bool_exp ) sg_stmt ;     p: 6    lok: true int bool var else } ! class if chr - public continue type ++ double str new -- number false private static break string while return ( char 
 
-763 : 
-reduce: 
-66 field_def
+761 : 
 items: 
-field_def ::= var_def ;     p: 2    lok: private double static int bool var } string < public char 
+field_def ::= scope_info_e var_def ;     p: 2    lok: private static double int bool var } string < public char 
+var_def ::= var_def , var     p: 1    lok: , ; 
+var_def ::= var_def , var = calc_exp     p: 1    lok: , ; 
 
-764 : 
+762 : 
 items: 
-method_def ::= scope_info_e generic_info_e func_def     p: 2    lok: private double static int bool var } string < public char 
-func_def ::= type_exp var ( par_list ) { stmt_list }     p: 0    lok: private double static int bool var } string < public char 
+method_def ::= scope_info_e generic_info_e func_def     p: 2    lok: private static double int bool var } string < public char 
+func_def ::= type_exp var ( par_list ) { stmt_list }     p: 0    lok: private static double int bool var } string < public char 
 type_exp ::= basic_type     p: 0    lok: var 
 type_exp ::= array_type     p: 0    lok: var 
 type_exp ::= idn_type     p: 0    lok: var 
@@ -9822,119 +9792,99 @@ idn_type ::= idn_type . var     p: 0    lok: [ var < .
 idn_type ::= var     p: 0    lok: [ var < . 
 generic_type ::= idn_type generic_exp     p: 0    lok: var 
 
-765 : 
+763 : 
 reduce: 
-54 generic_info_e
+53 generic_info_e
 items: 
 generic_info_e ::= generic_info     p: 1    lok: double int bool var string char 
 
-766 : 
+764 : 
 reduce: 
-55 generic_info_e
+54 generic_info_e
 items: 
 generic_info_e ::= e     p: 1    lok: double int bool var string char 
 
-767 : 
+765 : 
 items: 
 generic_info ::= < var inherit_info_list_e >     p: 1    lok: double int bool var string char 
 
-768 : 
+766 : 
 reduce: 
 50 scope_info
 items: 
 scope_info ::= static public     p: 2    lok: double int bool var string < char 
 
-769 : 
-reduce: 
-51 scope_info
-items: 
-scope_info ::= static private     p: 2    lok: double int bool var string < char 
-
-770 : 
+767 : 
 items: 
 apply_exp ::= apply_exp . var ( arg_list )     p: 5    lok: * + ) || - / , . && 
 arg_list ::= arg_list , calc_exp     p: 1    lok: ) , 
 
-771 : 
+768 : 
 reduce: 
-113 apply_exp
+112 apply_exp
 items: 
 apply_exp ::= apply_exp . var ( arg_list )     p: 6    lok: * + ) || - / . && 
 
-772 : 
+769 : 
 items: 
 apply_exp ::= apply_exp . var ( arg_list )     p: 5    lok: * + || - / , . ; && 
 arg_list ::= arg_list , calc_exp     p: 1    lok: ) , 
 
-773 : 
+770 : 
 reduce: 
 42 generic_exp
 items: 
 generic_exp ::= < var >     p: 3    lok: ) -> 
 
-774 : 
+771 : 
 items: 
 generic_exp ::= < ? inherit_info_list >     p: 3    lok: ) -> 
 inherit_info_list ::= inherit_info_list extends var     p: 1    lok: extends > implements 
 inherit_info_list ::= inherit_info_list implements var     p: 1    lok: extends > implements 
 
-775 : 
+772 : 
 reduce: 
-79 while_exp
+78 while_exp
 items: 
 while_exp ::= while ( bool_exp ) { stmt_list }     p: 7    lok: true int bool var } ! class if chr - public continue type ++ double str new -- number false private static break string while return ( char 
 
-776 : 
+773 : 
 items: 
 class_def ::= scope_info_e class var generic_info_e inherit_info_list_e { class_member_def }     p: 7    lok: true int bool var } ! class if chr - public continue type ++ double str new -- number false private static break string while return ( char 
-class_member_def ::= class_member_def field_def     p: 1    lok: private double static int bool var } string < public char 
-class_member_def ::= class_member_def method_def     p: 1    lok: private double static int bool var } string < public char 
-field_def ::= var_def ;     p: 0    lok: private double static int bool var } string < public char 
-method_def ::= scope_info_e generic_info_e func_def     p: 0    lok: private double static int bool var } string < public char 
-var_def ::= var_def , var     p: 0    lok: , ; 
-var_def ::= var_def , var = calc_exp     p: 0    lok: , ; 
-var_def ::= type_exp var     p: 0    lok: , ; 
-var_def ::= type_exp var = calc_exp     p: 0    lok: , ; 
+class_member_def ::= class_member_def field_def     p: 1    lok: private static double int bool var } string < public char 
+class_member_def ::= class_member_def method_def     p: 1    lok: private static double int bool var } string < public char 
+field_def ::= scope_info_e var_def ;     p: 0    lok: private static double int bool var } string < public char 
+method_def ::= scope_info_e generic_info_e func_def     p: 0    lok: private static double int bool var } string < public char 
 scope_info_e ::= scope_info     p: 0    lok: double int bool var string < char 
 scope_info_e ::= e     p: 0    lok: double int bool var string < char 
-type_exp ::= basic_type     p: 0    lok: var 
-type_exp ::= array_type     p: 0    lok: var 
-type_exp ::= idn_type     p: 0    lok: var 
-type_exp ::= generic_type     p: 0    lok: var 
 scope_info ::= static     p: 0    lok: double int bool var string < char 
 scope_info ::= static public     p: 0    lok: double int bool var string < char 
-scope_info ::= static private     p: 0    lok: double int bool var string < char 
 scope_info ::= public     p: 0    lok: double int bool var string < char 
 scope_info ::= private     p: 0    lok: double int bool var string < char 
-basic_type ::= int     p: 0    lok: [ var 
-basic_type ::= double     p: 0    lok: [ var 
-basic_type ::= bool     p: 0    lok: [ var 
-basic_type ::= string     p: 0    lok: [ var 
-basic_type ::= char     p: 0    lok: [ var 
-array_type ::= array_type [ ]     p: 0    lok: [ var 
-array_type ::= basic_type [ ]     p: 0    lok: [ var 
-array_type ::= idn_type [ ]     p: 0    lok: [ var 
-idn_type ::= idn_type . var     p: 0    lok: [ var < . 
-idn_type ::= var     p: 0    lok: [ var < . 
-generic_type ::= idn_type generic_exp     p: 0    lok: var 
 
-777 : 
+774 : 
 reduce: 
-74 if_stmt
+73 if_stmt
 items: 
 if_stmt ::= if ( bool_exp ) { stmt_list }     p: 7    lok: true int bool var else } ! class if chr - public continue type ++ double str new -- number false private static break string while return ( char 
 
-778 : 
+775 : 
 reduce: 
-67 method_def
+65 field_def
 items: 
-method_def ::= scope_info_e generic_info_e func_def     p: 3    lok: private double static int bool var } string < public char 
+field_def ::= scope_info_e var_def ;     p: 3    lok: private static double int bool var } string < public char 
 
-779 : 
+776 : 
+reduce: 
+66 method_def
 items: 
-func_def ::= type_exp var ( par_list ) { stmt_list }     p: 1    lok: private double static int bool var } string < public char 
+method_def ::= scope_info_e generic_info_e func_def     p: 3    lok: private static double int bool var } string < public char 
 
-780 : 
+777 : 
+items: 
+func_def ::= type_exp var ( par_list ) { stmt_list }     p: 1    lok: private static double int bool var } string < public char 
+
+778 : 
 items: 
 generic_info ::= < var inherit_info_list_e >     p: 2    lok: double int bool var string char 
 inherit_info_list_e ::= inherit_info_list     p: 0    lok: > 
@@ -9944,41 +9894,41 @@ inherit_info_list ::= inherit_info_list implements var     p: 0    lok: extends 
 inherit_info_list ::= extends var     p: 0    lok: extends > implements 
 inherit_info_list ::= implements var     p: 0    lok: extends > implements 
 
-781 : 
+779 : 
 reduce: 
-113 apply_exp
+112 apply_exp
 items: 
 apply_exp ::= apply_exp . var ( arg_list )     p: 6    lok: * + ) || - / , . && 
 
-782 : 
+780 : 
 reduce: 
-113 apply_exp
+112 apply_exp
 items: 
 apply_exp ::= apply_exp . var ( arg_list )     p: 6    lok: * + || - / , . ; && 
 
-783 : 
+781 : 
 reduce: 
 43 generic_exp
 items: 
 generic_exp ::= < ? inherit_info_list >     p: 4    lok: ) -> 
 
-784 : 
+782 : 
 reduce: 
 46 class_def
 items: 
 class_def ::= scope_info_e class var generic_info_e inherit_info_list_e { class_member_def }     p: 8    lok: true int bool var } ! class if chr - public continue type ++ double str new -- number false private static break string while return ( char 
 
-785 : 
+783 : 
 items: 
-func_def ::= type_exp var ( par_list ) { stmt_list }     p: 2    lok: private double static int bool var } string < public char 
+func_def ::= type_exp var ( par_list ) { stmt_list }     p: 2    lok: private static double int bool var } string < public char 
 
-786 : 
+784 : 
 items: 
 generic_info ::= < var inherit_info_list_e >     p: 3    lok: double int bool var string char 
 
-787 : 
+785 : 
 items: 
-func_def ::= type_exp var ( par_list ) { stmt_list }     p: 3    lok: private double static int bool var } string < public char 
+func_def ::= type_exp var ( par_list ) { stmt_list }     p: 3    lok: private static double int bool var } string < public char 
 par_list ::= par_list , type_exp var     p: 0    lok: ) , 
 par_list ::= type_exp var     p: 0    lok: ) , 
 par_list ::= e     p: 0    lok: ) , 
@@ -9998,24 +9948,24 @@ idn_type ::= idn_type . var     p: 0    lok: [ var < .
 idn_type ::= var     p: 0    lok: [ var < . 
 generic_type ::= idn_type generic_exp     p: 0    lok: var 
 
-788 : 
+786 : 
 reduce: 
-56 generic_info
+55 generic_info
 items: 
 generic_info ::= < var inherit_info_list_e >     p: 4    lok: double int bool var string char 
 
-789 : 
+787 : 
 items: 
-func_def ::= type_exp var ( par_list ) { stmt_list }     p: 4    lok: private double static int bool var } string < public char 
+func_def ::= type_exp var ( par_list ) { stmt_list }     p: 4    lok: private static double int bool var } string < public char 
 par_list ::= par_list , type_exp var     p: 1    lok: ) , 
 
-790 : 
+788 : 
 items: 
-func_def ::= type_exp var ( par_list ) { stmt_list }     p: 5    lok: private double static int bool var } string < public char 
+func_def ::= type_exp var ( par_list ) { stmt_list }     p: 5    lok: private static double int bool var } string < public char 
 
-791 : 
+789 : 
 items: 
-func_def ::= type_exp var ( par_list ) { stmt_list }     p: 6    lok: private double static int bool var } string < public char 
+func_def ::= type_exp var ( par_list ) { stmt_list }     p: 6    lok: private static double int bool var } string < public char 
 stmt_list ::= stmt_list stmt     p: 0    lok: true int bool var } ! class if chr - public continue type ++ double str new -- number false private static break string while return ( char 
 stmt_list ::= stmt     p: 0    lok: true int bool var } ! class if chr - public continue type ++ double str new -- number false private static break string while return ( char 
 stmt ::= var_def ;     p: 0    lok: true int bool var } ! class if chr - public continue type ++ double str new -- number false private static break string while return ( char 
@@ -10074,7 +10024,6 @@ bool_exp ::= cmp_exp     p: 0    lok: || ; &&
 new_exp ::= new type_exp ( arg_list )     p: 0    lok: ; 
 scope_info ::= static     p: 0    lok: class 
 scope_info ::= static public     p: 0    lok: class 
-scope_info ::= static private     p: 0    lok: class 
 scope_info ::= public     p: 0    lok: class 
 scope_info ::= private     p: 0    lok: class 
 cmp_exp ::= add_exp > add_exp     p: 0    lok: || ; && 
@@ -10111,9 +10060,9 @@ str_exp ::= chr     p: 0    lok: * == + >= != < ; && <= > || - /
 array_exp ::= array_exp [ number ]     p: 0    lok: * == + >= != < ; && <= [ > || - / . 
 array_exp ::= idn_type [ number ]     p: 0    lok: * == + >= != < ; && <= [ > || - / . 
 
-792 : 
+790 : 
 items: 
-func_def ::= type_exp var ( par_list ) { stmt_list }     p: 7    lok: private double static int bool var } string < public char 
+func_def ::= type_exp var ( par_list ) { stmt_list }     p: 7    lok: private static double int bool var } string < public char 
 stmt_list ::= stmt_list stmt     p: 1    lok: true int bool var } ! class if chr - public continue type ++ double str new -- number false private static break string while return ( char 
 stmt ::= var_def ;     p: 0    lok: true int bool var } ! class if chr - public continue type ++ double str new -- number false private static break string while return ( char 
 stmt ::= type_def     p: 0    lok: true int bool var } ! class if chr - public continue type ++ double str new -- number false private static break string while return ( char 
@@ -10171,7 +10120,6 @@ bool_exp ::= cmp_exp     p: 0    lok: || ; &&
 new_exp ::= new type_exp ( arg_list )     p: 0    lok: ; 
 scope_info ::= static     p: 0    lok: class 
 scope_info ::= static public     p: 0    lok: class 
-scope_info ::= static private     p: 0    lok: class 
 scope_info ::= public     p: 0    lok: class 
 scope_info ::= private     p: 0    lok: class 
 cmp_exp ::= add_exp > add_exp     p: 0    lok: || ; && 
@@ -10208,10 +10156,10 @@ str_exp ::= chr     p: 0    lok: * == + >= != < ; && <= > || - /
 array_exp ::= array_exp [ number ]     p: 0    lok: * == + >= != < ; && <= [ > || - / . 
 array_exp ::= idn_type [ number ]     p: 0    lok: * == + >= != < ; && <= [ > || - / . 
 
-793 : 
+791 : 
 reduce: 
-68 func_def
+67 func_def
 items: 
-func_def ::= type_exp var ( par_list ) { stmt_list }     p: 8    lok: private double static int bool var } string < public char 
+func_def ::= type_exp var ( par_list ) { stmt_list }     p: 8    lok: private static double int bool var } string < public char 
 
 //end

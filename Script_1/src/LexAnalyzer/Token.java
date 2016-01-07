@@ -52,7 +52,7 @@ public class Token {
 		case t_double:
 			return "double";
 		case t_idn:
-			return "idn";
+			return "var";
 		case t_res:
 			return "res";
 		case t_opt:

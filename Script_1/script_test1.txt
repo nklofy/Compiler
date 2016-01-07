@@ -1,5 +1,9 @@
-public class A{
- int a ;
+class A <T> extends C{
+ static public int a;
+ public D<E> b(){
+  return true;
+ }
 }
-A b;
-b.b;
+A<G> b;
+bool c=b.b();
+int d=b.a;
