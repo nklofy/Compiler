@@ -2,8 +2,32 @@
 package Parser;
 import java.util.*;
 import Parser.ASTs.*;
-import Parser.TypeSys.Type_SgStmt;
-import Parser.TypeSys.Type_Stmt;
+import Parser.ASTs.old.AST_AddExp;
+import Parser.ASTs.old.AST_ApplyExp;
+import Parser.ASTs.old.AST_ArgList;
+import Parser.ASTs.old.AST_BoolExp;
+import Parser.ASTs.old.AST_CalcExp;
+import Parser.ASTs.old.AST_CmpExp;
+import Parser.ASTs.old.AST_CtrFlw;
+import Parser.ASTs.old.AST_ElseStmt;
+import Parser.ASTs.old.AST_FuncDef;
+import Parser.ASTs.old.AST_IfExp;
+import Parser.ASTs.old.AST_IfStmt;
+import Parser.ASTs.old.AST_MulExp;
+import Parser.ASTs.old.AST_Num;
+import Parser.ASTs.old.AST_ParList;
+import Parser.ASTs.old.AST_PriExp;
+import Parser.ASTs.old.AST_SgStmt;
+import Parser.ASTs.old.AST_Stmt;
+import Parser.ASTs.old.AST_StmtList;
+import Parser.ASTs.old.AST_StrExp;
+import Parser.ASTs.old.AST_TypeExp;
+import Parser.ASTs.old.AST_Var;
+import Parser.ASTs.old.AST_VarAssign;
+import Parser.ASTs.old.AST_VarDef;
+import Parser.ASTs.old.AST_WhileExp;
+import Parser.TypeSys.old.Type_SgStmt;
+import Parser.TypeSys.old.Type_Stmt;
 
 public class ASTGenerator {
 	AST crtAST(String method, ParseState crt_state){

@@ -1,38 +1,42 @@
 //symbols
-Goal stmt_list stmt 
-var_def type_def func_def if_exp while_exp sg_stmt control_flow
-var_assign calc_exp type_exp par_list if_stmt else_stmt bool_exp str_exp
-add_exp cmp_exp mul_exp pri_exp apply_exp arg_list 
-basic_type array_type idn_type func_type generic_type generic_exp 
-class_def scope_info_e generic_info_e inherit_info_list_e class_member_def field_def method_def
-scope_info generic_info inherit_info_list array_exp new_exp
+Goal stmt_list stmt if_stmt while_stmt sg_stmt class_def func_def
+var_def var_assign control_flow type_def calc_exp left_side FieldAccess ArrayAccess
+type_exp basic_type array_type idn_type func_type generic_type generic_args
+scope_info_list scope_info generic_pars_list generic_pars extends_list implements_list member_def_list
+extends_types implements_types member_def field_def method_def
+
+
+
+par_list if_stmt else_stmt bool_exp str_exp
+add_exp cmp_exp mul_exp pri_exp apply_exp arg_list array_exp new_exp
 
 //tokens
-if else while return break continue int double bool true false string char number var str chr 
-class interface extends implements public private static type new
+if else while return break continue int double bool true false string char number var str chr function
+class interface extends implements public private static type new final finally try catch finalize 
 || && ! > >= < <= == != + - ++ -- * / += -= *= /= = ? ->
 e ( ) { } [ ] , . ; eof 
 
 //grammars
 Goal |>
-   stmt_list 
+   stmt_list
 
-stmt_list |> 
-   stmt_list stmt 
->| stmt 
+stmt_list |>
+   stmt_list stmt
+>| stmt
 
 stmt |> 
-   var_def ;
->| type_def 
+   class_def
 >| func_def
->| if_exp
->| while_exp
+>| if_stmt
+>| while_stmt
 >| sg_stmt ;
 
 sg_stmt |>
    var_assign
+>| var_def
 >| calc_exp
 >| control_flow
+>| type_def
 
 control_flow |>
    return calc_exp
@@ -46,17 +50,18 @@ var_def |>
 >| type_exp var = calc_exp
 
 var_assign |>
-   var = calc_exp
->| var += calc_exp
->| var -= calc_exp
->| var *= calc_exp
->| var /= calc_exp
+   left_side = calc_exp
+
+left_side |>
+   FieldAccess
+>| ArrayAccess
+>| var
 
 type_exp |>
    basic_type
 >| array_type
 >| idn_type
->| generic_type 
+>| generic_type
 
 basic_type |>
    int
@@ -64,6 +69,7 @@ basic_type |>
 >| bool
 >| string
 >| char
+>| function
 
 array_type |>
    array_type [ ]
@@ -74,62 +80,68 @@ idn_type |>
    idn_type . var
 >| var
 
-func_type |>
-   func_type -> type_exp
->| ( func_type -> type_exp )
->| type_exp
-
 generic_type |>
-   idn_type generic_exp
+   idn_type < generic_args >
 
-generic_exp |>
-   < var >
->| < ? inherit_info_list >
-
-type_def |>
-   type var = func_type ;
->| class_def 
+generic_args |>
+   generic_args , var
+>| generic_args , ? extends idn_type
+>| var
+>| ? extends idn_type
 
 class_def |>
-   scope_info_e class var generic_info_e inherit_info_list_e { class_member_def }
+   scope_info_list class var generic_pars_list extends_list implements_list  { member_def_list }
    
-scope_info_e |>
-   scope_info
+scope_info_list |>
+   scope_info_list scope_info
+>| scope_info
 >| e
 
 scope_info |>
    static
->| static public
 >| public
 >| private
+>| final
 
-generic_info_e |>
-   generic_info 
+generic_pars_list |>
+   < generic_pars >
 >| e
 
-generic_info |>
-   < var inherit_info_list_e >
+generic_pars |>
+   generic_pars , var
+>| generic_pars , var extends idn_type
+>| var
+>| var extends idn_type
 
-inherit_info_list_e |>
-   inherit_info_list
+extends_list |>
+   extens_types
 >| e
 
-inherit_info_list |>
-   inherit_info_list extends var
->| inherit_info_list implements var
->| extends var
->| implements var
+extens_types |>
+   extens_types idn_type
+>| extends idn_type
 
-class_member_def |>
-   class_member_def field_def
->| class_member_def method_def
+implements_list |>
+   implements_types
 >| e
+
+implements_types |>
+   implements_types idn_type
+>| implements idn_type
+
+member_def_list
+   member_def
+>| e
+
+member_def |>
+   member_def field_def
+>| member_def method_def
  
 field_def |>
-   scope_info_e var_def ;
+   scope_info_list var_def ;
 
 method_def |>
-   scope_info_e generic_info_e func_def
+   scope_info_list generic_pars_list func_def
 
 func_def |>
    type_exp var ( par_list ) { stmt_list }

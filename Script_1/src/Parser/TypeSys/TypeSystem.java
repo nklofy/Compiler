@@ -1,6 +1,8 @@
 package Parser.TypeSys;
 
 import Interpreter.*;
+import Parser.TypeSys.old.Type_Base;
+import Parser.TypeSys.old.Type_Obj;
 
 public class TypeSystem {
 	public static boolean initTypes(Interpreter interpreter){

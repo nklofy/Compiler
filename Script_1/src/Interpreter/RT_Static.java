@@ -4,10 +4,10 @@ package Interpreter;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import Parser.TypeSys.Data_Func;
-import Parser.TypeSys.Data_Obj;
-import Parser.TypeSys.Type_Func;
-import Parser.TypeSys.Type_Obj;
+import Parser.TypeSys.old.Data_Func;
+import Parser.TypeSys.old.Data_Obj;
+import Parser.TypeSys.old.Type_Func;
+import Parser.TypeSys.old.Type_Obj;
 
 public class RT_Static {
 	HashMap<String,ArrayList<Type_Func>> funcs=new HashMap<String,ArrayList<Type_Func>>();

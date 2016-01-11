@@ -4,9 +4,9 @@ import java.util.*;
 
 import Parser.AST;
 import Parser.ASTs.*;
-import Parser.TypeSys.Data_Obj;
-import Parser.TypeSys.Type_Func;
-import Parser.TypeSys.Type_Obj;
+import Parser.TypeSys.old.Data_Obj;
+import Parser.TypeSys.old.Type_Func;
+import Parser.TypeSys.old.Type_Obj;
 
 public class RT_Env {
 	RT_Frame crt_frm;
