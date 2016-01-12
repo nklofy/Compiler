@@ -1,9 +1,9 @@
-class A <T> extends C{
+class A <T1,T2> extends C{
  static public int a;
  public D<E> b(){
   return true;
  }
 }
-A<G> b;
+A<G,H> b;
 bool c=b.b();
 int d=b.a;

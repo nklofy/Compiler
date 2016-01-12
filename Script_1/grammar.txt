@@ -60,7 +60,6 @@ var_assign |>
 left_side |>
    field_access
 >| array_access
->| var
 
 type_exp |>
    basic_type
@@ -129,7 +128,7 @@ extends_list |>
 >| e
 
 extends_types |>
-   extends_types idn_type
+   extends_types , idn_type
 >| extends idn_type
 
 implements_list |>
@@ -137,7 +136,7 @@ implements_list |>
 >| e
 
 implements_types |>
-   implements_types idn_type
+   implements_types , idn_type
 >| implements idn_type
 
 member_def_list |>

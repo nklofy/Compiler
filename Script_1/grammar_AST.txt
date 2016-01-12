@@ -160,164 +160,164 @@
 158 lambda_exp ( par_list ) -> { stmt_list } 
 
 //AST
-0 Goal stmt_list 
-1 stmt_list stmt_list stmt 
-2 stmt_list stmt 
-3 stmt class_def 
-4 stmt interface_def 
-5 stmt func_def 
-6 stmt if_stmt 
-7 stmt while_stmt 
-8 stmt sg_stmt ; 
-9 sg_stmt var_assign 
-10 sg_stmt var_def 
-11 sg_stmt calc_exp 
-12 sg_stmt control_flow 
-13 control_flow return calc_exp 
-14 control_flow continue 
-15 control_flow break 
-16 var_def var_def , var 
-17 var_def var_def , var = expression 
-18 var_def type_exp var 
-19 var_def type_exp var = expression 
-20 var_assign left_side = expression 
-21 left_side field_access 
-22 left_side array_access 
-23 left_side var 
-24 type_exp basic_type 
-25 type_exp array_type 
-26 type_exp idn_type 
-27 type_exp generic_type 
-28 type_exp function 
-29 basic_type int 
-30 basic_type double 
-31 basic_type bool 
-32 basic_type string 
-33 basic_type char 
-34 array_type array_type [ ] 
-35 array_type basic_type [ ] 
-36 array_type idn_type [ ] 
-37 idn_type idn_type . var 
-38 idn_type var 
-39 generic_type idn_type < generic_args > 
-40 generic_args generic_args , var 
-41 generic_args generic_args , ? extends idn_type 
-42 generic_args var 
-43 generic_args ? extends idn_type 
-44 class_def scope_info_list class var generic_pars_list extends_list implements_list { member_def_list } 
-45 interface_def scope_info_list interface var generic_pars_list { member_def_list } 
-46 scope_info_list scope_infos 
-47 scope_info_list e 
-48 scope_infos scope_infos scope_info 
-49 scope_infos scope_info 
-50 scope_info static 
-51 scope_info public 
-52 scope_info private 
-53 scope_info final 
-54 generic_pars_list < generic_pars > 
-55 generic_pars_list e 
-56 generic_pars generic_pars , var 
-57 generic_pars generic_pars , var extends idn_type 
-58 generic_pars var 
-59 generic_pars var extends idn_type 
-60 extends_list extends_types 
-61 extends_list e 
-62 extends_types extends_types idn_type 
-63 extends_types extends idn_type 
-64 implements_list implements_types 
-65 implements_list e 
-66 implements_types implements_types idn_type 
-67 implements_types implements idn_type 
-68 member_def_list member_def 
-69 member_def_list e 
-70 member_def member_def field_def 
-71 member_def member_def method_def 
-72 member_def field_def 
-73 member_def method_def 
-74 field_def scope_info_list var_def ; 
-75 method_def scope_info_list func_def 
-76 func_def generic_pars_list type_exp var ( par_list ) { stmt_list } 
-77 par_list parameters 
-78 par_list e 
-79 parameters parameters , type_exp var 
-80 parameters type_exp var 
-81 if_stmt if_body 
-82 if_stmt if_body else else_body 
-83 if_body if ( bool_exp ) { stmt_list } 
-84 if_body if ( bool_exp ) sg_stmt ; 
-85 else_body if_stmt 
-86 else_body { stmt_list } 
-87 else_body sg_stmt ; 
-88 while_stmt while ( bool_exp ) { stmt_list } 
-89 expression lambda_exp 
-90 expression calc_exp 
-91 calc_exp cond_exp 
-92 calc_exp new_class_exp 
-93 calc_exp new_array_exp 
-94 new_class_exp new idn_type ( arg_list ) 
-95 new_class_exp new generic_type ( arg_list ) 
-96 new_array_exp new idn_type dim_list 
-97 new_array_exp new basic_type dim_list 
-98 new_array_exp { array_init_list } 
-99 array_init_list array_init_list , array_init 
-100 array_init_list array_init 
-101 array_init calc_exp 
-102 array_init { array_init_list } 
-103 dim_list dim_list [ add_exp ] 
-104 dim_list [ add_exp ] 
-105 cond_exp bool_exp 
-106 bool_exp bool_exp || or_exp 
-107 bool_exp or_exp 
-108 or_exp or_exp && and_exp 
-109 or_exp and_exp 
-110 and_exp cmp_exp 
-111 cmp_exp add_exp > add_exp 
-112 cmp_exp add_exp >= add_exp 
-113 cmp_exp add_exp < add_exp 
-114 cmp_exp add_exp <= add_exp 
-115 cmp_exp add_exp == add_exp 
-116 cmp_exp add_exp != add_exp 
-117 cmp_exp ! add_exp 
-118 cmp_exp add_exp 
-119 cmp_exp true 
-120 cmp_exp false 
-121 add_exp add_exp + mul_exp 
-122 add_exp add_exp - mul_exp 
-123 add_exp + mul_exp 
-124 add_exp - mul_exp 
-125 add_exp mul_exp 
-126 mul_exp mul_exp * pri_exp 
-127 mul_exp mul_exp / pri_exp 
-128 mul_exp unary_exp 
-129 unary_exp ++ access_exp 
-130 unary_exp -- access_exp 
-131 unary_exp access_exp ++ 
-132 unary_exp access_exp -- 
-133 unary_exp ! access_exp 
-134 unary_exp access_exp 
-135 unary_exp cast_exp 
-136 cast_exp ( type_exp ) access_exp 
-137 access_exp field_access 
-138 access_exp array_access 
-139 access_exp apply_exp 
-140 access_exp pri_exp 
-141 field_access field_access . var 
-142 field_access field_access . class 
-143 field_access var 
-144 field_access this 
-145 field_access super 
-146 array_access field_access dim_list 
-147 pri_exp number 
-148 pri_exp str 
-149 pri_exp chr 
-150 pri_exp ( cond_exp ) 
-151 apply_exp access_exp . var ( arg_list ) 
-152 apply_exp apply_exp . var ( arg_list ) 
-153 apply_exp var ( arg_list ) 
-154 arg_list arguments 
-155 arg_list e 
-156 arguments arg_list , calc_exp 
-157 arguments calc_exp 
-158 lambda_exp ( par_list ) -> { stmt_list } 
+//0 crtGoal 0
+1 lnkStmtLst 1 0
+2 crtStmtLst 0
+3 crtStmtClsDef 0
+4 crtStmtIntfDef 0
+5 crtStmtFuncDef 0
+6 crtStmtIf 0
+7 crtStmtWhl 0
+8 crtStmtSg 0
+9 crtSgVarAssign 0
+10 crtSgVarDef 0
+11 crtSgCalc 0
+12 crtSgCtrF 0
+13 crtCtrFRet 0
+14 crtCtrFCont 0
+15 crtCtrFBrk 0
+16 linkVarDef 2 0
+17 linkVarDefAsg 4 2 0
+18 crtVarDef 1 0
+19 crtVarDefAsg 3 2 0
+20 crtVarAsg 2 0
+21 crtLftFld 0
+22 crtLftArr 0
+23 crtTpBsc 0
+24 crtTpArr 0
+25 crtTpIdn 0
+26 crtTpGnrcTp 0
+27 crtTpFunc 0
+28 crtBscTpInt 0
+29 crtBscTpDb 0
+30 crtBscTpBl 0
+31 crtBscTpStr 0
+32 crtBscTpChr 0
+33 lnkArrTp 1
+34 crtArrTpBsc 1
+35 crtArrTpIdn 1
+36 lnkIdnTpVar 2 0
+37 crtIdnTpVar 0
+38 crtGnrcTp 3 1
+39 lnkGnrcArgsVar 2 0
+40 lnkGnrcArgsExt 4 0
+41 crtGnrcArgsVar 0
+42 crtGnrcArgsExt 0
+43 crtClassDef 8 6 5 4 3 1
+44 crtIntfDef 6 4 3 1
+45 crtScpInfLst 0
+46 crtScpInfLstE 0
+47 lnkScpInf 1 0
+48 crtScpInf 0
+49 crtScpStc 0
+50 crtScpPbl 0
+51 crtScpPrv 0
+52 crtScpFnl 0
+53 crtGnrcParLst 1
+54 crtGnrcParLstE 0
+55 lnkGnrcPar 2 0
+56 lnkGnrcParExt 4 2 0
+57 crtGnrcParVar 0
+58 crtGnrcParExt 2 0
+59 crtExtLst 0
+60 crtExtLstE 0
+61 lnkExtIdn 2 0
+62 crtExtIdn 0
+63 crtImpLst 0
+64 crtImpLstE 0
+65 lnkImpIdn 2 0
+66 crtImpIdn 0
+67 crtMmbDef 0
+68 crtMmbDefE 0
+69 lnkMmbFld 1 0
+70 lnkMmbMthd 1 0
+71 crtMmbFld 0
+72 crtMemMthd 0
+73 crtFldDef 2 1
+74 crtMthdDef 1 0
+75 crtFuncDef 7 6 4 1
+76 crtParLst 0
+77 crtParLstE 0
+78 lnkParVar 3 1 0
+79 crtParVar 1 0
+80 crtIfIf 0
+81 crtIfIfEls 2 0
+82 crtIfLst 4 1
+83 crtIfSg 3 1
+84 crtElsIf 0
+85 crtElsLst 1
+86 crtElsSg 1
+87 crtWhl 4 1
+88 crtExpLmd 0
+89 crtExpCalc 0
+90 crtCalcCnd 0
+91 crtCalcNewCls 0
+92 crtCalcNewArr 0
+93 crtNewClsIdn 3 1
+94 crtNewClsGnrc 3 1
+95 crtNewArrIdn 1 0
+96 crtNewArrBsc 1 0
+97 crtNewArrLst 1
+98 lnkArrLst 2 0
+99 crtArrLst 0
+100 crtArrCalc 0
+101 crtArrLstArr 1
+102 lnkDimLst 3 1
+103 crtDimLst 1
+104 crtCndBl 0
+105 lnkBlOr 2 0
+106 crtBlOr 0
+107 lnkOrAnd 2 0
+108 crtOrAnd 0
+109 crtAndCmp 0
+110 lnkCmpGT 2 0
+111 lnkCmpGE 2 0
+112 lnkCmpLT 2 0
+113 lnkCmpLE 2 0
+114 lnkCmpEQ 2 0
+115 lnkCmpNE 2 0
+116 crtCmpNAdd 0
+117 crtCmpAdd 0
+118 crtCmpTr 0
+119 crtCmpFs 0
+120 lnkAddAdd 2 0
+121 lnkAddMns 2 0
+122 crtAddPls 0
+123 crtAddMns 0
+124 crtAddMul 0
+125 lnkMulMul 2 0
+126 lnkMulSub 2 0
+127 crtMulUnr 0
+128 crtUnrInc 0
+129 crtUnrDec 0
+130 crtUnrIncP 0
+131 crtUnrDecP 0
+132 crtUnrN 0
+133 crtUnrAcc 0
+134 crtUnrCst 0
+135 crtCst 2 0
+136 crtAccFld 0
+137 crtAccArr 0
+138 crtAccApp 0
+139 crtAccPri 0
+140 lnkFldAccVar 2 0 
+141 lnkFldAccCls 2 0
+142 crtFldAccVar 0
+143 crtFldAccThs 0
+144 crtFldAccSpr 0
+145 crtArrAcc 1 0
+146 crtPriNum 0
+147 crtPriStr 0
+148 crtPriChr 0
+149 crtPriCnd 1
+150 crtAppAcc 5 3 1
+151 crtAppApp 5 3 1
+152 crtAppVar 3 1
+153 crtArgLst 0
+154 crtArgLstE 0
+155 lnkArgLst 2 0
+156 crtArgCalc 0
+157 crtLbdExp 7 5 1
+
 
 //end
