@@ -1,23 +1,23 @@
 //symbols
-Goal stmt_list stmt if_stmt while_stmt sg_stmt 
-func_def var_def var_assign control_flow 
-expression left_side type_exp basic_type array_type
-idn_type generic_type generic_args class_def interface_def
-scope_info_list scope_infos scope_info 
-generic_pars_list generic_pars extends_list implements_list 
-member_def_list extends_types implements_types member_def 
-field_def method_def par_list parameters if_body else_body  
+Goal stmt_list stmt if_stmt while_stmt sg_stmt class_def func_def
+var_def var_assign control_flow type_def expression left_side 
+type_exp basic_type array_type idn_type lambda_type generic_type generic_args
+scope_info_list scope_infos scope_info generic_pars_list generic_pars extends_list implements_list 
+member_def_list
+extends_types implements_types member_def field_def method_def
+par_list parameters
+if_stmt if_body else_body  
 lambda_exp calc_exp cond_exp new_class_exp new_array_exp 
-dim_list array_init_list array_init 
+dim_list dim array_init_list array_init 
 bool_exp or_exp and_exp cmp_exp add_exp mul_exp unary_exp  
-cast_exp access_exp field_access array_access 
+cast_exp access_exp FieldAccess ArrayAccess 
 pri_exp apply_exp arg_list arguments 
 
 //tokens
-if else while return break continue int double bool true false
-string char number var str chr function class interface 
-extends implements public private static type 
-new final finally finalize try catch this super finalize 
+if else while return break continue int double bool true false string char number var str chr function
+class interface extends implements public private static type new final finally try catch 
+
+finalize 
 || && ! > >= < <= == != + - ++ -- * / += -= *= /= = ? ->
 e ( ) { } [ ] , . ; eof 
 
@@ -31,7 +31,6 @@ stmt_list |>
 
 stmt |> 
    class_def
->| interface_def
 >| func_def
 >| if_stmt
 >| while_stmt
@@ -42,6 +41,7 @@ sg_stmt |>
 >| var_def
 >| calc_exp
 >| control_flow
+>| type_def
 
 control_flow |>
    return calc_exp
@@ -62,12 +62,14 @@ left_side |>
 >| array_access
 >| var
 
+
 type_exp |>
    basic_type
 >| array_type
 >| idn_type
 >| generic_type
 >| function
+
 
 basic_type |>
    int
@@ -76,17 +78,21 @@ basic_type |>
 >| string
 >| char
 
+
 array_type |>
    array_type [ ]
 >| basic_type [ ]
 >| idn_type [ ]
 
+
 idn_type |>
    idn_type . var
 >| var
 
+
 generic_type |>
    idn_type < generic_args >
+
 
 generic_args |>
    generic_args , var
@@ -94,19 +100,23 @@ generic_args |>
 >| var
 >| ? extends idn_type
 
-class_def |>
-   scope_info_list class var generic_pars_list extends_list implements_list  { member_def_list }
 
-interface_def |>
-   scope_info_list interface var generic_pars_list { member_def_list }
+class_def |>
+   scope_info_list class var generic_pars_list extends_list implements_list  { 
+
+
+member_def_list }
    
 scope_info_list |>
    scope_infos
 >| e
 
+
+
 scope_infos |>
     scope_infos scope_info
 >| scope_info
+
 
 scope_info |>
    static
@@ -114,9 +124,11 @@ scope_info |>
 >| private
 >| final
 
+
 generic_pars_list |>
    < generic_pars >
 >| e
+
 
 generic_pars |>
    generic_pars , var
@@ -124,94 +136,117 @@ generic_pars |>
 >| var
 >| var extends idn_type
 
+
 extends_list |>
-   extends_types
+   extens_types
 >| e
 
-extends_types |>
-   extends_types idn_type
+
+extens_types |>
+   extens_types idn_type
 >| extends idn_type
+
 
 implements_list |>
    implements_types
 >| e
 
+
 implements_types |>
    implements_types idn_type
 >| implements idn_type
+
 
 member_def_list |>
    member_def
 >| e
 
+
 member_def |>
    member_def field_def
 >| member_def method_def
->| field_def
->| method_def
  
 field_def |>
    scope_info_list var_def ;
 
+
 method_def |>
    scope_info_list func_def
 
+
 func_def |>
    generic_pars_list type_exp var ( par_list ) { stmt_list }
+
 
 par_list |>
    parameters
 >| e
 
+
 parameters |>
    parameters , type_exp var
 >| type_exp var
+
 
 if_stmt |>
    if_body
 >| if_body else else_body
 
+
 if_body |>
    if ( bool_exp ) { stmt_list }
 >| if ( bool_exp ) sg_stmt ;
+
 
 else_body |>
    if_stmt
 >| { stmt_list }
 >| sg_stmt ;
 
+
 while_stmt |>
    while ( bool_exp ) { stmt_list }
+
+
 
 expression |>
    lambda_exp
 >| calc_exp
+
+
+
 
 calc_exp |> 
    cond_exp 
 >| new_class_exp
 >| new_array_exp
 
+
 new_class_exp |>
    new idn_type ( arg_list )
 >| new generic_type ( arg_list )
+
 
 new_array_exp |>
    new idn_type dim_list
 >| new basic_type dim_list
 >| { array_init_list }
 
+
 array_init_list |>
    array_init_list , array_init
 >| array_init
 
+
 array_init |>
    calc_exp
->| { array_init_list }
+>| { arrayinit_list }
 
-dim_list |>
+dim_list
    dim_list [  add_exp ]
 >| [ add_exp ]
+
+
 
 cond_exp |> 
    bool_exp
@@ -220,12 +255,15 @@ bool_exp |>
    bool_exp || or_exp
 >|  or_exp
 
+
 or_exp |>
    or_exp && and_exp
 >| and_exp
 
 and_exp |>
    cmp_exp
+
+
 
 cmp_exp |> 
    add_exp > add_exp 
@@ -239,6 +277,7 @@ cmp_exp |>
 >| true 
 >| false 
 
+
 add_exp |> 
    add_exp + mul_exp 
 >| add_exp - mul_exp 
@@ -251,6 +290,7 @@ mul_exp |>
 >| mul_exp / pri_exp 
 >| unary_exp
 
+
 unary_exp |>
    ++ access_exp
 >| -- access_exp
@@ -260,8 +300,11 @@ unary_exp |>
 >| access_exp
 >| cast_exp
 
+
+
 cast_exp |>
 ( type_exp ) access_exp
+
  
 access_exp |>
    field_access
@@ -271,13 +314,15 @@ access_exp |>
 
 field_access |>
    field_access . var
->| field_access . class
+>| field_acess . class
 >| var
 >| this
 >| super
 
+
+
 array_access |>
-   field_access dim_list
+   field_acess dim_list
 
 pri_exp |> 
    number 
@@ -285,20 +330,25 @@ pri_exp |>
 >| chr
 >| ( cond_exp ) 
 
+
+
 apply_exp |> 
    access_exp . var ( arg_list ) 
 >| apply_exp . var ( arg_list )
 >| var ( arg_list ) 
 
+
 arg_list |> 
    arguments
 >| e 
+
 
 arguments |>
    arg_list , calc_exp 
 >| calc_exp 
 
-lambda_exp |>
+ lambda_exp |>
    ( par_list ) -> { stmt_list }
+
 
 //end

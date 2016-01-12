@@ -504,7 +504,7 @@ public class ParserGenerator {
 				}
 				out.println(line);
 				if(sym.First.isEmpty()){
-					line="error empty firset set of"+sym.name;
+					line="error empty firset set of "+sym.name;
 					System.out.println(line);
 				}
 			}

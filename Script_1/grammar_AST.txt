@@ -2,248 +2,322 @@
 0 Goal stmt_list 
 1 stmt_list stmt_list stmt 
 2 stmt_list stmt 
-3 stmt var_def ; 
-4 stmt type_def 
+3 stmt class_def 
+4 stmt interface_def 
 5 stmt func_def 
-6 stmt if_exp 
-7 stmt while_exp 
+6 stmt if_stmt 
+7 stmt while_stmt 
 8 stmt sg_stmt ; 
 9 sg_stmt var_assign 
-10 sg_stmt calc_exp 
-11 sg_stmt control_flow 
-12 control_flow return calc_exp 
-13 control_flow continue 
-14 control_flow break 
-15 var_def var_def , var 
-16 var_def var_def , var = calc_exp 
-17 var_def type_exp var 
-18 var_def type_exp var = calc_exp 
-19 var_assign var = calc_exp 
-20 var_assign var += calc_exp 
-21 var_assign var -= calc_exp 
-22 var_assign var *= calc_exp 
-23 var_assign var /= calc_exp 
+10 sg_stmt var_def 
+11 sg_stmt calc_exp 
+12 sg_stmt control_flow 
+13 control_flow return calc_exp 
+14 control_flow continue 
+15 control_flow break 
+16 var_def var_def , var 
+17 var_def var_def , var = expression 
+18 var_def type_exp var 
+19 var_def type_exp var = expression 
+20 var_assign left_side = expression 
+21 left_side field_access 
+22 left_side array_access 
+23 left_side var 
 24 type_exp basic_type 
 25 type_exp array_type 
 26 type_exp idn_type 
 27 type_exp generic_type 
-28 basic_type int 
-29 basic_type double 
-30 basic_type bool 
-31 basic_type string 
-32 basic_type char 
-33 array_type array_type [ ] 
-34 array_type basic_type [ ] 
-35 array_type idn_type [ ] 
-36 idn_type idn_type . var 
-37 idn_type var 
-38 func_type func_type -> type_exp 
-39 func_type ( func_type -> type_exp ) 
-40 func_type type_exp 
-41 generic_type idn_type generic_exp 
-42 generic_exp < var > 
-43 generic_exp < ? inherit_info_list > 
-44 type_def type var = func_type ; 
-45 type_def class_def 
-46 class_def scope_info_e class var generic_info_e inherit_info_list_e { class_member_def } 
-47 scope_info_e e 
-48 scope_info_e scope_info 
-49 scope_info static 
-50 scope_info static public 
-51 scope_info static private 
-52 scope_info public 
-53 scope_info private 
-54 generic_info_e generic_info 
-55 generic_info_e e 
-56 generic_info < var inherit_info_list_e > 
-57 inherit_info_list_e inherit_info_list 
-58 inherit_info_list_e e 
-59 inherit_info_list inherit_info_list extends var 
-60 inherit_info_list inherit_info_list implements var 
-61 inherit_info_list extends var 
-62 inherit_info_list implements var 
-63 class_member_def class_def field_def ; 
-64 class_member_def class_def method_def 
-65 field_def scope_info_e type_exp var 
-66 method_def scope_info_e generic_info_e func_def 
-67 func_def type_exp var ( par_list ) { stmt_list } 
-68 par_list par_list , type_exp var 
-69 par_list type_exp var 
-70 par_list e 
-71 if_exp if_stmt 
-72 if_exp if_stmt else else_stmt 
-73 if_stmt if ( bool_exp ) { stmt_list } 
-74 if_stmt if ( bool_exp ) sg_stmt ; 
-75 else_stmt if_exp 
-76 else_stmt { stmt_list } 
-77 else_stmt sg_stmt ; 
-78 while_exp while ( bool_exp ) { stmt_list } 
-79 calc_exp bool_exp 
-80 calc_exp new_exp 
-81 new_exp new type_exp ( arg_list ) 
-82 bool_exp bool_exp && cmp_exp 
-83 bool_exp bool_exp || cmp_exp 
-84 bool_exp ! cmp_exp 
-85 bool_exp cmp_exp 
-86 cmp_exp add_exp > add_exp 
-87 cmp_exp add_exp >= add_exp 
-88 cmp_exp add_exp < add_exp 
-89 cmp_exp add_exp <= add_exp 
-90 cmp_exp add_exp == add_exp 
-91 cmp_exp add_exp != add_exp 
-92 cmp_exp add_exp 
-93 cmp_exp true 
-94 cmp_exp false 
-95 add_exp add_exp + mul_exp 
-96 add_exp add_exp - mul_exp 
-97 add_exp - mul_exp 
-98 add_exp mul_exp 
-99 add_exp ++ var 
-100 add_exp -- var 
-101 add_exp var ++ 
-102 add_exp var -- 
-103 mul_exp mul_exp * pri_exp 
-104 mul_exp mul_exp / pri_exp 
-105 mul_exp pri_exp 
-106 pri_exp number 
-107 pri_exp ( bool_exp ) 
-108 pri_exp apply_exp 
-109 pri_exp str_exp 
-110 str_exp str 
-111 str_exp chr 
-112 apply_exp apply_exp . var ( arg_list ) 
-113 apply_exp apply_exp . var 
-114 apply_exp var ( arg_list ) 
-115 apply_exp var 
-116 apply_exp array_exp 
-117 arg_list arg_list , calc_exp 
-118 arg_list calc_exp 
-119 arg_list e 
-120 array_exp array_exp [ number ] 
-121 array_exp idn_type [ number ] 
+28 type_exp function 
+29 basic_type int 
+30 basic_type double 
+31 basic_type bool 
+32 basic_type string 
+33 basic_type char 
+34 array_type array_type [ ] 
+35 array_type basic_type [ ] 
+36 array_type idn_type [ ] 
+37 idn_type idn_type . var 
+38 idn_type var 
+39 generic_type idn_type < generic_args > 
+40 generic_args generic_args , var 
+41 generic_args generic_args , ? extends idn_type 
+42 generic_args var 
+43 generic_args ? extends idn_type 
+44 class_def scope_info_list class var generic_pars_list extends_list implements_list { member_def_list } 
+45 interface_def scope_info_list interface var generic_pars_list { member_def_list } 
+46 scope_info_list scope_infos 
+47 scope_info_list e 
+48 scope_infos scope_infos scope_info 
+49 scope_infos scope_info 
+50 scope_info static 
+51 scope_info public 
+52 scope_info private 
+53 scope_info final 
+54 generic_pars_list < generic_pars > 
+55 generic_pars_list e 
+56 generic_pars generic_pars , var 
+57 generic_pars generic_pars , var extends idn_type 
+58 generic_pars var 
+59 generic_pars var extends idn_type 
+60 extends_list extends_types 
+61 extends_list e 
+62 extends_types extends_types idn_type 
+63 extends_types extends idn_type 
+64 implements_list implements_types 
+65 implements_list e 
+66 implements_types implements_types idn_type 
+67 implements_types implements idn_type 
+68 member_def_list member_def 
+69 member_def_list e 
+70 member_def member_def field_def 
+71 member_def member_def method_def 
+72 member_def field_def 
+73 member_def method_def 
+74 field_def scope_info_list var_def ; 
+75 method_def scope_info_list func_def 
+76 func_def generic_pars_list type_exp var ( par_list ) { stmt_list } 
+77 par_list parameters 
+78 par_list e 
+79 parameters parameters , type_exp var 
+80 parameters type_exp var 
+81 if_stmt if_body 
+82 if_stmt if_body else else_body 
+83 if_body if ( bool_exp ) { stmt_list } 
+84 if_body if ( bool_exp ) sg_stmt ; 
+85 else_body if_stmt 
+86 else_body { stmt_list } 
+87 else_body sg_stmt ; 
+88 while_stmt while ( bool_exp ) { stmt_list } 
+89 expression lambda_exp 
+90 expression calc_exp 
+91 calc_exp cond_exp 
+92 calc_exp new_class_exp 
+93 calc_exp new_array_exp 
+94 new_class_exp new idn_type ( arg_list ) 
+95 new_class_exp new generic_type ( arg_list ) 
+96 new_array_exp new idn_type dim_list 
+97 new_array_exp new basic_type dim_list 
+98 new_array_exp { array_init_list } 
+99 array_init_list array_init_list , array_init 
+100 array_init_list array_init 
+101 array_init calc_exp 
+102 array_init { array_init_list } 
+103 dim_list dim_list [ add_exp ] 
+104 dim_list [ add_exp ] 
+105 cond_exp bool_exp 
+106 bool_exp bool_exp || or_exp 
+107 bool_exp or_exp 
+108 or_exp or_exp && and_exp 
+109 or_exp and_exp 
+110 and_exp cmp_exp 
+111 cmp_exp add_exp > add_exp 
+112 cmp_exp add_exp >= add_exp 
+113 cmp_exp add_exp < add_exp 
+114 cmp_exp add_exp <= add_exp 
+115 cmp_exp add_exp == add_exp 
+116 cmp_exp add_exp != add_exp 
+117 cmp_exp ! add_exp 
+118 cmp_exp add_exp 
+119 cmp_exp true 
+120 cmp_exp false 
+121 add_exp add_exp + mul_exp 
+122 add_exp add_exp - mul_exp 
+123 add_exp + mul_exp 
+124 add_exp - mul_exp 
+125 add_exp mul_exp 
+126 mul_exp mul_exp * pri_exp 
+127 mul_exp mul_exp / pri_exp 
+128 mul_exp unary_exp 
+129 unary_exp ++ access_exp 
+130 unary_exp -- access_exp 
+131 unary_exp access_exp ++ 
+132 unary_exp access_exp -- 
+133 unary_exp ! access_exp 
+134 unary_exp access_exp 
+135 unary_exp cast_exp 
+136 cast_exp ( type_exp ) access_exp 
+137 access_exp field_access 
+138 access_exp array_access 
+139 access_exp apply_exp 
+140 access_exp pri_exp 
+141 field_access field_access . var 
+142 field_access field_access . class 
+143 field_access var 
+144 field_access this 
+145 field_access super 
+146 array_access field_access dim_list 
+147 pri_exp number 
+148 pri_exp str 
+149 pri_exp chr 
+150 pri_exp ( cond_exp ) 
+151 apply_exp access_exp . var ( arg_list ) 
+152 apply_exp apply_exp . var ( arg_list ) 
+153 apply_exp var ( arg_list ) 
+154 arg_list arguments 
+155 arg_list e 
+156 arguments arg_list , calc_exp 
+157 arguments calc_exp 
+158 lambda_exp ( par_list ) -> { stmt_list } 
 
 //AST
 0 Goal stmt_list 
 1 stmt_list stmt_list stmt 
 2 stmt_list stmt 
-3 stmt var_def ; 
-4 stmt type_def 
+3 stmt class_def 
+4 stmt interface_def 
 5 stmt func_def 
-6 stmt if_exp 
-7 stmt while_exp 
+6 stmt if_stmt 
+7 stmt while_stmt 
 8 stmt sg_stmt ; 
 9 sg_stmt var_assign 
-10 sg_stmt calc_exp 
-11 sg_stmt control_flow 
-12 control_flow return calc_exp 
-13 control_flow continue 
-14 control_flow break 
-15 var_def var_def , var 
-16 var_def var_def , var = calc_exp 
-17 var_def type_exp var 
-18 var_def type_exp var = calc_exp 
-19 var_assign var = calc_exp 
-20 var_assign var += calc_exp 
-21 var_assign var -= calc_exp 
-22 var_assign var *= calc_exp 
-23 var_assign var /= calc_exp 
+10 sg_stmt var_def 
+11 sg_stmt calc_exp 
+12 sg_stmt control_flow 
+13 control_flow return calc_exp 
+14 control_flow continue 
+15 control_flow break 
+16 var_def var_def , var 
+17 var_def var_def , var = expression 
+18 var_def type_exp var 
+19 var_def type_exp var = expression 
+20 var_assign left_side = expression 
+21 left_side field_access 
+22 left_side array_access 
+23 left_side var 
 24 type_exp basic_type 
 25 type_exp array_type 
 26 type_exp idn_type 
 27 type_exp generic_type 
-28 basic_type int 
-29 basic_type double 
-30 basic_type bool 
-31 basic_type string 
-32 basic_type char 
-33 array_type array_type [ ] 
-34 array_type basic_type [ ] 
-35 array_type idn_type [ ] 
-36 idn_type idn_type . var 
-37 idn_type var 
-38 func_type func_type -> type_exp 
-39 func_type ( func_type -> type_exp ) 
-40 func_type type_exp 
-41 generic_type idn_type generic_exp 
-42 generic_exp < var > 
-43 generic_exp < ? inherit_info_list > 
-44 type_def type var = func_type ; 
-45 type_def class_def 
-46 class_def scope_info_e class var generic_info_e inherit_info_list_e { class_member_def } 
-47 scope_info_e e 
-48 scope_info_e scope_info 
-49 scope_info static 
-50 scope_info static public 
-51 scope_info static private 
-52 scope_info public 
-53 scope_info private 
-54 generic_info_e generic_info 
-55 generic_info_e e 
-56 generic_info < var inherit_info_list_e > 
-57 inherit_info_list_e inherit_info_list 
-58 inherit_info_list_e e 
-59 inherit_info_list inherit_info_list extends var 
-60 inherit_info_list inherit_info_list implements var 
-61 inherit_info_list extends var 
-62 inherit_info_list implements var 
-63 class_member_def class_def field_def ; 
-64 class_member_def class_def method_def 
-65 field_def scope_info_e type_exp var 
-66 method_def scope_info_e generic_info_e func_def 
-67 func_def type_exp var ( par_list ) { stmt_list } 
-68 par_list par_list , type_exp var 
-69 par_list type_exp var 
-70 par_list e 
-71 if_exp if_stmt 
-72 if_exp if_stmt else else_stmt 
-73 if_stmt if ( bool_exp ) { stmt_list } 
-74 if_stmt if ( bool_exp ) sg_stmt ; 
-75 else_stmt if_exp 
-76 else_stmt { stmt_list } 
-77 else_stmt sg_stmt ; 
-78 while_exp while ( bool_exp ) { stmt_list } 
-79 calc_exp bool_exp 
-80 calc_exp new_exp 
-81 new_exp new type_exp ( arg_list ) 
-82 bool_exp bool_exp && cmp_exp 
-83 bool_exp bool_exp || cmp_exp 
-84 bool_exp ! cmp_exp 
-85 bool_exp cmp_exp 
-86 cmp_exp add_exp > add_exp 
-87 cmp_exp add_exp >= add_exp 
-88 cmp_exp add_exp < add_exp 
-89 cmp_exp add_exp <= add_exp 
-90 cmp_exp add_exp == add_exp 
-91 cmp_exp add_exp != add_exp 
-92 cmp_exp add_exp 
-93 cmp_exp true 
-94 cmp_exp false 
-95 add_exp add_exp + mul_exp 
-96 add_exp add_exp - mul_exp 
-97 add_exp - mul_exp 
-98 add_exp mul_exp 
-99 add_exp ++ var 
-100 add_exp -- var 
-101 add_exp var ++ 
-102 add_exp var -- 
-103 mul_exp mul_exp * pri_exp 
-104 mul_exp mul_exp / pri_exp 
-105 mul_exp pri_exp 
-106 pri_exp number 
-107 pri_exp ( bool_exp ) 
-108 pri_exp apply_exp 
-109 pri_exp str_exp 
-110 str_exp str 
-111 str_exp chr 
-112 apply_exp apply_exp . var ( arg_list ) 
-113 apply_exp apply_exp . var 
-114 apply_exp var ( arg_list ) 
-115 apply_exp var 
-116 apply_exp array_exp 
-117 arg_list arg_list , calc_exp 
-118 arg_list calc_exp 
-119 arg_list e 
-120 array_exp array_exp [ number ] 
-121 array_exp idn_type [ number ] 
+28 type_exp function 
+29 basic_type int 
+30 basic_type double 
+31 basic_type bool 
+32 basic_type string 
+33 basic_type char 
+34 array_type array_type [ ] 
+35 array_type basic_type [ ] 
+36 array_type idn_type [ ] 
+37 idn_type idn_type . var 
+38 idn_type var 
+39 generic_type idn_type < generic_args > 
+40 generic_args generic_args , var 
+41 generic_args generic_args , ? extends idn_type 
+42 generic_args var 
+43 generic_args ? extends idn_type 
+44 class_def scope_info_list class var generic_pars_list extends_list implements_list { member_def_list } 
+45 interface_def scope_info_list interface var generic_pars_list { member_def_list } 
+46 scope_info_list scope_infos 
+47 scope_info_list e 
+48 scope_infos scope_infos scope_info 
+49 scope_infos scope_info 
+50 scope_info static 
+51 scope_info public 
+52 scope_info private 
+53 scope_info final 
+54 generic_pars_list < generic_pars > 
+55 generic_pars_list e 
+56 generic_pars generic_pars , var 
+57 generic_pars generic_pars , var extends idn_type 
+58 generic_pars var 
+59 generic_pars var extends idn_type 
+60 extends_list extends_types 
+61 extends_list e 
+62 extends_types extends_types idn_type 
+63 extends_types extends idn_type 
+64 implements_list implements_types 
+65 implements_list e 
+66 implements_types implements_types idn_type 
+67 implements_types implements idn_type 
+68 member_def_list member_def 
+69 member_def_list e 
+70 member_def member_def field_def 
+71 member_def member_def method_def 
+72 member_def field_def 
+73 member_def method_def 
+74 field_def scope_info_list var_def ; 
+75 method_def scope_info_list func_def 
+76 func_def generic_pars_list type_exp var ( par_list ) { stmt_list } 
+77 par_list parameters 
+78 par_list e 
+79 parameters parameters , type_exp var 
+80 parameters type_exp var 
+81 if_stmt if_body 
+82 if_stmt if_body else else_body 
+83 if_body if ( bool_exp ) { stmt_list } 
+84 if_body if ( bool_exp ) sg_stmt ; 
+85 else_body if_stmt 
+86 else_body { stmt_list } 
+87 else_body sg_stmt ; 
+88 while_stmt while ( bool_exp ) { stmt_list } 
+89 expression lambda_exp 
+90 expression calc_exp 
+91 calc_exp cond_exp 
+92 calc_exp new_class_exp 
+93 calc_exp new_array_exp 
+94 new_class_exp new idn_type ( arg_list ) 
+95 new_class_exp new generic_type ( arg_list ) 
+96 new_array_exp new idn_type dim_list 
+97 new_array_exp new basic_type dim_list 
+98 new_array_exp { array_init_list } 
+99 array_init_list array_init_list , array_init 
+100 array_init_list array_init 
+101 array_init calc_exp 
+102 array_init { array_init_list } 
+103 dim_list dim_list [ add_exp ] 
+104 dim_list [ add_exp ] 
+105 cond_exp bool_exp 
+106 bool_exp bool_exp || or_exp 
+107 bool_exp or_exp 
+108 or_exp or_exp && and_exp 
+109 or_exp and_exp 
+110 and_exp cmp_exp 
+111 cmp_exp add_exp > add_exp 
+112 cmp_exp add_exp >= add_exp 
+113 cmp_exp add_exp < add_exp 
+114 cmp_exp add_exp <= add_exp 
+115 cmp_exp add_exp == add_exp 
+116 cmp_exp add_exp != add_exp 
+117 cmp_exp ! add_exp 
+118 cmp_exp add_exp 
+119 cmp_exp true 
+120 cmp_exp false 
+121 add_exp add_exp + mul_exp 
+122 add_exp add_exp - mul_exp 
+123 add_exp + mul_exp 
+124 add_exp - mul_exp 
+125 add_exp mul_exp 
+126 mul_exp mul_exp * pri_exp 
+127 mul_exp mul_exp / pri_exp 
+128 mul_exp unary_exp 
+129 unary_exp ++ access_exp 
+130 unary_exp -- access_exp 
+131 unary_exp access_exp ++ 
+132 unary_exp access_exp -- 
+133 unary_exp ! access_exp 
+134 unary_exp access_exp 
+135 unary_exp cast_exp 
+136 cast_exp ( type_exp ) access_exp 
+137 access_exp field_access 
+138 access_exp array_access 
+139 access_exp apply_exp 
+140 access_exp pri_exp 
+141 field_access field_access . var 
+142 field_access field_access . class 
+143 field_access var 
+144 field_access this 
+145 field_access super 
+146 array_access field_access dim_list 
+147 pri_exp number 
+148 pri_exp str 
+149 pri_exp chr 
+150 pri_exp ( cond_exp ) 
+151 apply_exp access_exp . var ( arg_list ) 
+152 apply_exp apply_exp . var ( arg_list ) 
+153 apply_exp var ( arg_list ) 
+154 arg_list arguments 
+155 arg_list e 
+156 arguments arg_list , calc_exp 
+157 arguments calc_exp 
+158 lambda_exp ( par_list ) -> { stmt_list } 
 
 //end

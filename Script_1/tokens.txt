@@ -4,9 +4,9 @@ double_num [0-9]+.[0-9]+
 identifier _*[a-zA-Z]+[a-zA-Z0-9_]* 
 
 //reserved
-if if 
-else else 
-while while 
+if if
+else else
+while while
 do do
 for for
 return return
@@ -37,7 +37,15 @@ public public
 private private
 static static
 new new
+final final
+finally finally
+finalize finalize
+try try
+catch catch
+this this
+super super
 main main
+function function
 
 //operator
 || ||
