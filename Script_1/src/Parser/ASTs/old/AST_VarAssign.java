@@ -1,6 +1,7 @@
 package Parser.ASTs.old;
 
 import Interpreter.*;
+import Interpreter.old.Interpreter;
 import Parser.*;
 import Parser.TypeSys.*;
 import Parser.TypeSys.old.Data_Obj;

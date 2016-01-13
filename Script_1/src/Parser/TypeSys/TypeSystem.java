@@ -1,6 +1,7 @@
 package Parser.TypeSys;
 
 import Interpreter.*;
+import Interpreter.old.Interpreter;
 import Parser.TypeSys.old.Type_Base;
 import Parser.TypeSys.old.Type_Obj;
 

@@ -1,8 +1,8 @@
 package Parser.ASTs.old;
 
-import Interpreter.Interpreter;
-import Interpreter.RT_CtrFlow;
-import Interpreter.RT_Frame;
+import Interpreter.old.Interpreter;
+import Interpreter.old.RT_CtrFlow;
+import Interpreter.old.RT_Frame;
 import Parser.AST;
 import Parser.TypeSys.old.Type_Base;
 

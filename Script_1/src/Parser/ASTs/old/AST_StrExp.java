@@ -1,10 +1,11 @@
 package Parser.ASTs.old;
 
-import Interpreter.Interpreter;
 import Parser.AST;
 import Parser.TypeSys.old.Type_Base;
 
 import java.lang.*;
+
+import Interpreter.old.Interpreter;
 
 public class AST_StrExp extends AST {
 	private String str;

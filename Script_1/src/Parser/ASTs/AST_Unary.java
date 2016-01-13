@@ -1,6 +1,6 @@
 package Parser.ASTs;
 
-import Interpreter.Interpreter;
+import Interpreter.old.Interpreter;
 import Parser.AST;
 
 public class AST_Unary extends AST {

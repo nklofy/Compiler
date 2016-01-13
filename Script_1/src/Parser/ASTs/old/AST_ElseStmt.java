@@ -1,6 +1,6 @@
 package Parser.ASTs.old;
 
-import Interpreter.Interpreter;
+import Interpreter.old.Interpreter;
 import Parser.AST;
 
 public class AST_ElseStmt extends AST {

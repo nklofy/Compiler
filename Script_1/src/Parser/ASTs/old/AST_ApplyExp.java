@@ -3,12 +3,13 @@ package Parser.ASTs.old;
 import java.util.*;
 
 import Interpreter.*;
+import Interpreter.old.Interpreter;
+import Interpreter.old.RT_CtrFlow;
 import Parser.*;
 import Parser.TypeSys.*;
 import Parser.TypeSys.old.Data_Func;
 import Parser.TypeSys.old.Data_Obj;
 import Parser.TypeSys.old.Type_Idn;
-import Interpreter.RT_CtrFlow;
 public class AST_ApplyExp extends AST {
 	private AST_ApplyExp apply_exp;
 	private AST_Var var;

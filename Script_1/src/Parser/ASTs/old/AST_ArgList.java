@@ -2,7 +2,7 @@ package Parser.ASTs.old;
 
 import java.util.ArrayList;
 
-import Interpreter.Interpreter;
+import Interpreter.old.Interpreter;
 import Parser.AST;
 import Parser.TypeSys.old.Data_Obj;
 import Parser.TypeSys.old.Type_Obj;

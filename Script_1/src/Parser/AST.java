@@ -2,6 +2,7 @@ package Parser;
 import java.util.*;
 
 import Interpreter.*;
+import Interpreter.old.Interpreter;
 import Parser.TypeSys.old.Data_Obj;
 
 class AstRule{		//currently just method name is used

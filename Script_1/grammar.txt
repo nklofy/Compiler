@@ -76,9 +76,7 @@ basic_type |>
 >| char
 
 array_type |>
-   array_type [ ]
->| basic_type [ ]
->| idn_type [ ]
+   type_exp [ ]
 
 idn_type |>
    idn_type . var
@@ -196,8 +194,7 @@ new_class_exp |>
 >| new generic_type ( arg_list )
 
 new_array_exp |>
-   new idn_type dim_list
->| new basic_type dim_list
+   new type_exp dim_list
 >| { array_init_list }
 
 array_init_list |>

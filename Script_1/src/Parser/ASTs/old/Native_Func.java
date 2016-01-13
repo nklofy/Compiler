@@ -3,6 +3,7 @@ package Parser.ASTs.old;
 import java.util.*;
 
 import Interpreter.*;
+import Interpreter.old.Interpreter;
 import Parser.TypeSys.*;
 import Parser.TypeSys.old.Data_Obj;
 import Parser.TypeSys.old.Type_Obj;

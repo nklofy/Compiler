@@ -1,9 +1,9 @@
 package Parser.ASTs.old;
 
-import Interpreter.Interpreter;
+import Interpreter.old.Interpreter;
+import Interpreter.old.RT_CtrFlow;
 import Parser.AST;
 import Parser.TypeSys.old.Data_Obj;
-import Interpreter.RT_CtrFlow;
 
 public class AST_CtrFlw extends AST {
 	private String flw_type;

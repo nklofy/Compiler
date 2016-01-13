@@ -1,8 +1,9 @@
 package Parser.ASTs.old;
 
-import Interpreter.Interpreter;
 import Interpreter.*;
-import Interpreter.RT_Static;
+import Interpreter.old.Interpreter;
+import Interpreter.old.RT_Env;
+import Interpreter.old.RT_Static;
 import Parser.*;
 import Parser.TypeSys.*;
 import Parser.TypeSys.old.Data_Func;

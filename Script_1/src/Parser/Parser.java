@@ -434,11 +434,10 @@ public class Parser {
 		if(nss==-1){
 			return false;
 		}
-		
+		Symbol smb_e=new Symbol(); //ast = null
 		ParseState pst_a;
 		if(states_active.containsKey(nss)){		//goto state in active
-			pst_a=states_active.get(nss);
-			Symbol smb_e=new Symbol();
+			pst_a=states_active.get(nss);			
 			smb_e.name=reduce_head;
 			pst_a.addLink(pst,smb_e);
 			pst_a.det_depth=0;			//refresh count and depth;
@@ -447,15 +446,11 @@ public class Parser {
 		}else{								//goto a new state and add it to active
 			pst_a=new ParseState();
 			pst_a.state_sn=nss;
-			Symbol smb_e=new Symbol();
 			smb_e.name=reduce_head;
 			pst_a.addLink(pst,smb_e);
 			pst_a.det_depth=pst.det_depth+1;
 			pst_a.out_count++;
-			states_rlst.add(pst_a);		//add to rlist for another reduce
-			//if(shift_table.get(pst.state_sn).get(crt_token_sn)!=-1){
-			//	states_active.put(doShift());	//states that can shift add to reduce-list
-			//}
+			states_rlst.add(pst_a);		//add to rlist for another reduce			
 			System.out.println("e-reduce "+reduce_head+" "+pst.state_sn+" goto "+nss);
 			doShift(pst_a,crt_token_sn,smb);
 		}
