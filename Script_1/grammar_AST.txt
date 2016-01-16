@@ -151,7 +151,7 @@
 149 apply_exp var ( arg_list ) 
 150 arg_list arguments 
 151 arg_list e 
-152 arguments arg_list , calc_exp 
+152 arguments arguments , calc_exp 
 153 arguments calc_exp 
 154 lambda_exp ( par_list ) -> { stmt_list } 
  

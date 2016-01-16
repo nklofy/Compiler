@@ -2,284 +2,176 @@
 package Parser;
 import java.util.*;
 import Parser.ASTs.*;
-import Parser.ASTs.old.AST_AddExp;
-import Parser.ASTs.old.AST_ApplyExp;
-import Parser.ASTs.old.AST_ArgList;
-import Parser.ASTs.old.AST_BoolExp;
-import Parser.ASTs.old.AST_CalcExp;
-import Parser.ASTs.old.AST_CmpExp;
-import Parser.ASTs.old.AST_CtrFlw;
-import Parser.ASTs.old.AST_ElseStmt;
-import Parser.ASTs.old.AST_FuncDef;
-import Parser.ASTs.old.AST_IfExp;
-import Parser.ASTs.old.AST_IfStmt;
-import Parser.ASTs.old.AST_MulExp;
-import Parser.ASTs.old.AST_Num;
-import Parser.ASTs.old.AST_ParList;
-import Parser.ASTs.old.AST_PriExp;
-import Parser.ASTs.old.AST_SgStmt;
-import Parser.ASTs.old.AST_Stmt;
-import Parser.ASTs.old.AST_StmtList;
-import Parser.ASTs.old.AST_StrExp;
-import Parser.ASTs.old.AST_TypeExp;
-import Parser.ASTs.old.AST_Var;
-import Parser.ASTs.old.AST_VarAssign;
-import Parser.ASTs.old.AST_VarDef;
-import Parser.ASTs.old.AST_WhileExp;
 import Parser.TypeSys.old.Type_SgStmt;
 import Parser.TypeSys.old.Type_Stmt;
 
 public class ASTGenerator {
-	AST crtAST(String method, ParseState crt_state){
-		return null;
+	AST crtAST(String method, ParseState crt_state){			
+	switch(method){
+	//0	crtGoal 0
+	//1	lnkStmtLst 1 0
+	//2	crtStmtLst 0
+	//3	crtStmtClsDef 0
+	//4	crtStmtIntfDef 0
+	//5	crtStmtFuncDef 0
+	//6	crtStmtIf 0
+	//7	crtStmtWhl 0
+	//8	crtStmtSg 0
+	//9	crtSgVarAssign 0
+	//10	crtSgVarDef 0
+	//11	crtSgCalc 0
+	//12	crtSgCtrF 0
+	//13	crtCtrFRet 0
+	//14	crtCtrFCont 0
+	//15	crtCtrFBrk 0
+	//16	linkVarDef 2 0
+	//17	linkVarDefAsg 4 2 0
+	//18	crtVarDef 1 0
+	//19	crtVarDefAsg 3 2 0
+	//20	crtVarAsg 2 0
+	//21	crtLftFld 0
+	//22	crtLftArr 0
+	//23	crtTpBsc 0
+	//24	crtTpArr 0
+	//25	crtTpIdn 0
+	//26	crtTpGnrcTp 0
+	//27	crtTpFunc 0
+	//28	crtBscTpInt 0
+	//29	crtBscTpDb 0
+	//30	crtBscTpBl 0
+	//31	crtBscTpStr 0
+	//32	crtBscTpChr 0
+	//33	lnkArrTp 2
+	//34	lnkIdnTpVar 2 0
+	//35	crtIdnTpVar 0
+	//36	crtGnrcTp 3 1
+	//37	lnkGnrcArgsVar 2 0
+	//38	lnkGnrcArgsExt 4 0
+	//39	crtGnrcArgsVar 0
+	//40	crtGnrcArgsExt 0
+	//41	crtClassDef 8 6 5 4 3 1
+	//42	crtIntfDef 6 4 3 1
+	//43	crtScpInfLst 0
+	//44	crtScpInfLstE 0
+	//45	lnkScpInf 1 0
+	//46	crtScpInf 0
+	//47	crtScpStc 0
+	//48	crtScpPbl 0
+	//49	crtScpPrv 0
+	//50	crtScpFnl 0
+	//51	crtGnrcParLst 1
+	//52	crtGnrcParLstE 0
+	//53	lnkGnrcPar 2 0
+	//54	lnkGnrcParExt 4 2 0
+	//55	crtGnrcParVar 0
+	//56	crtGnrcParExt 2 0
+	//57	crtExtLst 0
+	//58	crtExtLstE 0
+	//59	lnkExtIdn 2 0
+	//60	crtExtIdn 0
+	//61	crtImpLst 0
+	//62	crtImpLstE 0
+	//63	lnkImpIdn 2 0
+	//64	crtImpIdn 0
+	//65	crtMmbDef 0
+	//66	crtMmbDefE 0
+	//67	lnkMmbFld 1 0
+	//68	lnkMmbMthd 1 0
+	//69	crtMmbFld 0
+	//70	crtMemMthd 0
+	//71	crtFldDef 2 1
+	//72	crtMthdDef 1 0
+	//73	crtFuncDef 7 6 4 1
+	//74	crtParLst 0
+	//75	crtParLstE 0
+	//76	lnkParVar 3 1 0
+	//77	crtParVar 1 0
+	//78	crtIfIf 0
+	//79	crtIfIfEls 2 0
+	//80	crtIfLst 4 1
+	//81	crtIfSg 3 1
+	//82	crtElsIf 0
+	//83	crtElsLst 1
+	//84	crtElsSg 1
+	//85	crtWhl 4 1
+	//86	crtExpLmd 0
+	//87	crtExpCalc 0
+	//88	crtCalcCnd 0
+	//89	crtCalcNewCls 0
+	//90	crtCalcNewArr 0
+	//91	crtNewClsIdn 3 1
+	//92	crtNewClsGnrc 3 1
+	//93	crtNewArrTp 1 0
+	//94	crtNewArrLst 1
+	//95	lnkArrLst 2 0
+	//96	crtArrLst 0
+	//97	crtArrCalc 0
+	//98	crtArrLstArr 1
+	//99	lnkDimLst 3 1
+	//100	crtDimLst 1
+	//101	crtCndBl 0
+	//102	lnkBlOr 2 0
+	//103	crtBlOr 0
+	//104	lnkOrAnd 2 0
+	//105	crtOrAnd 0
+	//106	crtAndCmp 0
+	//107	lnkCmpGT 2 0
+	//108	lnkCmpGE 2 0
+	//109	lnkCmpLT 2 0
+	//110	lnkCmpLE 2 0
+	//111	lnkCmpEQ 2 0
+	//112	lnkCmpNE 2 0
+	//113	crtCmpNAdd 0
+	//114	crtCmpAdd 0
+	//115	crtCmpTr 0
+	//116	crtCmpFs 0
+	//117	lnkAddAdd 2 0
+	//118	lnkAddMns 2 0
+	//119	crtAddPls 0
+	//120	crtAddMns 0
+	//121	crtAddMul 0
+	//122	lnkMulMul 2 0
+	//123	lnkMulSub 2 0
+	//124	crtMulUnr 0
+	//125	crtUnrInc 0
+	//126	crtUnrDec 0
+	//127	crtUnrIncP 0
+	//128	crtUnrDecP 0
+	//129	crtUnrN 0
+	//130	crtUnrAcc 0
+	//131	crtUnrCst 0
+	//132	crtCst 2 0
+	//133	crtAccFld 0
+	//134	crtAccArr 0
+	//135	crtAccApp 0
+	//136	crtAccPri 0
+	//137	lnkFldAccVar 2 0 
+	//138	lnkFldAccCls 2 0
+	//139	crtFldAccVar 0
+	//140	crtFldAccThs 0
+	//141	crtFldAccSpr 0
+	//142	crtArrAcc 1 0
+	//143	crtPriNum 0
+	//144	crtPriStr 0
+	//145	crtPriChr 0
+	//146	crtPriCnd 1
+	//147	crtAppAcc 5 3 1
+	//148	crtAppApp 5 3 1
+	//149	crtAppVar 3 1
+	//150	crtArgLst 0
+	//151	crtArgLstE 0
+	//152	lnkArgLst 2 0
+	//153	crtArgCalc 0
+	//154	crtLbdExp 7 5 1
+
+	case "":
+		break;
+	default:
+		break;	
 	}
-	/*switch(method){
-	
-	case "crtGoal"://$0
-			ast=ast_gen.astStmtList(symbol_stack.get(0).ast, null);
-			break;
-		case "lnkStmtLst"://$1 $0	
-			ast=ast_gen.astStmtList(symbol_stack.get(1).ast, symbol_stack.get(0).ast);
-			break;				 
-		case "crtStmtLst":// $0 
-			ast=ast_gen.astStmtList(null, symbol_stack.get(0).ast);
-			break;               
-		case "crtStmtVarDef":// $1 
-			ast=ast_gen.astStmt(Type_Stmt.VarDef, symbol_stack.get(1).ast);
-			break;
-		case "crtStmtFuncDef":// $0 
-			ast=ast_gen.astStmt(Type_Stmt.FuncDef, symbol_stack.get(0).ast);
-			break;
-		case "crtStmtIfExp":// $0
-			ast=ast_gen.astStmt(Type_Stmt.IfExp, symbol_stack.get(0).ast);
-			break;
-		case "crtStmtWhlExp":// $0
-			ast=ast_gen.astStmt(Type_Stmt.WhileExp, symbol_stack.get(0).ast);
-			break;
-		case "crtStmtSgStmt":// $1
-			ast=ast_gen.astStmt(Type_Stmt.SgStmt, symbol_stack.get(1).ast);
-			break; 
-		case "crtSgVarAssign":// $0
-			ast=ast_gen.astSgStmt(Type_SgStmt.VarAssign, symbol_stack.get(0).ast);
-			break;
-		case "crtSgCalcExp":// $0 
-			ast=ast_gen.astSgStmt(Type_SgStmt.CalcExp, symbol_stack.get(0).ast);
-			break;
-		case "crtSgControlFlow":// $0 
-			ast=ast_gen.astSgStmt(Type_SgStmt.CtrFlw, symbol_stack.get(0).ast);
-			break;
-		case "crtCtrFlwRtn":// $0 
-			ast=ast_gen.astCtrFlw("return", symbol_stack.get(0).ast);
-			break;
-		case "crtCtrFlwCont":// $0 
-			ast=ast_gen.astCtrFlw("continue", null);
-			break;
-		case "crtCtrFlwBrk":// $0 
-			ast=ast_gen.astCtrFlw("break",null);
-			break;
-		case "lnkVarDef":// $2 $0 
-			ast=ast_gen.astVarDef(symbol_stack.get(2).ast, null, symbol_stack.get(0).ast, null);
-			break;          
-		case "lnkVarDefC"://  $4 $2 $0 
-			ast=ast_gen.astVarDef(symbol_stack.get(4).ast, null, symbol_stack.get(2).ast, symbol_stack.get(0).ast);
-			break;
-		case "crtVarDef":// $1 $0 
-			ast=ast_gen.astVarDef(null, symbol_stack.get(1).ast, symbol_stack.get(0).ast, null);
-			break; 
-		case "crtVarDefC":// $3 $2 $0
-			ast=ast_gen.astVarDef(null,symbol_stack.get(3).ast, symbol_stack.get(2).ast, symbol_stack.get(0).ast);
-			break; 
-		case "crtVarAsgC":// $2 $0    
-			ast=ast_gen.astVarAssign(symbol_stack.get(2).ast, symbol_stack.get(0).ast, symbol_stack.get(1).name);
-			break;   
-		case "crtVarAsgAdd":// $2 $0	
-			ast=ast_gen.astVarAssign(symbol_stack.get(2).ast, symbol_stack.get(0).ast, symbol_stack.get(1).name);
-			break;
-		case "crtVarAsgSub":// $2 $0    
-			ast=ast_gen.astVarAssign(symbol_stack.get(2).ast, symbol_stack.get(0).ast, symbol_stack.get(1).name);
-			break;                  
-		case "crtVarAsgMul":// $2 $0	
-			ast=ast_gen.astVarAssign(symbol_stack.get(2).ast, symbol_stack.get(0).ast, symbol_stack.get(1).name);
-			break;	
-		case "crtVarAsgDiv":// $2 $0	
-			ast=ast_gen.astVarAssign(symbol_stack.get(2).ast, symbol_stack.get(0).ast, symbol_stack.get(1).name);
-			break;		
-		case "crtTpExpInt":// $0   
-			ast=ast_gen.astTypeExp("int");
-			break;      
-		case "crtTpExpDb":// $0    
-			ast=ast_gen.astTypeExp("double");
-			break;   
-		case "crtTpExpBl":// $0	
-			ast=ast_gen.astTypeExp("bool");
-			break;	
-		case "crtTpExpStr":// $0     
-			ast=ast_gen.astTypeExp("string");
-			break; 
-		case "crtTpExpChr":// $0
-			ast=ast_gen.astTypeExp("char");
-			break;
-		case "crtTpExpVar":// $0      
-			ast=ast_gen.astTypeExp("var");
-			break;
-		case "crtFncDef":// $6 $4 $1    
-			ast=ast_gen.astFuncDef(symbol_stack.get(7).ast, symbol_stack.get(6).ast, symbol_stack.get(4).ast, symbol_stack.get(1).ast);
-			break;  
-		case "lnkParLst":// $2 $0     
-			ast=ast_gen.astParList(symbol_stack.get(3).ast, symbol_stack.get(1).ast, symbol_stack.get(0).ast);
-			break;  
-		case "crtParLst":// $1 $0     
-			ast=ast_gen.astParList(null, symbol_stack.get(1).ast, symbol_stack.get(0).ast);
-			break;  
-		case "crtParLstE"://   
-			ast=ast_gen.astParList(null, null, null);
-			break;        
-		case "crtIfExpIf":// $0    
-			ast=ast_gen.astIfExp(symbol_stack.get(0).ast, null);
-			break;    
-		case "crtIfExpEls":// $2 $0  
-			ast=ast_gen.astIfExp(symbol_stack.get(2).ast, symbol_stack.get(0).ast);
-			break;  
-		case "crtIfStmtL":// $4 $1    
-			ast=ast_gen.astIfStmt(symbol_stack.get(4).ast, symbol_stack.get(1).ast, null);
-			break;   
-		case "crtIfStmtS":// $4 $1     
-			ast=ast_gen.astIfStmt(symbol_stack.get(3).ast, null, symbol_stack.get(1).ast);
-			break;     
-		case "crtElsStmtI":// $0    
-			ast=ast_gen.astElseStmt(symbol_stack.get(0).ast, null, null);
-			break;     
-		case "crtElsStmtL":// $1   
-			ast=ast_gen.astElseStmt(null, symbol_stack.get(1).ast, null);
-			break;   
-		case "crtElsStmtS":// $1    
-			ast=ast_gen.astElseStmt(null, null, symbol_stack.get(1).ast);
-			break;   
-		case "crtWhlExp":// $4 $1    
-			ast=ast_gen.astWhileExp(symbol_stack.get(4).ast, symbol_stack.get(1).ast);
-			break;    
-		case "crtCalcExpBl":// $0   
-			ast=ast_gen.astCalcExp(symbol_stack.get(0).ast, null);
-			break;
-		case "crtCalcExpStr":// $0    
-			ast=ast_gen.astCalcExp(null, symbol_stack.get(0).ast);
-			break;
-		case "crtStrS":// $0      
-			ast=ast_gen.astStrExp(symbol_stack.get(0).value, null);
-			break;  
-		case "crtStrC":// $0      
-			ast=ast_gen.astStrExp(null, symbol_stack.get(0).value);
-			break;  
-		case "crtBlExpAnd":// $2 $0       
-			ast=ast_gen.astBoolExp(symbol_stack.get(2).ast, "&&", symbol_stack.get(0).ast);
-			break;    
-		case "crtBlExpOr":// $2 $0	
-			ast=ast_gen.astBoolExp(symbol_stack.get(2).ast, "||", symbol_stack.get(0).ast);
-			break;	 
-		case "crtBlExpN":// $0		
-			ast=ast_gen.astBoolExp(null, "!", symbol_stack.get(0).ast);
-			break;		 
-		case "crtBlExpCmp":// $0		
-			ast=ast_gen.astBoolExp(null, null, symbol_stack.get(0).ast);
-			break;		 
-		case "crtCmpExpBl":// $1		
-			ast=ast_gen.astCmpExp(symbol_stack.get(1).ast, null,  null,  null, 0);
-			break;		 
-		case "crtCmpExpL":// $2 $0		
-			ast=ast_gen.astCmpExp(null, symbol_stack.get(2).ast,  ">",  symbol_stack.get(0).ast, 0);
-			break;		 
-		case "crtCmpExpLE":// $2 $0		
-			ast=ast_gen.astCmpExp(null, symbol_stack.get(2).ast,  ">=",  symbol_stack.get(0).ast, 0);
-			break;	 
-		case "crtCmpExpS":// $2 $0	
-			ast=ast_gen.astCmpExp(null, symbol_stack.get(2).ast,  "<",  symbol_stack.get(0).ast, 0);
-			break;	 
-		case "crtCmpExpSE":// $2 $0	
-			ast=ast_gen.astCmpExp(null, symbol_stack.get(2).ast,  "<=",  symbol_stack.get(0).ast, 0);
-			break;		 
-		case "crtCmpExpE":// $2 $0		
-			ast=ast_gen.astCmpExp(null, symbol_stack.get(2).ast,  "==",  symbol_stack.get(0).ast, 0);
-			break;	 
-		case "crtCmpExpN":// $2 $0		
-			ast=ast_gen.astCmpExp(null, symbol_stack.get(2).ast,  "!=",  symbol_stack.get(0).ast, 0);
-			break;	 
-		case "crtCmpAdd":// $0		
-			ast=ast_gen.astCmpExp(null, symbol_stack.get(0).ast, null, null, 0);
-			break;
-		case "crtCmpTrue":// $2 $0	
-			ast=ast_gen.astCmpExp(null,  null,  null, null, 1);
-			break;	
-		case "crtCmpFalse":// $2 $0		
-			ast=ast_gen.astCmpExp(null,  null,  null, null, -1);
-			break;	
-		case "crtAddExpAdd":// $2 $0		
-			ast=ast_gen.astAddExp(symbol_stack.get(2).ast, symbol_stack.get(0).ast, "+", null);
-			break; 
-		case "crtAddExpSub":// $2 $0		
-			ast=ast_gen.astAddExp(symbol_stack.get(2).ast, symbol_stack.get(0).ast, "-", null);
-			break;	 
-		case "crtAddExpMns":// $0	
-			ast=ast_gen.astAddExp(null, symbol_stack.get(0).ast, "-", null);
-			break;		 
-		case "crtAddExpMul":// $0	
-			ast=ast_gen.astAddExp(null, symbol_stack.get(0).ast, null, null);
-			break;		 
-		case "crtAddExpInc":// $0	
-			ast=ast_gen.astAddExp(null, null, "++", symbol_stack.get(0).ast);
-			break;		 
-		case "crtAddExpDec":// $0	
-			ast=ast_gen.astAddExp(null, null, "--", symbol_stack.get(0).ast);
-			break;		 
-		case "crtAddExpIncT":// $1		
-			ast=ast_gen.astAddExp(null, null, "++T", symbol_stack.get(1).ast);
-			break;	 
-		case "crtAddExpDecT":// $1	
-			ast=ast_gen.astAddExp(null, null, "--T", symbol_stack.get(1).ast);
-			break;	 
-		case "crtMulExpMul":// $2 $0		
-			ast=ast_gen.astMulExp( symbol_stack.get(2).ast, "*",  symbol_stack.get(0).ast);
-			break;
-		case "crtMulExpDiv":// $2 $0		
-			ast=ast_gen.astMulExp( symbol_stack.get(2).ast, "/",  symbol_stack.get(0).ast);break;
-		case "crtMulExpPri":// $0		
-			ast=ast_gen.astMulExp( null, null,  symbol_stack.get(0).ast);
-			break;
-		case "crtPriExpNum":// $0	
-			ast=ast_gen.astPriExp(null, symbol_stack.get(0).ast, null, null);
-			break;	
-		case "crtPriExpAdd":// $1	
-			ast=ast_gen.astPriExp(symbol_stack.get(1).ast, null, null, null);
-			break;	
-		case "crtPriExpApp":// $0	
-			ast=ast_gen.astPriExp(null, null,  symbol_stack.get(0).ast, null);
-			break;
-		case "crtPriExpStr": //$0	
-			ast=ast_gen.astPriExp(null, null, null, symbol_stack.get(0).ast);
-			break;
-		case "lnkAppExp":// $5 $3 $1		
-			ast=ast_gen.astApplyExp(symbol_stack.get(5).ast, symbol_stack.get(3).ast, symbol_stack.get(1).ast);
-			break;
-		case "crtAppExpP":// $2 $0	
-			ast=ast_gen.astApplyExp(symbol_stack.get(2).ast, symbol_stack.get(0).ast, null);
-			break;
-		case "crtAppExpF":// $3 $1	
-			ast=ast_gen.astApplyExp(null, symbol_stack.get(3).ast, symbol_stack.get(1).ast);
-			break;		
-		case "crtAppExpVar":// $0	
-			ast=ast_gen.astApplyExp(null, symbol_stack.get(0).ast, null);
-			break;
-		case "lnkArgLst":// $2 $0	
-			ast=ast_gen.astArgList(symbol_stack.get(2).ast, symbol_stack.get(0).ast);
-			break;
-		case "crtArgCalc":// $0	
-			ast=ast_gen.astArgList(null, symbol_stack.get(0).ast);
-			break;
-		case "crtArgLstE"://
-			ast=ast_gen.astArgList(null, null);
-			break;
-		default:
-			break;
-		}*/
+	return null;
+	}	
+	/*
 	AST astStmtList(AST stmtlist, AST stmt){
 		AST_StmtList ast=new AST_StmtList();
 		ast.setList((AST_StmtList)stmtlist);
@@ -289,7 +181,7 @@ public class ASTGenerator {
 	
 	AST astStmt(Type_Stmt type,AST stmt){
 		AST_Stmt ast=new AST_Stmt();
-		ast.setType(type);
+		//ast.setType(type);
 		switch(type){
 		case SgStmt:
 			ast.setSgStmt((AST_SgStmt)stmt);
@@ -454,5 +346,5 @@ public class ASTGenerator {
 		AST_ArgList ast=new AST_ArgList();
 		ast.setArgList((AST_ArgList)arg_list, (AST_CalcExp)var);
 		return ast;
-	}
+	}*/
 }

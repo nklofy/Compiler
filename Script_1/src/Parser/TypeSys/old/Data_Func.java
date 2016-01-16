@@ -8,7 +8,7 @@ import Interpreter.old.Interpreter;
 import Interpreter.old.RT_CtrFlow;
 import Interpreter.old.RT_Env;
 import Interpreter.old.RT_Frame;
-import Parser.ASTs.old.AST_StmtList;
+import Parser.ASTs.AST_StmtList;
 
 public class Data_Func {
 	private boolean isMethod;		//is obj's method

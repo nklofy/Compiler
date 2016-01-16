@@ -291,7 +291,7 @@ arg_list |>
 >| e 
 
 arguments |>
-   arg_list , calc_exp 
+   arguments , calc_exp 
 >| calc_exp 
 
 lambda_exp |>

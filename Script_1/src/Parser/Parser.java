@@ -13,8 +13,6 @@ import LexAnalyzer.Token;
 import LexAnalyzer.Tokenizer;
 import Parser.AST.*;
 import Parser.ASTs.*;
-import Parser.ASTs.old.AST_Num;
-import Parser.ASTs.old.AST_Var;
 import Parser.TypeSys.old.Type_SgStmt;
 import Parser.TypeSys.old.Type_Stmt;
 
@@ -27,7 +25,7 @@ public class Parser {
 	private HashMap<String,Integer> symbol_sn=new HashMap<String,Integer>();
 	private HashMap<String,Integer> token_sn=new HashMap<String,Integer>();
 	private HashMap<Integer,String> token_n2s=new HashMap<Integer,String>();
-	private ArrayList<AstRule> astRule_list=new ArrayList<AstRule>();
+	private ArrayList<ASTRule> astRule_list=new ArrayList<ASTRule>();
 	private ArrayList<ArrayList<Integer>> shift_table=new ArrayList<ArrayList<Integer>>();
 	private ArrayList<ArrayList<Integer>> goto_table=new ArrayList<ArrayList<Integer>>();
 	private ArrayList<ArrayList<Integer>> reduce_table=new ArrayList<ArrayList<Integer>>();
@@ -264,7 +262,7 @@ public class Parser {
 			}
 			while(!word.equals("//end") && !word.equals("")){
 				String words[]=word.split(" ");
-				AstRule rule=new AstRule();		
+				ASTRule rule=new ASTRule();		
 				astRule_list.add(rule);			//add all rules
 				ArrayList<String> str_list=new ArrayList<String>();
 				for(int i=0;i<words.length;i++){
@@ -486,7 +484,7 @@ public class Parser {
 		int ct=grammar_table.get(reduce_grammar).symbol_count;	
 		ParseState pst_pre=pst_crt;
 		if(ct<=pst_crt.det_depth){
-			AstRule rule=astRule_list.get(reduce_grammar);
+			ASTRule rule=astRule_list.get(reduce_grammar);
 			String method=rule.method;
 			Symbol new_smb=new Symbol();
 			new_smb.name=reduce_head;
@@ -526,7 +524,7 @@ public class Parser {
 	}
 	private boolean doGLReduce(ParseState pst_crt, int reduce_grammar, int crt_token_sn, Symbol smb){//need to refactor?
 		String reduce_head=grammar_table.get(reduce_grammar).head;		
-		AstRule rule=astRule_list.get(reduce_grammar);
+		ASTRule rule=astRule_list.get(reduce_grammar);
 		String method=rule.method;		
 		Grammar grm=grammar_table.get(reduce_grammar);
 		int ct=grm.symbol_count;	
