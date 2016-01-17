@@ -2,19 +2,12 @@
 //before running, you'd better to check rules matching syntax rules 
 package Parser;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.PrintWriter;
+import java.io.*;
 import java.util.*;
 
-import LexAnalyzer.Token;
-import LexAnalyzer.Tokenizer;
+import LexAnalyzer.*;
 import Parser.AST.*;
 import Parser.ASTs.*;
-import Parser.TypeSys.old.Type_SgStmt;
-import Parser.TypeSys.old.Type_Stmt;
 
 public class Parser {
 	private Tokenizer tokenizer=new Tokenizer();
@@ -320,22 +313,22 @@ public class Parser {
 			case "int":
 				token_name="number";smb.name=token_name;
 				smb.value=token.getNumValue();
-				AST_Num tn_ast=new AST_Num();
+				ExprPri_Num tn_ast=new ExprPri_Num();
 				tn_ast.setNum("int", smb.value);
 				smb.ast=tn_ast;
 				break;
 			case "double":
 				token_name="number";smb.name=token_name;
 				smb.value=token.getNumValue();
-				AST_Num td_ast=new AST_Num();
+				ExprPri_Num td_ast=new ExprPri_Num();
 				td_ast.setNum("double", smb.value);
 				smb.ast=td_ast;
 				break;
 			case "var":
 				token_name="var";smb.name=token_name;
 				smb.value=token.getIdnName();
-				AST_Var tv_ast=new AST_Var();
-				tv_ast.setVar(smb.value);
+				ExprPri_Var tv_ast=new ExprPri_Var();
+				tv_ast.setName(smb.value);
 				smb.ast=tv_ast;
 				break;
 			case "res":
@@ -350,10 +343,16 @@ public class Parser {
 			case "string":
 				token_name="str";smb.name=token_name;
 				smb.value=token.getStrValue();
+				ExprPri_Str ts_ast=new ExprPri_Str();
+				ts_ast.setStr(smb.value);
+				smb.ast=ts_ast;
 				break;
 			case "char":
 				token_name="chr";smb.name=token_name;
 				smb.value=token.getChrValue();
+				ExprPri_Chr tc_ast=new ExprPri_Chr();
+				tc_ast.setChr(smb.value);
+				smb.ast=tc_ast;
 				break;
 			default:
 				System.out.println("error wrong token type");
@@ -380,8 +379,6 @@ public class Parser {
 		states_elst.clear();
 		states_rlst.addAll(states_active.values());
 		states_active.clear();
-		//states_shift.clear();
-		//states_reduce.clear();
 		int crt_token_sn=token_sn.get(token_name);
 		while(!states_rlst.isEmpty()){
 			ParseState pst=states_rlst.removeFirst();

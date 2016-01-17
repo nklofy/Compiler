@@ -2,15 +2,25 @@
 package Parser;
 import java.util.*;
 import Parser.ASTs.*;
-import Parser.TypeSys.old.Type_SgStmt;
-import Parser.TypeSys.old.Type_Stmt;
 
 public class ASTGenerator {
-	AST crtAST(String method, ParseState crt_state){			
+	public AST crtAST(String method, ParseState crt_state){
+		AST ast=null;
 	switch(method){
 	//0	crtGoal 0
+	case "crtGoal":
+		ast= crt_state.symbol.ast;
+		break;
 	//1	lnkStmtLst 1 0
+	case "lnkStmtLst":
+		ast= crt_state.pre_state.symbol.ast;
+		((AST_StmtList)ast).addStmt(crt_state.symbol.ast);;
+		break;
 	//2	crtStmtLst 0
+	case "crtStmtLst":
+		ast=new AST_StmtList();
+		((AST_StmtList)ast).addStmt(crt_state.symbol.ast);
+		break;
 	//3	crtStmtClsDef 0
 	//4	crtStmtIntfDef 0
 	//5	crtStmtFuncDef 0
@@ -169,7 +179,10 @@ public class ASTGenerator {
 	default:
 		break;	
 	}
-	return null;
+	if(ast==null){
+		System.out.println("error creating ast "+method+" state "+ crt_state.state_sn);
+	}
+	return ast;
 	}	
 	/*
 	AST astStmtList(AST stmtlist, AST stmt){

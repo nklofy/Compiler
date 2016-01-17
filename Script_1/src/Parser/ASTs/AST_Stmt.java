@@ -1,9 +1,16 @@
 package Parser.ASTs;
 
-import Interpreter.old.Interpreter;
 import Parser.AST;
-import Parser.TypeSys.old.Type_Stmt;
 
 public class AST_Stmt extends AST {
+	Type type;
 	
+	public Type getType() {
+		return type;
+	}
+	public void setType(Type type) {
+		this.type = type;
+	}
+	
+	public enum Type{cls_def,itf_def,func_def,if_stmt,while_stmt,sg_stmt;}
 }
