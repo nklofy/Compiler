@@ -308,27 +308,27 @@ public class Parser {
 		while(true){	
 			smb=new Symbol();
 			smb.line=token.getLine();
-			smb.type=token.getType();
-			switch(smb.type){
+			//smb.type=token.getType();
+			switch(token.getType()){
 			case "int":
 				token_name="number";smb.name=token_name;
-				smb.value=token.getNumValue();
+				//smb.value=token.getNumValue();
 				ExprPri_Num tn_ast=new ExprPri_Num();
-				tn_ast.setNum("int", smb.value);
+				tn_ast.setNum("int", token.getNumValue());
 				smb.ast=tn_ast;
 				break;
 			case "double":
 				token_name="number";smb.name=token_name;
-				smb.value=token.getNumValue();
+				//smb.value=token.getNumValue();
 				ExprPri_Num td_ast=new ExprPri_Num();
-				td_ast.setNum("double", smb.value);
+				td_ast.setNum("double", token.getNumValue());
 				smb.ast=td_ast;
 				break;
 			case "var":
 				token_name="var";smb.name=token_name;
-				smb.value=token.getIdnName();
+				//smb.value=token.getIdnName();
 				ExprPri_Var tv_ast=new ExprPri_Var();
-				tv_ast.setName(smb.value);
+				tv_ast.setName(token.getIdnName());
 				smb.ast=tv_ast;
 				break;
 			case "res":
@@ -342,16 +342,16 @@ public class Parser {
 				continue;
 			case "string":
 				token_name="str";smb.name=token_name;
-				smb.value=token.getStrValue();
+				//smb.value=token.getStrValue();
 				ExprPri_Str ts_ast=new ExprPri_Str();
-				ts_ast.setStr(smb.value);
+				ts_ast.setStr(token.getStrValue());
 				smb.ast=ts_ast;
 				break;
 			case "char":
 				token_name="chr";smb.name=token_name;
-				smb.value=token.getChrValue();
+				//smb.value=token.getChrValue();
 				ExprPri_Chr tc_ast=new ExprPri_Chr();
-				tc_ast.setChr(smb.value);
+				tc_ast.setChr(token.getChrValue());
 				smb.ast=tc_ast;
 				break;
 			default:
@@ -485,14 +485,18 @@ public class Parser {
 			String method=rule.method;
 			Symbol new_smb=new Symbol();
 			new_smb.name=reduce_head;
-			new_smb.path_start=pst_pre;
+			new_smb.path=new Path();
+			new_smb.path.path_start=pst_pre;
+			new_smb.path.crt_symbol=pst_pre.symbol;
 			for(int i=0;i<ct;i++){							//fast LR
-				pst_pre=pst_pre.pre_state;					//move states_act;
+				pst_pre=pst_pre.pre_state;					//move states_act;	
+				new_smb.path=new_smb.path.addSymbol(pst_pre.symbol);			
 			}
-			new_smb.path_end=pst_pre;
-			new_smb.path_count=ct;
-			new_smb.ast=ast_gen.crtAST(method,pst_crt);		//build new ast TODO
-			//System.out.println("create ast: "+ ast.getClass().getName());
+			//pst_pre=pst_pre.pre_state;
+			new_smb.path.path_end=pst_pre;
+			new_smb.path.path_count=ct;
+			new_smb.ast=ast_gen.crtAST(method, pst_crt, new_smb.path.getPath());		//build new ast TODO
+			//System.out.println("create ast: "+ ast.getClass().getName());			
 			int nss=goto_table.get(pst_pre.state_sn).get(symbol_sn.get(reduce_head));
 			if(nss==-1){
 				return false;		//no reduce, maybe another shift
@@ -525,63 +529,93 @@ public class Parser {
 		String method=rule.method;		
 		Grammar grm=grammar_table.get(reduce_grammar);
 		int ct=grm.symbol_count;	
-		ParseState pst_pre=pst_crt;		
+		ParseState pst_pre=pst_crt;	
+		Symbol new_smb=new Symbol();
+		new_smb.name=reduce_head;
+		new_smb.path=new Path();
+		new_smb.path.path_start=pst_pre;
+		new_smb.path.crt_symbol=pst_pre.symbol;
+		//new_smb.path_start=pst_pre;
+		//new_smb.path_count=ct;
+		//new_smb.path_end=pre_mr;
 		HashSet<ParseState> states_bfw=new HashSet<ParseState>();	//set of back forward state
 		HashSet<ParseState> states_bfwl=new HashSet<ParseState>();	//tmp list for back forward state
-		for(int i=pst_crt.det_depth;i>0;i--){			
-			pst_pre=pst_pre.pre_state;						//fast move
+		HashSet<Symbol> symbs=new HashSet<Symbol>();
+		HashSet<Symbol> symbsl=new HashSet<Symbol>();
+		for(int i=pst_crt.det_depth;i>0;i--){	
+			pst_pre=pst_pre.pre_state;						//fast move		
+			new_smb.path=new_smb.path.addSymbol(pst_pre.symbol);			
 		}
+		//pst_pre=pst_pre.pre_state;
 		states_bfw.add(pst_pre);
+		symbs.add(new_smb);
 		for(int i=ct-pst_crt.det_depth+1;i>=2;i--){
 			states_bfwl.clear();
 			for(ParseState pst_b:states_bfw){
 				if(pst_b.fixed){
 					if(pst_b.symbol.name.equals(grm.symbols.get(i))){
 						states_bfwl.add(pst_b.pre_state);
+						for(Symbol sym:symbs){
+							sym.path=sym.path.addSymbol(pst_b.symbol);
+							sym.path.path_end=pst_b;
+							symbsl.add(sym);
+						}
 					}else{
 						continue;
 					}					
 				}else{
-					HashSet<String> sbs=new HashSet<String>();
-					for(Symbol s:pst_b.symbols){
-						sbs.add(s.name);
+					//HashSet<String> sbs=new HashSet<String>();
+					for(int j=0;j<pst_b.symbols.size();j++){
+						//sbs.add(s.name);
+						Symbol s=pst_b.symbols.get(j);
+						if(s.name.equals(grm.symbols.get(i))){
+							states_bfwl.add(pst_b.pre_states.get(j));
+							for(Symbol sym:symbs){
+								Symbol sym_t=new Symbol(sym);
+								sym_t.path=sym.path.addSymbol(pst_b.symbols.get(j));
+								sym_t.path.path_end=pst_b.pre_states.get(j);
+								symbsl.add(sym_t);
+							}
+						}
 					}
-					if(sbs.contains(grm.symbols.get(i))){
-						states_bfwl.addAll(pst_b.pre_states);
-					}else{
-						continue;
-					}					
+					//if(sbs.contains(grm.symbols.get(i))){
+					//	states_bfwl.addAll(pst_b.pre_states);
+					//}else{
+					//	continue;
+					//}					
 				}
 			}
+			
 			states_bfw.clear();
 			states_bfw.addAll(states_bfwl);
+			symbs.clear();
+			symbs.addAll(symbsl);
 		}
 		for(ParseState pre_mr:states_bfw){
 			int nss=goto_table.get(pre_mr.state_sn).get(symbol_sn.get(reduce_head));
 			if(nss==-1){
 				continue;		//no reduce
 			}
-			Symbol new_smb=new Symbol();
-			new_smb.name=reduce_head;
-			new_smb.path_start=pst_pre;
-			new_smb.path_count=ct;
-			new_smb.path_end=pre_mr;
-			new_smb.ast=ast_gen.crtAST(method,pst_crt);		//build new ast
-			//System.out.println("create ast: "+ ast.getClass().getName());
+			for(Symbol sym:symbs){
+				if(sym.path.path_end==pre_mr){
+					new_smb.addAST(ast_gen.crtAST(method,pst_crt, sym.path.getPath()));		//build new ast TODO
+					//System.out.println("create ast: "+ ast.getClass().getName());
+				}
+			}			
 			ParseState nps=null;
 			if(states_active.containsKey(nss)){
 				nps=states_active.get(nss);
 				nps.addLink(pre_mr, new_smb);
 				nps.det_depth=0;							//refresh count and depth;
 				nps.out_count++;					
-				System.out.println("g-reduce and merge "+reduce_head+" "+pst_pre.state_sn+" goto "+nss);
+				System.out.println("g-reduce and merge "+reduce_head+" "+pst_crt.state_sn+" goto "+nss);
 			}else{
 				nps=new ParseState();
 				nps.state_sn=nss;
 				nps.addLink(pre_mr, new_smb);
 				nps.det_depth=pre_mr.det_depth+1;
 				nps.out_count++;
-				System.out.println("g-reduce "+reduce_head+" "+pst_pre.state_sn+" goto "+nss);
+				System.out.println("g-reduce "+reduce_head+" "+pst_crt.state_sn+" goto "+nss);
 				doShift(nps,crt_token_sn,smb);
 			}			
 			states_rlst.add(nps);

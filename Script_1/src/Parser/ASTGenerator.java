@@ -4,22 +4,20 @@ import java.util.*;
 import Parser.ASTs.*;
 
 public class ASTGenerator {
-	public AST crtAST(String method, ParseState crt_state){
+	public AST crtAST(String method, ParseState crt_state, LinkedList<Symbol> symbs){
 		AST ast=null;
 	switch(method){
 	//0	crtGoal 0
 	case "crtGoal":
-		ast= crt_state.symbol.ast;
+
 		break;
 	//1	lnkStmtLst 1 0
 	case "lnkStmtLst":
-		ast= crt_state.pre_state.symbol.ast;
-		((AST_StmtList)ast).addStmt(crt_state.symbol.ast);;
+
 		break;
 	//2	crtStmtLst 0
 	case "crtStmtLst":
-		ast=new AST_StmtList();
-		((AST_StmtList)ast).addStmt(crt_state.symbol.ast);
+
 		break;
 	//3	crtStmtClsDef 0
 	//4	crtStmtIntfDef 0
