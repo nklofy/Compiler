@@ -1,5 +1,5 @@
 package Parser.TypeSys;
 
-public class Struct_Class {
+public class S_Value {
 
 }

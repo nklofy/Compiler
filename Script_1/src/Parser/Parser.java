@@ -30,7 +30,7 @@ public class Parser {
 	private LinkedList<ParseState> states_rlst=new LinkedList<ParseState>();	//TODO change to treeset?
 	private LinkedList<ParseState> states_elst=new LinkedList<ParseState>();
 	private int sym_e;
-	private ArrayList<String> parse_log=new ArrayList<String>();
+	//private ArrayList<String> parse_log=new ArrayList<String>();
 	public AST getAST(){
 		return ast_tree;
 	}
@@ -362,15 +362,16 @@ public class Parser {
 			if(token_name.equals("eof")&&states_active.containsKey(0)  ){//end of parsing
 				System.out.println("eof, "+"finished parsing");
 				//ast_tree=states_act.get(0).symbol.ast;
-				return true;	
+				break;	
 			}
 			if(states_active.isEmpty()){				
 				System.out.println("error no state in active");
-				break;
+				return false;
 			}
 			token=tokenizer.getToken();
 		}
-		return false;
+		fixAmbiguous();
+		return true;
 	}
 	
 	private boolean doAllReduce(String token_name, Symbol smb){	
@@ -487,15 +488,16 @@ public class Parser {
 			new_smb.name=reduce_head;
 			new_smb.path=new Path();
 			new_smb.path.path_start=pst_pre;
-			new_smb.path.crt_symbol=pst_pre.symbol;
+			//new_smb.path.crt_symbol=pst_pre.symbol;
 			for(int i=0;i<ct;i++){							//fast LR
+				new_smb.path=new_smb.path.addSymbol(pst_pre.symbol);
 				pst_pre=pst_pre.pre_state;					//move states_act;	
-				new_smb.path=new_smb.path.addSymbol(pst_pre.symbol);			
+							
 			}
 			//pst_pre=pst_pre.pre_state;
 			new_smb.path.path_end=pst_pre;
 			new_smb.path.path_count=ct;
-			new_smb.ast=ast_gen.crtAST(method, pst_crt, new_smb.path.getPath());		//build new ast TODO
+			//new_smb.ast=ast_gen.crtAST(method, pst_crt, new_smb.path.getPath());		//build new ast TODO
 			//System.out.println("create ast: "+ ast.getClass().getName());			
 			int nss=goto_table.get(pst_pre.state_sn).get(symbol_sn.get(reduce_head));
 			if(nss==-1){
@@ -534,7 +536,7 @@ public class Parser {
 		new_smb.name=reduce_head;
 		new_smb.path=new Path();
 		new_smb.path.path_start=pst_pre;
-		new_smb.path.crt_symbol=pst_pre.symbol;
+		//new_smb.path.crt_symbol=pst_pre.symbol;
 		//new_smb.path_start=pst_pre;
 		//new_smb.path_count=ct;
 		//new_smb.path_end=pre_mr;
@@ -543,8 +545,9 @@ public class Parser {
 		HashSet<Symbol> symbs=new HashSet<Symbol>();
 		HashSet<Symbol> symbsl=new HashSet<Symbol>();
 		for(int i=pst_crt.det_depth;i>0;i--){	
+			new_smb.path=new_smb.path.addSymbol(pst_pre.symbol);
 			pst_pre=pst_pre.pre_state;						//fast move		
-			new_smb.path=new_smb.path.addSymbol(pst_pre.symbol);			
+						
 		}
 		//pst_pre=pst_pre.pre_state;
 		states_bfw.add(pst_pre);
@@ -552,7 +555,7 @@ public class Parser {
 		for(int i=ct-pst_crt.det_depth+1;i>=2;i--){
 			states_bfwl.clear();
 			for(ParseState pst_b:states_bfw){
-				if(pst_b.fixed){
+				if(pst_b.isFixed){
 					if(pst_b.symbol.name.equals(grm.symbols.get(i))){
 						states_bfwl.add(pst_b.pre_state);
 						for(Symbol sym:symbs){
@@ -596,23 +599,24 @@ public class Parser {
 			if(nss==-1){
 				continue;		//no reduce
 			}
+			Symbol symb_t=new Symbol(new_smb);
 			for(Symbol sym:symbs){
 				if(sym.path.path_end==pre_mr){
-					new_smb.addAST(ast_gen.crtAST(method,pst_crt, sym.path.getPath()));		//build new ast TODO
+					symb_t.addAST(ast_gen.crtAST(method,pst_crt, sym.path.getPath()));		//build new ast TODO
 					//System.out.println("create ast: "+ ast.getClass().getName());
 				}
 			}			
 			ParseState nps=null;
 			if(states_active.containsKey(nss)){
 				nps=states_active.get(nss);
-				nps.addLink(pre_mr, new_smb);
+				nps.addLink(pre_mr, symb_t);
 				nps.det_depth=0;							//refresh count and depth;
 				nps.out_count++;					
 				System.out.println("g-reduce and merge "+reduce_head+" "+pst_crt.state_sn+" goto "+nss);
 			}else{
 				nps=new ParseState();
 				nps.state_sn=nss;
-				nps.addLink(pre_mr, new_smb);
+				nps.addLink(pre_mr, symb_t);
 				nps.det_depth=pre_mr.det_depth+1;
 				nps.out_count++;
 				System.out.println("g-reduce "+reduce_head+" "+pst_crt.state_sn+" goto "+nss);
@@ -622,16 +626,19 @@ public class Parser {
 		}
 		return true;
 	}
-	private boolean doAllShift(int crt_token_sn, Symbol smb){
-		return true;
+	//private boolean doAllShift(int crt_token_sn, Symbol smb){
+	//	return true;
+	//}
+	private void fixAmbiguous(){
+		
 	}
 	public boolean output(String filename){
 		PrintWriter out=null;
 		try {
 			out=new PrintWriter(new BufferedWriter(new FileWriter(filename)));
-			for(String s:parse_log){
-				out.println(s);
-			}
+			//for(String s:parse_log){
+			//	out.println(s);
+			//}
 		} catch (Exception e) {			
 			e.printStackTrace();
 		}finally{

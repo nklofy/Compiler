@@ -20,6 +20,10 @@ public class Path{
 		return symbs;						
 	}
 	public Path addSymbol(Symbol symb){
+		if(this.crt_symbol==null){
+			this.crt_symbol=symb;
+			return this;
+		}
 		Path path_t=new Path();
 		path_t.pre_path=this;
 		path_t.crt_symbol=symb;

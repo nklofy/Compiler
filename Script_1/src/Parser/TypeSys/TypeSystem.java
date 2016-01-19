@@ -5,6 +5,7 @@ import Interpreter.*;
 public class TypeSystem {
 	public static boolean initTypes(Interpreter interpreter){
 		
+		
 		return true;
 	}
 	public static boolean initFuncs(Interpreter interpreter){

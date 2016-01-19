@@ -2,22 +2,29 @@
 package Parser;
 import java.util.*;
 import Parser.ASTs.*;
+import Parser.TypeSys.*;
 
 public class ASTGenerator {
-	public AST crtAST(String method, ParseState crt_state, LinkedList<Symbol> symbs){
+	ArrayList<AST> ast_ambiguous;//when found symbol is merged, then use a ast_ambg instead of asts
+	public AST crtAST(String method, ParseState crt_state, LinkedList<Symbol> symbs){		
 		AST ast=null;
 	switch(method){
 	//0	crtGoal 0
 	case "crtGoal":
-
+		ast=symbs.get(0).ast;
 		break;
 	//1	lnkStmtLst 1 0
 	case "lnkStmtLst":
-
+		AST_StmtList ast1=(AST_StmtList)symbs.get(1).ast;
+		ast1.addStmt(symbs.get(0).ast);
+		ast=ast1;
 		break;
 	//2	crtStmtLst 0
 	case "crtStmtLst":
-
+		AST_Stmt ast2=(AST_Stmt)symbs.get(0).ast;
+		AST_StmtList ast3=new AST_StmtList();
+		ast3.addStmt(ast2);
+		ast=ast3;
 		break;
 	//3	crtStmtClsDef 0
 	//4	crtStmtIntfDef 0
