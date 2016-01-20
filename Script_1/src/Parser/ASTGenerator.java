@@ -5,7 +5,7 @@ import Parser.ASTs.*;
 import Parser.TypeSys.*;
 
 public class ASTGenerator {
-	ArrayList<AST> ast_ambiguous;//when found symbol is merged, then use a ast_ambg instead of asts
+
 	public AST crtAST(String method, ParseState crt_state, LinkedList<Symbol> symbs){		
 		AST ast=null;
 	switch(method){

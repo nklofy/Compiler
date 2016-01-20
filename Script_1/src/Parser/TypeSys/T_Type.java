@@ -2,12 +2,12 @@ package Parser.TypeSys;
 
 
 public class T_Type {
-	private String name;
-	public String getName() {
-		return name;
+	en_Type type;
+	public en_Type getType() {
+		return type;
 	}
-	public void setName(String name) {
-		this.name = name;
+	public void setType(en_Type type) {
+		this.type = type;
 	}
-	
+	public enum en_Type{t_class,t_itf,t_btype,t_func,t_gnrc;}
 }

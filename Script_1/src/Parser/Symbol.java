@@ -6,7 +6,7 @@ public class Symbol {//symbol in graph stack correspond to reduce path or merged
 	AST ast;
 	boolean isEmpty=true;//e reduce
 	boolean isMerged=false;
-	ArrayList<AST> asts;
+	HashSet<AST> asts;
 	int line;
 	Path path;
 	String name;
@@ -18,7 +18,7 @@ public class Symbol {//symbol in graph stack correspond to reduce path or merged
 			if(this.asts.contains(ast)){
 				return false;
 			}
-			this.asts.add(ast);
+			this.asts.add(ast);		//do merge
 		}else{
 			if(this.ast==null){
 				this.ast=ast;
@@ -26,11 +26,10 @@ public class Symbol {//symbol in graph stack correspond to reduce path or merged
 				if(this.ast==ast){
 					return false;
 				}
-				this.asts=new ArrayList<AST>();
+				this.asts=new HashSet<AST>();
 				this.isMerged=true;
-				this.asts.add(this.ast);
-				this.ast=null;		
-				this.asts.add(ast);
+				this.asts.add(this.ast);	//do merge	
+				this.ast.merged_asts=this.asts;
 			}
 		}
 		return true;
@@ -54,10 +53,10 @@ public class Symbol {//symbol in graph stack correspond to reduce path or merged
 		}
 		if(symbol.isMerged){
 			for(AST ast_t:symbol.asts){
-				addAST(ast_t);
+				addAST(ast_t);//do merge
 			}
 		}else{
-			addAST(symbol.ast);
+			addAST(symbol.ast);//do merge
 		}
 		return true;
 	}

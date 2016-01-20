@@ -30,6 +30,7 @@ public class Parser {
 	private LinkedList<ParseState> states_rlst=new LinkedList<ParseState>();	//TODO change to treeset?
 	private LinkedList<ParseState> states_elst=new LinkedList<ParseState>();
 	private int sym_e;
+	//private HashSet<Symbol> ambg_smbs=new HashSet<Symbol>();
 	//private ArrayList<String> parse_log=new ArrayList<String>();
 	public AST getAST(){
 		return ast_tree;
@@ -370,7 +371,7 @@ public class Parser {
 			}
 			token=tokenizer.getToken();
 		}
-		fixAmbiguous();
+		fixAmbgSmbs();
 		return true;
 	}
 	
@@ -629,7 +630,7 @@ public class Parser {
 	//private boolean doAllShift(int crt_token_sn, Symbol smb){
 	//	return true;
 	//}
-	private void fixAmbiguous(){
+	private void fixAmbgSmbs(){
 		
 	}
 	public boolean output(String filename){
