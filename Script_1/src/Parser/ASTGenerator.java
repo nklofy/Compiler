@@ -5,40 +5,108 @@ import Parser.ASTs.*;
 import Parser.TypeSys.*;
 
 public class ASTGenerator {
-
+	LinkedList<SymTable> sym_table=new LinkedList<SymTable>();
 	public AST crtAST(String method, ParseState crt_state, LinkedList<Symbol> symbs){		
 		AST ast=null;
+		AST ast0,ast1,ast2,ast3,ast4,ast5,ast6,ast7,ast9,ast10;
 	switch(method){
+	//1. add link to up-ast, 2. if isMerged, skip, 3. create local sym-table, 4. update sym-table of up-ast
 	//0	crtGoal 0
 	case "crtGoal":
 		ast=symbs.get(0).ast;
 		break;
 	//1	lnkStmtLst 1 0
 	case "lnkStmtLst":
-		AST_StmtList ast1=(AST_StmtList)symbs.get(1).ast;
-		ast1.addStmt(symbs.get(0).ast);
-		ast=ast1;
+		ast1=symbs.get(1).ast;
+		ast0=symbs.get(0).ast;
+		AST_StmtList ast_t1=(AST_StmtList)ast1;
+		ast_t1.addStmt(ast0);
+		ast0.setLink(ast_t1);
+		ast=ast_t1;
 		break;
 	//2	crtStmtLst 0
 	case "crtStmtLst":
-		AST_Stmt ast2=(AST_Stmt)symbs.get(0).ast;
-		AST_StmtList ast3=new AST_StmtList();
-		ast3.addStmt(ast2);
-		ast=ast3;
+		ast0=symbs.get(0).ast;
+		AST_StmtList ast_t2=new AST_StmtList();
+		ast_t2.addStmt(ast0);
+		ast=ast_t2;
 		break;
 	//3	crtStmtClsDef 0
+	case "crtStmtClsDef":
+		ast0=symbs.get(0).ast;
+		AST_Stmt ast_t3=new AST_Stmt();
+		ast_t3.setType(Stmt_DefCls.class.getName());
+		ast_t3.setAST(ast0);
+		ast=ast_t3;
+		break;
 	//4	crtStmtIntfDef 0
+	case "crtStmtIntfDef":
+		ast0=symbs.get(0).ast;
+		AST_Stmt ast_t4=new AST_Stmt();
+		ast_t4.setType(Stmt_DefIntf.class.getName());
+		ast_t4.setAST(ast0);
+		ast=ast_t4;
+		break;
 	//5	crtStmtFuncDef 0
+	case "crtStmtFuncDef":
+		ast0=symbs.get(0).ast;
+		AST_Stmt ast_t5=new AST_Stmt();
+		ast_t5.setType(Stmt_DefFunc.class.getName());
+		ast_t5.setAST(ast0);
+		ast=ast_t5;
+		break;
 	//6	crtStmtIf 0
+	case "crtStmtIf":
+		ast0=symbs.get(0).ast;
+		AST_Stmt ast_t6=new AST_Stmt();
+		ast_t6.setType(Stmt_If.class.getName());
+		ast_t6.setAST(ast0);
+		ast=ast_t6;
+		break;	
 	//7	crtStmtWhl 0
+	case "crtStmtWhl":
+		ast0=symbs.get(0).ast;
+		AST_Stmt ast_t7=new AST_Stmt();
+		ast_t7.setType(Stmt_Whl.class.getName());
+		ast_t7.setAST(ast0);
+		ast=ast_t7;
+		break;		
 	//8	crtStmtSg 0
+	case "crtStmtSg":
+		ast0=symbs.get(0).ast;
+		AST_Stmt ast_t8=new AST_Stmt();
+		ast_t8.setType(Stmt_Whl.class.getName());
+		ast_t8.setAST(ast0);
+		ast=ast_t8;
+		break;	
 	//9	crtSgVarAssign 0
+	case "crtSgVarAssign":
+		//ast0=symbs.get(0).ast;
+		break;
 	//10	crtSgVarDef 0
+	case "crtSgVarDef":
+		//ast0=symbs.get(0).ast;
+		break;
 	//11	crtSgCalc 0
+	case "crtSgCalc":
+		//ast0=symbs.get(0).ast;
+		break;
 	//12	crtSgCtrF 0
+	case "crtSgCtrF":
+		//ast0=symbs.get(0).ast;
+		break;
 	//13	crtCtrFRet 0
+	case "crtCtrFRet":
+		//ast0=symbs.get(0).ast;
+		break;	
 	//14	crtCtrFCont 0
+	case "crtCtrFCont":
+		//ast0=symbs.get(0).ast;
+		break;			
 	//15	crtCtrFBrk 0
+	case "crtCtrFBrk":
+		//ast0=symbs.get(0).ast;
+		break;			
 	//16	linkVarDef 2 0
 	//17	linkVarDefAsg 4 2 0
 	//18	crtVarDef 1 0
