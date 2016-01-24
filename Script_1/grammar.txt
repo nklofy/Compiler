@@ -45,6 +45,7 @@ sg_stmt |>
 
 control_flow |>
    return calc_exp
+>| return
 >| continue
 >| break
 
