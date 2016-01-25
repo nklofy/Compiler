@@ -4,7 +4,7 @@ import Parser.TypeSys.*;
 
 public class R_Variable extends R_Record{
 	boolean isFinal;
-	T_Type type;
+	T_Type t_type;
 	boolean isStatic;
 	
 	public boolean isStatic() {
@@ -20,10 +20,10 @@ public class R_Variable extends R_Record{
 	public void setFinal(boolean isFinal) {
 		this.isFinal = isFinal;
 	}
-	public T_Type getType() {
-		return type;
+	public T_Type getTypeT() {
+		return t_type;
 	}
-	public void setType(T_Type type) {
-		this.type = type;
+	public void setTypeT(T_Type type) {
+		this.t_type = type;
 	}	
 }

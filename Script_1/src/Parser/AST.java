@@ -5,7 +5,7 @@ import Interpreter.*;
 import Parser.TypeSys.*;
 
 public class AST {
-	String type;
+	String ast_type;
 	AST ast_deMrg;	//de-merge, choose correct one
 	HashSet<AST> merged_asts;
 	HashMap<String,R_Variable> var_table;
@@ -15,12 +15,12 @@ public class AST {
 	LinkedList<String> type_up;
 	LinkedList<String> func_up;	
 	AST visit_link;		//a link for visiting global or extern symbols
-	public String getType() {
-		return type;
+	public String getASTType() {
+		return ast_type;
 	}
-	public void setType(String type) {
+	public void setASTType(String type) {
 		String[] ss=type.split("\\.");
-		this.type = ss[ss.length-1];
+		this.ast_type = ss[ss.length-1];
 	}
 	public AST getDeMrg() {
 		//de-merge and return TODO

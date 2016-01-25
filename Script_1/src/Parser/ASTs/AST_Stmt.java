@@ -10,7 +10,7 @@ public class AST_Stmt extends AST {
 	Stmt_Whl stmt_whl;
 	Stmt_Sg stmt_sg;
 	public boolean setStmt(AST ast){
-		switch(this.getType()){
+		switch(this.getASTType()){
 		case "Stmt_DefCls":
 			this.stmt_cls=(Stmt_DefCls)ast;
 			if(ast.getMergedAsts()!=null){

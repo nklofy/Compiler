@@ -1,6 +1,7 @@
 package Parser.ASTs;
 
-import Parser.AST;
+import Parser.*;
+import Parser.TypeSys.*;
 
 public class SgStmt_DefVar extends AST {
 	SgStmt_DefVar pre_def;
@@ -15,14 +16,14 @@ public class SgStmt_DefVar extends AST {
 		if(var_def.getMergedAsts()!=null){
 			return;
 		}
-/*		for(String s:var_def.getVarUp()){ TODO
+		for(String s:var_def.getVarUp()){
 			if(this.getVarTb()!=null && this.getVarTb().keySet().contains(s)){
 				System.out.println("error existing symbol name: "+ s);
 			}else{
 				this.putVarTb(s, var_def.getVarTb().get(s));
 				this.addVarUp(s);
 			}
-		}*/
+		}
 	}
 	public TypeExp getTypeExp() {
 		return type_exp;
@@ -35,14 +36,10 @@ public class SgStmt_DefVar extends AST {
 	}
 	public void setVar(ExprPri_Var var) {
 		this.var = var;
-/*		for(String s:var.getVarUp()){ TODO
-			if(this.getVarTb()!=null && this.getVarTb().keySet().contains(s)){
-				System.out.println("error existing symbol name: "+ s);
-			}else{
-				this.putVarTb(s, var.getVarTb().get(s));
-				this.addVarUp(s);
-			}
-		}*/
+		R_Variable r=new R_Variable();
+		r.setTypeT(this.type_exp.getTypeT());
+		this.addVarUp(this.var.name);
+		this.putVarTb(this.var.name, r);
 	}
 	public Expr getExpr() {
 		return expression;

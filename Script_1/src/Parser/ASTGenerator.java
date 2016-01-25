@@ -34,7 +34,7 @@ public class ASTGenerator {
 	case "crtStmtClsDef":
 		ast0=symbs.get(0).ast;
 		AST_Stmt ast_t3=new AST_Stmt();
-		ast_t3.setType(Stmt_DefCls.class.getName());
+		ast_t3.setASTType(Stmt_DefCls.class.getName());
 		ast_t3.setStmt(ast0);
 		ast=ast_t3;
 		break;
@@ -42,7 +42,7 @@ public class ASTGenerator {
 	case "crtStmtIntfDef":
 		ast0=symbs.get(0).ast;
 		AST_Stmt ast_t4=new AST_Stmt();
-		ast_t4.setType(Stmt_DefIntf.class.getName());
+		ast_t4.setASTType(Stmt_DefIntf.class.getName());
 		ast_t4.setStmt(ast0);
 		ast=ast_t4;
 		break;
@@ -50,7 +50,7 @@ public class ASTGenerator {
 	case "crtStmtFuncDef":
 		ast0=symbs.get(0).ast;
 		AST_Stmt ast_t5=new AST_Stmt();
-		ast_t5.setType(Stmt_DefFunc.class.getName());
+		ast_t5.setASTType(Stmt_DefFunc.class.getName());
 		ast_t5.setStmt(ast0);
 		ast=ast_t5;
 		break;
@@ -58,7 +58,7 @@ public class ASTGenerator {
 	case "crtStmtIf":
 		ast0=symbs.get(0).ast;
 		AST_Stmt ast_t6=new AST_Stmt();
-		ast_t6.setType(Stmt_If.class.getName());
+		ast_t6.setASTType(Stmt_If.class.getName());
 		ast_t6.setStmt(ast0);
 		ast=ast_t6;
 		break;	
@@ -66,7 +66,7 @@ public class ASTGenerator {
 	case "crtStmtWhl":
 		ast0=symbs.get(0).ast;
 		AST_Stmt ast_t7=new AST_Stmt();
-		ast_t7.setType(Stmt_Whl.class.getName());
+		ast_t7.setASTType(Stmt_Whl.class.getName());
 		ast_t7.setStmt(ast0);
 		ast=ast_t7;
 		break;		
@@ -74,7 +74,7 @@ public class ASTGenerator {
 	case "crtStmtSg":
 		ast0=symbs.get(0).ast;
 		AST_Stmt ast_t8=new AST_Stmt();
-		ast_t8.setType(Stmt_Sg.class.getName());
+		ast_t8.setASTType(Stmt_Sg.class.getName());
 		ast_t8.setStmt(ast0);
 		ast=ast_t8;
 		break;	
@@ -82,7 +82,7 @@ public class ASTGenerator {
 	case "crtSgVarAssign":
 		ast0=symbs.get(0).ast;
 		Stmt_Sg ast_t9=new Stmt_Sg();
-		ast_t9.setType(SgStmt_AsnVar.class.getName());
+		ast_t9.setASTType(SgStmt_AsnVar.class.getName());
 		ast_t9.setSg(ast0);
 		ast=ast_t9;
 		break;
@@ -90,7 +90,7 @@ public class ASTGenerator {
 	case "crtSgVarDef":
 		ast0=symbs.get(0).ast;
 		Stmt_Sg ast_t10=new Stmt_Sg();
-		ast_t10.setType(SgStmt_DefVar.class.getName());
+		ast_t10.setASTType(SgStmt_DefVar.class.getName());
 		ast_t10.setSg(ast0);
 		ast=ast_t10;
 		break;
@@ -98,7 +98,7 @@ public class ASTGenerator {
 	case "crtSgCalc":
 		ast0=symbs.get(0).ast;
 		Stmt_Sg ast_t11=new Stmt_Sg();
-		ast_t11.setType(Expr_Calc.class.getName());
+		ast_t11.setASTType(Expr_Calc.class.getName());
 		ast_t11.setSg(ast0);
 		ast=ast_t11;
 		break;
@@ -106,7 +106,7 @@ public class ASTGenerator {
 	case "crtSgCtrF":		
 		ast0=symbs.get(0).ast;
 		Stmt_Sg ast_t12=new Stmt_Sg();
-		ast_t12.setType(SgStmt_CtrFlw.class.getName());
+		ast_t12.setASTType(SgStmt_CtrFlw.class.getName());
 		ast_t12.setSg(ast0);
 		ast=ast_t12;
 		break;
