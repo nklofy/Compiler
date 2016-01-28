@@ -52,8 +52,8 @@ control_flow |>
 var_def |>
    var_def , var
 >| var_def , var = expression
->| type_exp var
->| type_exp var = expression
+>| scope_info_list type_exp var
+>| scope_info_list type_exp var = expression
 
 var_assign |>
    left_side = expression

@@ -1,5 +1,8 @@
 package Parser.ASTs;
 
-public class TypeExp_Gnrc {
+import Parser.*;
+import Parser.TypeSys.*;
 
+public class TypeExp_Gnrc extends AST {
+	T_Type t_type;
 }

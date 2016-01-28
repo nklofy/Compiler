@@ -5,6 +5,10 @@ import Parser.ASTs.*;
 import Parser.TypeSys.*;
 
 public class ASTGenerator {
+	TypeSystem type_sys = new TypeSystem();
+	public TypeSystem getTypeSys() {
+		return type_sys;
+	}
 	public AST crtAST(String method, ParseState crt_state, LinkedList<Symbol> symbs){		
 		AST ast=null;
 		AST ast0,ast1,ast2,ast3,ast4,ast5,ast6,ast7,ast9,ast10;
@@ -142,34 +146,138 @@ public class ASTGenerator {
 		ast2=symbs.get(2).ast;
 		SgStmt_DefVar ast_t17=new SgStmt_DefVar(); 
 		ast_t17.setPredef((SgStmt_DefVar)ast2);
-		ast_t17.setVar((ExprPri_Var)ast0);	//TODO	
+		ast_t17.setVar((ExprPri_Var)ast0);
+		ast=ast_t17;
 		break;
 //		18	linkVarDefAsg 4 2 0
 	case "linkVarDefAsg":
-		
+		ast0=symbs.get(0).ast;
+		ast2=symbs.get(2).ast;
+		ast4=symbs.get(4).ast;
+		SgStmt_DefVar ast_t18=new SgStmt_DefVar(); 
+		ast_t18.setPredef((SgStmt_DefVar)ast4);
+		ast_t18.setVar((ExprPri_Var)ast2);		
+		ast_t18.setExpr((Expr)ast0);
+		ast=ast_t18;
 		break;
 //		19	crtVarDef 1 0
 	case "crtVarDef":
-		
+		ast0=symbs.get(0).ast;
+		ast1=symbs.get(1).ast;
+		SgStmt_DefVar ast_t19=new SgStmt_DefVar();
+		ast_t19.setTypeExp((TypeExp)ast1);
+		ast_t19.setVar((ExprPri_Var)ast0);
+		ast=ast_t19;
 		break;
 //		20	crtVarDefAsg 3 2 0
 	case "crtVarDefAsg":
-		
+		ast0=symbs.get(0).ast;
+		ast2=symbs.get(2).ast;
+		ast3=symbs.get(3).ast;
+		SgStmt_DefVar ast_t20=new SgStmt_DefVar(); 
+		ast_t20.setTypeExp((TypeExp)ast3);
+		ast_t20.setVar((ExprPri_Var)ast2);		
+		ast_t20.setExpr((Expr)ast0);
+		ast=ast_t20;
 		break;
 //		21	crtVarAsg 2 0
+	case "crtVarAsg":
+		ast0=symbs.get(0).ast;
+		ast2=symbs.get(2).ast;
+		SgStmt_AsnVar ast_t21=new SgStmt_AsnVar();
+		ast_t21.setLeft((Expr_Left)ast2);
+		ast_t21.setExpr((Expr)ast0);
+		ast=ast_t21;
+		break;
 //		22	crtLftFld 0
+	case "crtLftFld":
+		ast0=symbs.get(0).ast;
+		Expr_Left ast_t22=new Expr_Left();
+		ast_t22.setASTType(ExprAccs_Fld.class.getName());
+		ast_t22.setAccs(ast0);
+		ast=ast_t22;
+		break;
 //		23	crtLftArr 0
+	case "crtLftArr":
+		ast0=symbs.get(0).ast;
+		Expr_Left ast_t23=new Expr_Left();
+		ast_t23.setASTType(ExprAccs_Arr.class.getName());
+		ast_t23.setAccs(ast0);
+		ast=ast_t23;
+		break;
 //		24	crtTpBsc 0
+	case "crtTpBsc":
+		ast0=symbs.get(0).ast;
+		TypeExp ast_t24=new TypeExp();
+		ast_t24.setASTType(TypeExp_Bsc.class.getName());
+		ast_t24.setTypeExp(ast0);
+		ast=ast_t24;
+		break;
 //		25	crtTpArr 0
+	case "crtTpArr":
+		ast0=symbs.get(0).ast;
+		TypeExp ast_t25=new TypeExp();
+		ast_t25.setASTType(TypeExp_Arr.class.getName());
+		ast_t25.setTypeExp(ast0);
+		ast=ast_t25;
+		break;
 //		26	crtTpIdn 0
+	case "crtTpIdn":
+		ast0=symbs.get(0).ast;
+		TypeExp ast_t26=new TypeExp();
+		ast_t26.setASTType(TypeExp_Idn.class.getName());
+		ast_t26.setTypeExp(ast0);
+		ast=ast_t26;
+		break;
 //		27	crtTpGnrcTp 0
+	case "crtTpGnrcTp":
+		ast0=symbs.get(0).ast;
+		TypeExp ast_t27=new TypeExp();
+		ast_t27.setASTType(TypeExp_Gnrc.class.getName());
+		ast_t27.setTypeExp(ast0);
+		ast=ast_t27;
+		break;
 //		28	crtTpFunc 0
+	case "crtTpFunc":
+		ast0=symbs.get(0).ast;
+		TypeExp ast_t28=new TypeExp();
+		ast_t28.setASTType(TypeExp_Func.class.getName());
+		ast_t28.setTypeExp(ast0);
+		ast=ast_t28;
+		break;
 //		29	crtBscTpInt 0
+	case "crtBscTpInt":
+		TypeExp_Bsc ast_t29 = new TypeExp_Bsc();
+		ast_t29.setTypeB(type_sys.getBType("int"));
+		ast=ast_t29;
+		break;
 //		30	crtBscTpDb 0
+	case "crtBscTpDb":
+		TypeExp_Bsc ast_t30 = new TypeExp_Bsc();
+		ast_t30.setTypeB(type_sys.getBType("double"));
+		ast=ast_t30;
+		break;
 //		31	crtBscTpBl 0
+	case "crtBscTpBl":
+		TypeExp_Bsc ast_t31 = new TypeExp_Bsc();
+		ast_t31.setTypeB(type_sys.getBType("bool"));
+		ast=ast_t31;
+		break;
 //		32	crtBscTpStr 0
+	case "crtBscTpStr":
+		TypeExp_Bsc ast_t32 = new TypeExp_Bsc();
+		ast_t32.setTypeB(type_sys.getBType("string"));
+		ast=ast_t32;
+		break;
 //		33	crtBscTpChr 0
+	case "crtBscTpChr":
+		TypeExp_Bsc ast_t33 = new TypeExp_Bsc();
+		ast_t33.setTypeB(type_sys.getBType("char"));
+		ast=ast_t33;
+		break;
 //		34	lnkArrTp 2
+	case "lnkArrTp":
+		
 //		35	lnkIdnTpVar 2 0
 //		36	crtIdnTpVar 0
 //		37	crtGnrcTp 3 1

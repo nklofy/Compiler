@@ -18,8 +18,8 @@
 16 control_flow break 
 17 var_def var_def , var 
 18 var_def var_def , var = expression 
-19 var_def type_exp var 
-20 var_def type_exp var = expression 
+19 var_def scope_info_list type_exp var 
+20 var_def scope_info_list type_exp var = expression
 21 var_assign left_side = expression 
 22 left_side field_access 
 23 left_side array_access 
