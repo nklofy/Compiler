@@ -4,7 +4,8 @@ import Parser.*;
 import Parser.TypeSys.*;
 
 public class TypeExp extends AST {
-	T_Type t_type;
+	String type_name;//type_name
+	T_Type t_type;//type_value
 	TypeExp_Arr type_array;
 	TypeExp_Bsc type_basic;
 	TypeExp_Func type_func;
@@ -14,29 +15,26 @@ public class TypeExp extends AST {
 		switch(this.getASTType()){
 		case "TypeExp_Arr":
 			this.type_array = (TypeExp_Arr)ast;
-			this.t_type=this.type_array.t_type;
+			this.type_name=this.type_array.type_name;
 			break;
 		case "TypeExp_Bsc":
 			this.type_basic = (TypeExp_Bsc)ast;
-			this.t_type=this.type_basic.t_type;
+			this.type_name=this.type_basic.type_name;
 			break;			
 		case "TypeExp_Func":
 			this.type_func = (TypeExp_Func)ast;
-			this.t_type=this.type_func.t_type;
+			this.type_name=this.type_func.type_name;
 			break;			
 		case "TypeExp_Idn":
 			this.type_idn = (TypeExp_Idn)ast;
-			this.t_type=this.type_idn.t_type;
+			this.type_name=this.type_idn.type_name;
 			break;
 		case "TypeExp_Gnrc":
 			this.type_gnrc = (TypeExp_Gnrc)ast;
-			this.t_type=this.type_gnrc.t_type;
+			this.type_name=this.type_gnrc.type_name;
 		default:
 			return false;
 		}
 		return true;
-	}
-	public T_Type getTypeT() {
-		return t_type;
 	}
 }

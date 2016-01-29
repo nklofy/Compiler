@@ -10,8 +10,7 @@ public class Stmt_Sg extends AST {
 	public boolean setSg(AST ast){
 		switch(this.getASTType()){
 		case "SgStmt_AsnVar":
-			this.asn_var=(SgStmt_AsnVar)ast;
-			
+			this.asn_var=(SgStmt_AsnVar)ast;			
 			break;
 		case "SgStmt_DefVar":
 			this.def_var=(SgStmt_DefVar)ast;
@@ -28,8 +27,7 @@ public class Stmt_Sg extends AST {
 			}
 			break;
 		case "SgStmt_CtrFlw":
-			this.ctrflw=(SgStmt_CtrFlw)ast;
-			
+			this.ctrflw=(SgStmt_CtrFlw)ast;			
 			break;
 		case "Expr_Calc":
 			this.exp_calc=(Expr_Calc)ast;			

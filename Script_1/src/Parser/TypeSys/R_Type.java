@@ -6,7 +6,6 @@ public class R_Type extends R_Record {
 	//expression of types 
 	//inference methods
 	T_Type type_value;
-	String type_name;
 	boolean isStatic;
 	
 	public boolean isStatic() {

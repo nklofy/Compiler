@@ -4,5 +4,6 @@ import Parser.*;
 import Parser.TypeSys.*;
 
 public class TypeExp_Func extends AST {
-	T_Type t_type;
+	String type_name;//type_name
+	T_Type t_type;//type_value
 }

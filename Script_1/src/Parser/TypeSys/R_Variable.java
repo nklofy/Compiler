@@ -6,7 +6,6 @@ public class R_Variable extends R_Record{
 	boolean isFinal;
 	T_Type t_type;
 	boolean isStatic;
-	
 	public boolean isStatic() {
 		return isStatic;
 	}
