@@ -37,7 +37,7 @@ public class SgStmt_DefVar extends AST {
 	public void setVar(ExprPri_Var var) {
 		this.var = var;
 		R_Variable r=new R_Variable();
-		r.setTypeName(this.type_exp.type_name);
+		r.setAstT(this.type_exp);
 		this.addVarUp(this.var.name);
 		this.putVarTb(this.var.name, r);
 	}

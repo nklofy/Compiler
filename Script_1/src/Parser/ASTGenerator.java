@@ -11,7 +11,7 @@ public class ASTGenerator {
 	}
 	public AST crtAST(String method, ParseState crt_state, LinkedList<Symbol> symbs){		
 		AST ast=null;
-		AST ast0,ast1,ast2,ast3,ast4,ast5,ast6,ast7,ast9,ast10;
+		AST ast0,ast1,ast2,ast3,ast4,ast5,ast6,ast7,ast8,ast9,ast10;
 	switch(method){
 	//1. add link to up-ast, 2. if isMerged, skip, 3. create local sym-table, 4. update sym-table of up-ast
 	//0	crtGoal 0
@@ -248,36 +248,31 @@ public class ASTGenerator {
 //		29	crtBscTpInt 0
 	case "crtBscTpInt":
 		TypeExp_Bsc ast_t29 = new TypeExp_Bsc();
-		//ast_t29.setTypeB(type_sys.getBType("int"));
-		ast_t29.setTypeB("int");
+		ast_t29.setTypeT(type_sys.getBType("int"));
 		ast=ast_t29;
 		break;
 //		30	crtBscTpDb 0
 	case "crtBscTpDb":
 		TypeExp_Bsc ast_t30 = new TypeExp_Bsc();
-		//ast_t30.setTypeB(type_sys.getBType("double"));
-		ast_t30.setTypeB("double");
+		ast_t30.setTypeT(type_sys.getBType("double"));
 		ast=ast_t30;
 		break;
 //		31	crtBscTpBl 0
 	case "crtBscTpBl":
 		TypeExp_Bsc ast_t31 = new TypeExp_Bsc();
-		//ast_t31.setTypeB(type_sys.getBType("bool"));
-		ast_t31.setTypeB("bool");
+		ast_t31.setTypeT(type_sys.getBType("bool"));
 		ast=ast_t31;
 		break;
 //		32	crtBscTpStr 0
 	case "crtBscTpStr":
 		TypeExp_Bsc ast_t32 = new TypeExp_Bsc();
-		//ast_t32.setTypeB(type_sys.getBType("string"));
-		ast_t32.setTypeB("string");
+		ast_t32.setTypeT(type_sys.getBType("string"));
 		ast=ast_t32;
 		break;
 //		33	crtBscTpChr 0
 	case "crtBscTpChr":
 		TypeExp_Bsc ast_t33 = new TypeExp_Bsc();
-		//ast_t33.setTypeB(type_sys.getBType("char"));
-		ast_t33.setTypeB("char");
+		ast_t33.setTypeT(type_sys.getBType("char"));
 		ast=ast_t33;
 		break;
 //		34	lnkArrTp 2
@@ -313,49 +308,120 @@ public class ASTGenerator {
 	case "lnkGnrcArgsVar":
 		ast0=symbs.get(0).ast;
 		ast2=symbs.get(2).ast;
-		
+		Gnrc_Args ast_t38 = new Gnrc_Args();
+		ast_t38.setGnrcArgs((Gnrc_Args)ast2, (ExprPri_Var)ast0, null);
+		ast=ast_t38;
 		break;		
 //		39	lnkGnrcArgsExt 4 0
 	case "lnkGnrcArgsExt":
 		ast0=symbs.get(0).ast;
 		ast4=symbs.get(4).ast;
-		
+		Gnrc_Args ast_t39 = new Gnrc_Args();
+		ast_t39.setGnrcArgs((Gnrc_Args)ast4, null, (TypeExp_Idn)ast0);
+		ast=ast_t39;
 		break;		
 //		40	crtGnrcArgsVar 0
 	case "crtGnrcArgsVar":
 		ast0=symbs.get(0).ast;
-		
+		Gnrc_Args ast_t40= new Gnrc_Args();
+		ast_t40.setGnrcArgs(null, (ExprPri_Var)ast0, null);
+		ast=ast_t40;
 		break;
 //		41	crtGnrcArgsExt 0
 	case "crtGnrcArgsExt":
 		ast0=symbs.get(0).ast;
-		
+		Gnrc_Args ast_t41= new Gnrc_Args();
+		ast_t41.setGnrcArgs(null, null, (TypeExp_Idn)ast0);
+		ast=ast_t41;
 		break;
 //		42	crtClassDef 8 6 5 4 3 1
-//		43	crtIntfDef 6 4 3 1
+	case "crtClassDef":
+		ast8=symbs.get(8).ast;
+		ast6=symbs.get(6).ast;
+		ast5=symbs.get(5).ast;
+		ast4=symbs.get(4).ast;
+		ast3=symbs.get(3).ast;
+		ast1=symbs.get(1).ast;
+		Stmt_DefCls ast_t42 = new Stmt_DefCls();
+		ast_t42.setClsDef((Scp_InfoLst)ast8,(ExprPri_Var) ast6,(Gnrc_ParLst)ast5,
+				(Extd_Lst)ast4,(Impl_Lst)ast3,(MbrDef_Lst)ast1);
+		ast=ast_t42;
+		break;
+//		43	crtIntfDef 7 5 4 3 1
+	case "crtIntfDef":
+		ast7=symbs.get(7).ast;
+		ast5=symbs.get(5).ast;
+		ast4=symbs.get(4).ast;
+		ast3=symbs.get(3).ast;
+		ast1=symbs.get(1).ast;
+		Stmt_DefIntf ast_t43= new Stmt_DefIntf();
+		ast_t43.setIntfDef((Scp_InfoLst)ast7,(ExprPri_Var)ast5,(Gnrc_ParLst)ast4,
+				(Extd_Lst)ast3,(MbrDef_Lst)ast1);
+		ast=ast_t43;
+		break;
 //		44	crtScpInfLst 0
+	case "crtScpInfLst":
+		
+		break;
 //		45	crtScpInfLstE 0
+	case "crtScpInfLstE":
+		
+		break;
 //		46	lnkScpInf 1 0
+	case "lnkScpInf":
+		
+		break;
 //		47	crtScpInf 0
+	case "crtScpInf":
+		
+		break;
 //		48	crtScpStc 0
+	case "crtScpStc":
+		
+		break;
 //		49	crtScpPbl 0
+	case "crtScpPbl":
+		
+		break;
 //		50	crtScpPrv 0
+	case "crtScpPrv":
+		
+		break;
+		
 //		51	crtScpFnl 0
+	case "crtScpFnl":
+		
+		break;
 //		52	crtGnrcParLst 1
+		
 //		53	crtGnrcParLstE 0
+		
 //		54	lnkGnrcPar 2 0
+		
 //		55	lnkGnrcParExt 4 2 0
+		
 //		56	crtGnrcParVar 0
+		
 //		57	crtGnrcParExt 2 0
+		
 //		58	crtExtLst 0
+		
 //		59	crtExtLstE 0
+		
 //		60	lnkExtIdn 2 0
+		
 //		61	crtExtIdn 0
+		
 //		62	crtImpLst 0
+		
 //		63	crtImpLstE 0
+		
 //		64	lnkImpIdn 2 0
+		
 //		65	crtImpIdn 0
+		
 //		66	crtMmbDef 0
+		
 //		67	crtMmbDefE 0
 //		68	lnkMmbFld 1 0
 //		69	lnkMmbMthd 1 0

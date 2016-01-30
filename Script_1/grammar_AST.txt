@@ -42,7 +42,7 @@
 40 generic_args var 
 41 generic_args ? extends idn_type 
 42 class_def scope_info_list class var generic_pars_list extends_list implements_list { member_def_list } 
-43 interface_def scope_info_list interface var generic_pars_list { member_def_list } 
+43 interface_def scope_info_list interface var generic_pars_list extends_list { member_def_list } 
 44 scope_info_list scope_infos 
 45 scope_info_list e 
 46 scope_infos scope_infos scope_info 
@@ -201,7 +201,7 @@
 40	crtGnrcArgsVar 0
 41	crtGnrcArgsExt 0
 42	crtClassDef 8 6 5 4 3 1
-43	crtIntfDef 6 4 3 1
+43	crtIntfDef 7 5 4 3 1
 44	crtScpInfLst 0
 45	crtScpInfLstE 0
 46	lnkScpInf 1 0

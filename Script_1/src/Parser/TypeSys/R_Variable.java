@@ -1,11 +1,19 @@
 package Parser.TypeSys;
 
+import Parser.AST;
 import Parser.TypeSys.*;
 
 public class R_Variable extends R_Record{
 	boolean isFinal;
 	T_Type t_type;
 	boolean isStatic;
+	AST type_exp;//ast of type expr
+	public AST getAstT() {
+		return type_exp;
+	}
+	public void setAstT(AST ast_type) {
+		this.type_exp = ast_type;
+	}
 	public boolean isStatic() {
 		return isStatic;
 	}

@@ -431,7 +431,8 @@ public class Parser {
 		if(nss==-1){
 			return false;
 		}
-		Symbol smb_e=new Symbol(); //ast = null
+		Symbol smb_e=new Symbol(); 
+		//TODO crt ast
 		ParseState pst_a;
 		if(states_active.containsKey(nss)){		//goto state in active
 			pst_a=states_active.get(nss);			

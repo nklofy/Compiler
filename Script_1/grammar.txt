@@ -96,7 +96,7 @@ class_def |>
    scope_info_list class var generic_pars_list extends_list implements_list  { member_def_list }
 
 interface_def |>
-   scope_info_list interface var generic_pars_list { member_def_list }
+   scope_info_list interface var generic_pars_list extends_list { member_def_list }
    
 scope_info_list |>
    scope_infos
