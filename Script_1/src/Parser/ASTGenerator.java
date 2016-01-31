@@ -361,74 +361,172 @@ public class ASTGenerator {
 		break;
 //		44	crtScpInfLst 0
 	case "crtScpInfLst":
-		
+		ast0=symbs.get(0).ast;
+		ast=ast0;
 		break;
 //		45	crtScpInfLstE 0
 	case "crtScpInfLstE":
-		
+		Scp_InfoLst ast_t45=new Scp_InfoLst();
+		ast_t45.setE();
+		ast=ast_t45;
 		break;
 //		46	lnkScpInf 1 0
 	case "lnkScpInf":
-		
+		ast0=symbs.get(0).ast;
+		ast1=symbs.get(1).ast;
+		Scp_InfoLst ast_t46=(Scp_InfoLst)ast1;
+		ast_t46.addScp((Scp_Info)ast0);
 		break;
 //		47	crtScpInf 0
 	case "crtScpInf":
-		
+		ast0 = symbs.get(0).ast;
+		Scp_InfoLst ast_t47= new Scp_InfoLst();
+		ast_t47.addScp((Scp_Info)ast0);
 		break;
 //		48	crtScpStc 0
 	case "crtScpStc":
-		
+		Scp_Info ast_t48 = new Scp_Info();
+		ast_t48.setScp(Scp_Info.en_Scp.t_static);
+		ast=ast_t48;
 		break;
 //		49	crtScpPbl 0
 	case "crtScpPbl":
-		
+		Scp_Info ast_t49 = new Scp_Info();
+		ast_t49.setScp(Scp_Info.en_Scp.t_public);
+		ast=ast_t49;
 		break;
 //		50	crtScpPrv 0
 	case "crtScpPrv":
-		
+		Scp_Info ast_t50 = new Scp_Info();
+		ast_t50.setScp(Scp_Info.en_Scp.t_private);
+		ast=ast_t50;
 		break;
 		
 //		51	crtScpFnl 0
 	case "crtScpFnl":
-		
+		Scp_Info ast_t51 = new Scp_Info();
+		ast_t51.setScp(Scp_Info.en_Scp.t_final);
+		ast=ast_t51;
 		break;
 //		52	crtGnrcParLst 1
-		
+	case "crtGnrcParLst":
+		ast1=symbs.get(1).ast;
+		ast=ast1;
+		break;
 //		53	crtGnrcParLstE 0
-		
+	case "crtGnrcParLstE":
+		Gnrc_ParLst ast_t53= new Gnrc_ParLst();
+		ast_t53.setE();
+		ast=ast_t53;
+		break;
 //		54	lnkGnrcPar 2 0
-		
+	case "lnkGnrcPar":
+		ast0=symbs.get(0).ast;
+		ast2=symbs.get(2).ast;
+		Gnrc_ParLst ast_t54=(Gnrc_ParLst)ast2;
+		ast_t54.addPar(new Gnrc_Par((ExprPri_Var)ast0));
+		ast=ast_t54;
+		break;
 //		55	lnkGnrcParExt 4 2 0
-		
+	case "lnkGnrcParExt":
+		ast0=symbs.get(0).ast;
+		ast2=symbs.get(2).ast;
+		ast4=symbs.get(4).ast;
+		Gnrc_ParLst ast_t55=(Gnrc_ParLst)ast4;
+		ast_t55.addPar(new Gnrc_Par((ExprPri_Var)ast2,(TypeExp_Idn)ast0));
+		ast=ast_t55;
+		break;
 //		56	crtGnrcParVar 0
-		
+	case "crtGnrcParVar":
+		ast0=symbs.get(0).ast;
+		Gnrc_ParLst ast_t56=new Gnrc_ParLst();
+		ast_t56.addPar(new Gnrc_Par((ExprPri_Var)ast0));
+		ast=ast_t56;
+		break;
 //		57	crtGnrcParExt 2 0
-		
+	case "crtGnrcParExt":
+		ast0=symbs.get(0).ast;
+		ast2=symbs.get(2).ast;
+		Gnrc_ParLst ast_t57=new Gnrc_ParLst();
+		ast_t57.addPar(new Gnrc_Par((ExprPri_Var)ast0,(TypeExp_Idn)ast2));
+		ast=ast_t57;
+		break;
 //		58	crtExtLst 0
-		
+	case"crtExtLst":
+		ast0=symbs.get(0).ast;
+		ast=ast0;
+		break;
 //		59	crtExtLstE 0
-		
+	case "crtExtLstE":
+		Extd_Lst ast_t59=new Extd_Lst();
+		ast=ast_t59;
 //		60	lnkExtIdn 2 0
-		
+	case "lnkExtIdn":
+		ast0=symbs.get(0).ast;
+		ast2=symbs.get(2).ast;
+		Extd_Lst ast_t60=(Extd_Lst)ast2;
+		ast_t60.addPar((TypeExp_Idn)ast0);
+		ast=ast_t60;
+		break;
 //		61	crtExtIdn 0
-		
+	case "crtExtIdn":
+		ast0=symbs.get(0).ast;
+		Extd_Lst ast_t61=new Extd_Lst();
+		ast_t61.addPar((TypeExp_Idn)ast0);
+		ast=ast_t61;
+		break;
 //		62	crtImpLst 0
-		
+	case "crtImpLst":
+		ast0=symbs.get(0).ast;
+		ast=ast0;
+		break;
 //		63	crtImpLstE 0
-		
+	case "crtImpLstE":
+		Impl_Lst ast_t63=new Impl_Lst();
+		ast=ast_t63;
+		break;
 //		64	lnkImpIdn 2 0
-		
+	case "lnkImpIdn":
+		ast0=symbs.get(0).ast;
+		ast2=symbs.get(2).ast;
+		Impl_Lst ast_t64=(Impl_Lst)ast2;
+		ast_t64.addPar((TypeExp_Idn)ast0);
+		ast=ast_t64;
+		break;
 //		65	crtImpIdn 0
-		
+	case "crtImpIdn":
+		ast0=symbs.get(0).ast;
+		Impl_Lst ast_t65=new Impl_Lst();
+		ast_t65.addPar((TypeExp_Idn)ast0);
+		ast=ast_t65;
+		break;
 //		66	crtMmbDef 0
-		
+	case "crtMmbDef":
+		ast0=symbs.get(0).ast;
+		MbrDef_Lst ast_t66=(MbrDef_Lst)ast0;
+		ast=ast_t66;
+		break;
 //		67	crtMmbDefE 0
+	case "crtMmbDefE":
+		MbrDef_Lst ast_t67=new MbrDef_Lst();
+		ast=ast_t67;
+		break;
 //		68	lnkMmbFld 1 0
+	case "lnkMmbFld":
+		
+		break;
 //		69	lnkMmbMthd 1 0
+	case "lnkMmbMthd":
+		
+		break;
 //		70	crtMmbFld 0
+		
 //		71	crtMemMthd 0
+		
 //		72	crtFldDef 2 1
+		
 //		73	crtMthdDef 1 0
+		
 //		74	crtFuncDef 7 6 4 1
 //		75	crtParLst 0
 //		76	crtParLstE 0
