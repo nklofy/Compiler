@@ -1,5 +1,6 @@
 package Parser.TypeSys;
 
+import java.util.*;
 import Parser.*;
 import Parser.TypeSys.*;
 
@@ -8,6 +9,18 @@ public class R_Function extends R_Record {
 	boolean isStatic;
 	boolean isAbstract;
 	AST func_def;
+	boolean isMulti=false;
+	public boolean isMulti() {
+		return isMulti;
+	}
+	public void setMulti() {
+		this.isMulti = true;
+		this.multimorphism=new LinkedList<R_Function>();
+	}
+	LinkedList<R_Function> multimorphism;
+	public void addMulti(R_Function r){
+		this.multimorphism.add(r);
+	}
 	public AST getFuncDef() {
 		return func_def;
 	}

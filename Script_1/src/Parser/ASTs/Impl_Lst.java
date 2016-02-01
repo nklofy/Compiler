@@ -7,7 +7,7 @@ import Parser.*;
 public class Impl_Lst extends AST {
 	boolean isE=false;
 	LinkedList<TypeExp_Idn> imps;
-	public void addPar(TypeExp_Idn par){
+	public void addImp(TypeExp_Idn par){
 		if(this.imps==null){
 			this.imps=new LinkedList<TypeExp_Idn>();			
 		}

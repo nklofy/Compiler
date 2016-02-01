@@ -24,7 +24,7 @@ public class ASTGenerator {
 		ast0=symbs.get(0).ast;
 		AST_StmtList ast_t1=(AST_StmtList)ast1;
 		ast_t1.addStmt(ast0);
-		ast0.setLink(ast_t1);
+		//ast0.setLink(ast_t1);
 		ast=ast_t1;
 		break;
 	//2	crtStmtLst 0
@@ -301,36 +301,36 @@ public class ASTGenerator {
 		ast1=symbs.get(1).ast;
 		ast3=symbs.get(3).ast;
 		TypeExp_Gnrc ast_t37=new TypeExp_Gnrc();
-		ast_t37.setGnrcType((TypeExp_Idn)ast3, (Gnrc_Args)ast1);
+		ast_t37.setGnrcType((TypeExp_Idn)ast3, (Gnrc_ArgLst)ast1);
 		ast=ast_t37;
 		break;
 //		38	lnkGnrcArgsVar 2 0
 	case "lnkGnrcArgsVar":
 		ast0=symbs.get(0).ast;
 		ast2=symbs.get(2).ast;
-		Gnrc_Args ast_t38 = new Gnrc_Args();
-		ast_t38.setGnrcArgs((Gnrc_Args)ast2, (ExprPri_Var)ast0, null);
+		Gnrc_ArgLst ast_t38 = new Gnrc_ArgLst();
+		ast_t38.setGnrcArgs((Gnrc_ArgLst)ast2, (ExprPri_Var)ast0, null);
 		ast=ast_t38;
 		break;		
 //		39	lnkGnrcArgsExt 4 0
 	case "lnkGnrcArgsExt":
 		ast0=symbs.get(0).ast;
 		ast4=symbs.get(4).ast;
-		Gnrc_Args ast_t39 = new Gnrc_Args();
-		ast_t39.setGnrcArgs((Gnrc_Args)ast4, null, (TypeExp_Idn)ast0);
+		Gnrc_ArgLst ast_t39 = new Gnrc_ArgLst();
+		ast_t39.setGnrcArgs((Gnrc_ArgLst)ast4, null, (TypeExp_Idn)ast0);
 		ast=ast_t39;
 		break;		
 //		40	crtGnrcArgsVar 0
 	case "crtGnrcArgsVar":
 		ast0=symbs.get(0).ast;
-		Gnrc_Args ast_t40= new Gnrc_Args();
+		Gnrc_ArgLst ast_t40= new Gnrc_ArgLst();
 		ast_t40.setGnrcArgs(null, (ExprPri_Var)ast0, null);
 		ast=ast_t40;
 		break;
 //		41	crtGnrcArgsExt 0
 	case "crtGnrcArgsExt":
 		ast0=symbs.get(0).ast;
-		Gnrc_Args ast_t41= new Gnrc_Args();
+		Gnrc_ArgLst ast_t41= new Gnrc_ArgLst();
 		ast_t41.setGnrcArgs(null, null, (TypeExp_Idn)ast0);
 		ast=ast_t41;
 		break;
@@ -465,14 +465,14 @@ public class ASTGenerator {
 		ast0=symbs.get(0).ast;
 		ast2=symbs.get(2).ast;
 		Extd_Lst ast_t60=(Extd_Lst)ast2;
-		ast_t60.addPar((TypeExp_Idn)ast0);
+		ast_t60.addExtd((TypeExp_Idn)ast0);
 		ast=ast_t60;
 		break;
 //		61	crtExtIdn 0
 	case "crtExtIdn":
 		ast0=symbs.get(0).ast;
 		Extd_Lst ast_t61=new Extd_Lst();
-		ast_t61.addPar((TypeExp_Idn)ast0);
+		ast_t61.addExtd((TypeExp_Idn)ast0);
 		ast=ast_t61;
 		break;
 //		62	crtImpLst 0
@@ -490,14 +490,14 @@ public class ASTGenerator {
 		ast0=symbs.get(0).ast;
 		ast2=symbs.get(2).ast;
 		Impl_Lst ast_t64=(Impl_Lst)ast2;
-		ast_t64.addPar((TypeExp_Idn)ast0);
+		ast_t64.addImp((TypeExp_Idn)ast0);
 		ast=ast_t64;
 		break;
 //		65	crtImpIdn 0
 	case "crtImpIdn":
 		ast0=symbs.get(0).ast;
 		Impl_Lst ast_t65=new Impl_Lst();
-		ast_t65.addPar((TypeExp_Idn)ast0);
+		ast_t65.addImp((TypeExp_Idn)ast0);
 		ast=ast_t65;
 		break;
 //		66	crtMmbDef 0
@@ -513,41 +513,207 @@ public class ASTGenerator {
 		break;
 //		68	lnkMmbFld 1 0
 	case "lnkMmbFld":
-		
+		ast0=symbs.get(0).ast;
+		ast1=symbs.get(1).ast;
+		MbrDef_Lst ast_t68=(MbrDef_Lst)ast1;
+		ast_t68.addMbr((MbrDef) ast0);
+		ast=ast_t68;
 		break;
 //		69	lnkMmbMthd 1 0
 	case "lnkMmbMthd":
-		
+		ast0=symbs.get(0).ast;
+		ast1=symbs.get(1).ast;
+		MbrDef_Lst ast_t69=(MbrDef_Lst)ast1;
+		ast_t69.addMbr((MbrDef) ast0);
+		ast=ast_t69;
 		break;
 //		70	crtMmbFld 0
-		
+	case "crtMmbFld":
+		ast0=symbs.get(0).ast;
+		MbrDef ast_t70=new MbrDef();
+		ast_t70.setASTType(MbrDef_Fld.class.getName());
+		ast_t70.setMbr(ast0);
+		ast=ast_t70;
+		break;
 //		71	crtMemMthd 0
-		
+	case "crtMemMthd":
+		ast0=symbs.get(0).ast;
+		MbrDef ast_t71=new MbrDef();
+		ast_t71.setASTType(MbrDef_Mthd.class.getName());
+		ast_t71.setMbr(ast0);
+		ast=ast_t71;
+		break;
 //		72	crtFldDef 2 1
-		
+	case "crtFldDef":
+		ast2=symbs.get(2).ast;
+		ast1=symbs.get(1).ast;
+		MbrDef_Fld ast_t72=new MbrDef_Fld();
+		ast_t72.setFld((Scp_InfoLst)ast2, (SgStmt_DefVar) ast1);
+		ast=ast_t72;
+		break;
 //		73	crtMthdDef 1 0
-		
+	case "crtMthdDef":
+		ast0=symbs.get(0).ast;
+		ast1=symbs.get(1).ast;
+		MbrDef_Mthd ast_t73=new MbrDef_Mthd();
+		ast_t73.setMthd((Scp_InfoLst)ast1, (Stmt_DefFunc) ast0);
+		ast=ast_t73;
+		break;
 //		74	crtFuncDef 7 6 4 1
+	case "crtFuncDef":
+		ast1=symbs.get(1).ast;
+		ast4=symbs.get(4).ast;
+		ast6=symbs.get(6).ast;
+		ast7=symbs.get(7).ast;
+		ast8=symbs.get(8).ast;
+		Stmt_DefFunc ast_t74=new Stmt_DefFunc();
+		ast_t74.setFuncDef((Gnrc_ParLst) ast8, (TypeExp) ast7, (ExprPri_Var) ast6, (FuncDef_ParLst) ast4, (AST_StmtList) ast1);
+		break;
 //		75	crtParLst 0
+	case "crtParLst":
+		ast0=symbs.get(0).ast;
+		ast=ast0;
+		break;
 //		76	crtParLstE 0
+	case "crtParLstE":
+		FuncDef_ParLst ast_t76=new FuncDef_ParLst();
+		ast=ast_t76;
+		break;
 //		77	lnkParVar 3 1 0
+	case "lnkParVar":
+		ast0=symbs.get(0).ast;
+		ast1=symbs.get(1).ast;
+		ast3=symbs.get(3).ast;
+		FuncDef_ParLst ast_t77=(FuncDef_ParLst)ast3;
+		ast_t77.addPar(new FuncDef_Par((TypeExp) ast1,(ExprPri_Var) ast0));
+		ast=ast_t77;
+		break;
 //		78	crtParVar 1 0
+	case "crtParVar":
+		ast0=symbs.get(0).ast;
+		ast1=symbs.get(1).ast;
+		FuncDef_ParLst ast_t78 =new FuncDef_ParLst();
+		ast_t78.addPar(new FuncDef_Par((TypeExp) ast1,(ExprPri_Var) ast0));
+		ast=ast_t78;
+		break;
 //		79	crtIfIf 0
+	case "crtIfIf":
+		ast0=symbs.get(0).ast;
+		Stmt_If ast_t79=new Stmt_If();
+		ast_t79.setIfStmt((StmtIf_IfBd)ast0, null);
+		ast=ast_t79;
+		break;
 //		80	crtIfIfEls 2 0
+	case "crtIfIfEls":
+		ast0=symbs.get(0).ast;
+		ast2=symbs.get(2).ast;
+		Stmt_If ast_t80=new Stmt_If();
+		ast_t80.setIfStmt((StmtIf_IfBd)ast2, (StmtIf_ElsBd)ast0);
+		ast=ast_t80;
+		break;
 //		81	crtIfLst 4 1
+	case "crtIfLst":
+		ast1=symbs.get(1).ast;
+		ast4=symbs.get(4).ast;
+		StmtIf_IfBd ast_t81=new StmtIf_IfBd();
+		ast_t81.setIfBd((ExprCalc_Unary)ast4, (AST_StmtList)ast1, null);
+		ast=ast_t81;
+		break;
 //		82	crtIfSg 3 1
+	case "crtIfSg":
+		ast1=symbs.get(1).ast;
+		ast3=symbs.get(3).ast;
+		StmtIf_IfBd ast_t82=new StmtIf_IfBd();
+		ast_t82.setIfBd((ExprCalc_Unary)ast3, null, (Stmt_Sg)ast1);
+		ast=ast_t82;
+		break;
 //		83	crtElsIf 0
+	case "crtElsIf":
+		ast0=symbs.get(0).ast;
+		StmtIf_ElsBd ast_t83=new StmtIf_ElsBd();
+		ast_t83.setElsBd((Stmt_If)ast0, null, null);
+		ast=ast_t83;
+		break;		
 //		84	crtElsLst 1
+	case "crtElsLst":
+		ast1=symbs.get(1).ast;
+		StmtIf_ElsBd ast_t84=new StmtIf_ElsBd();
+		ast_t84.setElsBd(null, (AST_StmtList)ast1, null);
+		ast=ast_t84;
+		break;
 //		85	crtElsSg 1
+	case "crtElsSg":
+		ast1=symbs.get(1).ast;
+		StmtIf_ElsBd ast_t85=new StmtIf_ElsBd();
+		ast_t85.setElsBd(null, null, (Stmt_Sg)ast1);
+		ast=ast_t85;
+		break;
 //		86	crtWhl 4 1
+	case "crtWhl":
+		ast4=symbs.get(4).ast;
+		ast1=symbs.get(1).ast;
+		Stmt_Whl ast_t86=new Stmt_Whl();
+		ast_t86.setwhl((ExprCalc_Unary)ast4, (AST_StmtList)ast1);
+		break;
 //		87	crtExpLmd 0
+	case "crtExpLmd":
+		ast0=symbs.get(0).ast;
+		Expr ast_t87=new Expr();
+		ast_t87.setASTType(Expr_Lmbd.class.getName());
+		ast_t87.setExpr(ast0);
+		ast=ast_t87;
+		break;
 //		88	crtExpCalc 0
+	case "crtExpCalc":
+		ast0=symbs.get(0).ast;
+		Expr ast_t88=new Expr();
+		ast_t88.setASTType(Expr_Calc.class.getName());
+		ast_t88.setExpr(ast0);
+		ast=ast_t88;
+		break;
 //		89	crtCalcCnd 0
+	case "crtCalcCnd":
+		ast0=symbs.get(0).ast;
+		Expr_Calc ast_t89=new Expr_Calc();
+		ast_t89.setASTType(ExprCalc_Cond.class.getName());
+		ast_t89.setCalc((ExprCalc_Cond)ast0);
+		ast=ast_t89;
+		break;
 //		90	crtCalcNewCls 0
+	case "crtCalcNewCls":
+		ast0=symbs.get(0).ast;
+		Expr_Calc ast_t90=new Expr_Calc();
+		ast_t90.setASTType(ExprCalc_NewCls.class.getName());
+		ast_t90.setCalc((ExprCalc_NewCls)ast0);
+		ast=ast_t90;
+		break;
 //		91	crtCalcNewArr 0
+	case "crtCalcNewArr":
+		ast0=symbs.get(0).ast;
+		Expr_Calc ast_t91=new Expr_Calc();
+		ast_t91.setASTType(ExprCalc_NewArr.class.getName());
+		ast_t91.setCalc((ExprCalc_NewArr)ast0);
+		ast=ast_t91;
+		break;
 //		92	crtNewClsIdn 3 1
+	case "crtNewClsIdn":
+		ast1=symbs.get(1).ast;
+		ast3=symbs.get(3).ast;
+		ExprCalc_NewCls ast_t92=new ExprCalc_NewCls();
+		ast_t92.setNewCls((TypeExp_Idn)ast3, null, (ExprAppl_ArgLst)ast1);
+		ast=ast_t92;
+		break;
 //		93	crtNewClsGnrc 3 1
+	case "crtNewClsGnrc":
+		ast1=symbs.get(1).ast;
+		ast3=symbs.get(3).ast;
+		ExprCalc_NewCls ast_t93=new ExprCalc_NewCls();
+		ast_t93.setNewCls(null, (TypeExp_Gnrc)ast3, (ExprAppl_ArgLst)ast1);
+		ast=ast_t93;
+		break;
 //		94	crtNewArrTp 1 0
+	case "crtNewArrTp":
+		break;
 //		95	crtNewArrLst 1
 //		96	lnkArrLst 2 0
 //		97	crtArrLst 0

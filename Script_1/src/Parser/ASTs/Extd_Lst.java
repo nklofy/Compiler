@@ -7,7 +7,7 @@ import Parser.*;
 public class Extd_Lst extends AST {
 	boolean isE=false;
 	LinkedList<TypeExp_Idn> exts;
-	public void addPar(TypeExp_Idn par){
+	public void addExtd(TypeExp_Idn par){
 		if(this.exts==null){
 			this.exts=new LinkedList<TypeExp_Idn>();			
 		}

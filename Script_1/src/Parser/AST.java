@@ -14,7 +14,7 @@ public class AST {
 	LinkedList<String> var_up;
 	LinkedList<String> type_up;
 	LinkedList<String> func_up;	
-	AST visit_link;		//a link for visiting global or extern symbols
+	//AST visit_link;		//a link for visiting global or extern symbols
 	public String getASTType() {
 		return ast_type;
 	}
@@ -27,12 +27,12 @@ public class AST {
 		return ast_deMrg;
 	}
 
-	public AST getLink() {
+/*	public AST getLink() {
 		return visit_link;
 	}
 	public void setLink(AST visit_scope) {
 		this.visit_link = visit_scope;
-	}
+	}*/
 	public HashSet<AST> getMergedAsts() {
 		return merged_asts;
 	}
@@ -82,7 +82,16 @@ public class AST {
 	}
 	public void putFuncTb(String name, R_Function r) {
 		if(this.func_table != null){
-			this.func_table.put(name, r);
+			if(this.func_table.containsKey(name)){
+				if(this.func_table.get(name).isMulti()){
+					this.func_table.get(name).addMulti(r);
+				}else{
+					this.func_table.get(name).setMulti();
+					this.func_table.get(name).addMulti(r);
+				}
+			}else{
+				this.func_table.put(name, r);
+			}			
 		}else{
 			this.func_table=new HashMap<String, R_Function>();
 			this.func_table.put(name, r);
@@ -130,6 +139,55 @@ public class AST {
 			this.func_up.add(name);
 		}
 	}
-
-	
+	public boolean upVar(AST ast){
+		if(ast.getMergedAsts()!=null){
+			return false;
+		}
+		for(String s:ast.getVarUp()){
+			if(this.var_table!=null && this.var_table.keySet().contains(s)){
+				System.out.println("error existing symbol name: "+ s);
+			}else{
+				this.putVarTb(s, ast.getVarTb().get(s));
+				this.addVarUp(s);
+			}
+		}
+		return true;
+	}
+	public boolean upFunc(AST ast){
+		if(ast.getMergedAsts()!=null){
+			return false;
+		}
+		for(String s:ast.getFuncUp()){
+			if(this.func_table!=null && this.func_table.keySet().contains(s)){
+				System.out.println("error existing symbol name: "+ s);
+			}else{
+				this.putFuncTb(s, ast.getFuncTb().get(s));
+				this.addFuncUp(s);
+			}
+		}
+		return true;
+	}
+	public boolean upType(AST ast){
+		if(ast.getMergedAsts()!=null){
+			return false;
+		}
+		for(String s:ast.getTypeUp()){
+			if(this.type_table!=null && this.type_table.keySet().contains(s)){
+				System.out.println("error existing symbol name: "+ s);
+			}else{
+				this.putTypeTb(s, ast.getTypeTb().get(s));
+				this.addTypeUp(s);
+			}
+		}
+		return true;
+	}
+	public boolean upAll(AST ast){
+		if(ast.getMergedAsts()!=null){
+		return false;
+	}		
+		upVar(ast);
+		upFunc(ast);
+		upType(ast);
+		return true;
+	}
 }
