@@ -252,8 +252,7 @@ unary_exp |>
    ++ access_exp
 >| -- access_exp
 >| access_exp ++ 
->| access_exp -- 
->| ! access_exp
+>| access_exp --
 >| access_exp
 >| cast_exp
 

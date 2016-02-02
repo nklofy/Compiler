@@ -616,7 +616,7 @@ public class ASTGenerator {
 		ast1=symbs.get(1).ast;
 		ast4=symbs.get(4).ast;
 		StmtIf_IfBd ast_t81=new StmtIf_IfBd();
-		ast_t81.setIfBd((ExprCalc_Unary)ast4, (AST_StmtList)ast1, null);
+		ast_t81.setIfBd((ExprCalc_Bool)ast4, (AST_StmtList)ast1, null);
 		ast=ast_t81;
 		break;
 //		82	crtIfSg 3 1
@@ -624,7 +624,7 @@ public class ASTGenerator {
 		ast1=symbs.get(1).ast;
 		ast3=symbs.get(3).ast;
 		StmtIf_IfBd ast_t82=new StmtIf_IfBd();
-		ast_t82.setIfBd((ExprCalc_Unary)ast3, null, (Stmt_Sg)ast1);
+		ast_t82.setIfBd((ExprCalc_Bool)ast3, null, (Stmt_Sg)ast1);
 		ast=ast_t82;
 		break;
 //		83	crtElsIf 0
@@ -653,7 +653,7 @@ public class ASTGenerator {
 		ast4=symbs.get(4).ast;
 		ast1=symbs.get(1).ast;
 		Stmt_Whl ast_t86=new Stmt_Whl();
-		ast_t86.setwhl((ExprCalc_Unary)ast4, (AST_StmtList)ast1);
+		ast_t86.setwhl((ExprCalc_Bool)ast4, (AST_StmtList)ast1);
 		break;
 //		87	crtExpLmd 0
 	case "crtExpLmd":
@@ -700,7 +700,7 @@ public class ASTGenerator {
 		ast1=symbs.get(1).ast;
 		ast3=symbs.get(3).ast;
 		ExprCalc_NewCls ast_t92=new ExprCalc_NewCls();
-		ast_t92.setNewCls((TypeExp_Idn)ast3, null, (ExprAppl_ArgLst)ast1);
+		ast_t92.setNewCls((TypeExp_Idn)ast3, null, (FuncApp_ArgLst)ast1);
 		ast=ast_t92;
 		break;
 //		93	crtNewClsGnrc 3 1
@@ -708,77 +708,456 @@ public class ASTGenerator {
 		ast1=symbs.get(1).ast;
 		ast3=symbs.get(3).ast;
 		ExprCalc_NewCls ast_t93=new ExprCalc_NewCls();
-		ast_t93.setNewCls(null, (TypeExp_Gnrc)ast3, (ExprAppl_ArgLst)ast1);
+		ast_t93.setNewCls(null, (TypeExp_Gnrc)ast3, (FuncApp_ArgLst)ast1);
 		ast=ast_t93;
 		break;
 //		94	crtNewArrTp 1 0
 	case "crtNewArrTp":
+		ast0=symbs.get(0).ast;
+		ast1=symbs.get(1).ast;
+		ExprCalc_NewArr ast_t94=new ExprCalc_NewArr();
+		ast_t94.setNewArr((TypeExp)ast1, (NewArr_DimLst)ast0, null);
+		ast=ast_t94;
 		break;
 //		95	crtNewArrLst 1
-//		96	lnkArrLst 2 0
-//		97	crtArrLst 0
-//		98	crtArrCalc 0
-//		99	crtArrLstArr 1
-//		100	lnkDimLst 3 1
-//		101	crtDimLst 1
-//		102	crtCndBl 0
-//		103	lnkBlOr 2 0
-//		104	crtBlOr 0
-//		105	lnkOrAnd 2 0
-//		106	crtOrAnd 0
-//		107	crtAndCmp 0
-//		108	lnkCmpGT 2 0
-//		109	lnkCmpGE 2 0
-//		110	lnkCmpLT 2 0
-//		111	lnkCmpLE 2 0
-//		112	lnkCmpEQ 2 0
-//		113	lnkCmpNE 2 0
-//		114	crtCmpNAdd 0
-//		115	crtCmpAdd 0
-//		116	crtCmpTr 0
-//		117	crtCmpFs 0
-//		118	lnkAddAdd 2 0
-//		119	lnkAddMns 2 0
-//		120	crtAddPls 0
-//		121	crtAddMns 0
-//		122	crtAddMul 0
-//		123	lnkMulMul 2 0
-//		124	lnkMulSub 2 0
-//		125	crtMulUnr 0
-//		126	crtUnrInc 0
-//		127	crtUnrDec 0
-//		128	crtUnrIncP 0
-//		129	crtUnrDecP 0
-//		130	crtUnrN 0
-//		131	crtUnrAcc 0
-//		132	crtUnrCst 0
-//		133	crtCst 2 0
-//		134	crtAccFld 0
-//		135	crtAccArr 0
-//		136	crtAccApp 0
-//		137	crtAccPri 0
-//		138	lnkFldAccVar 2 0 
-//		139	lnkFldAccCls 2 0
-//		140	crtFldAccVar 0
-//		141	crtFldAccThs 0
-//		142	crtFldAccSpr 0
-//		143	crtArrAcc 1 0
-//		144	crtPriNum 0
-//		145	crtPriStr 0
-//		146	crtPriChr 0
-//		147	crtPriCnd 1
-//		148	crtAppAcc 5 3 1
-//		149	crtAppApp 5 3 1
-//		150	crtAppVar 3 1
-//		151	crtArgLst 0
-//		152	crtArgLstE 0
-//		153	lnkArgLst 2 0
-//		154	crtArgCalc 0
-//		155	crtLbdExp 7 5 1
-
-
-	case "":
+	case "crtNewArrLst":
+		ast1=symbs.get(1).ast;
+		ExprCalc_NewArr ast_t95=new ExprCalc_NewArr();
+		ast_t95.setNewArr(null, null, (NewArr_InitLst)ast1);
+		ast=ast_t95;
 		break;
+//		96	lnkArrLst 2 0
+	case "lnkArrLst":
+		ast0=symbs.get(0).ast;
+		ast2=symbs.get(2).ast;
+		NewArr_InitLst ast_t96=(NewArr_InitLst)ast2;
+		ast_t96.addInit((NewArr_Init)ast0);
+		ast=ast_t96;
+		break;
+//		97	crtArrLst 0
+	case "crtArrLst":
+		ast0=symbs.get(0).ast;
+		NewArr_InitLst ast_t97=new NewArr_InitLst();
+		ast_t97.addInit((NewArr_Init)ast0);
+		ast=ast_t97;
+		break;
+//		98	crtArrCalc 0
+	case "crtArrCalc":
+		ast0=symbs.get(0).ast;
+		NewArr_Init ast_t98=new NewArr_Init();
+		ast_t98.setCalc((Expr_Calc)ast0);
+		ast=ast_t98;
+		break;
+//		99	crtArrLstArr 1
+	case "crtArrLstArr":
+		ast0=symbs.get(0).ast;
+		NewArr_Init ast_t99=new NewArr_Init();
+		ast_t99.setLst((NewArr_InitLst)ast0);
+		ast=ast_t99;
+		break;
+//		100	lnkDimLst 3 1
+	case "lnkDimLst":
+		ast1=symbs.get(1).ast;
+		ast3=symbs.get(3).ast;
+		NewArr_DimLst ast_t100=(NewArr_DimLst)ast1;
+		ast_t100.addDim((ExprCalc_Add)ast1);
+		ast=ast_t100;
+		break;
+//		101	crtDimLst 1
+	case "crtDimLst":
+		ast1=symbs.get(1).ast;
+		NewArr_DimLst ast_t101=new NewArr_DimLst();
+		ast_t101.addDim((ExprCalc_Add)ast1);
+		ast=ast_t101;
+		break;
+//		102	crtCndBl 0
+	case "crtCndBl":
+		ast0=symbs.get(0).ast;
+		ExprCalc_Cond ast_t102=new ExprCalc_Cond();
+		ast_t102.setBoolExp((ExprCalc_Bool)ast0);
+		ast=ast_t102;
+		break;
+//		103	lnkBlOr 2 0
+	case "lnkBlOr":
+		ast0=symbs.get(0).ast;
+		ast2=symbs.get(2).ast;
+		ExprCalc_Bool ast_t103=new ExprCalc_Bool();
+		ast_t103.setBiBool((ExprCalc_Bool)ast2, "||", (ExprCalc_Bool)ast0);
+		ast=ast_t103;
+		break;
+//		104	crtBlOr 0
+	case "crtBlOr":
+		ast0=symbs.get(0).ast;
+		ast=ast0;
+		break;
+//		105	lnkOrAnd 2 0
+	case "lnkOrAnd":
+		ast0=symbs.get(0).ast;
+		ast2=symbs.get(2).ast;
+		ExprCalc_Bool ast_t105=new ExprCalc_Bool();
+		ast_t105.setBiBool((ExprCalc_Bool)ast2, "&&", (ExprCalc_Bool)ast0);
+		ast=ast_t105;
+		break;
+//		106	crtOrAnd 0
+	case "crtOrAnd":
+		ast0=symbs.get(0).ast;
+		ast=ast0;
+		break;
+//		107	crtAndCmp 0
+	case "crtAndCmp":
+		ast0=symbs.get(0).ast;
+		ast=ast0;
+		break;
+//		108	lnkCmpGT 2 0
+	case "lnkCmpGT":
+		ast0=symbs.get(0).ast;
+		ast2=symbs.get(2).ast;
+		ExprCalc_Bool ast_t108=new ExprCalc_Bool();
+		ast_t108.setBiCmp((ExprCalc_Add)ast2, ">", (ExprCalc_Add)ast0);
+		ast=ast_t108;
+		break;
+//		109	lnkCmpGE 2 0
+	case "lnkCmpGE":
+		ast0=symbs.get(0).ast;
+		ast2=symbs.get(2).ast;
+		ExprCalc_Bool ast_t109=new ExprCalc_Bool();
+		ast_t109.setBiCmp((ExprCalc_Add)ast2, ">=", (ExprCalc_Add)ast0);
+		ast=ast_t109;
+		break;	
+//		110	lnkCmpLT 2 0
+	case "lnkCmpLT":
+		ast0=symbs.get(0).ast;
+		ast2=symbs.get(2).ast;
+		ExprCalc_Bool ast_t110=new ExprCalc_Bool();
+		ast_t110.setBiCmp((ExprCalc_Add)ast2, "<", (ExprCalc_Add)ast0);
+		ast=ast_t110;
+		break;		
+//		111	lnkCmpLE 2 0
+	case "lnkCmpLE":
+		ast0=symbs.get(0).ast;
+		ast2=symbs.get(2).ast;
+		ExprCalc_Bool ast_t111=new ExprCalc_Bool();
+		ast_t111.setBiCmp((ExprCalc_Add)ast2, "<=", (ExprCalc_Add)ast0);
+		ast=ast_t111;
+		break;
+//		112	lnkCmpEQ 2 0
+	case "lnkCmpEQ":
+		ast0=symbs.get(0).ast;
+		ast2=symbs.get(2).ast;
+		ExprCalc_Bool ast_t112=new ExprCalc_Bool();
+		ast_t112.setBiCmp((ExprCalc_Add)ast2, "==", (ExprCalc_Add)ast0);
+		ast=ast_t112;
+		break;
+//		113	lnkCmpNE 2 0
+	case "lnkCmpNE":
+		ast0=symbs.get(0).ast;
+		ast2=symbs.get(2).ast;
+		ExprCalc_Bool ast_t113=new ExprCalc_Bool();
+		ast_t113.setBiCmp((ExprCalc_Add)ast2, "!=", (ExprCalc_Add)ast0);
+		ast=ast_t113;
+		break;
+//		114	crtCmpNAdd 0
+	case "crtCmpNAdd":
+		ast0=symbs.get(0).ast;
+		ExprCalc_Bool ast_t114=new ExprCalc_Bool();
+		ast_t114.setUnAdd((ExprCalc_Add)ast0,"!");
+		ast=ast_t114;
+		break;
+//		115	crtCmpAdd 0
+	case "crtCmpAdd":
+		ast0=symbs.get(0).ast;
+		ExprCalc_Bool ast_t115=new ExprCalc_Bool();
+		ast_t115.setAdd((ExprCalc_Add)ast0);
+		ast=ast_t115;
+		break;
+//		116	crtCmpTr 0
+	case "crtCmpTr":
+		ExprCalc_Bool ast_t116=new ExprCalc_Bool();
+		ast_t116.setTrue();
+		ast=ast_t116;
+		break;
+//		117	crtCmpFs 0
+	case "crtCmpFs":
+		ExprCalc_Bool ast_t117=new ExprCalc_Bool();
+		ast_t117.setFalse();
+		ast=ast_t117;
+		break;
+//		118	lnkAddAdd 2 0
+	case "lnkAddAdd":
+		ast0=symbs.get(0).ast;
+		ast2=symbs.get(2).ast;
+		ExprCalc_Add ast_t118=new ExprCalc_Add();
+		ast_t118.setBiAdd((ExprCalc_Add)ast2, "+", (ExprCalc_Add)ast0);
+		ast=ast_t118;
+		break;
+//		119	lnkAddMns 2 0
+	case "lnkAddMns":
+		ast0=symbs.get(0).ast;
+		ast2=symbs.get(2).ast;
+		ExprCalc_Add ast_t119=new ExprCalc_Add();
+		ast_t119.setBiAdd((ExprCalc_Add)ast2, "-", (ExprCalc_Add)ast0);
+		ast=ast_t119;
+		break;
+//		120	crtAddPls 0
+	case "crtAddPls":
+		ast0=symbs.get(0).ast;
+		ExprCalc_Add ast_t120=new ExprCalc_Add();
+		ast_t120.setUnAdd((ExprCalc_Add)ast0, "+");
+		ast=ast_t120;
+		break;
+//		121	crtAddMns 0
+	case "crtAddMns":
+		ast0=symbs.get(0).ast;
+		ExprCalc_Add ast_t121=new ExprCalc_Add();
+		ast_t121.setUnAdd((ExprCalc_Add)ast0, "-");
+		ast=ast_t121;
+		break;
+//		122	crtAddMul 0
+	case "crtAddMul":
+		ast0=symbs.get(0).ast;
+		ast=ast0;
+		break;
+//		123	lnkMulMul 2 0
+	case "lnkMulMul":
+		ast0=symbs.get(0).ast;
+		ast2=symbs.get(2).ast;
+		ExprCalc_Add ast_t123=new ExprCalc_Add();
+		ast_t123.setBiMul((ExprCalc_Add) ast2, "*", (ExprAccs_Pri)ast0);
+		ast=ast_t123;
+		break;
+//		124	lnkMulSub 2 0
+	case "lnkMulSub":
+		ast0=symbs.get(0).ast;
+		ast2=symbs.get(2).ast;
+		ExprCalc_Add ast_t124=new ExprCalc_Add();
+		ast_t124.setBiMul((ExprCalc_Add) ast2, "/", (ExprAccs_Pri)ast0);
+		ast=ast_t124;
+		break;
+//		125	crtMulUnr 0
+	case "crtMulUnr":
+		ast0=symbs.get(0).ast;
+		ExprCalc_Add ast_t125=new ExprCalc_Add();
+		ast_t125.setUnary((ExprCalc_Unary) ast0);
+		ast=ast_t125;
+		break;
+//		126	crtUnrInc 0
+	case "crtUnrInc":
+		ast0=symbs.get(0).ast;
+		ExprCalc_Unary ast_t126=new ExprCalc_Unary();
+		ast_t126.setUnary((ExprAccs) ast0, "++");
+		ast=ast_t126;
+		break;
+//		127	crtUnrDec 0
+	case "crtUnrDec":
+		ast0=symbs.get(0).ast;
+		ExprCalc_Unary ast_t127=new ExprCalc_Unary();
+		ast_t127.setUnary((ExprAccs) ast0, "--");
+		ast=ast_t127;
+		break;
+//		128	crtUnrIncP 0
+	case "crtUnrIncP":
+		ast0=symbs.get(0).ast;
+		ExprCalc_Unary ast_t128=new ExprCalc_Unary();
+		ast_t128.setUnary((ExprAccs) ast0, "++p");
+		ast=ast_t128;
+		break;
+//		129	crtUnrDecP 0
+	case "crtUnrDecP":
+		ast0=symbs.get(0).ast;
+		ExprCalc_Unary ast_t129=new ExprCalc_Unary();
+		ast_t129.setUnary((ExprAccs) ast0, "--p");
+		ast=ast_t129;
+		break;
+//		130	crtUnrAcc 0
+	case "crtUnrAcc":
+		ast0=symbs.get(0).ast;
+		ExprCalc_Unary ast_t130=new ExprCalc_Unary();
+		ast_t130.setUnary((ExprAccs) ast0, null);
+		ast=ast_t130;
+		break;
+//		131	crtUnrCst 0
+	case "crtUnrCst":
+		ast0=symbs.get(0).ast;
+		ExprCalc_Unary ast_t131=new ExprCalc_Unary();
+		ast_t131.setCast((ExprUnr_Cast) ast0);
+		ast=ast_t131;
+		break;
+//		132	crtCst 2 0
+	case "crtCst":
+		ast0=symbs.get(0).ast;
+		ast2=symbs.get(2).ast;
+		ExprUnr_Cast ast_t132=new ExprUnr_Cast();
+		ast_t132.setCast((TypeExp) ast2, (ExprAccs)ast0);
+		ast=ast_t132;
+		break;
+//		133	crtAccFld 0
+	case "crtAccFld":
+		ast0=symbs.get(0).ast;
+		ExprAccs ast_t133=new ExprAccs();
+		ast_t133.setASTType(ExprAccs_Fld.class.getName());
+		ast_t133.setAccs(ast0);
+		ast=ast_t133;
+		break;
+//		134	crtAccArr 0
+	case "crtAccArr":
+		ast0=symbs.get(0).ast;
+		ExprAccs ast_t134=new ExprAccs();
+		ast_t134.setASTType(ExprAccs_Arr.class.getName());
+		ast_t134.setAccs(ast0);
+		ast=ast_t134;
+		break;
+//		135	crtAccApp 0
+	case "crtAccApp":
+		ast0=symbs.get(0).ast;
+		ExprAccs ast_t135=new ExprAccs();
+		ast_t135.setASTType(ExprAccs_App.class.getName());
+		ast_t135.setAccs(ast0);
+		ast=ast_t135;
+		break;
+//		136	crtAccPri 0
+	case "crtAccPri":
+		ast0=symbs.get(0).ast;
+		ExprAccs ast_t136=new ExprAccs();
+		ast_t136.setASTType(ExprAccs_Pri.class.getName());
+		ast_t136.setAccs(ast0);
+		ast=ast_t136;
+		break;
+//		137	lnkFldAccVar 2 0 
+	case "lnkFldAccVar":
+		ast0=symbs.get(0).ast;
+		ast2=symbs.get(2).ast;
+		ExprAccs_Fld ast_t137=new ExprAccs_Fld();
+		ast_t137.setAccs((ExprAccs_Fld)ast2, (ExprPri_Var)ast0, null);
+		ast=ast_t137;
+		break;
+//		138	lnkFldAccCls 2 
+	case "lnkFldAccCls":
+		ast2=symbs.get(2).ast;
+		ExprAccs_Fld ast_t138=new ExprAccs_Fld();
+		ast_t138.setAccs((ExprAccs_Fld)ast2, null, "class");
+		ast=ast_t138;
+		break;
+//		139	crtFldAccVar 0
+	case "crtFldAccVar":
+		ast0=symbs.get(0).ast;
+		ExprAccs_Fld ast_t139=new ExprAccs_Fld();
+		ast_t139.setAccs(null, (ExprPri_Var)ast0, "class");
+		ast=ast_t139;
+		break;
+//		140	crtFldAccThs 0
+	case "crtFldAccThs":
+		ast0=symbs.get(0).ast;
+		ExprAccs_Fld ast_t140=new ExprAccs_Fld();
+		ast_t140.setAccs(null, null, "this");
+		ast=ast_t140;
+		break;
+//		141	crtFldAccSpr 0
+	case "crtFldAccSpr":
+		ast0=symbs.get(0).ast;
+		ExprAccs_Fld ast_t141=new ExprAccs_Fld();
+		ast_t141.setAccs(null, null, "super");
+		ast=ast_t141;
+		break;
+//		142	crtArrAcc 1 0
+	case "crtArrAcc":
+		ast0=symbs.get(0).ast;
+		ast1=symbs.get(1).ast;
+		ExprAccs_Arr ast_t142=new ExprAccs_Arr();
+		ast_t142.setAccs((ExprAccs_Fld)ast1, (NewArr_DimLst)ast0);
+		ast=ast_t142;
+		break;
+//		143	crtPriNum 0
+	case "crtPriNum":
+		ast0=symbs.get(0).ast;
+		ExprAccs_Pri ast_t143=new ExprAccs_Pri();
+		ast_t143.setASTType(ExprPri_Num.class.getName());
+		ast_t143.setPri(ast0);
+		ast=ast_t143;
+		break;
+//		144	crtPriStr 0
+	case "crtPriStr":
+		ast0=symbs.get(0).ast;
+		ExprAccs_Pri ast_t144=new ExprAccs_Pri();
+		ast_t144.setASTType(ExprPri_Str.class.getName());
+		ast_t144.setPri(ast0);
+		ast=ast_t144;
+		break;
+//		145	crtPriChr 0
+	case "crtPriChr":
+		ast0=symbs.get(0).ast;
+		ExprAccs_Pri ast_t145=new ExprAccs_Pri();
+		ast_t145.setASTType(ExprPri_Chr.class.getName());
+		ast_t145.setPri(ast0);
+		ast=ast_t145;
+		break;
+//		146	crtPriCnd 1
+	case "crtPriCnd":
+		ast1=symbs.get(1).ast;
+		ExprAccs_Pri ast_t146=new ExprAccs_Pri();
+		ast_t146.setASTType(ExprCalc_Cond.class.getName());
+		ast_t146.setPri(ast1);
+		ast=ast_t146;
+		break;
+//		147	crtAppAcc 5 3 1
+	case "crtAppAcc":
+		ast5=symbs.get(5).ast;
+		ast3=symbs.get(3).ast;
+		ast1=symbs.get(1).ast;
+		ExprAccs_App ast_t147=new ExprAccs_App();
+		ast_t147.lnkApp((ExprAccs)ast5,(ExprPri_Var)ast3,(FuncApp_ArgLst)ast1);
+		ast=ast_t147;
+		break;
+//		148	crtAppApp 5 3 1
+	case "crtAppApp":
+		ast5=symbs.get(5).ast;
+		ast3=symbs.get(3).ast;
+		ast1=symbs.get(1).ast;
+		ExprAccs_App ast_t148=new ExprAccs_App();
+		ast_t148.lnkApp((ExprAccs_App)ast5,(ExprPri_Var)ast3,(FuncApp_ArgLst)ast1);
+		ast=ast_t148;
+		break;
+//		149	crtAppVar 3 1
+	case "crtAppVar":
+		ast3=symbs.get(3).ast;
+		ast1=symbs.get(1).ast;
+		ExprAccs_App ast_t149=new ExprAccs_App();
+		ast_t149.setApp((ExprPri_Var)ast3,(FuncApp_ArgLst)ast1);
+		ast=ast_t149;
+		break;
+//		150	crtArgLst 0
+	case "crtArgLst":
+		ast0=symbs.get(0).ast;
+		ast=ast0;
+		break;
+//		151	crtArgLstE 0
+	case "crtArgLstE":
+		FuncApp_ArgLst ast_t151=new FuncApp_ArgLst();
+		ast_t151.setE();
+		ast=ast_t151;
+		break;
+//		152	lnkArgLst 2 0
+	case "lnkArgLst":
+		ast0=symbs.get(0).ast;
+		ast2=symbs.get(2).ast;
+		FuncApp_ArgLst ast_t152=(FuncApp_ArgLst)ast2;
+		ast_t152.addArg((Expr_Calc)ast0);
+		ast=ast_t152;
+		break;
+//		153	crtArgCalc 0
+	case "crtArgCalc":
+		ast0=symbs.get(0).ast;
+		FuncApp_ArgLst ast_t153=new FuncApp_ArgLst();
+		ast_t153.addArg((Expr_Calc)ast0);
+		ast=ast_t153;
+//		154	crtLbdExp 7 5 1
+	case "crtLbdExp":
+		ast0=symbs.get(0).ast;
+		ast2=symbs.get(2).ast;
+		Expr_Lmbd ast_t154=new Expr_Lmbd();
+		ast_t154.setLmbd((FuncDef_ParLst)ast2, (AST_StmtList)ast0);
+		ast=ast_t154;
+		break;
+	
 	default:
 		break;	
 	}

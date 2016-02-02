@@ -19,7 +19,7 @@
 17 var_def var_def , var 
 18 var_def var_def , var = expression 
 19 var_def scope_info_list type_exp var 
-20 var_def scope_info_list type_exp var = expression
+20 var_def scope_info_list type_exp var = expression 
 21 var_assign left_side = expression 
 22 left_side field_access 
 23 left_side array_access 
@@ -129,32 +129,31 @@
 127 unary_exp -- access_exp 
 128 unary_exp access_exp ++ 
 129 unary_exp access_exp -- 
-130 unary_exp ! access_exp 
-131 unary_exp access_exp 
-132 unary_exp cast_exp 
-133 cast_exp ( type_exp ) access_exp 
-134 access_exp field_access 
-135 access_exp array_access 
-136 access_exp apply_exp 
-137 access_exp pri_exp 
-138 field_access field_access . var 
-139 field_access field_access . class 
-140 field_access var 
-141 field_access this 
-142 field_access super 
-143 array_access field_access dim_list 
-144 pri_exp number 
-145 pri_exp str 
-146 pri_exp chr 
-147 pri_exp ( cond_exp ) 
-148 apply_exp access_exp . var ( arg_list ) 
-149 apply_exp apply_exp . var ( arg_list ) 
-150 apply_exp var ( arg_list ) 
-151 arg_list arguments 
-152 arg_list e 
-153 arguments arguments , calc_exp 
-154 arguments calc_exp 
-155 lambda_exp ( par_list ) -> { stmt_list } 
+130 unary_exp access_exp 
+131 unary_exp cast_exp 
+132 cast_exp ( type_exp ) access_exp 
+133 access_exp field_access 
+134 access_exp array_access 
+135 access_exp apply_exp 
+136 access_exp pri_exp 
+137 field_access field_access . var 
+138 field_access field_access . class 
+139 field_access var 
+140 field_access this 
+141 field_access super 
+142 array_access field_access dim_list 
+143 pri_exp number 
+144 pri_exp str 
+145 pri_exp chr 
+146 pri_exp ( cond_exp ) 
+147 apply_exp access_exp . var ( arg_list ) 
+148 apply_exp apply_exp . var ( arg_list ) 
+149 apply_exp var ( arg_list ) 
+150 arg_list arguments 
+151 arg_list e 
+152 arguments arguments , calc_exp 
+153 arguments calc_exp 
+154 lambda_exp ( par_list ) -> { stmt_list } 
  
 
 //AST
@@ -288,31 +287,30 @@
 127	crtUnrDec 0
 128	crtUnrIncP 0
 129	crtUnrDecP 0
-130	crtUnrN 0
-131	crtUnrAcc 0
-132	crtUnrCst 0
-133	crtCst 2 0
-134	crtAccFld 0
-135	crtAccArr 0
-136	crtAccApp 0
-137	crtAccPri 0
-138	lnkFldAccVar 2 0 
-139	lnkFldAccCls 2 0
-140	crtFldAccVar 0
-141	crtFldAccThs 0
-142	crtFldAccSpr 0
-143	crtArrAcc 1 0
-144	crtPriNum 0
-145	crtPriStr 0
-146	crtPriChr 0
-147	crtPriCnd 1
-148	crtAppAcc 5 3 1
-149	crtAppApp 5 3 1
-150	crtAppVar 3 1
-151	crtArgLst 0
-152	crtArgLstE 0
-153	lnkArgLst 2 0
-154	crtArgCalc 0
-155	crtLbdExp 7 5 1
+130	crtUnrAcc 0
+131	crtUnrCst 0
+132	crtCst 2 0
+133	crtAccFld 0
+134	crtAccArr 0
+135	crtAccApp 0
+136	crtAccPri 0
+137	lnkFldAccVar 2 0 
+138	lnkFldAccCls 2 0
+139	crtFldAccVar 0
+140	crtFldAccThs 0
+141	crtFldAccSpr 0
+142	crtArrAcc 1 0
+143	crtPriNum 0
+144	crtPriStr 0
+145	crtPriChr 0
+146	crtPriCnd 1
+147	crtAppAcc 5 3 1
+148	crtAppApp 5 3 1
+149	crtAppVar 3 1
+150	crtArgLst 0
+151	crtArgLstE 0
+152	lnkArgLst 2 0
+153	crtArgCalc 0
+154	crtLbdExp 7 5 1
 
 //end

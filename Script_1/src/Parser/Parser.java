@@ -431,8 +431,10 @@ public class Parser {
 		if(nss==-1){
 			return false;
 		}
+		ASTRule rule=astRule_list.get(r_grm);
+		String method=rule.method;
 		Symbol smb_e=new Symbol(); 
-		//TODO crt ast
+		smb_e.ast=ast_gen.crtAST(method, pst, null);//TODO crt ast
 		ParseState pst_a;
 		if(states_active.containsKey(nss)){		//goto state in active
 			pst_a=states_active.get(nss);			
@@ -499,8 +501,8 @@ public class Parser {
 			//pst_pre=pst_pre.pre_state;
 			new_smb.path.path_end=pst_pre;
 			new_smb.path.path_count=ct;
-			//new_smb.ast=ast_gen.crtAST(method, pst_crt, new_smb.path.getPath());		//build new ast TODO
-			//System.out.println("create ast: "+ ast.getClass().getName());			
+			new_smb.ast=ast_gen.crtAST(method, pst_crt, new_smb.path.getPath());		//build new ast TODO
+			//System.out.println("create ast: "+ new_smb.ast.getClass().getName());			
 			int nss=goto_table.get(pst_pre.state_sn).get(symbol_sn.get(reduce_head));
 			if(nss==-1){
 				return false;		//no reduce, maybe another shift
