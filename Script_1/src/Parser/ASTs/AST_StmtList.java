@@ -1,6 +1,8 @@
 package Parser.ASTs;
 
 import java.util.*;
+
+import Interpreter.Interpreter;
 import Parser.*;
 
 public class AST_StmtList extends AST {
@@ -12,10 +14,11 @@ public class AST_StmtList extends AST {
 		}
 		this.upAll(stmt);
 	}
+	public boolean eval(Interpreter interpreter){return true;}
 	public boolean genCode(CodeGenerator codegen){
-		for(AST stmt:stmt_list){
-			stmt.genCode(codegen);
-		}
+		return true;
+	}
+	public boolean checkType(){
 		return true;
 	}
 }

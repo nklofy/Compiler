@@ -1,6 +1,8 @@
 package Parser.ASTs;
 
+import Interpreter.Interpreter;
 import Parser.AST;
+import Parser.CodeGenerator;
 
 public class AST_Stmt extends AST {
 	Stmt_DefCls stmt_cls;
@@ -13,45 +15,12 @@ public class AST_Stmt extends AST {
 		switch(this.getASTType()){
 		case "Stmt_DefCls":
 			this.stmt_cls=(Stmt_DefCls)ast;
-			if(ast.getMergedAsts()!=null){
-				break;
-			}
-			for(String s:ast.getTypeUp()){
-				if(this.getTypeTb()!=null && this.getTypeTb().keySet().contains(s)){
-					System.out.println("error existing symbol name: "+ s);
-				}else{
-					this.putTypeTb(s, ast.getTypeTb().get(s));
-					this.addTypeUp(s);
-				}
-			}
 			break;
 		case "Stmt_DefIntf":
 			this.stmt_intf=(Stmt_DefIntf)ast;
-			if(ast.getMergedAsts()!=null){
-				break;
-			}
-			for(String s:ast.getTypeUp()){
-				if(this.getTypeTb()!=null && this.getTypeTb().keySet().contains(s)){
-					System.out.println("error existing symbol name: "+ s);
-				}else{
-					this.putTypeTb(s, ast.getTypeTb().get(s));
-					this.addTypeUp(s);
-				}
-			}
 			break;
 		case "Stmt_DefFunc":
-			this.stmt_func=(Stmt_DefFunc)ast;
-			if(ast.getMergedAsts()!=null){
-				break;
-			}
-			for(String s:ast.getFuncUp()){
-				if(this.getFuncTb()!=null && this.getFuncTb().keySet().contains(s)){
-					System.out.println("error existing symbol name: "+ s);
-				}else{
-					this.putFuncTb(s, ast.getFuncTb().get(s));
-					this.addFuncUp(s);
-				}
-			}
+			this.stmt_func=(Stmt_DefFunc)ast;					
 			break;
 		case "Stmt_If":
 			this.stmt_if=(Stmt_If)ast;
@@ -66,7 +35,14 @@ public class AST_Stmt extends AST {
 		default:
 			return false;
 		}
+		this.upAll(ast);
 		return true;
 	}
-	
+	public boolean eval(Interpreter interpreter){return true;}
+	public boolean genCode(CodeGenerator codegen){
+		return true;
+	}
+	public boolean checkType(){
+		return true;
+	}
 }

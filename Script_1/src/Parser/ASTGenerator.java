@@ -13,12 +13,11 @@ public class ASTGenerator {
 		AST ast=null;
 		AST ast0,ast1,ast2,ast3,ast4,ast5,ast6,ast7,ast8,ast9,ast10;
 	switch(method){
-	//1. add link to up-ast, 2. if isMerged, skip, 3. create local sym-table, 4. update sym-table of up-ast
-	//0	crtGoal 0
+//0	crtGoal 0
 	case "crtGoal":
 		ast=symbs.get(0).ast;
 		break;
-	//1	lnkStmtLst 1 0
+//1	lnkStmtLst 1 0
 	case "lnkStmtLst":
 		ast1=symbs.get(1).ast;
 		ast0=symbs.get(0).ast;
@@ -27,14 +26,14 @@ public class ASTGenerator {
 		//ast0.setLink(ast_t1);
 		ast=ast_t1;
 		break;
-	//2	crtStmtLst 0
+//2	crtStmtLst 0
 	case "crtStmtLst":
 		ast0=symbs.get(0).ast;
 		AST_StmtList ast_t2=new AST_StmtList();
 		ast_t2.addStmt(ast0);
 		ast=ast_t2;
 		break;
-	//3	crtStmtClsDef 0
+//3	crtStmtClsDef 0
 	case "crtStmtClsDef":
 		ast0=symbs.get(0).ast;
 		AST_Stmt ast_t3=new AST_Stmt();
@@ -42,7 +41,7 @@ public class ASTGenerator {
 		ast_t3.setStmt(ast0);
 		ast=ast_t3;
 		break;
-	//4	crtStmtIntfDef 0
+//4	crtStmtIntfDef 0
 	case "crtStmtIntfDef":
 		ast0=symbs.get(0).ast;
 		AST_Stmt ast_t4=new AST_Stmt();
@@ -50,7 +49,7 @@ public class ASTGenerator {
 		ast_t4.setStmt(ast0);
 		ast=ast_t4;
 		break;
-	//5	crtStmtFuncDef 0
+//5	crtStmtFuncDef 0
 	case "crtStmtFuncDef":
 		ast0=symbs.get(0).ast;
 		AST_Stmt ast_t5=new AST_Stmt();
@@ -58,7 +57,7 @@ public class ASTGenerator {
 		ast_t5.setStmt(ast0);
 		ast=ast_t5;
 		break;
-	//6	crtStmtIf 0
+//6	crtStmtIf 0
 	case "crtStmtIf":
 		ast0=symbs.get(0).ast;
 		AST_Stmt ast_t6=new AST_Stmt();
@@ -66,7 +65,7 @@ public class ASTGenerator {
 		ast_t6.setStmt(ast0);
 		ast=ast_t6;
 		break;	
-	//7	crtStmtWhl 0
+//7	crtStmtWhl 0
 	case "crtStmtWhl":
 		ast0=symbs.get(0).ast;
 		AST_Stmt ast_t7=new AST_Stmt();
@@ -74,7 +73,7 @@ public class ASTGenerator {
 		ast_t7.setStmt(ast0);
 		ast=ast_t7;
 		break;		
-	//8	crtStmtSg 0
+//8	crtStmtSg 0
 	case "crtStmtSg":
 		ast0=symbs.get(1).ast;
 		AST_Stmt ast_t8=new AST_Stmt();
@@ -82,7 +81,7 @@ public class ASTGenerator {
 		ast_t8.setStmt(ast0);
 		ast=ast_t8;
 		break;	
-	//9	crtSgVarAssign 0
+//9	crtSgVarAssign 0
 	case "crtSgVarAssign":
 		ast0=symbs.get(0).ast;
 		Stmt_Sg ast_t9=new Stmt_Sg();
@@ -90,7 +89,7 @@ public class ASTGenerator {
 		ast_t9.setSg(ast0);
 		ast=ast_t9;
 		break;
-	//10	crtSgVarDef 0
+//10	crtSgVarDef 0
 	case "crtSgVarDef":
 		ast0=symbs.get(0).ast;
 		Stmt_Sg ast_t10=new Stmt_Sg();
@@ -98,7 +97,7 @@ public class ASTGenerator {
 		ast_t10.setSg(ast0);
 		ast=ast_t10;
 		break;
-	//11	crtSgCalc 0
+//11	crtSgCalc 0
 	case "crtSgCalc":
 		ast0=symbs.get(0).ast;
 		Stmt_Sg ast_t11=new Stmt_Sg();
@@ -106,7 +105,7 @@ public class ASTGenerator {
 		ast_t11.setSg(ast0);
 		ast=ast_t11;
 		break;
-	//12	crtSgCtrF 0
+//12	crtSgCtrF 0
 	case "crtSgCtrF":		
 		ast0=symbs.get(0).ast;
 		Stmt_Sg ast_t12=new Stmt_Sg();
@@ -114,7 +113,7 @@ public class ASTGenerator {
 		ast_t12.setSg(ast0);
 		ast=ast_t12;
 		break;
-	//13	crtCFRetE 0
+//13	crtCFRetE 0
 	case "crtCFRetE":
 		ast0=symbs.get(0).ast;
 		SgStmt_CtrFlw ast_t13=new SgStmt_CtrFlw();
@@ -122,19 +121,19 @@ public class ASTGenerator {
 		ast_t13.setCFT(SgStmt_CtrFlw.en_Ctrflw.t_returnExp);
 		ast=ast_t13;
 		break;
-	//14	crtCFRet 0
+//14	crtCFRet 0
 	case "crtCFRet":
 		SgStmt_CtrFlw ast_t14=new SgStmt_CtrFlw();
 		ast_t14.setCFT(SgStmt_CtrFlw.en_Ctrflw.t_return);
 		ast=ast_t14;
 		break;		
-	//15	crtCFCont 0
+//15	crtCFCont 0
 	case "crtCFCont":
 		SgStmt_CtrFlw ast_t15=new SgStmt_CtrFlw();
 		ast_t15.setCFT(SgStmt_CtrFlw.en_Ctrflw.t_continue);
 		ast=ast_t15;
 		break;	
-	//16	crtCFBrk 0
+//16	crtCFBrk 0
 	case "crtCFBrk":
 		SgStmt_CtrFlw ast_t16=new SgStmt_CtrFlw();
 		ast_t16.setCFT(SgStmt_CtrFlw.en_Ctrflw.t_break);

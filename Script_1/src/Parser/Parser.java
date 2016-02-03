@@ -25,13 +25,9 @@ public class Parser {
 	private ArrayList<ArrayList<ArrayList<Integer>>> reduces_table=new ArrayList<ArrayList<ArrayList<Integer>>>();	
 	private AST ast_tree;
 	private HashMap<Integer,ParseState> states_active=new HashMap<Integer,ParseState>();
-	//private HashMap<Integer,ParseState> states_shift=new HashMap<Integer,ParseState>();
-	//private HashMap<Integer,ParseState> states_reduce=new HashMap<Integer,ParseState>();
 	private LinkedList<ParseState> states_rlst=new LinkedList<ParseState>();	//TODO change to treeset?
 	private LinkedList<ParseState> states_elst=new LinkedList<ParseState>();
 	private int sym_e;
-	//private HashSet<Symbol> ambg_smbs=new HashSet<Symbol>();
-	//private ArrayList<String> parse_log=new ArrayList<String>();
 	public AST getAST(){
 		return ast_tree;
 	}
@@ -309,25 +305,21 @@ public class Parser {
 		while(true){	
 			smb=new Symbol();
 			smb.line=token.getLine();
-			//smb.type=token.getType();
 			switch(token.getType()){
 			case "int":
 				token_name="number";smb.name=token_name;
-				//smb.value=token.getNumValue();
 				ExprPri_Num tn_ast=new ExprPri_Num();
 				tn_ast.setNum("int", token.getNumValue());
 				smb.ast=tn_ast;
 				break;
 			case "double":
 				token_name="number";smb.name=token_name;
-				//smb.value=token.getNumValue();
 				ExprPri_Num td_ast=new ExprPri_Num();
 				td_ast.setNum("double", token.getNumValue());
 				smb.ast=td_ast;
 				break;
 			case "var":
 				token_name="var";smb.name=token_name;
-				//smb.value=token.getIdnName();
 				ExprPri_Var tv_ast=new ExprPri_Var();
 				tv_ast.setName(token.getIdnName());
 				smb.ast=tv_ast;
@@ -343,14 +335,12 @@ public class Parser {
 				continue;
 			case "string":
 				token_name="str";smb.name=token_name;
-				//smb.value=token.getStrValue();
 				ExprPri_Str ts_ast=new ExprPri_Str();
 				ts_ast.setStr(token.getStrValue());
 				smb.ast=ts_ast;
 				break;
 			case "char":
 				token_name="chr";smb.name=token_name;
-				//smb.value=token.getChrValue();
 				ExprPri_Chr tc_ast=new ExprPri_Chr();
 				tc_ast.setChr(token.getChrValue());
 				smb.ast=tc_ast;
@@ -362,7 +352,7 @@ public class Parser {
 			doAllReduce(token_name, smb);	
 			if(token_name.equals("eof")&&states_active.containsKey(0)  ){//end of parsing
 				System.out.println("eof, "+"finished parsing");
-				//ast_tree=states_act.get(0).symbol.ast;
+				ast_tree=states_active.get(0).symbol.ast;
 				break;	
 			}
 			if(states_active.isEmpty()){				
@@ -493,13 +483,11 @@ public class Parser {
 			new_smb.name=reduce_head;
 			new_smb.path=new Path();
 			new_smb.path.path_start=pst_pre;
-			//new_smb.path.crt_symbol=pst_pre.symbol;
 			for(int i=0;i<ct;i++){							//fast LR
 				new_smb.path=new_smb.path.addSymbol(pst_pre.symbol);
 				pst_pre=pst_pre.pre_state;					//move states_act;	
 							
 			}
-			//pst_pre=pst_pre.pre_state;
 			new_smb.path.path_end=pst_pre;
 			new_smb.path.path_count=ct;
 			new_smb.ast=ast_gen.crtAST(method, pst_crt, new_smb.path.getPath());		//build new ast TODO
@@ -601,10 +589,10 @@ public class Parser {
 					System.out.println("create ast: "+ ast.getClass().getName());
 				}
 			}
-	/*		if(symb_t.isEmpty){
+			if(symb_t.isEmpty){
 				
 				continue;
-			}*/
+			}
 			ParseState nps=null;
 			if(states_active.containsKey(nss)){
 				nps=states_active.get(nss);
@@ -635,9 +623,7 @@ public class Parser {
 		PrintWriter out=null;
 		try {
 			out=new PrintWriter(new BufferedWriter(new FileWriter(filename)));
-			//for(String s:parse_log){
-			//	out.println(s);
-			//}
+			
 		} catch (Exception e) {			
 			e.printStackTrace();
 		}finally{

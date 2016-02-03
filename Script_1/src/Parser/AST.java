@@ -39,7 +39,7 @@ public class AST {
 	public void setMergedAsts(HashSet<AST> merged_asts) {
 		this.merged_asts = merged_asts;
 	}
-	//public boolean eval(Interpreter interpreter){return true;}
+	public boolean eval(Interpreter interpreter){return true;}
 	public boolean genCode(CodeGenerator codegen){
 		return true;
 	}
@@ -139,10 +139,7 @@ public class AST {
 			this.func_up.add(name);
 		}
 	}
-	public boolean upVar(AST ast){
-		if(ast.getMergedAsts()!=null){
-			return false;
-		}
+	private boolean upVar(AST ast){
 		if(ast.getVarUp()==null){
 			return false;
 		}
@@ -156,10 +153,7 @@ public class AST {
 		}
 		return true;
 	}
-	public boolean upFunc(AST ast){
-		if(ast.getMergedAsts()!=null){
-			return false;
-		}
+	private boolean upFunc(AST ast){
 		if(ast.getFuncUp()==null){
 			return false;
 		}
@@ -173,10 +167,7 @@ public class AST {
 		}
 		return true;
 	}
-	public boolean upType(AST ast){
-		if(ast.getMergedAsts()!=null){
-			return false;
-		}
+	private boolean upType(AST ast){
 		if(ast.getTypeUp()==null){
 			return false;
 		}
