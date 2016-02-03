@@ -9,15 +9,19 @@ public class Path{
 	int path_count; 	//depth in reduce path
 	Path pre_path;
 	Symbol crt_symbol=null;
-	public LinkedList<Symbol> getPath(){			
+	public List<Symbol> getPath(){			
 		LinkedList<Symbol> symbs=new LinkedList<Symbol>();
+		List<Symbol> symbsR=new ArrayList<Symbol>();
 		symbs.add(crt_symbol);
 		Path pre_t=pre_path;
 		while(pre_t!=null){
-			symbs.add(pre_t.crt_symbol);
+			symbs.addFirst(pre_t.crt_symbol);
 			pre_t=pre_t.pre_path;
 		}
-		return symbs;						
+		while(!symbs.isEmpty()){
+			symbsR.add(symbs.removeFirst());
+		}
+		return symbsR;						
 	}
 	public Path addSymbol(Symbol symb){
 		if(this.crt_symbol==null){

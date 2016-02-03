@@ -4,7 +4,7 @@ import java.util.*;
 
 public class Symbol {//symbol in graph stack correspond to reduce path or merged paths
 	AST ast;
-	boolean isEmpty=true;//e reduce
+	boolean isEmpty=true;
 	boolean isMerged=false;
 	HashSet<AST> asts;
 	int line;

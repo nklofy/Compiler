@@ -435,6 +435,7 @@ public class Parser {
 		String method=rule.method;
 		Symbol smb_e=new Symbol(); 
 		smb_e.ast=ast_gen.crtAST(method, pst, null);//TODO crt ast
+		System.out.println("create ast: "+ smb_e.ast.getClass().getName());
 		ParseState pst_a;
 		if(states_active.containsKey(nss)){		//goto state in active
 			pst_a=states_active.get(nss);			
@@ -502,7 +503,7 @@ public class Parser {
 			new_smb.path.path_end=pst_pre;
 			new_smb.path.path_count=ct;
 			new_smb.ast=ast_gen.crtAST(method, pst_crt, new_smb.path.getPath());		//build new ast TODO
-			//System.out.println("create ast: "+ new_smb.ast.getClass().getName());			
+			System.out.println("create ast: "+ new_smb.ast.getClass().getName());			
 			int nss=goto_table.get(pst_pre.state_sn).get(symbol_sn.get(reduce_head));
 			if(nss==-1){
 				return false;		//no reduce, maybe another shift
@@ -540,10 +541,6 @@ public class Parser {
 		new_smb.name=reduce_head;
 		new_smb.path=new Path();
 		new_smb.path.path_start=pst_pre;
-		//new_smb.path.crt_symbol=pst_pre.symbol;
-		//new_smb.path_start=pst_pre;
-		//new_smb.path_count=ct;
-		//new_smb.path_end=pre_mr;
 		HashSet<ParseState> states_bfw=new HashSet<ParseState>();	//set of back forward state
 		HashSet<ParseState> states_bfwl=new HashSet<ParseState>();	//tmp list for back forward state
 		HashSet<Symbol> symbs=new HashSet<Symbol>();
@@ -553,27 +550,25 @@ public class Parser {
 			pst_pre=pst_pre.pre_state;						//fast move		
 						
 		}
-		//pst_pre=pst_pre.pre_state;
 		states_bfw.add(pst_pre);
 		symbs.add(new_smb);
 		for(int i=ct-pst_crt.det_depth+1;i>=2;i--){
 			states_bfwl.clear();
+			symbsl.clear();
 			for(ParseState pst_b:states_bfw){
 				if(pst_b.isFixed){
 					if(pst_b.symbol.name.equals(grm.symbols.get(i))){
 						states_bfwl.add(pst_b.pre_state);
 						for(Symbol sym:symbs){
 							sym.path=sym.path.addSymbol(pst_b.symbol);
-							sym.path.path_end=pst_b;
+							sym.path.path_end=pst_b.pre_state;
 							symbsl.add(sym);
 						}
 					}else{
 						continue;
 					}					
 				}else{
-					//HashSet<String> sbs=new HashSet<String>();
 					for(int j=0;j<pst_b.symbols.size();j++){
-						//sbs.add(s.name);
 						Symbol s=pst_b.symbols.get(j);
 						if(s.name.equals(grm.symbols.get(i))){
 							states_bfwl.add(pst_b.pre_states.get(j));
@@ -584,12 +579,7 @@ public class Parser {
 								symbsl.add(sym_t);
 							}
 						}
-					}
-					//if(sbs.contains(grm.symbols.get(i))){
-					//	states_bfwl.addAll(pst_b.pre_states);
-					//}else{
-					//	continue;
-					//}					
+					}								
 				}
 			}
 			
@@ -606,10 +596,15 @@ public class Parser {
 			Symbol symb_t=new Symbol(new_smb);
 			for(Symbol sym:symbs){
 				if(sym.path.path_end==pre_mr){
-					symb_t.addAST(ast_gen.crtAST(method,pst_crt, sym.path.getPath()));		//build new ast TODO
-					//System.out.println("create ast: "+ ast.getClass().getName());
+					AST ast=ast_gen.crtAST(method,pst_crt, sym.path.getPath());
+					symb_t.addAST(ast);		//build new ast TODO
+					System.out.println("create ast: "+ ast.getClass().getName());
 				}
-			}			
+			}
+	/*		if(symb_t.isEmpty){
+				
+				continue;
+			}*/
 			ParseState nps=null;
 			if(states_active.containsKey(nss)){
 				nps=states_active.get(nss);

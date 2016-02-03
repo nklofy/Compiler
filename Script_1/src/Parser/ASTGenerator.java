@@ -9,7 +9,7 @@ public class ASTGenerator {
 	public TypeSystem getTypeSys() {
 		return type_sys;
 	}
-	public AST crtAST(String method, ParseState crt_state, LinkedList<Symbol> symbs){		
+	public AST crtAST(String method, ParseState crt_state, List<Symbol> symbs){		
 		AST ast=null;
 		AST ast0,ast1,ast2,ast3,ast4,ast5,ast6,ast7,ast8,ast9,ast10;
 	switch(method){
@@ -76,7 +76,7 @@ public class ASTGenerator {
 		break;		
 	//8	crtStmtSg 0
 	case "crtStmtSg":
-		ast0=symbs.get(0).ast;
+		ast0=symbs.get(1).ast;
 		AST_Stmt ast_t8=new AST_Stmt();
 		ast_t8.setASTType(Stmt_Sg.class.getName());
 		ast_t8.setStmt(ast0);
@@ -376,12 +376,14 @@ public class ASTGenerator {
 		ast1=symbs.get(1).ast;
 		Scp_InfoLst ast_t46=(Scp_InfoLst)ast1;
 		ast_t46.addScp((Scp_Info)ast0);
+		ast=ast_t46;
 		break;
 //		47	crtScpInf 0
 	case "crtScpInf":
 		ast0 = symbs.get(0).ast;
 		Scp_InfoLst ast_t47= new Scp_InfoLst();
 		ast_t47.addScp((Scp_Info)ast0);
+		ast=ast_t47;
 		break;
 //		48	crtScpStc 0
 	case "crtScpStc":
@@ -459,7 +461,9 @@ public class ASTGenerator {
 //		59	crtExtLstE 0
 	case "crtExtLstE":
 		Extd_Lst ast_t59=new Extd_Lst();
+		ast_t59.setE();
 		ast=ast_t59;
+		break;
 //		60	lnkExtIdn 2 0
 	case "lnkExtIdn":
 		ast0=symbs.get(0).ast;
@@ -503,8 +507,7 @@ public class ASTGenerator {
 //		66	crtMmbDef 0
 	case "crtMmbDef":
 		ast0=symbs.get(0).ast;
-		MbrDef_Lst ast_t66=(MbrDef_Lst)ast0;
-		ast=ast_t66;
+		ast=ast0;
 		break;
 //		67	crtMmbDefE 0
 	case "crtMmbDefE":
@@ -516,7 +519,7 @@ public class ASTGenerator {
 		ast0=symbs.get(0).ast;
 		ast1=symbs.get(1).ast;
 		MbrDef_Lst ast_t68=(MbrDef_Lst)ast1;
-		ast_t68.addMbr((MbrDef) ast0);
+		ast_t68.addMbr(new MbrDef((MbrDef_Fld)ast0));
 		ast=ast_t68;
 		break;
 //		69	lnkMmbMthd 1 0
@@ -524,23 +527,27 @@ public class ASTGenerator {
 		ast0=symbs.get(0).ast;
 		ast1=symbs.get(1).ast;
 		MbrDef_Lst ast_t69=(MbrDef_Lst)ast1;
-		ast_t69.addMbr((MbrDef) ast0);
+		ast_t69.addMbr(new MbrDef((MbrDef_Mthd)ast0));
 		ast=ast_t69;
 		break;
 //		70	crtMmbFld 0
 	case "crtMmbFld":
 		ast0=symbs.get(0).ast;
-		MbrDef ast_t70=new MbrDef();
-		ast_t70.setASTType(MbrDef_Fld.class.getName());
-		ast_t70.setMbr(ast0);
+		MbrDef_Lst ast_t70=new MbrDef_Lst();
+		MbrDef ast_t70_1=new MbrDef();
+		ast_t70_1.setASTType(MbrDef_Fld.class.getName());
+		ast_t70_1.setMbr(ast0);
+		ast_t70.addMbr(ast_t70_1);
 		ast=ast_t70;
 		break;
 //		71	crtMemMthd 0
 	case "crtMemMthd":
 		ast0=symbs.get(0).ast;
-		MbrDef ast_t71=new MbrDef();
-		ast_t71.setASTType(MbrDef_Mthd.class.getName());
-		ast_t71.setMbr(ast0);
+		MbrDef_Lst ast_t71=new MbrDef_Lst();
+		MbrDef ast_t71_1=new MbrDef();
+		ast_t71_1.setASTType(MbrDef_Mthd.class.getName());
+		ast_t71_1.setMbr(ast0);
+		ast_t71.addMbr(ast_t71_1);
 		ast=ast_t71;
 		break;
 //		72	crtFldDef 2 1
@@ -568,6 +575,7 @@ public class ASTGenerator {
 		ast8=symbs.get(8).ast;
 		Stmt_DefFunc ast_t74=new Stmt_DefFunc();
 		ast_t74.setFuncDef((Gnrc_ParLst) ast8, (TypeExp) ast7, (ExprPri_Var) ast6, (FuncDef_ParLst) ast4, (AST_StmtList) ast1);
+		ast=ast_t74;
 		break;
 //		75	crtParLst 0
 	case "crtParLst":
@@ -654,6 +662,7 @@ public class ASTGenerator {
 		ast1=symbs.get(1).ast;
 		Stmt_Whl ast_t86=new Stmt_Whl();
 		ast_t86.setwhl((ExprCalc_Bool)ast4, (AST_StmtList)ast1);
+		ast=ast_t86;
 		break;
 //		87	crtExpLmd 0
 	case "crtExpLmd":
@@ -1159,6 +1168,7 @@ public class ASTGenerator {
 		break;
 	
 	default:
+		System.out.println("error no method");
 		break;	
 	}
 	if(ast==null){
@@ -1166,180 +1176,5 @@ public class ASTGenerator {
 	}
 	return ast;
 	}	
-	/*
-	AST astStmtList(AST stmtlist, AST stmt){
-		AST_StmtList ast=new AST_StmtList();
-		ast.setList((AST_StmtList)stmtlist);
-		ast.setStmt((AST_Stmt)stmt);
-		return ast;
-	}
 	
-	AST astStmt(Type_Stmt type,AST stmt){
-		AST_Stmt ast=new AST_Stmt();
-		//ast.setType(type);
-		switch(type){
-		case SgStmt:
-			ast.setSgStmt((AST_SgStmt)stmt);
-			break;
-		case VarDef:
-			ast.setVarDef((AST_VarDef)stmt);
-			break;
-		case IfExp:
-			ast.setIfExp((AST_IfExp)stmt);
-			break;
-		case WhileExp:
-			ast.setWhileExp((AST_WhileExp)stmt);
-			break;
-		case FuncDef:
-			ast.setFuncDef((AST_FuncDef)stmt);
-			break;
-		default:
-			break;
-		}
-		return ast;
-	}
-	
-	AST astSgStmt(Type_SgStmt type,AST stmt){
-		AST_SgStmt ast=new AST_SgStmt();
-		ast.setType(type);
-		switch(type){	
-		case CtrFlw:
-			ast.setCtrFlw((AST_CtrFlw)stmt);
-			break;
-		case CalcExp:
-			ast.setCalcExp((AST_CalcExp)stmt);
-			break;
-		case VarAssign:
-			ast.setVarAssign((AST_VarAssign)stmt);
-			break;
-		default:
-			break;
-		}
-		
-		return ast;
-	}
-	
-	AST astCtrFlw(String type,AST stmt){
-		AST_CtrFlw ast=new AST_CtrFlw();
-		ast.setType(type);
-		switch(type){	
-		case "return":
-			ast.setCalcExp((AST_CalcExp)stmt);
-			break;
-		case "break":
-			break;
-		case "continue":
-			break;
-		default:
-			break;
-		}
-		return ast;
-	}
-	
-	AST astVarDef(AST var_def, AST type_exp, AST var, AST calc_exp){
-		AST_VarDef ast=new AST_VarDef();
-		ast.setVarDef((AST_VarDef)var_def);
-		ast.setTypeExp((AST_TypeExp)type_exp);
-		ast.setVar((AST_Var)var);
-		ast.setCalcExp((AST_CalcExp)calc_exp);
-		return ast;
-	}
-	
-	AST astVarAssign(AST var, AST calc_exp, String opt){
-		AST_VarAssign ast=new AST_VarAssign();
-		ast.setVar((AST_Var)var);
-		ast.setCalcExp((AST_CalcExp)calc_exp);
-		ast.setOpt(opt);
-		return ast;
-	}
-	AST astTypeExp(String type){
-		AST_TypeExp ast=new AST_TypeExp();
-		ast.setType(type);
-		return ast;
-	}
-	AST astFuncDef(AST type_exp, AST name, AST par_list, AST stmt_list){
-		AST_FuncDef ast=new AST_FuncDef();
-		ast.setFuncDef((AST_TypeExp)type_exp, (AST_Var)name, (AST_ParList)par_list, (AST_StmtList)stmt_list);
-		return ast;
-	}
-	AST astParList(AST par_list, AST type_exp, AST var){
-		AST_ParList ast=new AST_ParList();
-		ast.setParList((AST_ParList)par_list, (AST_TypeExp)type_exp, (AST_Var)var);
-		return ast;
-	}
-	AST astIfExp(AST if_stmt, AST else_stmt){
-		AST_IfExp ast=new AST_IfExp();
-		ast.setIfExp((AST_IfStmt)if_stmt, (AST_ElseStmt)else_stmt);
-		return ast;
-	}
-	AST astWhileExp(AST bool_exp, AST stmt_list){
-		AST_WhileExp ast=new AST_WhileExp();
-		ast.setWhileExp((AST_BoolExp)bool_exp, (AST_StmtList)stmt_list);
-		return ast;
-	}
-	AST astIfStmt(AST bool_exp, AST stmt_list, AST sg_stmt){
-		AST_IfStmt ast=new AST_IfStmt();
-		ast.setIfStmt((AST_BoolExp)bool_exp, (AST_StmtList)stmt_list, (AST_SgStmt)sg_stmt);
-		return ast;
-	}
-	AST astElseStmt(AST if_exp, AST stmt_list, AST sg_stmt){
-		AST_ElseStmt ast=new AST_ElseStmt();
-		ast.setElseStmt((AST_IfExp)if_exp, (AST_StmtList)stmt_list, (AST_SgStmt)sg_stmt);
-		return ast;
-	}
-	AST astBoolExp(AST bool_exp, String opt, AST cmp_exp){
-		AST_BoolExp ast=new AST_BoolExp();
-		ast.setBoolExp((AST_BoolExp)bool_exp, opt, (AST_CmpExp)cmp_exp);
-		return ast;
-	}
-	AST astCmpExp(AST bool_exp, AST add_exp1, String opt, AST add_exp2, int bl_value){
-		AST_CmpExp ast=new AST_CmpExp();
-		ast.setCmpExp((AST_BoolExp)bool_exp, (AST_AddExp)add_exp1, opt, (AST_AddExp)add_exp2, bl_value);
-		return ast;
-	}
-	AST astStrExp(String str, String chr){
-		AST_StrExp ast=new AST_StrExp();
-		ast.setStr(str, chr);
-		return ast;
-	}
-	AST astCalcExp(AST bool_exp, AST str_exp){
-		AST_CalcExp ast=new AST_CalcExp();
-		ast.setCalcExp((AST_BoolExp)bool_exp, (AST_StrExp)str_exp);
-		return ast;
-	}
-	AST astAddExp(AST add_exp, AST mul_exp, String opt, AST var){
-		AST_AddExp ast=new AST_AddExp();
-		ast.setAddExp((AST_AddExp)add_exp, (AST_MulExp)mul_exp, opt, (AST_Var)var);
-		return ast;
-	}
-	AST astMulExp(AST mul_exp, String opt, AST pri_exp){
-		AST_MulExp ast=new AST_MulExp();
-		ast.setMulExp((AST_MulExp)mul_exp, opt, (AST_PriExp)pri_exp);
-		return ast;
-	}
-	AST astPriExp(AST add_exp, AST num, AST apply_exp, AST str_exp){
-		AST_PriExp ast=new AST_PriExp();
-		ast.setPriExp((AST_AddExp)add_exp, (AST_Num)num, (AST_ApplyExp)apply_exp, (AST_StrExp)str_exp);
-		return ast;
-	}
-	AST astNum(String type, String buffer){
-		AST_Num ast=new AST_Num();
-		ast.setNum(type, buffer);
-		return ast;
-	}
-	AST astVar(String name){
-		AST_Var ast=new AST_Var();
-		ast.setVar(name);
-		return ast;
-	}
-	AST astApplyExp(AST apply_exp, AST var, AST arg_list){
-		AST_ApplyExp ast=new AST_ApplyExp();
-		ast.setApplyExp((AST_ApplyExp)apply_exp, (AST_Var)var, (AST_ArgList)arg_list);
-		return ast;
-	}
-	AST astArgList(AST arg_list, AST var){
-		AST_ArgList ast=new AST_ArgList();
-		ast.setArgList((AST_ArgList)arg_list, (AST_CalcExp)var);
-		return ast;
-	}*/
 }

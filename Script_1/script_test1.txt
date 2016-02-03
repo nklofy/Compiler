@@ -1,9 +1,7 @@
-class A <T1,T2> extends C{
- static public int a;
- public D<E> b(){
-  return true;
- }
+int a = 1 ;
+class A <T1,T2> {
+	int a;
+	public bool b(){
+		return true;
+	}
 }
-A<G,H> b;
-bool c=b.b();
-int d=b.a;

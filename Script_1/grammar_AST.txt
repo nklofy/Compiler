@@ -157,160 +157,160 @@
  
 
 //AST
-0	crtGoal 0
-1	lnkStmtLst 1 0
-2	crtStmtLst 0
-3	crtStmtClsDef 0
-4	crtStmtIntfDef 0
-5	crtStmtFuncDef 0
-6	crtStmtIf 0
-7	crtStmtWhl 0
-8	crtStmtSg 0
-9	crtSgVarAssign 0
-10	crtSgVarDef 0
-11	crtSgCalc 0
-12	crtSgCtrF 0
-13	crtCFRetE 0
-14	crtCFRet 0
-15	crtCFCont 0
-16	crtCFBrk 0
-17	linkVarDef 2 0
-18	linkVarDefAsg 4 2 0
-19	crtVarDef 1 0
-20	crtVarDefAsg 3 2 0
-21	crtVarAsg 2 0
-22	crtLftFld 0
-23	crtLftArr 0
-24	crtTpBsc 0
-25	crtTpArr 0
-26	crtTpIdn 0
-27	crtTpGnrcTp 0
-28	crtTpFunc 0
-29	crtBscTpInt 0
-30	crtBscTpDb 0
-31	crtBscTpBl 0
-32	crtBscTpStr 0
-33	crtBscTpChr 0
-34	lnkArrTp 2
-35	lnkIdnTpVar 2 0
-36	crtIdnTpVar 0
-37	crtGnrcTp 3 1
-38	lnkGnrcArgsVar 2 0
-39	lnkGnrcArgsExt 4 0
-40	crtGnrcArgsVar 0
-41	crtGnrcArgsExt 0
-42	crtClassDef 8 6 5 4 3 1
-43	crtIntfDef 7 5 4 3 1
-44	crtScpInfLst 0
-45	crtScpInfLstE 0
-46	lnkScpInf 1 0
-47	crtScpInf 0
-48	crtScpStc 0
-49	crtScpPbl 0
-50	crtScpPrv 0
-51	crtScpFnl 0
-52	crtGnrcParLst 1
-53	crtGnrcParLstE 0
-54	lnkGnrcPar 2 0
-55	lnkGnrcParExt 4 2 0
-56	crtGnrcParVar 0
-57	crtGnrcParExt 2 0
-58	crtExtLst 0
-59	crtExtLstE 0
-60	lnkExtIdn 2 0
-61	crtExtIdn 0
-62	crtImpLst 0
-63	crtImpLstE 0
-64	lnkImpIdn 2 0
-65	crtImpIdn 0
-66	crtMmbDef 0
-67	crtMmbDefE 0
-68	lnkMmbFld 1 0
-69	lnkMmbMthd 1 0
-70	crtMmbFld 0
-71	crtMemMthd 0
-72	crtFldDef 2 1
-73	crtMthdDef 1 0
-74	crtFuncDef 7 6 4 1
-75	crtParLst 0
-76	crtParLstE 0
-77	lnkParVar 3 1 0
-78	crtParVar 1 0
-79	crtIfIf 0
-80	crtIfIfEls 2 0
-81	crtIfLst 4 1
-82	crtIfSg 3 1
-83	crtElsIf 0
-84	crtElsLst 1
-85	crtElsSg 1
-86	crtWhl 4 1
-87	crtExpLmd 0
-88	crtExpCalc 0
-89	crtCalcCnd 0
-90	crtCalcNewCls 0
-91	crtCalcNewArr 0
-92	crtNewClsIdn 3 1
-93	crtNewClsGnrc 3 1
-94	crtNewArrTp 1 0
-95	crtNewArrLst 1
-96	lnkArrLst 2 0
-97	crtArrLst 0
-98	crtArrCalc 0
-99	crtArrLstArr 1
-100	lnkDimLst 3 1
-101	crtDimLst 1
-102	crtCndBl 0
-103	lnkBlOr 2 0
-104	crtBlOr 0
-105	lnkOrAnd 2 0
-106	crtOrAnd 0
-107	crtAndCmp 0
-108	lnkCmpGT 2 0
-109	lnkCmpGE 2 0
-110	lnkCmpLT 2 0
-111	lnkCmpLE 2 0
-112	lnkCmpEQ 2 0
-113	lnkCmpNE 2 0
-114	crtCmpNAdd 0
-115	crtCmpAdd 0
-116	crtCmpTr 0
-117	crtCmpFs 0
-118	lnkAddAdd 2 0
-119	lnkAddMns 2 0
-120	crtAddPls 0
-121	crtAddMns 0
-122	crtAddMul 0
-123	lnkMulMul 2 0
-124	lnkMulSub 2 0
-125	crtMulUnr 0
-126	crtUnrInc 0
-127	crtUnrDec 0
-128	crtUnrIncP 0
-129	crtUnrDecP 0
-130	crtUnrAcc 0
-131	crtUnrCst 0
-132	crtCst 2 0
-133	crtAccFld 0
-134	crtAccArr 0
-135	crtAccApp 0
-136	crtAccPri 0
-137	lnkFldAccVar 2 0 
-138	lnkFldAccCls 2 0
-139	crtFldAccVar 0
-140	crtFldAccThs 0
-141	crtFldAccSpr 0
-142	crtArrAcc 1 0
-143	crtPriNum 0
-144	crtPriStr 0
-145	crtPriChr 0
-146	crtPriCnd 1
-147	crtAppAcc 5 3 1
-148	crtAppApp 5 3 1
-149	crtAppVar 3 1
-150	crtArgLst 0
-151	crtArgLstE 0
-152	lnkArgLst 2 0
-153	crtArgCalc 0
-154	crtLbdExp 7 5 1
+0 crtGoal 0
+1 lnkStmtLst 1 0
+2 crtStmtLst 0
+3 crtStmtClsDef 0
+4 crtStmtIntfDef 0
+5 crtStmtFuncDef 0
+6 crtStmtIf 0
+7 crtStmtWhl 0
+8 crtStmtSg 0
+9 crtSgVarAssign 0
+10 crtSgVarDef 0
+11 crtSgCalc 0
+12 crtSgCtrF 0
+13 crtCFRetE 0
+14 crtCFRet 0
+15 crtCFCont 0
+16 crtCFBrk 0
+17 linkVarDef 2 0
+18 linkVarDefAsg 4 2 0
+19 crtVarDef 1 0
+20 crtVarDefAsg 3 2 0
+21 crtVarAsg 2 0
+22 crtLftFld 0
+23 crtLftArr 0
+24 crtTpBsc 0
+25 crtTpArr 0
+26 crtTpIdn 0
+27 crtTpGnrcTp 0
+28 crtTpFunc 0
+29 crtBscTpInt 0
+30 crtBscTpDb 0
+31 crtBscTpBl 0
+32 crtBscTpStr 0
+33 crtBscTpChr 0
+34 lnkArrTp 2
+35 lnkIdnTpVar 2 0
+36 crtIdnTpVar 0
+37 crtGnrcTp 3 1
+38 lnkGnrcArgsVar 2 0
+39 lnkGnrcArgsExt 4 0
+40 crtGnrcArgsVar 0
+41 crtGnrcArgsExt 0
+42 crtClassDef 8 6 5 4 3 1
+43 crtIntfDef 7 5 4 3 1
+44 crtScpInfLst 0
+45 crtScpInfLstE 0
+46 lnkScpInf 1 0
+47 crtScpInf 0
+48 crtScpStc 0
+49 crtScpPbl 0
+50 crtScpPrv 0
+51 crtScpFnl 0
+52 crtGnrcParLst 1
+53 crtGnrcParLstE 0
+54 lnkGnrcPar 2 0
+55 lnkGnrcParExt 4 2 0
+56 crtGnrcParVar 0
+57 crtGnrcParExt 2 0
+58 crtExtLst 0
+59 crtExtLstE 0
+60 lnkExtIdn 2 0
+61 crtExtIdn 0
+62 crtImpLst 0
+63 crtImpLstE 0
+64 lnkImpIdn 2 0
+65 crtImpIdn 0
+66 crtMmbDef 0
+67 crtMmbDefE 0
+68 lnkMmbFld 1 0
+69 lnkMmbMthd 1 0
+70 crtMmbFld 0
+71 crtMemMthd 0
+72 crtFldDef 2 1
+73 crtMthdDef 1 0
+74 crtFuncDef 7 6 4 1
+75 crtParLst 0
+76 crtParLstE 0
+77 lnkParVar 3 1 0
+78 crtParVar 1 0
+79 crtIfIf 0
+80 crtIfIfEls 2 0
+81 crtIfLst 4 1
+82 crtIfSg 3 1
+83 crtElsIf 0
+84 crtElsLst 1
+85 crtElsSg 1
+86 crtWhl 4 1
+87 crtExpLmd 0
+88 crtExpCalc 0
+89 crtCalcCnd 0
+90 crtCalcNewCls 0
+91 crtCalcNewArr 0
+92 crtNewClsIdn 3 1
+93 crtNewClsGnrc 3 1
+94 crtNewArrTp 1 0
+95 crtNewArrLst 1
+96 lnkArrLst 2 0
+97 crtArrLst 0
+98 crtArrCalc 0
+99 crtArrLstArr 1
+100 lnkDimLst 3 1
+101 crtDimLst 1
+102 crtCndBl 0
+103 lnkBlOr 2 0
+104 crtBlOr 0
+105 lnkOrAnd 2 0
+106 crtOrAnd 0
+107 crtAndCmp 0
+108 lnkCmpGT 2 0
+109 lnkCmpGE 2 0
+110 lnkCmpLT 2 0
+111 lnkCmpLE 2 0
+112 lnkCmpEQ 2 0
+113 lnkCmpNE 2 0
+114 crtCmpNAdd 0
+115 crtCmpAdd 0
+116 crtCmpTr 0
+117 crtCmpFs 0
+118 lnkAddAdd 2 0
+119 lnkAddMns 2 0
+120 crtAddPls 0
+121 crtAddMns 0
+122 crtAddMul 0
+123 lnkMulMul 2 0
+124 lnkMulSub 2 0
+125 crtMulUnr 0
+126 crtUnrInc 0
+127 crtUnrDec 0
+128 crtUnrIncP 0
+129 crtUnrDecP 0
+130 crtUnrAcc 0
+131 crtUnrCst 0
+132 crtCst 2 0
+133 crtAccFld 0
+134 crtAccArr 0
+135 crtAccApp 0
+136 crtAccPri 0
+137 lnkFldAccVar 2 0 
+138 lnkFldAccCls 2 0
+139 crtFldAccVar 0
+140 crtFldAccThs 0
+141 crtFldAccSpr 0
+142 crtArrAcc 1 0
+143 crtPriNum 0
+144 crtPriStr 0
+145 crtPriChr 0
+146 crtPriCnd 1
+147 crtAppAcc 5 3 1
+148 crtAppApp 5 3 1
+149 crtAppVar 3 1
+150 crtArgLst 0
+151 crtArgLstE 0
+152 lnkArgLst 2 0
+153 crtArgCalc 0
+154 crtLbdExp 7 5 1
 
 //end

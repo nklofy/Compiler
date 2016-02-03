@@ -143,6 +143,9 @@ public class AST {
 		if(ast.getMergedAsts()!=null){
 			return false;
 		}
+		if(ast.getVarUp()==null){
+			return false;
+		}
 		for(String s:ast.getVarUp()){
 			if(this.var_table!=null && this.var_table.keySet().contains(s)){
 				System.out.println("error existing symbol name: "+ s);
@@ -157,6 +160,9 @@ public class AST {
 		if(ast.getMergedAsts()!=null){
 			return false;
 		}
+		if(ast.getFuncUp()==null){
+			return false;
+		}
 		for(String s:ast.getFuncUp()){
 			if(this.func_table!=null && this.func_table.keySet().contains(s)){
 				System.out.println("error existing symbol name: "+ s);
@@ -169,6 +175,9 @@ public class AST {
 	}
 	public boolean upType(AST ast){
 		if(ast.getMergedAsts()!=null){
+			return false;
+		}
+		if(ast.getTypeUp()==null){
 			return false;
 		}
 		for(String s:ast.getTypeUp()){

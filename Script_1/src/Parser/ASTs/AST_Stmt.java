@@ -61,17 +61,7 @@ public class AST_Stmt extends AST {
 			break;
 		case "Stmt_Sg":
 			this.stmt_sg=(Stmt_Sg)ast;
-			if(ast.getMergedAsts()!=null){
-				break;
-			}
-			for(String s:ast.getVarUp()){
-				if(this.getVarTb()!=null && this.getVarTb().keySet().contains(s)){
-					System.out.println("error existing symbol name: "+ s);
-				}else{
-					this.putVarTb(s, ast.getVarTb().get(s));
-					this.addVarUp(s);
-				}
-			}
+			this.upAll(ast);
 			break;
 		default:
 			return false;
