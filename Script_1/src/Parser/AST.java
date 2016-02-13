@@ -8,6 +8,7 @@ public class AST {
 	String ast_type;
 	AST ast_deMrg;	//de-merge, choose correct one
 	HashSet<AST> merged_asts;
+	boolean isMerged=false;
 	HashMap<String,R_Variable> var_table;
 	HashMap<String,R_Type> type_table;
 	HashMap<String,R_Function> func_table;
@@ -22,7 +23,7 @@ public class AST {
 		String[] ss=type.split("\\.");
 		this.ast_type = ss[ss.length-1];
 	}
-	public AST getDeMrg() {
+	public AST getDeMrg(CodeGenerator codegen) {
 		//de-merge and return TODO
 		return ast_deMrg;
 	}
@@ -43,7 +44,7 @@ public class AST {
 	public boolean genCode(CodeGenerator codegen){
 		return true;
 	}
-	public boolean checkType(){
+	public boolean checkType(CodeGenerator codegen){
 		return true;
 	}
 	public HashMap<String, R_Variable> getVarTb() {
@@ -189,5 +190,12 @@ public class AST {
 		upFunc(ast);
 		upType(ast);
 		return true;
+	}
+
+	public boolean isMerged() {
+		return isMerged;
+	}
+	public void setMerged() {
+		this.isMerged = true;
 	}
 }

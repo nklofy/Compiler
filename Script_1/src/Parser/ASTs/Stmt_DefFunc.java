@@ -22,4 +22,10 @@ public class Stmt_DefFunc extends AST {
 		this.putFuncTb(this.var.name, r);
 		this.upAll(stmt_list);
 	}
+	public boolean genCode(CodeGenerator codegen){
+		return true;
+	}
+	public boolean checkType(){
+		return true;
+	}
 }

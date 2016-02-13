@@ -280,6 +280,7 @@ public class ASTGenerator {
 		TypeExp_Arr ast_t34 = new TypeExp_Arr();
 		ast_t34.setPreType((TypeExp)ast2);
 		ast=ast_t34;
+		break;
 //		35	lnkIdnTpVar 2 0
 	case "lnkIdnTpVar":
 		ast0=symbs.get(0).ast;
@@ -401,8 +402,7 @@ public class ASTGenerator {
 		Scp_Info ast_t50 = new Scp_Info();
 		ast_t50.setScp(Scp_Info.en_Scp.t_private);
 		ast=ast_t50;
-		break;
-		
+		break;		
 //		51	crtScpFnl 0
 	case "crtScpFnl":
 		Scp_Info ast_t51 = new Scp_Info();

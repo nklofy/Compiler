@@ -18,9 +18,15 @@ public class Stmt_DefIntf extends AST {
 		this.extd_lst=extd_lst;
 		this.mbrdef_lst=mbrdef_lst;
 		R_Type r=new R_Type();
-		r.setTypeDef(this);
+		//r.setTypeDef(this);
 		this.addTypeUp(this.var.name);
 		this.putTypeTb(this.var.name, r);
+		return true;
+	}
+	public boolean genCode(CodeGenerator codegen){
+		return true;
+	}
+	public boolean checkType(){
 		return true;
 	}
 }

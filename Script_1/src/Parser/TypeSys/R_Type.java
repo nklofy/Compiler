@@ -8,12 +8,12 @@ public class R_Type extends R_Record {
 	//inferencing methods TODO
 	T_Type type_value;
 	boolean isStatic;
-	AST type_def;
-	public AST getTypeDef() {
-		return type_def;
+	AST type_exp;
+	public AST getTypeExp() {
+		return type_exp;
 	}
-	public void setTypeDef(AST type_def) {
-		this.type_def = type_def;
+	public void setTypeExp(AST type_def) {
+		this.type_exp = type_def;
 	}
 	public boolean isStatic() {
 		return isStatic;

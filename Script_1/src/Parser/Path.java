@@ -14,7 +14,7 @@ public class Path{
 		List<Symbol> symbsR=new ArrayList<Symbol>();
 		symbs.add(crt_symbol);
 		Path pre_t=pre_path;
-		while(pre_t!=null){
+		while(pre_t!=null&&pre_t.crt_symbol!=null){
 			symbs.addFirst(pre_t.crt_symbol);
 			pre_t=pre_t.pre_path;
 		}
@@ -24,11 +24,12 @@ public class Path{
 		return symbsR;						
 	}
 	public Path addSymbol(Symbol symb){
-		if(this.crt_symbol==null){
+		/*if(this.crt_symbol==null){
 			this.crt_symbol=symb;
 			return this;
-		}
+		}*/
 		Path path_t=new Path();
+		
 		path_t.pre_path=this;
 		path_t.crt_symbol=symb;
 		path_t.path_start=this.path_start;

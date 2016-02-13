@@ -1,6 +1,7 @@
 package Parser.ASTs;
 
 import Parser.AST;
+import Parser.CodeGenerator;
 
 public class Stmt_Sg extends AST {
 	SgStmt_AsnVar asn_var; 
@@ -14,17 +15,7 @@ public class Stmt_Sg extends AST {
 			break;
 		case "SgStmt_DefVar":
 			this.def_var=(SgStmt_DefVar)ast;
-			if(ast.getMergedAsts()!=null){
-				break;
-			}
-			for(String s:ast.getVarUp()){
-				if(this.getVarTb()!=null && this.getVarTb().keySet().contains(s)){
-					System.out.println("error existing symbol name: "+ s);
-				}else{
-					this.putVarTb(s, ast.getVarTb().get(s));
-					this.addVarUp(s);
-				}
-			}
+			this.upAll(ast);
 			break;
 		case "SgStmt_CtrFlw":
 			this.ctrflw=(SgStmt_CtrFlw)ast;			
@@ -32,7 +23,14 @@ public class Stmt_Sg extends AST {
 		case "Expr_Calc":
 			this.exp_calc=(Expr_Calc)ast;			
 			break;
+		default:break;
 		}
+		return true;
+	}
+	public boolean genCode(CodeGenerator codegen){
+		return true;
+	}
+	public boolean checkType(CodeGenerator codegen){
 		return true;
 	}
 }

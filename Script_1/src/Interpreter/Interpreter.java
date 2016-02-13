@@ -10,7 +10,5 @@ public class Interpreter {
 		parser.analyzeLex("out_lexAnalyzer.txt");	System.out.println("analyzeLex out_lexAnalyzer.txt");
 		parser.input("script_test1.txt");	
 		parser.parse();							System.out.println("finished parsing");
-
-
 	}
 }

@@ -19,6 +19,8 @@ public class Symbol {//symbol in graph stack correspond to reduce path or merged
 				return false;
 			}
 			this.asts.add(ast);		//do merge
+			this.ast=ast;
+			System.out.println("merge ast "+name);
 		}else{
 			if(this.ast==null){
 				this.ast=ast;
@@ -28,8 +30,12 @@ public class Symbol {//symbol in graph stack correspond to reduce path or merged
 				}
 				this.asts=new HashSet<AST>();
 				this.isMerged=true;
-				this.asts.add(this.ast);	//do merge	
+				this.asts.add(this.ast);	//do merge
+				this.ast.setMerged();
+				this.asts.add(ast);
+				this.ast=ast;				
 				this.ast.merged_asts=this.asts;
+				System.out.println("merge ast "+name);
 			}
 		}
 		return true;

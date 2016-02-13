@@ -12,4 +12,10 @@ public class StmtIf_IfBd extends AST {
 		this.sg_stmt=sg_stmt;
 		return true;
 	}
+	public boolean genCode(CodeGenerator codegen){
+		return true;
+	}
+	public boolean checkType(CodeGenerator codegen){
+		return true;
+	}
 }

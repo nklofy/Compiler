@@ -10,6 +10,10 @@ public class R_Function extends R_Record {
 	boolean isAbstract;
 	AST func_def;
 	boolean isMulti=false;
+	LinkedList<R_Function> multimorphism;
+	T_Type ret_type;
+	ArrayList<T_Type> par_types;
+	
 	public boolean isMulti() {
 		return isMulti;
 	}
@@ -17,7 +21,6 @@ public class R_Function extends R_Record {
 		this.isMulti = true;
 		this.multimorphism=new LinkedList<R_Function>();
 	}
-	LinkedList<R_Function> multimorphism;
 	public void addMulti(R_Function r){
 		this.multimorphism.add(r);
 	}
@@ -34,10 +37,10 @@ public class R_Function extends R_Record {
 		this.isStatic = isStatic;
 	}
 	
-	public T_Function getType() {
+	public T_Function getTypeT() {
 		return type;
 	}
-	public void setType(T_Function type) {
+	public void setTypeT(T_Function type) {
 		this.type = type;
 	}
 }

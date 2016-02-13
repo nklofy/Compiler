@@ -1,7 +1,5 @@
-int a = 1 ;
-class A <T1,T2> {
-	int a;
-	public bool b(){
-		return true;
-	}
+int[] b(){
+return 0;
 }
+int[] a;
+A[][] aa;

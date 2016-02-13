@@ -1,6 +1,7 @@
 package Parser.ASTs;
 
 import Parser.*;
+import Parser.TypeSys.*;
 
 public class Expr extends AST {
 	Expr_Lmbd lmbd;
@@ -13,8 +14,24 @@ public class Expr extends AST {
 		case "Expr_Calc":
 			this.calc=(Expr_Calc)ast;
 			break;
-			default:
-				break;
+		default:
+			break;
+		}
+		return true;
+	}
+	public boolean genCode(CodeGenerator codegen){
+		return true;
+	}
+	public boolean checkType(){
+		switch(this.getASTType()){
+		case "Expr_Lmbd":
+			
+			break;
+		case "Expr_Calc":
+			
+			break;
+		default:
+			break;
 		}
 		return true;
 	}
