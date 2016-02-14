@@ -930,7 +930,7 @@ public class ASTGenerator {
 		ast0=symbs.get(0).ast;
 		ast2=symbs.get(2).ast;
 		ExprCalc_Add ast_t123=new ExprCalc_Add();
-		ast_t123.setBiMul((ExprCalc_Add) ast2, "*", (ExprAccs_Pri)ast0);
+		ast_t123.setBiMul((ExprCalc_Add) ast2, "*", (ExprAccs)ast0);
 		ast=ast_t123;
 		break;
 //		124	lnkMulSub 2 0
@@ -938,7 +938,7 @@ public class ASTGenerator {
 		ast0=symbs.get(0).ast;
 		ast2=symbs.get(2).ast;
 		ExprCalc_Add ast_t124=new ExprCalc_Add();
-		ast_t124.setBiMul((ExprCalc_Add) ast2, "/", (ExprAccs_Pri)ast0);
+		ast_t124.setBiMul((ExprCalc_Add) ast2, "/", (ExprAccs)ast0);
 		ast=ast_t124;
 		break;
 //		125	crtMulUnr 0
@@ -1157,6 +1157,7 @@ public class ASTGenerator {
 		FuncApp_ArgLst ast_t153=new FuncApp_ArgLst();
 		ast_t153.addArg((Expr_Calc)ast0);
 		ast=ast_t153;
+		break;
 //		154	crtLbdExp 7 5 1
 	case "crtLbdExp":
 		ast0=symbs.get(0).ast;

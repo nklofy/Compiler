@@ -122,8 +122,8 @@
 120 add_exp + mul_exp 
 121 add_exp - mul_exp 
 122 add_exp mul_exp 
-123 mul_exp mul_exp * pri_exp 
-124 mul_exp mul_exp / pri_exp 
+123 mul_exp mul_exp * access_exp 
+124 mul_exp mul_exp / access_exp 
 125 mul_exp unary_exp 
 126 unary_exp ++ access_exp 
 127 unary_exp -- access_exp 

@@ -244,8 +244,8 @@ add_exp |>
 >| mul_exp 
 
 mul_exp |> 
-   mul_exp * pri_exp 
->| mul_exp / pri_exp 
+   mul_exp * access_exp 
+>| mul_exp / access_exp 
 >| unary_exp
 
 unary_exp |>

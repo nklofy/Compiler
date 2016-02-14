@@ -7,7 +7,7 @@ public class ExprCalc_Add extends AST {
 	ExprCalc_Add add_2;
 	String opt;
 	ExprCalc_Unary unary;
-	ExprAccs_Pri pri;
+	ExprAccs accs;
 	en_Add t_Add;
 	public boolean setBiAdd(ExprCalc_Add add_1,	String opt, ExprCalc_Add add_2){
 		this.t_Add=en_Add.t_biAdd;
@@ -16,10 +16,10 @@ public class ExprCalc_Add extends AST {
 		this.opt=opt;
 		return true;
 	}
-	public boolean setBiMul(ExprCalc_Add add_1,	String opt, ExprAccs_Pri pri){
+	public boolean setBiMul(ExprCalc_Add add_1,	String opt, ExprAccs accs){
 		this.t_Add=en_Add.t_biMul;
 		this.add_1=add_1;
-		this.pri=pri;
+		this.accs=accs;
 		this.opt=opt;
 		return true;
 	}

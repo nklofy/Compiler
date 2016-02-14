@@ -14,6 +14,7 @@ public class ParserGenerator {
 	private Set<Symbol> gen_NTs=new HashSet<Symbol>();
 	private ArrayList<GrammarRule> gen_gr_tables=new ArrayList<GrammarRule>();
 	private ArrayList<CC> gen_CCs=new ArrayList<CC>();
+	private LinkedList<CC> cc_list=new LinkedList<CC>();
 	private Map<Symbol,HashSet<Item>> gen_items=new HashMap<Symbol,HashSet<Item>>();
 	private ArrayList<ActionTable> gen_action_tables=new ArrayList<ActionTable>();
 	private ArrayList<String> sr_conflicts=new ArrayList<String>();
@@ -241,7 +242,8 @@ public class ParserGenerator {
 			int position=k_item.position;
 			if(position==symbols.size()){//position is at end of item, then reduce				
 				if(cc.item_reduce.contains(k_item)){
-						continue;
+					cc.token_reduce.addAll(k_item.look_ahead);	
+					continue;
 				}else{
 					cc.item_reduce.add(k_item);
 					cc.token_reduce.addAll(k_item.look_ahead);
@@ -308,6 +310,7 @@ public class ParserGenerator {
 		CC cc =new CC();
 		cc.items.add(kr_item);
 		gen_CCs.add(cc);
+		cc_list.add(cc);
 		cc.in_table=true;
 		cc.index_cc=gen_CCs.size()-1;
 		kr_item.cc_in=cc;
@@ -327,17 +330,14 @@ public class ParserGenerator {
 		item0.index_gr_tb=grammar0.productions.get(0).index_gr_tb;
 		cc0.items.add(item0);
 		cc0.index_cc=0;
-		gen_CCs.add(cc0);
+		gen_CCs.add(cc0);		
+		cc_list.add(cc0);
 		cc0.in_table=true;
 		getClosure(cc0);
-		int index_cc=0;
-		while(true){			
-			if(index_cc>=gen_CCs.size()){
-				break;
-			}
-			CC cc=gen_CCs.get(index_cc++);
+		while(!cc_list.isEmpty()){			
+			CC cc=cc_list.removeFirst();
 			if(cc.got_Goto){
-				continue;
+				//continue;
 			}
 			cc.got_Goto=true;
 			
@@ -362,6 +362,7 @@ public class ParserGenerator {
 						cc_tmp.items.add(item_tmp);
 						addItemTable(item_tmp);
 						item_tmp.cc_in=cc_tmp;
+						cc_list.add(cc_tmp);
 					}
 				}else{
 					CC new_cc=getGoto(item);
@@ -608,9 +609,9 @@ class Item{
 			if(this.symbols.get(i)!=item.symbols.get(i))
 				return false;
 		}
-		if(!this.look_ahead.containsAll(item.look_ahead) || !item.look_ahead.containsAll(this.look_ahead) )
-			return false;
-		return true;
+		if(this.look_ahead.containsAll(item.look_ahead) && item.look_ahead.containsAll(this.look_ahead) )
+			return true;
+		return false;
 	}
 	boolean inItem(Item item){
 		if(!this.head.equals(item.head))

@@ -1,5 +1,27 @@
-int[] b(){
-return 0;
+int fb(int a){ // fibonacci function
+ if(a<=1)
+  return 1; 
+ int c= fb(a-1)+fb(a-2);
+ return c; 
 }
+int fact(int b){  //factorial function
+ if(b<=1) 
+  return 1;
+ int c=fact(b-1)*a;
+ return c;
+}
+
+int a;
+a=5;
+int c=fb(a);
+println("fb("+a+")= "+c);
+int d=fact(a);
+println("fact("+a+")= "+d);
 int[] a;
-A[][] aa;
+A[][] b;
+class A{
+ int a;
+ int b(){
+  return 0;
+ }
+}
