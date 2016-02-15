@@ -11,7 +11,7 @@ public class ParseState {//graph stack
 	int state_sn=-1;
 	int out_count=0;
 	int det_depth=0;
-	boolean addLink(ParseState pre_state,Symbol symbol){
+	boolean addLink(ParseState pre_state,Symbol symbol){		
 		if(this.isFixed ){
 			if(this.pre_state==null){
 				this.pre_state=pre_state;

@@ -19,8 +19,9 @@ public class Symbol {//symbol in graph stack correspond to reduce path or merged
 				return false;
 			}
 			this.asts.add(ast);		//do merge
-			this.ast=ast;
-			System.out.println("merge ast "+name);
+			this.ast=ast;		//update the direct ast
+			this.ast.merged_asts=this.asts;
+			System.out.println("merge ast "+name+"--------------------------------------------------------------------------------------");
 		}else{
 			if(this.ast==null){
 				this.ast=ast;
@@ -33,9 +34,9 @@ public class Symbol {//symbol in graph stack correspond to reduce path or merged
 				this.asts.add(this.ast);	//do merge
 				this.ast.setMerged();
 				this.asts.add(ast);
-				this.ast=ast;				
+				this.ast=ast;				//refresh outer ast
 				this.ast.merged_asts=this.asts;
-				System.out.println("merge ast "+name);
+				System.out.println("merge ast "+name+"--------------------------------------------------------------------------------------");
 			}
 		}
 		return true;
@@ -60,6 +61,7 @@ public class Symbol {//symbol in graph stack correspond to reduce path or merged
 		if(symbol.isMerged){
 			for(AST ast_t:symbol.asts){
 				addAST(ast_t);//do merge
+				addAST(symbol.ast);//refresh outer ast
 			}
 		}else{
 			addAST(symbol.ast);//do merge

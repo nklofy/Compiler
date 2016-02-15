@@ -23,7 +23,7 @@ public class Path{
 		}
 		return symbsR;						
 	}
-	public Path addSymbol(Symbol symb){
+	public Path addSymbol(Symbol symb){//need refactor?
 		/*if(this.crt_symbol==null){
 			this.crt_symbol=symb;
 			return this;

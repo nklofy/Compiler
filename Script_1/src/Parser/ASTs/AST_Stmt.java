@@ -63,59 +63,30 @@ public class AST_Stmt extends AST {
 		return true;
 	}
 	public boolean checkType(CodeGenerator codegen){		
+		boolean rst=true;
 		switch(this.getASTType()){
 		case "Stmt_DefCls":
-			if(this.stmt_cls.isMerged()){
-				this.stmt_cls=(Stmt_DefCls)this.stmt_cls.getDeMrg(codegen);
-				if(this.stmt_cls!=null)
-					return true;
-			}else
-				return this.stmt_cls.checkType(codegen);
+			rst= this.stmt_cls.checkType(codegen);
 			break;
 		case "Stmt_DefIntf":
-			if(this.stmt_intf.isMerged()){
-				this.stmt_intf=(Stmt_DefIntf)this.stmt_intf.getDeMrg(codegen);
-				if(this.stmt_intf!=null)
-					return true;
-			}else
-				return this.stmt_intf.checkType(codegen);
+			rst= this.stmt_intf.checkType(codegen);
 			break;
 		case "Stmt_DefFunc":
-			if(this.stmt_func.isMerged()){
-				this.stmt_func=(Stmt_DefFunc)this.stmt_func.getDeMrg(codegen);
-				if(this.stmt_func!=null)
-					return true;
-			}else
-				return this.stmt_func.checkType(codegen);
+			rst= this.stmt_func.checkType(codegen);
 			break;
 		case "Stmt_If":
-			if(this.stmt_if.isMerged()){
-				this.stmt_if=(Stmt_If)this.stmt_if.getDeMrg(codegen);
-				if(this.stmt_if!=null)
-					return true;
-			}else
-				return this.stmt_if.checkType(codegen);
+			rst= this.stmt_if.checkType(codegen);
 			break;
 		case "Stmt_Whl":
-			if(this.stmt_whl.isMerged()){
-				this.stmt_whl=(Stmt_Whl)this.stmt_whl.getDeMrg(codegen);
-				if(this.stmt_whl!=null)
-					return true;
-			}else
-				return this.stmt_whl.checkType(codegen);
+			rst= this.stmt_whl.checkType(codegen);
 			break;
 		case "Stmt_Sg":
-			if(this.stmt_sg.isMerged()){
-				this.stmt_sg=(Stmt_Sg)this.stmt_sg.getDeMrg(codegen);
-				if(this.stmt_sg!=null)
-					return true;
-			}else
-				return this.stmt_sg.checkType(codegen);
+			rst= this.stmt_sg.checkType(codegen);
 			break;
 		default:
 			return false;
 		}
-		return false;
+		return rst;
 	}
 	
 }

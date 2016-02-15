@@ -350,13 +350,13 @@ public class Parser {
 				return false;
 			}
 			System.out.println("get token "+token_name+" at line "+smb.line);
-			doAllReduce(token_name);	
+			doAllReduce(token_name);	//all reduce, but keep states active
 			if(token_name.equals("eof")&&states_active.containsKey(0)  ){//end of parsing
 				System.out.println("eof, "+"finished parsing");
 				ast_tree=states_active.get(0).symbol.ast;
 				break;	
 			}
-			doAllShift(token_sn.get(token_name),smb);
+			doAllShift(token_sn.get(token_name),smb);     //all shift, clear active states first.
 			if(states_active.isEmpty()){				
 				System.out.println("error no state in active");
 				return false;
@@ -369,11 +369,11 @@ public class Parser {
 	private boolean doAllReduce(String token_name){			
 		states_rlst.clear();
 		states_rlst.addAll(states_active.values());
-		states_active.clear();
+		//states_active.clear();
 		int crt_token_sn=token_sn.get(token_name);
-		while(!states_rlst.isEmpty()){
+		while(!states_rlst.isEmpty()){					
 			ParseState pst=states_rlst.removeFirst();
-			if(pst.state_sn==0&&token_name.equals("eof")){
+			if(pst.state_sn==0&&token_name.equals("eof")){		//empty file
 				states_active.put(0,pst);
 				return true;
 			}
@@ -381,7 +381,7 @@ public class Parser {
 			int r_grm=reduce_table.get(pst.state_sn).get(crt_token_sn);
 			if(r_grm==-1){	//no reduce then shift
 				//doShift(pst,crt_token_sn,smb);
-				states_active.put(pst.state_sn, pst);
+				//states_active.put(pst.state_sn, pst);
 			}else if(r_grm==-2){	//r-r conflict
 				ArrayList<Integer> r_grms=reduces_table.get(pst.state_sn).get(crt_token_sn);
 				for(int r:r_grms){
@@ -394,7 +394,7 @@ public class Parser {
 		return true;
 	}
 	
-	private boolean doEShift(ParseState pst, int crt_token_sn){
+	private boolean doEShift(ParseState pst, int crt_token_sn){//try if possible
 		int shift_state=shift_table.get(pst.state_sn).get(sym_e);
 		if(shift_state==-1){
 			return false;
@@ -415,7 +415,7 @@ public class Parser {
 		return true;
 	}
 	
-	private boolean doEReduce(ParseState pst, int r_grm, int crt_token_sn){
+	private boolean doEReduce(ParseState pst, int r_grm, int crt_token_sn){//e-reduce after e-shift. add to active 
 		String reduce_head=grammar_table.get(r_grm).head;
 		int nss=goto_table.get(pst.state_sn).get(symbol_sn.get(reduce_head));
 		if(nss==-1){
@@ -425,7 +425,7 @@ public class Parser {
 		String method=rule.method;
 		Symbol smb_e=new Symbol(); 
 		smb_e.ast=ast_gen.crtAST(method, pst, null);//TODO crt ast
-		System.out.println("create ast: "+ smb_e.ast.getClass().getName());
+		System.out.println("create e-ast: "+ smb_e.ast.getClass().getName());
 		ParseState pst_a;
 		if(states_active.containsKey(nss)){		//goto state in active
 			pst_a=states_active.get(nss);			
@@ -447,7 +447,7 @@ public class Parser {
 		}
 		return true;
 	}
-	private boolean doShift(ParseState pst, int crt_token_sn, Symbol smb){
+	private boolean doShift(ParseState pst, int crt_token_sn, Symbol smb){//normal shift
 		int crt_s=pst.state_sn;
 		int shift_s=shift_table.get(crt_s).get(crt_token_sn);
 		if(shift_s==-1){
@@ -473,7 +473,7 @@ public class Parser {
 		return true;
 	}
 	
-	private boolean doReduce(ParseState pst_crt, int reduce_grammar, int crt_token_sn){
+	private boolean doReduce(ParseState pst_crt, int reduce_grammar, int crt_token_sn){//normal reduce
 		String reduce_head=grammar_table.get(reduce_grammar).head;					
 		int ct=grammar_table.get(reduce_grammar).symbol_count;	
 		ParseState pst_pre=pst_crt;
@@ -533,7 +533,7 @@ public class Parser {
 		new_smb.path.path_end=pst_pre;
 		HashSet<ParseState> states_bfw=new HashSet<ParseState>();	//set of back forward state
 		HashSet<ParseState> states_bfwl=new HashSet<ParseState>();	//tmp list for back forward state
-		HashSet<Symbol> symbs=new HashSet<Symbol>();
+		HashSet<Symbol> symbs=new HashSet<Symbol>();	//record reducing path in symbols
 		HashSet<Symbol> symbsl=new HashSet<Symbol>();
 		//for(int i=pst_crt.det_depth;i>0;i--){	
 		//	new_smb.path=new_smb.path.addSymbol(pst_pre.symbol);
@@ -541,18 +541,18 @@ public class Parser {
 		//}
 		states_bfw.add(pst_pre);
 		symbs.add(new_smb);
-		for(int i=ct+1;i>=2;i--){
+		for(int i=ct+1;i>=2;i--){		//first 2 symbols of grammar are num and head
 			states_bfwl.clear();
 			symbsl.clear();
 			for(ParseState pst_b:states_bfw){
-				if(pst_b.isFixed){
+				if(pst_b.isFixed){			//fast move
 					if(pst_b.symbol.name.equals(grm.symbols.get(i))){
 						states_bfwl.add(pst_b.pre_state);
 						for(Symbol sym:symbs){
 							if(sym.path.path_end==pst_b){
 								Symbol sym_t=new Symbol(sym);
 								sym_t.path=sym.path.addSymbol(pst_b.symbol);
-								sym_t.path.path_end=pst_b.pre_state;
+								sym_t.path.path_end=pst_b.pre_state;	//path end to check symbol is resp to parse-state
 								symbsl.add(sym_t);
 							}							
 						}
@@ -564,7 +564,7 @@ public class Parser {
 							states_bfwl.add(pst_b.pre_states.get(j));
 							for(Symbol sym:symbs){
 								if(sym.path.path_end==pst_b){
-									Symbol sym_t=new Symbol(sym);
+									Symbol sym_t=new Symbol(sym);		//multi paths, then dup a new symbol
 									sym_t.path=sym.path.addSymbol(pst_b.symbols.get(j));
 									sym_t.path.path_end=pst_b.pre_states.get(j);
 									symbsl.add(sym_t);
@@ -616,7 +616,7 @@ public class Parser {
 		}
 		return true;
 	}
-	private boolean doAllShift(int crt_token_sn, Symbol smb){
+	private boolean doAllShift(int crt_token_sn, Symbol smb){	//after all reduce then shift
 		states_slst.clear();
 		states_slst.addAll(states_active.values());
 		states_active.clear();

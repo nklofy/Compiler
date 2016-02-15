@@ -5,6 +5,7 @@ import Interpreter.*;
 import Parser.TypeSys.*;
 
 public class AST {
+	int line;
 	String ast_type;
 	AST ast_deMrg;	//de-merge, choose correct one
 	HashSet<AST> merged_asts;
@@ -15,7 +16,6 @@ public class AST {
 	LinkedList<String> var_up;
 	LinkedList<String> type_up;
 	LinkedList<String> func_up;	
-	//AST visit_link;		//a link for visiting global or extern symbols
 	public String getASTType() {
 		return ast_type;
 	}
@@ -27,13 +27,6 @@ public class AST {
 		//de-merge and return TODO
 		return ast_deMrg;
 	}
-
-/*	public AST getLink() {
-		return visit_link;
-	}
-	public void setLink(AST visit_scope) {
-		this.visit_link = visit_scope;
-	}*/
 	public HashSet<AST> getMergedAsts() {
 		return merged_asts;
 	}
@@ -183,9 +176,7 @@ public class AST {
 		return true;
 	}
 	public boolean upAll(AST ast){
-		if(ast.getMergedAsts()!=null){
-		return false;
-	}		
+			
 		upVar(ast);
 		upFunc(ast);
 		upType(ast);
@@ -197,5 +188,12 @@ public class AST {
 	}
 	public void setMerged() {
 		this.isMerged = true;
+	}
+
+	public int getLine() {
+		return line;
+	}
+	public void setLine(int line) {
+		this.line = line;
 	}
 }
