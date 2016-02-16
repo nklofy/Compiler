@@ -5,8 +5,8 @@ public class IRCode {
 	String opd1;
 	String opd2;
 	String targ;
-	
-	IRCode(String opt,String opd1,String opd2,String targ){
+	public IRCode(){}
+	public IRCode(String opt,String opd1,String opd2,String targ){
 		this.opd1=opd1;
 		this.opd2=opd2;
 		this.targ=targ;

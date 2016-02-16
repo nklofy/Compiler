@@ -10,6 +10,10 @@ public class AST_Stmt extends AST {
 	Stmt_If stmt_if;
 	Stmt_Whl stmt_whl;
 	Stmt_Sg stmt_sg;
+
+	int lb_start;
+	int lb_end;
+	
 	public boolean setStmt(AST ast){
 		switch(this.getASTType()){
 		case "Stmt_DefCls":
