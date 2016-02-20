@@ -4,32 +4,30 @@ import Parser.*;
 
 public class Stmt_If extends AST {
 	StmtIf_IfBd if_body;
-	int lb_start;
-	int lb_end;
-	int lb_ifbd;
-	int lb_elsbd;
 	StmtIf_ElsBd else_body;
+		
 	public boolean setIfStmt(StmtIf_IfBd if_body,StmtIf_ElsBd else_body){
 		this.if_body=if_body;
 		this.else_body=else_body;
 		return true;
 	}
 	public boolean genCode(CodeGenerator codegen){
-		this.if_body.genCode(codegen);	
-		this.lb_ifbd=this.if_body.lb_ifbd;
-		if(this.else_body==null){
-			this.lb_elsbd=this.if_body.lb_end+1;
+		String lb_ifbd=":"+String.valueOf(codegen.getTmpSn());
+		codegen.labels_ifbd.addFirst(lb_ifbd);
+		String lb_elsbd=":"+String.valueOf(codegen.getTmpSn());
+		codegen.labels_elsbd.addFirst(lb_elsbd);
+		this.if_body.genCode(codegen);
+		int ln_elsbd=codegen.getLineNo()+1;
+		codegen.mp_label2line.put(lb_elsbd, ln_elsbd);
+		if(this.else_body!=null){
+			this.else_body.genCode(codegen);		
 		}
-		else{
-			this.else_body.genCode(codegen);
-			this.lb_elsbd=this.else_body.lb_start;
-			
-		}
-	
-		for(int i:this.if_body.rps_if){
-			codegen.replaceLb(i,2,lb_ifbd);
-			codegen.replaceLb(i, 3, this.lb_elsbd);
-		}
+		codegen.replaceLb(lb_ifbd);
+		codegen.labels_ifbd.remove();
+		codegen.labels_elsbd.remove();
+		codegen.mp_label2line.remove(lb_ifbd);
+		codegen.mp_label2line.remove(lb_elsbd);
+		codegen.rps_code_list.remove(lb_ifbd);
 		return true;
 	}
 	public boolean checkType(CodeGenerator codegen){

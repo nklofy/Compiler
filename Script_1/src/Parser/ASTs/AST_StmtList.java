@@ -7,8 +7,7 @@ import Parser.*;
 
 public class AST_StmtList extends AST {
 	private ArrayList<AST> stmt_list=new ArrayList<AST>();
-	int lb_start;
-	int lb_end;
+	
 	public void addStmt(AST stmt){
 		this.stmt_list.add(stmt);
 		this.upAll(stmt);

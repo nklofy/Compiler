@@ -8,12 +8,7 @@ import Parser.IR.*;
 public class StmtIf_IfBd extends AST {
 	ExprCalc_Bool bool_exp;
 	AST_StmtList stmt_list;
-	Stmt_Sg sg_stmt;
-	
-	int lb_start;
-	int lb_end;
-	int lb_ifbd;
-	LinkedList<Integer> rps_if;
+	Stmt_Sg sg_stmt;	
 	
 	public boolean setIfBd(ExprCalc_Bool bool_exp,AST_StmtList stmt_list,Stmt_Sg sg_stmt){
 		this.bool_exp=bool_exp;
@@ -22,20 +17,19 @@ public class StmtIf_IfBd extends AST {
 		return true;
 	}
 	public boolean genCode(CodeGenerator codegen){
-		this.bool_exp.genCode(codegen);
-		IRCode code=new IRCode("if","%"+String.valueOf(codegen.getTmpSn()),null,null);
-		codegen.addCode(code);
 		codegen.incLineNo();
-		this.rps_if.add(codegen.getLineNo());
-		this.lb_ifbd=codegen.getLineNo()+1;
+		this.bool_exp.genCode(codegen);
+		IRCode code=new IRCode("if","%"+this.bool_exp.tmp_val,null,null);
+		codegen.incLineNo();
+		codegen.addCode(code);
+		int ln_ifbd=codegen.getLineNo()+1;
+		codegen.mp_label2line.put(codegen.labels_ifbd.peek(), ln_ifbd);
+		codegen.getRpsLst(codegen.labels_ifbd.peek()).add(code);
 		if(this.sg_stmt!=null){
 			this.sg_stmt.genCode(codegen);
 		}else if(this.stmt_list!=null){
 			this.stmt_list.genCode(codegen);
-		}
-		this.lb_end=codegen.getLineNo();
-		
-		
+		}	
 		return true;
 	}
 	public boolean checkType(CodeGenerator codegen){
