@@ -46,6 +46,8 @@ this this
 super super
 main main
 function function
+import import
+package package
 
 //operator
 || ||

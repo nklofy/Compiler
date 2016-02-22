@@ -289,11 +289,18 @@ public class Parser {
 		tokenizer.setScanFile(filename);
 		return true;
 	}
-	
+	private boolean getPckg(){//TODO
+		return true;
+	}
+	private boolean getImpt(){
+		return true;
+	}
 	public boolean parse(){
 		ParseState state_start=new ParseState();
 		sym_e=token_sn.get("e");
 		Token token=tokenizer.getToken();
+		getPckg();
+		getImpt();
 		int crt_state=0;
 		state_start.state_sn=crt_state;
 		Symbol symbol=new Symbol();
@@ -424,7 +431,7 @@ public class Parser {
 		ASTRule rule=astRule_list.get(r_grm);
 		String method=rule.method;
 		Symbol smb_e=new Symbol(); 
-		smb_e.ast=ast_gen.crtAST(method, pst, null);//TODO crt ast
+		smb_e.ast=ast_gen.crtAST(method, pst, null);//build new AST
 		System.out.println("create e-ast: "+ smb_e.ast.getClass().getName());
 		ParseState pst_a;
 		if(states_active.containsKey(nss)){		//goto state in active
@@ -491,7 +498,7 @@ public class Parser {
 			}
 			new_smb.path.path_end=pst_pre;
 			new_smb.path.path_count=ct;
-			new_smb.ast=ast_gen.crtAST(method, pst_crt, new_smb.path.getPath());		//build new ast TODO
+			new_smb.ast=ast_gen.crtAST(method, pst_crt, new_smb.path.getPath());		//build new ast
 			System.out.println("create ast: "+ new_smb.ast.getClass().getName());			
 			int nss=goto_table.get(pst_pre.state_sn).get(symbol_sn.get(reduce_head));
 			if(nss==-1){
@@ -589,7 +596,7 @@ public class Parser {
 				if(sym.path.path_end==pre_mr){
 					AST ast=ast_gen.crtAST(method,pst_crt, sym.path.getPath());
 					symb_t=new Symbol(sym);
-					symb_t.addAST(ast);		//build new ast TODO
+					symb_t.addAST(ast);		//build new ast 
 					System.out.println("create ast: "+ ast.getClass().getName());
 				}
 			}
