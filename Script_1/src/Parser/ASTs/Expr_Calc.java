@@ -7,6 +7,7 @@ public class Expr_Calc extends AST {
 	ExprCalc_Cond cond;
 	ExprCalc_NewCls newCls;
 	ExprCalc_NewArr newArr;
+	
 	public boolean setCalc(AST ast){
 		switch(this.getASTType()){
 		case "ExprCalc_Cond":
@@ -23,5 +24,12 @@ public class Expr_Calc extends AST {
 		}
 		return true;
 	}
-	
+	public boolean genCode(CodeGenerator codegen){
+		
+		return true;
+	}
+	public boolean checkType(CodeGenerator codegen){
+		
+		return true;
+	}
 }

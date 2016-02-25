@@ -28,9 +28,39 @@ public class Stmt_Sg extends AST {
 		return true;
 	}
 	public boolean genCode(CodeGenerator codegen){
+		switch(this.getASTType()){
+		case "SgStmt_AsnVar":
+			this.asn_var.genCode(codegen);			
+			break;
+		case "SgStmt_DefVar":
+			this.def_var.genCode(codegen);
+			break;
+		case "SgStmt_CtrFlw":
+			this.ctrflw.genCode(codegen);
+			break;
+		case "Expr_Calc":
+			this.exp_calc.genCode(codegen);
+			break;
+		default:break;
+		}
 		return true;
 	}
 	public boolean checkType(CodeGenerator codegen){
+		switch(this.getASTType()){
+		case "SgStmt_AsnVar":
+			this.asn_var.checkType(codegen);			
+			break;
+		case "SgStmt_DefVar":
+			this.def_var.checkType(codegen);
+			break;
+		case "SgStmt_CtrFlw":
+			this.ctrflw.checkType(codegen);
+			break;
+		case "Expr_Calc":
+			this.exp_calc.checkType(codegen);
+			break;
+		default:break;
+		}
 		return true;
 	}
 }

@@ -5,6 +5,8 @@ import Parser.*;
 public class Expr_Left extends AST {
 	ExprAccs_Fld acces_field;
 	ExprAccs_Arr acces_array;
+	String tmp_addr;
+	
 	public boolean setAccs(AST ast){
 		switch(this.getASTType()){
 		case "ExprAccs_Fld":

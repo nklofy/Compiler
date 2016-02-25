@@ -1,6 +1,7 @@
 package Parser.ASTs;
 
 import Parser.AST;
+import Parser.CodeGenerator;
 
 public class SgStmt_CtrFlw extends AST {
 	en_Ctrflw t_ctrflw;
@@ -22,5 +23,14 @@ public class SgStmt_CtrFlw extends AST {
 
 	Expr_Calc return_exp;
 	
+	
+	public boolean genCode(CodeGenerator codegen){
+		
+		return true;
+	}
+	public boolean checkType(CodeGenerator codegen){
+		
+		return true;
+	}
 	public enum en_Ctrflw{t_break,t_continue,t_return,t_returnExp;}
 }

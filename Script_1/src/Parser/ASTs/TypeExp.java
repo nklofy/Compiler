@@ -10,6 +10,8 @@ public class TypeExp extends AST {
 	TypeExp_Func type_func;
 	TypeExp_Idn type_idn;
 	TypeExp_Gnrc type_gnrc;
+	String tmp_tpname;
+	
 	public boolean setTypeExp(AST ast){
 		switch(this.getASTType()){
 		case "TypeExp_Arr":

@@ -15,7 +15,7 @@ public class Stmt_Whl extends AST {
 	}
 	public boolean genCode(CodeGenerator codegen){
 		this.bool_exp.genCode(codegen);
-		IRCode code=new IRCode("while","%"+this.bool_exp.tmp_val,null,null);
+		IRCode code=new IRCode("while",this.bool_exp.tmp_rst,null,null);
 		codegen.incLineNo();
 		codegen.addCode(code);
 		int ln_whlbd =codegen.getLineNo()+1;

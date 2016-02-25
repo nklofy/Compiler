@@ -6,6 +6,8 @@ import Parser.TypeSys.*;
 public class Expr extends AST {
 	Expr_Lmbd lmbd;
 	Expr_Calc calc;
+	String tmp_rst;
+	
 	public boolean setExpr(AST ast){
 		switch(this.getASTType()){
 		case "Expr_Lmbd":

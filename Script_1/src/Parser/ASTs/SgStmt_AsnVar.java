@@ -1,9 +1,12 @@
 package Parser.ASTs;
 
-import Parser.AST;
+import Parser.*;
+import Parser.IR.*;
 
 public class SgStmt_AsnVar extends AST {
 	Expr_Left left_hand;
+	Expr expr;
+	
 	public Expr_Left getLeft() {
 		return left_hand;
 	}
@@ -16,5 +19,15 @@ public class SgStmt_AsnVar extends AST {
 	public void setExpr(Expr expr) {
 		this.expr = expr;
 	}
-	Expr expr;
+	public boolean genCode(CodeGenerator codegen){
+		this.left_hand.genCode(codegen);
+		this.expr.genCode(codegen);
+		IRCode code=new IRCode("store",this.expr.tmp_rst,this.left_hand.tmp_addr,null);
+		codegen.addCode(code);
+		codegen.incLineNo();
+		return true;
+	}
+	public boolean checkType(CodeGenerator codegen){
+		return this.left_hand.checkType(codegen)&&this.expr.checkType(codegen);
+	}
 }
