@@ -48,5 +48,8 @@ public class ExprCalc_Bool extends AST {
 		this.isFalse=true;
 		return false;
 	}
+	public String getRst(){
+		return null;
+	}
 	public enum en_Bl{t_cnst,t_biCmp,t_biBool,t_un}
 }

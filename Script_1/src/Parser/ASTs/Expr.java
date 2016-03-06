@@ -7,6 +7,7 @@ public class Expr extends AST {
 	Expr_Lmbd lmbd;
 	Expr_Calc calc;
 	String tmp_rst;
+	String tmp_type;
 	
 	public boolean setExpr(AST ast){
 		switch(this.getASTType()){
@@ -20,6 +21,9 @@ public class Expr extends AST {
 			break;
 		}
 		return true;
+	}
+	public String getRst(){
+		return null;
 	}
 	public boolean genCode(CodeGenerator codegen){
 		return true;

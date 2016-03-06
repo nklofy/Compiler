@@ -4,13 +4,13 @@ import Parser.*;
 import Parser.TypeSys.*;
 
 public class TypeExp extends AST {
-	T_Type t_type;//type_value
+	//T_Type t_type;//type_value
 	TypeExp_Arr type_array;
 	TypeExp_Bsc type_basic;
 	TypeExp_Func type_func;
 	TypeExp_Idn type_idn;
 	TypeExp_Gnrc type_gnrc;
-	String tmp_tpname;
+	String tmp_type;
 	
 	public boolean setTypeExp(AST ast){
 		switch(this.getASTType()){

@@ -8,7 +8,7 @@ public class SgStmt_DefVar extends AST {
 	SgStmt_DefVar pre_def;
 	TypeExp type_exp;
 	ExprPri_Var var;
-	Expr expression;
+	Expr expr;
 	
 	public void setPredef(SgStmt_DefVar var_def) {
 		this.pre_def = var_def;
@@ -26,23 +26,22 @@ public class SgStmt_DefVar extends AST {
 		this.putVarTb(this.var.name, r);
 	}
 	public void setExpr(Expr expression) {
-		this.expression = expression;
+		this.expr = expression;
 	}
 	public boolean genCode(CodeGenerator codegen){
 		if(this.pre_def!=null){
 			this.pre_def.genCode(codegen);			
 		}
-		if(this.type_exp!=null&&this.type_exp.tmp_tpname==null){
+		if(this.type_exp!=null&&this.type_exp.tmp_type==null){
 			this.type_exp.genCode(codegen);
 		}
 		if(this.var!=null){
-			IRCode code=new IRCode("new",this.type_exp.tmp_tpname,this.var.tmp_addr,null);
-			codegen.addCode(code);
-			codegen.incLineNo();
+			this.var.tmp_addr="$"+codegen.getTmpSn();
+			this.var.tmp_type=this.type_exp.tmp_type;
 		}
-		if(this.expression!=null){
-			this.expression.genCode(codegen);
-			IRCode code=new IRCode("store",this.expression.tmp_rst,this.var.tmp_addr,null);
+		if(this.expr!=null){
+			this.expr.genCode(codegen);
+			IRCode code=new IRCode("mov",this.var.tmp_addr,this.expr.tmp_rst,this.var.tmp_type,this.expr.tmp_type);
 			codegen.addCode(code);
 			codegen.incLineNo();
 		}
@@ -56,8 +55,11 @@ public class SgStmt_DefVar extends AST {
 			return false;
 		if(this.var!=null&&!this.var.checkType(codegen))
 			return false;
-		if(this.expression!=null&&!this.expression.checkType(codegen))
+		if(this.expr!=null&&!this.expr.checkType(codegen))
 			return false;
+		if(!codegen.getRTType(this.type_exp.tmp_type).canAsn(codegen.getRTType(this.expr.tmp_type))){
+			return false;
+		}
 		return true;
 	}
 }

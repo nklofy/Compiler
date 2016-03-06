@@ -2,45 +2,49 @@ package Parser.IR;
 
 public class IRCode {
 	String opt;
-	String addr1;
-	String addr2;
-	String addr3;
-	boolean rps=false;
-	public boolean isRps() {
-		return rps;
-	}
-	public void setRps(boolean rps) {
-		this.rps = rps;
-	}
+	String opd1;
+	String opd2;
+	String opd3;
+	String opd4;
+	
+
+	
 	public IRCode(){}
-	public IRCode(String opt,String addr1,String addr2,String addr3){
-		this.addr1=addr1;
-		this.addr2=addr2;
-		this.addr3=addr3;
+	public IRCode(String opt,String opd1,String opd2,String opd3,String opd4){
+		this.opd1=opd1;
+		this.opd2=opd2;
+		this.opd3=opd3;
+		this.opd4=opd4;
 		this.opt=opt;
 	}
 	public String getOpt() {
 		return opt;
 	}
-	public String getAddr1() {
-		return addr1;
+	public String getOpd1() {
+		return opd1;
 	}
-	public String getAddr2() {
-		return addr2;
+	public String getOpd2() {
+		return opd2;
 	}
-	public String getAddr3() {
-		return addr3;
+	public String getOpd3() {
+		return opd3;
+	}
+	public String getOpd4() {
+		return opd4;
 	}
 	public void setOpt(String opt) {
 		this.opt = opt;
 	}
-	public void setAddr1(String addr1) {
-		this.addr1 = addr1;
+	public void setOpd1(String opd1) {
+		this.opd1 = opd1;
 	}
-	public void setAddr2(String addr2) {
-		this.addr2 = addr2;
+	public void setOpd2(String opd2) {
+		this.opd2 = opd2;
 	}
-	public void setAddr3(String addr3) {
-		this.addr3 = addr3;
+	public void setOpd3(String opd3) {
+		this.opd3 = opd3;
+	}
+	public void setOpd4(String opd4) {
+		this.opd4 = opd4;
 	}
 }

@@ -22,12 +22,17 @@ public class SgStmt_AsnVar extends AST {
 	public boolean genCode(CodeGenerator codegen){
 		this.left_hand.genCode(codegen);
 		this.expr.genCode(codegen);
-		IRCode code=new IRCode("store",this.expr.tmp_rst,this.left_hand.tmp_addr,null);
+		IRCode code;
+		code=new IRCode("mov",this.left_hand.tmp_addr,this.expr.getRst(),this.left_hand.tmp_type,this.expr.tmp_type);		
 		codegen.addCode(code);
 		codegen.incLineNo();
 		return true;
 	}
 	public boolean checkType(CodeGenerator codegen){
-		return this.left_hand.checkType(codegen)&&this.expr.checkType(codegen);
+		if(!this.left_hand.checkType(codegen)||!this.expr.checkType(codegen))
+			return false;
+		if(codegen.getRTType(this.expr.tmp_type).canAsn(codegen.getRTType(this.left_hand.tmp_type)))
+			return true;
+		return false;
 	}
 }

@@ -1,6 +1,7 @@
 package Parser;
 import java.util.*;
 import Parser.IR.*;
+import Parser.TypeSys.*;
 
 public class CodeGenerator {
 	int crt_line=1;//code's line
@@ -12,6 +13,8 @@ public class CodeGenerator {
 	public LinkedList<String> labels_elsbd;
 	public LinkedList<String> labels_whlbd;
 	public LinkedList<String> labels_whlend;
+	//a type system for store/search type/name
+	
 	
 	public int getLineNo() {
 		return crt_line;
@@ -43,19 +46,20 @@ public class CodeGenerator {
 	public boolean replaceLb(String lable){
 		LinkedList<IRCode> rps_codes=this.rps_code_list.get(lable);
 		for(IRCode code:rps_codes){
-			String lb1=code.getAddr1();
-			String lb2=code.getAddr2();
-			String lb3=code.getAddr3();
-			if(this.mp_label2line.containsKey(lb1)){
-				code.setAddr1(this.mp_label2line.get(lb1).toString());
-			}
+			//String lb1=code.getOpd1();
+			String lb2=code.getOpd2();
+			String lb3=code.getOpd3();
+			//String lb4=code.getOpd4();
 			if(this.mp_label2line.containsKey(lb2)){
-				code.setAddr2(this.mp_label2line.get(lb2).toString());
+				code.setOpd2(this.mp_label2line.get(lb2).toString());
 			}
 			if(this.mp_label2line.containsKey(lb3)){
-				code.setAddr3(this.mp_label2line.get(lb3).toString());
+				code.setOpd3(this.mp_label2line.get(lb3).toString());
 			}						
 		}
 		return true;
+	}
+	public T_Type getRTType(String name){
+		return null;
 	}
 }
