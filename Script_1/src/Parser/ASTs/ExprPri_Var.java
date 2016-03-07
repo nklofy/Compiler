@@ -5,7 +5,7 @@ import Parser.AST;
 public class ExprPri_Var extends AST {
 	String name;
 	String tmp_addr;
-	String tmp_type;
+	String ref_type;
 	
 	public String getName() {
 		return name;

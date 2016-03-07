@@ -4,14 +4,14 @@ import Parser.AST;
 import Parser.CodeGenerator;
 
 public class Stmt_Sg extends AST {
-	SgStmt_AsnVar asn_var; 
+	SgStmt_AsgnVar asn_var; 
 	SgStmt_DefVar def_var;
 	SgStmt_CtrFlw ctrflw;
 	Expr_Calc exp_calc;
 	public boolean setSg(AST ast){
 		switch(this.getASTType()){
 		case "SgStmt_AsnVar":
-			this.asn_var=(SgStmt_AsnVar)ast;			
+			this.asn_var=(SgStmt_AsgnVar)ast;			
 			break;
 		case "SgStmt_DefVar":
 			this.def_var=(SgStmt_DefVar)ast;

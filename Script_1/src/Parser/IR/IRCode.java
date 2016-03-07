@@ -5,16 +5,14 @@ public class IRCode {
 	String opd1;
 	String opd2;
 	String opd3;
-	String opd4;
 	
 
 	
 	public IRCode(){}
-	public IRCode(String opt,String opd1,String opd2,String opd3,String opd4){
+	public IRCode(String opt,String opd1,String opd2,String opd3){
 		this.opd1=opd1;
 		this.opd2=opd2;
 		this.opd3=opd3;
-		this.opd4=opd4;
 		this.opt=opt;
 	}
 	public String getOpt() {
@@ -29,9 +27,6 @@ public class IRCode {
 	public String getOpd3() {
 		return opd3;
 	}
-	public String getOpd4() {
-		return opd4;
-	}
 	public void setOpt(String opt) {
 		this.opt = opt;
 	}
@@ -43,8 +38,5 @@ public class IRCode {
 	}
 	public void setOpd3(String opd3) {
 		this.opd3 = opd3;
-	}
-	public void setOpd4(String opd4) {
-		this.opd4 = opd4;
 	}
 }

@@ -85,7 +85,7 @@ public class ASTGenerator {
 	case "crtSgVarAssign":
 		ast0=symbs.get(0).ast;
 		Stmt_Sg ast_t9=new Stmt_Sg();
-		ast_t9.setASTType(SgStmt_AsnVar.class.getName());
+		ast_t9.setASTType(SgStmt_AsgnVar.class.getName());
 		ast_t9.setSg(ast0);
 		ast=ast_t9;
 		break;
@@ -183,7 +183,7 @@ public class ASTGenerator {
 	case "crtVarAsg":
 		ast0=symbs.get(0).ast;
 		ast2=symbs.get(2).ast;
-		SgStmt_AsnVar ast_t21=new SgStmt_AsnVar();
+		SgStmt_AsgnVar ast_t21=new SgStmt_AsgnVar();
 		ast_t21.setLeft((Expr_Left)ast2);
 		ast_t21.setExpr((Expr)ast0);
 		ast=ast_t21;

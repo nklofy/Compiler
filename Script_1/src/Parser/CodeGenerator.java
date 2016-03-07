@@ -46,10 +46,8 @@ public class CodeGenerator {
 	public boolean replaceLb(String lable){
 		LinkedList<IRCode> rps_codes=this.rps_code_list.get(lable);
 		for(IRCode code:rps_codes){
-			//String lb1=code.getOpd1();
 			String lb2=code.getOpd2();
 			String lb3=code.getOpd3();
-			//String lb4=code.getOpd4();
 			if(this.mp_label2line.containsKey(lb2)){
 				code.setOpd2(this.mp_label2line.get(lb2).toString());
 			}

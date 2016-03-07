@@ -8,6 +8,7 @@ public class Expr extends AST {
 	Expr_Calc calc;
 	String tmp_rst;
 	String tmp_type;
+	String asgn_type;
 	
 	public boolean setExpr(AST ast){
 		switch(this.getASTType()){

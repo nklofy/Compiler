@@ -28,37 +28,32 @@ public class SgStmt_DefVar extends AST {
 	public void setExpr(Expr expression) {
 		this.expr = expression;
 	}
-	public boolean genCode(CodeGenerator codegen){
+	public boolean genCode(CodeGenerator codegen){ //if only def var without assignment, just register on RT
 		if(this.pre_def!=null){
 			this.pre_def.genCode(codegen);			
 		}
-		if(this.type_exp!=null&&this.type_exp.tmp_type==null){
-			this.type_exp.genCode(codegen);
-		}
-		if(this.var!=null){
-			this.var.tmp_addr="$"+codegen.getTmpSn();
-			this.var.tmp_type=this.type_exp.tmp_type;
-		}
-		if(this.expr!=null){
+		if(this.var!=null&&this.expr!=null){
 			this.expr.genCode(codegen);
-			IRCode code=new IRCode("mov",this.var.tmp_addr,this.expr.tmp_rst,this.var.tmp_type,this.expr.tmp_type);
+			this.var.tmp_addr="$"+codegen.getTmpSn();
+			IRCode code=new IRCode("cpy",this.var.ref_type,this.var.tmp_addr,this.expr.tmp_rst);
 			codegen.addCode(code);
 			codegen.incLineNo();
 		}
-		
 		return true;
 	}
-	public boolean checkType(CodeGenerator codegen){
+	public boolean checkType(CodeGenerator codegen){	//set var's type and expr's asgn_type 
 		if(this.pre_def!=null&&!this.pre_def.checkType(codegen))
 			return false;
-		if(this.type_exp!=null&&!this.type_exp.checkType(codegen))
-			return false;
-		if(this.var!=null&&!this.var.checkType(codegen))
-			return false;
-		if(this.expr!=null&&!this.expr.checkType(codegen))
-			return false;
-		if(!codegen.getRTType(this.type_exp.tmp_type).canAsn(codegen.getRTType(this.expr.tmp_type))){
-			return false;
+		else{
+			if(!this.type_exp.checkType(codegen))
+				return false;
+		}
+		this.var.ref_type=this.type_exp.tmp_type;
+		this.getVarTb().get(this.var.name).setTypeDef(codegen.getRTType(this.var.ref_type));
+		if(this.expr!=null){
+			this.expr.asgn_type=this.var.ref_type;
+			if(!this.expr.checkType(codegen))
+				return false;
 		}
 		return true;
 	}
