@@ -6,9 +6,9 @@ import Parser.TypeSys.*;
 public class Expr extends AST {
 	Expr_Lmbd lmbd;
 	Expr_Calc calc;
-	String tmp_rst;
-	String tmp_type;
-	String asgn_type;
+	String ret_val;//return value of calculation
+	String ret_type;//return type of calculation
+	String ref_type;//reference type for assignment
 	
 	public boolean setExpr(AST ast){
 		switch(this.getASTType()){

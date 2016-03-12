@@ -23,7 +23,7 @@ public class SgStmt_AsgnVar extends AST {
 		this.left_hand.genCode(codegen);
 		this.expr.genCode(codegen);
 		IRCode code;
-		code=new IRCode("cpy",this.left_hand.ref_type,this.left_hand.tmp_addr,this.expr.getRst());		
+		code=new IRCode("cpy",this.left_hand.ref_type,this.left_hand.ret_addr,this.expr.getRst());		
 		codegen.addCode(code);
 		codegen.incLineNo();
 		return true;
@@ -31,7 +31,7 @@ public class SgStmt_AsgnVar extends AST {
 	public boolean checkType(CodeGenerator codegen){
 		if(!this.left_hand.checkType(codegen))
 			return false;
-		this.expr.asgn_type=this.left_hand.ref_type;
+		this.expr.ref_type=this.left_hand.ref_type;
 		return this.expr.checkType();
 	}
 }

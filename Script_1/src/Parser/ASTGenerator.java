@@ -247,31 +247,31 @@ public class ASTGenerator {
 //		29	crtBscTpInt 0
 	case "crtBscTpInt":
 		TypeExp_Bsc ast_t29 = new TypeExp_Bsc();
-		ast_t29.setTypeT(type_sys.getBType("int"));
+		ast_t29.setTypeT("int");
 		ast=ast_t29;
 		break;
 //		30	crtBscTpDb 0
 	case "crtBscTpDb":
 		TypeExp_Bsc ast_t30 = new TypeExp_Bsc();
-		ast_t30.setTypeT(type_sys.getBType("double"));
+		ast_t30.setTypeT("double");
 		ast=ast_t30;
 		break;
 //		31	crtBscTpBl 0
 	case "crtBscTpBl":
 		TypeExp_Bsc ast_t31 = new TypeExp_Bsc();
-		ast_t31.setTypeT(type_sys.getBType("bool"));
+		ast_t31.setTypeT("bool");
 		ast=ast_t31;
 		break;
 //		32	crtBscTpStr 0
 	case "crtBscTpStr":
 		TypeExp_Bsc ast_t32 = new TypeExp_Bsc();
-		ast_t32.setTypeT(type_sys.getBType("string"));
+		ast_t32.setTypeT("string");
 		ast=ast_t32;
 		break;
 //		33	crtBscTpChr 0
 	case "crtBscTpChr":
 		TypeExp_Bsc ast_t33 = new TypeExp_Bsc();
-		ast_t33.setTypeT(type_sys.getBType("char"));
+		ast_t33.setTypeT("char");
 		ast=ast_t33;
 		break;
 //		34	lnkArrTp 2

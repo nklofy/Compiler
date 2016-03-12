@@ -6,6 +6,9 @@ public class ExprCalc_NewArr extends AST {
 	TypeExp type_exp;
 	NewArr_DimLst dim_lst;
 	NewArr_InitLst init_lst;
+	String ret_val;
+	String ret_type;
+	
 	public boolean setNewArr(TypeExp type_exp,NewArr_DimLst dim_lst,NewArr_InitLst init_lst){
 		this.type_exp=type_exp;
 		this.dim_lst=dim_lst;

@@ -10,6 +10,7 @@ public class Stmt_DefFunc extends AST {
 	ExprPri_Var var;
 	FuncDef_ParLst pars;
 	AST_StmtList stmt_list;
+	
 	public void setFuncDef(Gnrc_ParLst gnrc_pars,TypeExp type_exp,ExprPri_Var var,FuncDef_ParLst pars,AST_StmtList stmt_list){
 		this.gnrc_pars=gnrc_pars;
 		this.type_exp=type_exp;

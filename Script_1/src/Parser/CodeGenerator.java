@@ -13,6 +13,7 @@ public class CodeGenerator {
 	public LinkedList<String> labels_elsbd;
 	public LinkedList<String> labels_whlbd;
 	public LinkedList<String> labels_whlend;
+	public LinkedList<String> funcal_types;
 	//a type system for store/search type/name
 	
 	
