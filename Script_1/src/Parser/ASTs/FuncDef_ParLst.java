@@ -18,4 +18,10 @@ public class FuncDef_ParLst extends AST {
 	public void setE() {
 		this.isE = true;
 	}
+	public boolean genCode(CodeGenerator codegen){
+		return true;
+	}
+	public boolean checkType(CodeGenerator codegen){
+		return true;
+	}
 }

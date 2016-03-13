@@ -21,5 +21,11 @@ public class R_Type extends R_Record {
 	public void setStatic(boolean isStatic) {
 		this.isStatic = isStatic;
 	}
+	public T_Type getTypeValue() {
+		return type_value;
+	}
+	public void setTypeValue(T_Type type_value) {
+		this.type_value = type_value;
+	}
 	
 }

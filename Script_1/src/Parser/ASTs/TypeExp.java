@@ -4,7 +4,6 @@ import Parser.*;
 import Parser.TypeSys.*;
 
 public class TypeExp extends AST {
-	//T_Type t_type;//type_value
 	TypeExp_Arr type_array;
 	TypeExp_Bsc type_basic;
 	TypeExp_Func type_func;

@@ -10,7 +10,7 @@ public class R_Function extends R_Record {
 	boolean isAbstract;
 	AST func_def;
 	boolean isMulti=false;
-	LinkedList<R_Function> multimorphism;
+	LinkedList<R_Function> multimorphism;//other data struct maybe?
 	T_Type ret_type;
 	ArrayList<T_Type> par_types;
 	

@@ -11,43 +11,21 @@ public class TypeExp_Bsc extends AST {
 		this.b_type =b_type;
 	}
 	public boolean genCode(CodeGenerator codegen){
-		switch(this.b_type){
-		case "int":
-			
-			break;
-		case "double":
-			
-			break;
-		case "bool":
-			
-			break;
-		case "string":
-			
-			break;
-		case "char":
-			
-			break;
-		default:
-			return false;		
-		}
+		
 		return true;
 	}
 	public boolean checkType(CodeGenerator codegen){
+		this.ret_type=this.b_type;
 		switch(this.b_type){
-		case "int":
-			
+		case "int":			
 			break;
-		case "double":
-			
+		case "double":			
 			break;
-		case "bool":
-			
+		case "bool":			
 			break;
-		case "string":
-			
+		case "string":			
 			break;
-		case "char":
-			
+		case "char":			
 			break;
 		default:
 			return false;		

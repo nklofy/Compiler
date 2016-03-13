@@ -19,4 +19,10 @@ public class FuncApp_ArgLst extends AST {
 		}
 		this.args.add(ast);
 	}
+	public boolean genCode(CodeGenerator codegen){
+		return true;
+	}
+	public boolean checkType(CodeGenerator codegen){
+		return true;
+	}
 }

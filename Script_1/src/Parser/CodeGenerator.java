@@ -15,7 +15,8 @@ public class CodeGenerator {
 	public LinkedList<String> labels_whlend;
 	public LinkedList<String> funcal_types;
 	//a type system for store/search type/name
-	
+	HashMap<String,T_Type> type_tb=new HashMap<String,T_Type>();
+	HashMap<String,R_Package> name_spaces=new HashMap<String,R_Package>();
 	
 	public int getLineNo() {
 		return crt_line;
@@ -59,6 +60,17 @@ public class CodeGenerator {
 		return true;
 	}
 	public T_Type getRTType(String name){
-		return null;
+		return this.type_tb.get(name);
+	}
+	public boolean addRTType(String name,T_Type type){
+		this.type_tb.put(name, type);
+		return true;
+	}
+	public R_Package getPackage(String name){
+		return this.name_spaces.get(name);
+	}
+	public boolean addPackage(String name, R_Package pck){
+		this.name_spaces.put(name, pck);
+		return true;
 	}
 }
