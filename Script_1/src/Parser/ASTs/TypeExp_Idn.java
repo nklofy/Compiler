@@ -17,6 +17,7 @@ public class TypeExp_Idn extends AST {
 		return true;
 	}
 	public boolean genCode(CodeGenerator codegen){
+		
 		return true;
 	}
 	public boolean checkType(CodeGenerator codegen){

@@ -148,12 +148,13 @@
 146 pri_exp ( cond_exp ) 
 147 apply_exp access_exp . var ( arg_list ) 
 148 apply_exp apply_exp . var ( arg_list ) 
-149 apply_exp var ( arg_list ) 
-150 arg_list arguments 
-151 arg_list e 
-152 arguments arguments , calc_exp 
-153 arguments calc_exp 
-154 lambda_exp ( par_list ) -> { stmt_list } 
+149 apply_exp < generic_args > var ( arg_list ) 
+150 apply_exp var ( arg_list ) 
+151 arg_list arguments 
+152 arg_list e 
+153 arguments arguments , calc_exp 
+154 arguments calc_exp 
+155 lambda_exp ( par_list ) -> { stmt_list } 
  
 
 //AST
@@ -306,11 +307,12 @@
 146 crtPriCnd 1
 147 crtAppAcc 5 3 1
 148 crtAppApp 5 3 1
-149 crtAppVar 3 1
-150 crtArgLst 0
-151 crtArgLstE 0
-152 lnkArgLst 2 0
-153 crtArgCalc 0
-154 crtLbdExp 7 5 1
+149 crtAppGnrc 5 3 1
+150 crtAppVar 3 1
+151 crtArgLst 0
+152 crtArgLstE 0
+153 lnkArgLst 2 0
+154 crtArgCalc 0
+155 crtLbdExp 7 5 1
 
 //end

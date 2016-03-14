@@ -1,5 +1,7 @@
 package Parser.ASTs;
 
+import java.util.*;
+
 import Parser.*;
 import Parser.TypeSys.*;
 
@@ -14,6 +16,7 @@ public class TypeExp_Gnrc extends AST {
 		return true;
 	}
 	public boolean genCode(CodeGenerator codegen){		
+		
 		return true;
 	}
 	public boolean checkType(CodeGenerator codegen){
@@ -26,9 +29,15 @@ public class TypeExp_Gnrc extends AST {
 			return false;		
 		if(t.Pars_Gnrc.size()!=this.args.gnrc_args.size())
 			return false;
-		this.ret_type="@"+codegen.getTmpSn();
-
-		
+		this.ret_type="<"+codegen.getTmpSn();
+		LinkedList<String> pars=t.Pars_Gnrc;
+		LinkedList<T_Type> args=this.args.gnrc_args;
+		T_Generic t1=new T_Generic();
+		t1.core_type=t;
+		for(int i=0;i<pars.size();i++){
+			t1.type_args.put(pars.get(i), args.get(i));
+		}
+		codegen.addRTType(this.ret_type, t1);
 		return true;
 	}
 }
