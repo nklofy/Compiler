@@ -3,6 +3,7 @@ package Parser.ASTs;
 import java.util.*;
 
 import Parser.*;
+import Parser.IR.IRCode;
 import Parser.TypeSys.*;
 
 public class TypeExp_Gnrc extends AST {
@@ -16,7 +17,9 @@ public class TypeExp_Gnrc extends AST {
 		return true;
 	}
 	public boolean genCode(CodeGenerator codegen){		
-		
+		IRCode code=new IRCode("GnrcType",this.ret_type,this.idn_type.ret_type,this.args.ret_args);
+		codegen.addCode(code);
+		codegen.incLineNo();
 		return true;
 	}
 	public boolean checkType(CodeGenerator codegen){
@@ -38,6 +41,10 @@ public class TypeExp_Gnrc extends AST {
 			t1.type_args.put(pars.get(i), args.get(i));
 		}
 		codegen.addRTType(this.ret_type, t1);
+		this.args.ret_args=this.args.gnrc_args.remove().type_name;
+		for(int i=1;i<this.args.gnrc_args.size();i++){
+			this.args.ret_args+=","+this.args.gnrc_args.remove();
+		}
 		return true;
 	}
 }

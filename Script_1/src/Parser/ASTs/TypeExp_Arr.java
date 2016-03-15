@@ -8,7 +8,7 @@ public class TypeExp_Arr extends AST {
 	TypeExp type_pre;
 	String ele_type;
 	String ret_type;
-	int dims;
+	int dim;
 	
 	public TypeExp getPreType() {
 		return type_pre;
@@ -17,13 +17,13 @@ public class TypeExp_Arr extends AST {
 		this.type_pre = type_pre;
 	}
 	public boolean genCode(CodeGenerator codegen){		
-		IRCode code=new IRCode("ArrType",this.ret_type,this.ele_type,String.valueOf(this.dims));
+		IRCode code=new IRCode("ArrType",this.ret_type,this.ele_type,String.valueOf(this.dim));
 		codegen.addCode(code);
 		codegen.incLineNo();
 		return true;
 	}
 	public boolean checkType(CodeGenerator codegen){
-		boolean b=this.type_pre.checkType(codegen);
+		if(!this.type_pre.checkType(codegen))return false;
 		T_Type t=codegen.getRTType(this.type_pre.ret_type);
 		T_Array t1=null;
 		if(t.isArray){
@@ -38,8 +38,8 @@ public class TypeExp_Arr extends AST {
 		}
 		this.ret_type="["+codegen.getTmpSn();			
 		codegen.addRTType(this.ret_type, t1);
-		this.dims=t1.getDims();
-		return b;
+		this.dim=t1.getDims();
+		return true;
 	}
 	
 	

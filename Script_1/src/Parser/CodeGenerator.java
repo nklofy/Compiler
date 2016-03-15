@@ -64,6 +64,7 @@ public class CodeGenerator {
 	}
 	public boolean addRTType(String name,T_Type type){
 		this.type_tb.put(name, type);
+		type.type_name=name;
 		return true;
 	}
 	public R_Package getPackage(String name){
