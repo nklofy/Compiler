@@ -11,7 +11,7 @@ public class AST {
 	HashSet<AST> merged_asts;
 	boolean isMerged=false;
 	HashMap<String,R_Variable> var_table;
-	HashMap<String,R_Type> type_table;
+	HashMap<String,T_Type> type_table;
 	HashMap<String,R_Function> func_table;
 	LinkedList<String> var_up;
 	LinkedList<String> type_up;
@@ -54,17 +54,17 @@ public class AST {
 			this.var_table.put(name, r);
 		}
 	}
-	public HashMap<String, R_Type> getTypeTb() {
+	public HashMap<String, T_Type> getTypeTb() {
 		return type_table;
 	}
-	public void setTypeTb(HashMap<String, R_Type> t) {
+	public void setTypeTb(HashMap<String, T_Type> t) {
 		this.type_table=t;
 	}
-	public void putTypeTb(String name, R_Type r) {
+	public void putTypeTb(String name, T_Type r) {
 		if(this.type_table != null){
 			this.type_table.put(name, r);
 		}else{
-			this.type_table=new HashMap<String, R_Type>();
+			this.type_table=new HashMap<String, T_Type>();
 			this.type_table.put(name, r);
 		}
 	}

@@ -26,18 +26,19 @@ public class TypeExp_Arr extends AST {
 		if(!this.type_pre.checkType(codegen))return false;
 		T_Type t=codegen.getRTType(this.type_pre.ret_type);
 		T_Array t1=null;
-		if(t.isArray){
+		if(t.isArray()){
 			t1=((T_Array)t);
 			t1.incDims();
-			this.ele_type=t1.getEleType().type_name;
+			this.ele_type=t1.getEleType().getTypeName();
 		}else{
 			t1=new T_Array();
 			t1.setEleType(t);
 			t1.setDims(1);
-			this.ele_type=t1.type_name;
+			this.ele_type=t1.getTypeName();
 		}
 		this.ret_type="["+codegen.getTmpSn();			
 		codegen.addRTType(this.ret_type, t1);
+		t1.setArray(true);
 		this.dim=t1.getDims();
 		return true;
 	}

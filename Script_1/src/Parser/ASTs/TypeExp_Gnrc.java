@@ -28,12 +28,12 @@ public class TypeExp_Gnrc extends AST {
 		if(!this.args.checkType(codegen))
 			return false;
 		T_Type t=codegen.getRTType(this.idn_type.ret_type);//class or interface or function?
-		if(!t.isGnrc)
+		if(!t.isGnrc())
 			return false;		
-		if(t.Pars_Gnrc.size()!=this.args.gnrc_args.size())
+		if(t.getGnrcPars().size()!=this.args.gnrc_args.size())
 			return false;
 		this.ret_type="<"+codegen.getTmpSn();
-		LinkedList<String> pars=t.Pars_Gnrc;
+		LinkedList<String> pars=t.getGnrcPars();
 		LinkedList<T_Type> args=this.args.gnrc_args;
 		T_Generic t1=new T_Generic();
 		t1.core_type=t;
@@ -41,7 +41,7 @@ public class TypeExp_Gnrc extends AST {
 			t1.type_args.put(pars.get(i), args.get(i));
 		}
 		codegen.addRTType(this.ret_type, t1);
-		this.args.ret_args=this.args.gnrc_args.remove().type_name;
+		this.args.ret_args=this.args.gnrc_args.remove().getTypeName();
 		for(int i=1;i<this.args.gnrc_args.size();i++){
 			this.args.ret_args+=","+this.args.gnrc_args.remove();
 		}

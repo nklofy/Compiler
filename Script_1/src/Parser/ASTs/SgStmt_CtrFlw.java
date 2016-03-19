@@ -57,11 +57,11 @@ public class SgStmt_CtrFlw extends AST {
 				return true;
 			break;
 		case t_return:
-			if(codegen.funcal_types.peek().equals("void"))
+			if(codegen.ret_types.peek().equals("void"))
 				return true;
 			break;
 		case t_returnExp:
-			if(codegen.getRTType(codegen.funcal_types.peek())==codegen.getRTType(this.return_exp.ret_type))
+			if(codegen.getRTType(codegen.ret_types.peek())==codegen.getRTType(this.return_exp.ret_type))
 				return true;
 			break;
 		default:break;

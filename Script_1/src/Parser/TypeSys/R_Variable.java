@@ -3,7 +3,7 @@ package Parser.TypeSys;
 import Parser.AST;
 import Parser.TypeSys.*;
 
-public class R_Variable extends R_Record{
+public class R_Variable {
 	boolean isFinal;
 	boolean isStatic;
 	boolean isInit;

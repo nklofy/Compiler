@@ -1,9 +1,8 @@
 package Parser.ASTs;
 
-import java.util.LinkedList;
-
+import java.util.*;
 import Parser.*;
-import Parser.IR.IRCode;
+import Parser.IR.*;
 import Parser.TypeSys.*;
 
 public class TypeExp_Idn extends AST {
@@ -18,7 +17,7 @@ public class TypeExp_Idn extends AST {
 		return true;
 	}
 	public boolean genCode(CodeGenerator codegen){
-		IRCode code=new IRCode("PkgType",this.ret_type,this.var.name,this.r_pkg.pkg_name);
+		IRCode code=new IRCode("PkgType",this.ret_type,this.var.name,this.r_pkg.getPkgName());
 		codegen.addCode(code);
 		codegen.incLineNo();
 		return true;
@@ -27,11 +26,11 @@ public class TypeExp_Idn extends AST {
 		if(this.type_idn!=null){
 			if(!this.type_idn.checkType(codegen))
 				return false;
-			if(this.r_pkg.type_inPkg.containsKey(var.name)){
+			if(this.r_pkg.getTypeInPkg().containsKey(var.name)){
 				this.ret_type="@"+codegen.getTmpSn();
-				codegen.addRTType(this.ret_type, this.r_pkg.type_inPkg.get(var.name).getTypeValue());
+				codegen.addRTType(this.ret_type, this.r_pkg.getTypeInPkg().get(var.name));
 			}else{
-				this.r_pkg=this.type_idn.r_pkg.sub_pkgs.get(var.name);
+				this.r_pkg=this.type_idn.r_pkg.getSubPkgs().get(var.name);
 				if(this.r_pkg==null)
 					return false;
 			}

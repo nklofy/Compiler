@@ -4,10 +4,8 @@ import java.util.*;
 import Parser.*;
 import Parser.TypeSys.*;
 
-public class R_Function extends R_Record {
+public class R_Function {
 	T_Function type;
-	boolean isStatic;
-	boolean isAbstract;
 	AST func_def;
 	boolean isMulti=false;
 	LinkedList<R_Function> multimorphism;//other data struct maybe?
@@ -22,7 +20,13 @@ public class R_Function extends R_Record {
 		this.multimorphism=new LinkedList<R_Function>();
 	}
 	public void addMulti(R_Function r){
-		this.multimorphism.add(r);
+		if(r.isMulti){
+			for(R_Function f:r.multimorphism){
+				this.multimorphism.add(f);
+			}
+		}else{
+			this.multimorphism.add(r);
+		}
 	}
 	public AST getFuncDef() {
 		return func_def;
@@ -30,13 +34,6 @@ public class R_Function extends R_Record {
 	public void setFuncDef(AST func_def) {
 		this.func_def = func_def;
 	}
-	public boolean isStatic() {
-		return isStatic;
-	}
-	public void setStatic(boolean isStatic) {
-		this.isStatic = isStatic;
-	}
-	
 	public T_Function getTypeT() {
 		return type;
 	}
