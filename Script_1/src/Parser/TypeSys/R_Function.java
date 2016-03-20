@@ -8,7 +8,7 @@ public class R_Function {
 	T_Function type;
 	AST func_def;
 	boolean isMulti=false;
-	LinkedList<R_Function> multimorphism;//other data struct maybe?
+	LinkedList<R_Function> multimorphism;//other data struct maybe?	
 	T_Type ret_type;
 	ArrayList<T_Type> par_types;
 	
@@ -27,6 +27,12 @@ public class R_Function {
 		}else{
 			this.multimorphism.add(r);
 		}
+	}
+	public LinkedList<R_Function> getMulti() {
+		return multimorphism;
+	}
+	public void setMulti(LinkedList<R_Function> multimorphism) {
+		this.multimorphism = multimorphism;
 	}
 	public AST getFuncDef() {
 		return func_def;

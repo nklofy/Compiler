@@ -344,7 +344,7 @@ public class ASTGenerator {
 		ast1=symbs.get(1).ast;
 		Stmt_DefCls ast_t42 = new Stmt_DefCls();
 		ast_t42.setClsDef((Scp_InfoLst)ast8,(ExprPri_Var) ast6,(Gnrc_ParLst)ast5,
-				(Extd_Lst)ast4,(Impl_Lst)ast3,(MbrDef_Lst)ast1);
+				(Cls_Extd_Lst)ast4,(Cls_Impl_Lst)ast3,(MbrDef_Lst)ast1);
 		ast=ast_t42;
 		break;
 //		43	crtIntfDef 7 5 4 3 1
@@ -356,7 +356,7 @@ public class ASTGenerator {
 		ast1=symbs.get(1).ast;
 		Stmt_DefIntf ast_t43= new Stmt_DefIntf();
 		ast_t43.setIntfDef((Scp_InfoLst)ast7,(ExprPri_Var)ast5,(Gnrc_ParLst)ast4,
-				(Extd_Lst)ast3,(MbrDef_Lst)ast1);
+				(Cls_Extd_Lst)ast3,(MbrDef_Lst)ast1);
 		ast=ast_t43;
 		break;
 //		44	crtScpInfLst 0
@@ -459,7 +459,7 @@ public class ASTGenerator {
 		break;
 //		59	crtExtLstE 0
 	case "crtExtLstE":
-		Extd_Lst ast_t59=new Extd_Lst();
+		Cls_Extd_Lst ast_t59=new Cls_Extd_Lst();
 		ast_t59.setE();
 		ast=ast_t59;
 		break;
@@ -467,14 +467,14 @@ public class ASTGenerator {
 	case "lnkExtIdn":
 		ast0=symbs.get(0).ast;
 		ast2=symbs.get(2).ast;
-		Extd_Lst ast_t60=(Extd_Lst)ast2;
+		Cls_Extd_Lst ast_t60=(Cls_Extd_Lst)ast2;
 		ast_t60.addExtd((TypeExp_Idn)ast0);
 		ast=ast_t60;
 		break;
 //		61	crtExtIdn 0
 	case "crtExtIdn":
 		ast0=symbs.get(0).ast;
-		Extd_Lst ast_t61=new Extd_Lst();
+		Cls_Extd_Lst ast_t61=new Cls_Extd_Lst();
 		ast_t61.addExtd((TypeExp_Idn)ast0);
 		ast=ast_t61;
 		break;
@@ -485,21 +485,21 @@ public class ASTGenerator {
 		break;
 //		63	crtImpLstE 0
 	case "crtImpLstE":
-		Impl_Lst ast_t63=new Impl_Lst();
+		Cls_Impl_Lst ast_t63=new Cls_Impl_Lst();
 		ast=ast_t63;
 		break;
 //		64	lnkImpIdn 2 0
 	case "lnkImpIdn":
 		ast0=symbs.get(0).ast;
 		ast2=symbs.get(2).ast;
-		Impl_Lst ast_t64=(Impl_Lst)ast2;
+		Cls_Impl_Lst ast_t64=(Cls_Impl_Lst)ast2;
 		ast_t64.addImp((TypeExp_Idn)ast0);
 		ast=ast_t64;
 		break;
 //		65	crtImpIdn 0
 	case "crtImpIdn":
 		ast0=symbs.get(0).ast;
-		Impl_Lst ast_t65=new Impl_Lst();
+		Cls_Impl_Lst ast_t65=new Cls_Impl_Lst();
 		ast_t65.addImp((TypeExp_Idn)ast0);
 		ast=ast_t65;
 		break;

@@ -40,7 +40,7 @@ public class SgStmt_CtrFlw extends AST {
 			code =new IRCode("return",null,null,null);
 			break;			
 		case t_returnExp:
-			code =new IRCode("retExp",this.return_exp.ret_type,this.return_exp.ret_val,null);
+			code =new IRCode("retExp",this.return_exp.rst_type,this.return_exp.rst_val,null);
 			break;
 		default:return false;		
 		}
@@ -61,7 +61,7 @@ public class SgStmt_CtrFlw extends AST {
 				return true;
 			break;
 		case t_returnExp:
-			if(codegen.getRTType(codegen.ret_types.peek())==codegen.getRTType(this.return_exp.ret_type))
+			if(codegen.getRTType(codegen.ret_types.peek())==codegen.getRTType(this.return_exp.rst_type))
 				return true;
 			break;
 		default:break;

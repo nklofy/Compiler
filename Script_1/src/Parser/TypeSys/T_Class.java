@@ -32,4 +32,10 @@ public class T_Class extends T_Type {
 	public void setExtdTypes(LinkedList<T_Class> extd_types) {
 		this.extd_types = extd_types;
 	}
+	public boolean isSuperOf(T_Type type1){
+		return true;
+	}
+	public boolean isSubOf(T_Type type1){
+		return true;
+	}
 }

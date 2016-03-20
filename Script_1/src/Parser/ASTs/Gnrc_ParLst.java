@@ -24,7 +24,14 @@ public class Gnrc_ParLst extends AST {
 		return true;
 	}
 	public boolean checkType(CodeGenerator codegen){
-		
+		if(isE)
+			return true;
+		this.pars_name=new LinkedList<String>();
+		for(Gnrc_Par p:pars){
+			if(!p.checkType(codegen))
+				return false;
+			this.pars_name.add(p.var.name);
+		}
 		return true;
 	}
 }

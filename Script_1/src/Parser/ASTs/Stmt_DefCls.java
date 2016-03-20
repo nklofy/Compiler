@@ -1,5 +1,7 @@
 package Parser.ASTs;
 
+import java.util.HashMap;
+
 import Parser.*;
 import Parser.TypeSys.*;
 
@@ -8,11 +10,11 @@ public class Stmt_DefCls extends AST {
 	Scp_InfoLst scp_infolst;
 	ExprPri_Var var;
 	Gnrc_ParLst gnrc_parlst;
-	Extd_Lst extd_lst;
-	Impl_Lst impl_lst;
+	Cls_Extd_Lst extd_lst;
+	Cls_Impl_Lst impl_lst;
 	MbrDef_Lst mbrdef_lst;
 	public boolean setClsDef(Scp_InfoLst scp_infolst,ExprPri_Var var,Gnrc_ParLst gnrc_parlst,
-			Extd_Lst extd_lst,Impl_Lst impl_lst,MbrDef_Lst mbrdef_lst){
+			Cls_Extd_Lst extd_lst,Cls_Impl_Lst impl_lst,MbrDef_Lst mbrdef_lst){
 		this.scp_infolst=scp_infolst;
 		this.var=var;
 		this.gnrc_parlst=gnrc_parlst;
@@ -50,11 +52,34 @@ public class Stmt_DefCls extends AST {
 			cls_type.setExtdTypes(this.extd_lst.extd_types);
 		}
 		if(this.impl_lst!=null){
-			cls_type.setImplTypes(this.impl_lst.impl_types);
+			cls_type.setImplTypes(this.impl_lst.impl_types);			
 		}
 		if(this.mbrdef_lst!=null){
 			cls_type.setMethods(this.mbrdef_lst.methods);
 			cls_type.setFields(this.mbrdef_lst.fields);
+		}
+		for(T_Interface i:this.impl_lst.impl_types){
+			HashMap<String, R_Function> fs=i.getMethods();
+			for(String s:fs.keySet()){
+				R_Function f=this.mbrdef_lst.methods.get(s);
+				if(f==null)
+					return false;
+				if(!fs.get(s).isMulti() && !f.isMulti()){
+					if(!fs.get(s).getTypeT().isEqType(f.getTypeT()))
+						return false;
+				}else if(fs.get(s).isMulti()&&f.isMulti()){
+					boolean hadFdAll=false;
+					for(R_Function r:fs.get(s).getMulti()){
+						hadFdAll=false;
+						for(R_Function r1:f.getMulti()){
+							if(r.getTypeT().isEqType(r1.getTypeT())) hadFdAll=true;
+						}
+						if(!hadFdAll) return false;
+					}					
+				}else{
+					return false;
+				}
+			}
 		}
 		return true;
 	}

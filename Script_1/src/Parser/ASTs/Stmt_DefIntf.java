@@ -8,10 +8,10 @@ public class Stmt_DefIntf extends AST {
 	Scp_InfoLst scp_infolst;
 	ExprPri_Var var;
 	Gnrc_ParLst gnrc_parlst;
-	Extd_Lst extd_lst;
+	Cls_Extd_Lst extd_lst;
 	MbrDef_Lst mbrdef_lst;
 	public boolean setIntfDef(Scp_InfoLst scp_infolst,ExprPri_Var var,Gnrc_ParLst gnrc_parlst,
-			Extd_Lst extd_lst,MbrDef_Lst mbrdef_lst){
+			Cls_Extd_Lst extd_lst,MbrDef_Lst mbrdef_lst){
 		this.scp_infolst=scp_infolst;
 		this.var=var;
 		this.gnrc_parlst=gnrc_parlst;

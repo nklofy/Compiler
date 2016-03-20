@@ -6,7 +6,7 @@ public class ExprAccs_Fld extends AST {
 	ExprAccs_Fld pre_fld;
 	ExprPri_Var var;
 	String sign;
-	String ret_addr;
+	String rst_addr;
 	String ref_type;
 	
 	public void setAccs(ExprAccs_Fld pre_fld,ExprPri_Var var,String sign){

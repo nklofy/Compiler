@@ -3,9 +3,12 @@ package Parser.ASTs;
 import java.util.*;
 
 import Parser.*;
+import Parser.TypeSys.R_Function;
+import Parser.TypeSys.T_Class;
 import Parser.TypeSys.T_Interface;
+import Parser.TypeSys.T_Type;
 
-public class Impl_Lst extends AST {
+public class Cls_Impl_Lst extends AST {
 	boolean isE=false;
 	LinkedList<TypeExp_Idn> imps;
 	LinkedList<T_Interface> impl_types;
@@ -27,7 +30,16 @@ public class Impl_Lst extends AST {
 		return true;
 	}
 	public boolean checkType(CodeGenerator codegen){
-		
+		if(isE){
+			return true;
+		}
+		this.impl_types=new LinkedList<T_Interface>();
+		for(TypeExp_Idn t:imps){
+			if(!t.checkType(codegen))return false;
+			T_Type t1=codegen.getRTType(t.ret_type);
+			if(!t1.isIntf())return false;
+			this.impl_types.add((T_Interface)t1);			
+		}
 		return true;
 	}
 }

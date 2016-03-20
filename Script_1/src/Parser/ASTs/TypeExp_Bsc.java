@@ -5,7 +5,7 @@ import Parser.TypeSys.*;
 
 public class TypeExp_Bsc extends AST {	
 	String b_type;
-	String ret_type;
+	String rst_type;
 	
 	public void setTypeT(String b_type) {
 		this.b_type =b_type;
@@ -15,7 +15,7 @@ public class TypeExp_Bsc extends AST {
 		return true;
 	}
 	public boolean checkType(CodeGenerator codegen){
-		this.ret_type=this.b_type;
+		this.rst_type=this.b_type;
 		switch(this.b_type){
 		case "int":			
 			break;

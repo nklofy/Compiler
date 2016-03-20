@@ -5,7 +5,7 @@ import Parser.*;
 public class ExprAccs_Arr extends AST {
 	ExprAccs_Fld pre_fld;
 	NewArr_DimLst dim_lst;
-	String ret_addr;
+	String rst_addr;
 	String ref_type;
 	
 	public void setAccs(ExprAccs_Fld pre_fld,NewArr_DimLst dim_lst){

@@ -3,9 +3,9 @@ package Parser.ASTs;
 import java.util.*;
 
 import Parser.*;
-import Parser.TypeSys.T_Class;
+import Parser.TypeSys.*;
 
-public class Extd_Lst extends AST {
+public class Cls_Extd_Lst extends AST {
 	boolean isE=false;
 	LinkedList<TypeExp_Idn> exts;
 	LinkedList<T_Class> extd_types;
@@ -27,7 +27,16 @@ public class Extd_Lst extends AST {
 		return true;
 	}
 	public boolean checkType(CodeGenerator codegen){
-		
+		if(isE){
+			return true;
+		}
+		this.extd_types=new LinkedList<T_Class>();
+		for(TypeExp_Idn t:exts){
+			if(!t.checkType(codegen))return false;
+			T_Type t1=codegen.getRTType(t.ret_type);
+			if(!t1.isCls())return false;
+			this.extd_types.add((T_Class)t1);			
+		}
 		return true;
 	}
 }

@@ -7,8 +7,8 @@ public class Expr_Calc extends AST {
 	ExprCalc_Cond cond;
 	ExprCalc_NewCls newCls;
 	ExprCalc_NewArr newArr;
-	String ret_type;
-	String ret_val;
+	String rst_type;
+	String rst_val;
 	
 	public boolean setCalc(AST ast){
 		switch(this.getASTType()){
@@ -30,15 +30,15 @@ public class Expr_Calc extends AST {
 		switch(this.getASTType()){
 		case "ExprCalc_Cond":
 			this.cond.genCode(codegen);
-			this.ret_val=this.cond.ret_val;
+			this.rst_val=this.cond.ret_val;
 			break;
 		case "ExprCalc_NewCls":
 			this.newCls.genCode(codegen);
-			this.ret_val=this.newCls.ret_val;
+			this.rst_val=this.newCls.ret_val;
 			break;
 		case "ExprCalc_NewArr":
 			this.newArr.genCode(codegen);
-			this.ret_val=this.newArr.ret_val;
+			this.rst_val=this.newArr.ret_val;
 			break;
 		default:return false;
 		}
@@ -48,15 +48,15 @@ public class Expr_Calc extends AST {
 		switch(this.getASTType()){
 		case "ExprCalc_Cond":
 			boolean b=this.cond.checkType(codegen);
-			this.ret_type=this.cond.ret_type;
+			this.rst_type=this.cond.ret_type;
 			return b;
 		case "ExprCalc_NewCls":
 			b=this.newCls.checkType(codegen);
-			this.ret_type=this.newCls.ret_type;
+			this.rst_type=this.newCls.ret_type;
 			return b;
 		case "ExprCalc_NewArr":
 			b=this.newArr.checkType(codegen);
-			this.ret_type=this.newArr.ret_type;
+			this.rst_type=this.newArr.ret_type;
 			return b;
 		default:break;
 		}

@@ -6,7 +6,7 @@ import Parser.TypeSys.*;
 public class Expr_Left extends AST {
 	ExprAccs_Fld acces_field;
 	ExprAccs_Arr acces_array;
-	String ret_addr;
+	String rst_addr;
 	String ref_type;
 	
 	public boolean setAccs(AST ast){
@@ -26,11 +26,11 @@ public class Expr_Left extends AST {
 		switch(this.getASTType()){
 		case "ExprAccs_Fld":
 			this.acces_field.genCode(codegen);
-			this.ret_addr=this.acces_field.ret_addr;
+			this.rst_addr=this.acces_field.rst_addr;
 			break;
 		case "ExprAccs_Arr":
 			this.acces_array.genCode(codegen);
-			this.ret_addr=this.acces_array.ret_addr;
+			this.rst_addr=this.acces_array.rst_addr;
 			break;
 			default:
 				return false;

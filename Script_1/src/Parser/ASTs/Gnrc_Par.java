@@ -5,7 +5,7 @@ import Parser.CodeGenerator;
 
 public class Gnrc_Par extends AST {
 	ExprPri_Var var;
-	TypeExp_Idn idn;
+	TypeExp_Idn idn;//no use, will add in future
 	public Gnrc_Par(ExprPri_Var var){
 		this.var=var;
 	}
@@ -17,6 +17,8 @@ public class Gnrc_Par extends AST {
 		return true;
 	}
 	public boolean checkType(CodeGenerator codegen){
+		if(!this.var.checkType(codegen))
+			return false;
 		return true;
 	}
 }
