@@ -16,6 +16,7 @@ public class AST {
 	LinkedList<String> var_up;
 	LinkedList<String> type_up;
 	LinkedList<String> func_up;	
+	
 	public String getASTType() {
 		return ast_type;
 	}
@@ -175,13 +176,12 @@ public class AST {
 		}
 		return true;
 	}
-	public boolean upAll(AST ast){
-			
+/*	public boolean upAll(AST ast){			
 		upVar(ast);
 		upFunc(ast);
 		upType(ast);
 		return true;
-	}
+	}*/
 
 	public boolean isMerged() {
 		return isMerged;

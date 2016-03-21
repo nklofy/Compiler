@@ -8,6 +8,7 @@ public class R_Variable {
 	boolean isStatic;
 	boolean isInit;
 	T_Type type_def;
+	String name;
 
 	public boolean isStatic() {
 		return isStatic;

@@ -11,6 +11,7 @@ public class R_Function {
 	LinkedList<R_Function> multimorphism;//other data struct maybe?	
 	T_Type ret_type;
 	ArrayList<T_Type> par_types;
+	String name;
 	
 	public boolean isMulti() {
 		return isMulti;

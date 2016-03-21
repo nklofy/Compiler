@@ -13,12 +13,19 @@ public class CodeGenerator {
 	public LinkedList<String> labels_elsbd;
 	public LinkedList<String> labels_whlbd;
 	public LinkedList<String> labels_whlend;
-	public LinkedList<String> ret_types;//check function return type and return statment's type
+	//public LinkedList<String> ret_types;//check function return type and return statment's type
 	//a type system for store/search type/name
-	HashMap<String,T_Type> type_tb=new HashMap<String,T_Type>();//table of type info in RT
+	LinkedList<AST> blocks;
+	LinkedList<AST> func_def;
+	
+	//HashMap<String,T_Type> type_tb=new HashMap<String,T_Type>();//table of type info in RT
+	
+	
 	HashMap<String,R_Package> name_spaces=new HashMap<String,R_Package>();//deal with package/name-space
+	
 	LinkedList<T_Type> type_file=new LinkedList<T_Type>();//used for generating symbol table in output file
 	LinkedList<T_Function> func_file=new LinkedList<T_Function>();
+	LinkedList<R_Variable> var_file=new LinkedList<R_Variable>();
 	
 	
 	

@@ -75,7 +75,7 @@ public class Stmt_DefCls extends AST {
 							if(r.getTypeT().isEqType(r1.getTypeT())) hadFdAll=true;
 						}
 						if(!hadFdAll) return false;
-					}					
+					}
 				}else{
 					return false;
 				}
