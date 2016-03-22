@@ -2,7 +2,7 @@ package Parser.ASTs;
 
 import java.util.*;
 
-import Interpreter.Interpreter;
+import Interpreter.*;
 import Parser.*;
 
 public class AST_StmtList extends AST {
@@ -10,7 +10,7 @@ public class AST_StmtList extends AST {
 	
 	public void addStmt(AST stmt){
 		this.stmt_list.add(stmt);
-		this.upAll(stmt);
+		//this.upAll(stmt);
 	}
 	public boolean genCode(CodeGenerator codegen){
 		for(AST stmt:this.stmt_list){
@@ -18,11 +18,18 @@ public class AST_StmtList extends AST {
 		}
 		return true;
 	}
+	public boolean upSymTbl(CodeGenerator codegen){
+		codegen.pushBlock4Sym(this);
+		for(int i=0;i<this.stmt_list.size();i++){
+			AST stmt=this.stmt_list.get(i);
+			stmt.upSymTbl(codegen);
+		}
+		return true;
+	}
 	public boolean checkType(CodeGenerator codegen){
 		boolean rst=true;
 		for(int i=0;i<this.stmt_list.size();i++){
-			AST stmt=this.stmt_list.get(i);
-			
+			AST stmt=this.stmt_list.get(i);			
 			if(!stmt.checkType(codegen)){
 				//TODO try recover
 				rst=false;

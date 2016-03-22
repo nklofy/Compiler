@@ -13,9 +13,9 @@ public class AST {
 	HashMap<String,R_Variable> var_table;
 	HashMap<String,T_Type> type_table;
 	HashMap<String,R_Function> func_table;
-	LinkedList<String> var_up;
-	LinkedList<String> type_up;
-	LinkedList<String> func_up;	
+//	LinkedList<String> var_up;
+//	LinkedList<String> type_up;
+//	LinkedList<String> func_up;	
 	
 	public String getASTType() {
 		return ast_type;
@@ -24,18 +24,10 @@ public class AST {
 		String[] ss=type.split("\\.");
 		this.ast_type = ss[ss.length-1];
 	}
-	public AST getDeMrg(CodeGenerator codegen) {
-		//de-merge and return TODO
-		return ast_deMrg;
-	}
-	public HashSet<AST> getMergedAsts() {
-		return merged_asts;
-	}
-	public void setMergedAsts(HashSet<AST> merged_asts) {
-		this.merged_asts = merged_asts;
-	}
-	public boolean eval(Interpreter interpreter){return true;}
 	public boolean genCode(CodeGenerator codegen){
+		return true;
+	}
+	public boolean upSymTbl(CodeGenerator codegen){
 		return true;
 	}
 	public boolean checkType(CodeGenerator codegen){
@@ -92,7 +84,7 @@ public class AST {
 			this.func_table.put(name, r);
 		}
 	}
-	public LinkedList<String> getVarUp() {
+/*	public LinkedList<String> getVarUp() {
 		return var_up;
 	}
 	public void setVarUp(LinkedList<String> var_up) {
@@ -176,20 +168,29 @@ public class AST {
 		}
 		return true;
 	}
-/*	public boolean upAll(AST ast){			
+	public boolean upAll(AST ast){			
 		upVar(ast);
 		upFunc(ast);
 		upType(ast);
 		return true;
-	}*/
-
+	}
+*/
 	public boolean isMerged() {
 		return isMerged;
 	}
 	public void setMerged() {
 		this.isMerged = true;
 	}
-
+	public AST getDeMrg(CodeGenerator codegen) {
+		//de-merge and return 
+		return ast_deMrg;
+	}
+	public HashSet<AST> getMergedAsts() {
+		return merged_asts;
+	}
+	public void setMergedAsts(HashSet<AST> merged_asts) {
+		this.merged_asts = merged_asts;
+	}
 	public int getLine() {
 		return line;
 	}

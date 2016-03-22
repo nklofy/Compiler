@@ -14,7 +14,7 @@ public class SgStmt_DefVar extends AST {
 		this.pre_def = var_def;
 		this.type_exp=var_def.type_exp;
 		this.setVarTb(var_def.getVarTb());
-		this.setVarUp(var_def.getVarUp());
+		//this.setVarUp(var_def.getVarUp());
 	}
 	public void setTypeExp(TypeExp type_exp) {
 		this.type_exp = type_exp;
@@ -22,7 +22,7 @@ public class SgStmt_DefVar extends AST {
 	public void setVar(ExprPri_Var var) {
 		this.var = var;
 		R_Variable r=new R_Variable();
-		this.addVarUp(this.var.name);
+		//this.addVarUp(this.var.name);
 		this.putVarTb(this.var.name, r);
 	}
 	public void setExpr(Expr expression) {
@@ -40,6 +40,9 @@ public class SgStmt_DefVar extends AST {
 			codegen.incLineNo();
 		}
 		return true;
+	}
+	public boolean upSymTbl(CodeGenerator codegen){
+		
 	}
 	public boolean checkType(CodeGenerator codegen){	//set var's type and expr's asgn_type 
 		if(this.pre_def!=null&&!this.pre_def.checkType(codegen))

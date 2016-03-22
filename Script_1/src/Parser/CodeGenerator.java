@@ -13,15 +13,14 @@ public class CodeGenerator {
 	public LinkedList<String> labels_elsbd;
 	public LinkedList<String> labels_whlbd;
 	public LinkedList<String> labels_whlend;
-	//public LinkedList<String> ret_types;//check function return type and return statment's type
+	public LinkedList<String> ret_types;//check function return type and return statment's type
 	//a type system for store/search type/name
-	LinkedList<AST> blocks;
-	LinkedList<AST> func_def;
+	LinkedList<AST> block_4symtbl;
 	
 	//HashMap<String,T_Type> type_tb=new HashMap<String,T_Type>();//table of type info in RT
+		
 	
-	
-	HashMap<String,R_Package> name_spaces=new HashMap<String,R_Package>();//deal with package/name-space
+	HashMap<String,R_Package> packages=new HashMap<String,R_Package>();//deal with package/name-space
 	
 	LinkedList<T_Type> type_file=new LinkedList<T_Type>();//used for generating symbol table in output file
 	LinkedList<T_Function> func_file=new LinkedList<T_Function>();
@@ -71,18 +70,25 @@ public class CodeGenerator {
 		return true;
 	}
 	public T_Type getRTType(String name){
-		return this.type_tb.get(name);
+		T_Type t=null;
+		for(AST ast:this.block_4symtbl){
+			t=ast.type_table.get(name);
+			if(t!=null)
+				return t;
+		}		
+		return t;
 	}
 	public boolean addRTType(String name,T_Type type){
-		this.type_tb.put(name, type);
+		AST ast=this.block_4symtbl.getFirst();
+		ast.type_table.put(name, type);
 		type.setTypeName(name);
 		return true;
 	}
 	public R_Package getPackage(String name){
-		return this.name_spaces.get(name);
+		return this.packages.get(name);
 	}
 	public boolean addPackage(String name, R_Package pck){
-		this.name_spaces.put(name, pck);
+		this.packages.put(name, pck);
 		return true;
 	}
 	public LinkedList<T_Type> getTypeInFile() {
@@ -96,5 +102,14 @@ public class CodeGenerator {
 	}
 	public void addtFuncInFile(T_Function func_file) {
 		this.func_file.add(func_file);
+	}
+	public AST peekBlock4Sym() {
+		return block_4symtbl.peek();
+	}
+	public void pushBlock4Sym(AST block) {
+		this.block_4symtbl.addFirst(block);
+	}
+	public AST popBlock4Sym(){
+		return this.block_4symtbl.remove();
 	}
 }

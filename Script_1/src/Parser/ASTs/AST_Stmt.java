@@ -34,7 +34,7 @@ public class AST_Stmt extends AST {
 		default:
 			return false;
 		}
-		this.upAll(ast);
+		//this.upAll(ast);
 		return true;
 	}
 	
@@ -63,31 +63,42 @@ public class AST_Stmt extends AST {
 		}
 		return true;
 	}
+	public boolean upSymTbl(CodeGenerator codegen){
+		switch(this.getASTType()){
+		case "Stmt_DefCls":
+			return this.stmt_cls.upSymTbl(codegen);
+		case "Stmt_DefIntf":
+			return this.stmt_intf.upSymTbl(codegen);
+		case "Stmt_DefFunc":
+			return this.stmt_func.upSymTbl(codegen);
+		case "Stmt_If":
+			return this.stmt_if.upSymTbl(codegen);
+		case "Stmt_Whl":
+			return this.stmt_whl.upSymTbl(codegen);
+		case "Stmt_Sg":
+			return this.stmt_sg.upSymTbl(codegen);
+		default:
+			return false;
+		}
+	}
 	public boolean checkType(CodeGenerator codegen){		
 		boolean rst=true;
 		switch(this.getASTType()){
 		case "Stmt_DefCls":
-			rst= this.stmt_cls.checkType(codegen);
-			break;
+			return this.stmt_cls.checkType(codegen);
 		case "Stmt_DefIntf":
-			rst= this.stmt_intf.checkType(codegen);
-			break;
+			return this.stmt_intf.checkType(codegen);
 		case "Stmt_DefFunc":
-			rst= this.stmt_func.checkType(codegen);
-			break;
+			return this.stmt_func.checkType(codegen);
 		case "Stmt_If":
-			rst= this.stmt_if.checkType(codegen);
-			break;
+			return this.stmt_if.checkType(codegen);
 		case "Stmt_Whl":
-			rst= this.stmt_whl.checkType(codegen);
-			break;
+			return this.stmt_whl.checkType(codegen);
 		case "Stmt_Sg":
-			rst= this.stmt_sg.checkType(codegen);
-			break;
+			return this.stmt_sg.checkType(codegen);
 		default:
 			return false;
 		}
-		return rst;
 	}
 	
 }

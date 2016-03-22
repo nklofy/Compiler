@@ -15,7 +15,6 @@ public class Stmt_Sg extends AST {
 			break;
 		case "SgStmt_DefVar":
 			this.def_var=(SgStmt_DefVar)ast;
-			this.upAll(ast);
 			break;
 		case "SgStmt_CtrFlw":
 			this.ctrflw=(SgStmt_CtrFlw)ast;			
@@ -45,22 +44,30 @@ public class Stmt_Sg extends AST {
 		}
 		return true;
 	}
+	public boolean upSymTbl(CodeGenerator codegen){
+		switch(this.getASTType()){
+		case "SgStmt_AsnVar":
+			return this.asn_var.upSymTbl(codegen);
+		case "SgStmt_DefVar":
+			return this.def_var.upSymTbl(codegen);
+		case "SgStmt_CtrFlw":
+			return this.ctrflw.upSymTbl(codegen);
+		case "Expr_Calc":
+			return this.exp_calc.upSymTbl(codegen);
+		default:return false;
+		}
+	}
 	public boolean checkType(CodeGenerator codegen){
 		switch(this.getASTType()){
 		case "SgStmt_AsnVar":
-			this.asn_var.checkType(codegen);			
-			break;
+			return this.asn_var.checkType(codegen);
 		case "SgStmt_DefVar":
-			this.def_var.checkType(codegen);
-			break;
+			return this.def_var.checkType(codegen);
 		case "SgStmt_CtrFlw":
-			this.ctrflw.checkType(codegen);
-			break;
+			return this.ctrflw.checkType(codegen);
 		case "Expr_Calc":
-			this.exp_calc.checkType(codegen);
-			break;
-		default:break;
+			return this.exp_calc.checkType(codegen);
+		default:return false;
 		}
-		return true;
 	}
 }
