@@ -70,31 +70,46 @@ public class CodeGenerator {
 		}
 		return true;
 	}
-	public T_Type getTypeSymTb(String name){
+	public T_Type getTypeInSymTb(String name){
 		T_Type t=null;
 		for(AST ast:this.block_4symtb){
 			t=ast.type_table.get(name);
 			if(t!=null)
 				return t;
 		}		
-		return t;
+		return null;
 	}
-	public boolean addTypeSymTb(String name,T_Type type){
+	public boolean addTypeInSymTb(String name,T_Type type){
 		AST ast=this.block_4symtb.getFirst();
+		if(ast.type_table.containsKey(name))
+			return false;
 		ast.type_table.put(name, type);
 		type.setTypeName(name);
 		return true;
 	}
-	public R_Variable getVarInTb(String name){//TODO
+	public R_Variable getVarInSymTb(String name){//TODO
+		R_Variable r=null;
+		for(AST ast:this.block_4symtb){
+			r=ast.var_table.get(name);
+			if(r!=null)
+				return r;
+		}
 		return null;
 	}	
-	public boolean addVarSymTb(String name, R_Variable r){
+	public boolean addVarInSymTb(String name, R_Variable r){
+		AST ast=this.block_4symtb.getFirst();
+		if(ast.var_table.containsKey(name))
+			return false;
+		ast.var_table.put(name, r);
+		r.setVarName(name);
 		return true;
 	}	
-	public R_Function getFuncSymTb(String name){
+	public T_Function getFuncInSymTb(String name, LinkedList<String> types){
+		
 		return null;
 	}	
-	public boolean addFuncSymTb(String name, T_Function f){
+	public boolean addFuncInSymTb(String name, T_Function f){
+		
 		return true;
 	}
 	public AST peekBlock4Sym() {

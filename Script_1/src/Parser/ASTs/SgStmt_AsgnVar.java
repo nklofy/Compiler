@@ -28,6 +28,9 @@ public class SgStmt_AsgnVar extends AST {
 		codegen.incLineNo();
 		return true;
 	}
+	public boolean upSymTb(CodeGenerator codegen){
+		return true;
+	}
 	public boolean checkType(CodeGenerator codegen){
 		if(!this.left_hand.checkType(codegen))
 			return false;

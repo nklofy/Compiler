@@ -61,7 +61,7 @@ public class SgStmt_CtrFlw extends AST {
 				return true;
 			break;
 		case t_returnExp:
-			if(codegen.getTypeSymTb(codegen.ret_types.peek())==codegen.getTypeSymTb(this.return_exp.rst_type))
+			if(codegen.getTypeInSymTb(codegen.ret_types.peek())==codegen.getTypeInSymTb(this.return_exp.rst_type))
 				return true;
 			break;
 		default:break;

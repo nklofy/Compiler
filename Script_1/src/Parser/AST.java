@@ -27,7 +27,7 @@ public class AST {
 	public boolean genCode(CodeGenerator codegen){
 		return true;
 	}
-	public boolean upSymTbl(CodeGenerator codegen){
+	public boolean upSymTb(CodeGenerator codegen){
 		return true;
 	}
 	public boolean checkType(CodeGenerator codegen){

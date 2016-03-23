@@ -44,16 +44,16 @@ public class Stmt_Sg extends AST {
 		}
 		return true;
 	}
-	public boolean upSymTbl(CodeGenerator codegen){
+	public boolean upSymTb(CodeGenerator codegen){
 		switch(this.getASTType()){
 		case "SgStmt_AsnVar":
-			return this.asn_var.upSymTbl(codegen);
+			return this.asn_var.upSymTb(codegen);
 		case "SgStmt_DefVar":
-			return this.def_var.upSymTbl(codegen);
+			return this.def_var.upSymTb(codegen);
 		case "SgStmt_CtrFlw":
-			return this.ctrflw.upSymTbl(codegen);
+			return this.ctrflw.upSymTb(codegen);
 		case "Expr_Calc":
-			return this.exp_calc.upSymTbl(codegen);
+			return this.exp_calc.upSymTb(codegen);
 		default:return false;
 		}
 	}

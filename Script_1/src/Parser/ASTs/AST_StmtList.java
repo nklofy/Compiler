@@ -18,12 +18,13 @@ public class AST_StmtList extends AST {
 		}
 		return true;
 	}
-	public boolean upSymTbl(CodeGenerator codegen){
+	public boolean upSymTb(CodeGenerator codegen){
 		codegen.pushBlock4Sym(this);
 		for(int i=0;i<this.stmt_list.size();i++){
 			AST stmt=this.stmt_list.get(i);
-			stmt.upSymTbl(codegen);
+			stmt.upSymTb(codegen);
 		}
+		codegen.popBlock4Sym();
 		return true;
 	}
 	public boolean checkType(CodeGenerator codegen){

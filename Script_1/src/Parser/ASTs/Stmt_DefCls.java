@@ -35,7 +35,7 @@ public class Stmt_DefCls extends AST {
 		
 		return true;
 	}
-	public boolean upSymTbl(CodeGenerator codegen){
+	public boolean upSymTb(CodeGenerator codegen){
 		this.name=this.var.name;
 		
 		

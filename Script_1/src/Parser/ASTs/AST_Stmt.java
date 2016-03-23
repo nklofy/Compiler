@@ -63,26 +63,26 @@ public class AST_Stmt extends AST {
 		}
 		return true;
 	}
-	public boolean upSymTbl(CodeGenerator codegen){
+	public boolean upSymTb(CodeGenerator codegen){
 		switch(this.getASTType()){
 		case "Stmt_DefCls":
-			boolean b=this.stmt_cls.upSymTbl(codegen);
-			codegen.addTypeSymTb(this.stmt_cls.name,this.stmt_cls.t_type);
+			boolean b=this.stmt_cls.upSymTb(codegen);
+			codegen.addTypeInSymTb(this.stmt_cls.name,this.stmt_cls.t_type);
 			return b;
 		case "Stmt_DefIntf":
-			b=this.stmt_intf.upSymTbl(codegen);
-			codegen.addTypeSymTb(this.stmt_intf.name, this.stmt_intf.t_type);
+			b=this.stmt_intf.upSymTb(codegen);
+			codegen.addTypeInSymTb(this.stmt_intf.name, this.stmt_intf.t_type);
 			return b;
 		case "Stmt_DefFunc":
-			b=this.stmt_func.upSymTbl(codegen);
-			codegen.addFuncSymTb(this.stmt_func.name, this.stmt_func.t_type);
+			b=this.stmt_func.upSymTb(codegen);
+			codegen.addFuncInSymTb(this.stmt_func.name, this.stmt_func.t_type);
 			return b;
 		case "Stmt_If":
-			return this.stmt_if.upSymTbl(codegen);			
+			return this.stmt_if.upSymTb(codegen);			
 		case "Stmt_Whl":
-			return this.stmt_whl.upSymTbl(codegen);
+			return this.stmt_whl.upSymTb(codegen);
 		case "Stmt_Sg":
-			return this.stmt_sg.upSymTbl(codegen);
+			return this.stmt_sg.upSymTb(codegen);
 		default:
 			return false;
 		}

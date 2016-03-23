@@ -20,10 +20,7 @@ public class SgStmt_DefVar extends AST {
 		this.type_exp = type_exp;
 	}
 	public void setVar(ExprPri_Var var) {
-		this.var = var;
-		R_Variable r=new R_Variable();
-		//this.addVarUp(this.var.name);
-		this.putVarTb(this.var.name, r);
+		this.var = var;		
 	}
 	public void setExpr(Expr expression) {
 		this.expr = expression;
@@ -41,8 +38,17 @@ public class SgStmt_DefVar extends AST {
 		}
 		return true;
 	}
-	public boolean upSymTbl(CodeGenerator codegen){
-		
+	public boolean upSymTb(CodeGenerator codegen){
+		if(this.pre_def!=null&&!this.pre_def.upSymTb(codegen))
+			return false;
+		else
+			if(this.type_exp.upSymTb(codegen))
+				return false;
+		R_Variable r=new R_Variable();
+		r.setTypeDef(codegen.getTypeInSymTb(this.type_exp.rst_type));
+		if(this.getVarTb().containsKey(this.var.name))
+			return false;1234
+		this.putVarTb(this.var.name, r);
 		return true;
 	}
 	public boolean checkType(CodeGenerator codegen){	//set var's type and expr's asgn_type 
@@ -53,7 +59,7 @@ public class SgStmt_DefVar extends AST {
 				return false;
 		}
 		this.var.ref_type=this.type_exp.rst_type;
-		this.getVarTb().get(this.var.name).setTypeDef(codegen.getTypeSymTb(this.var.ref_type));
+		this.getVarTb().get(this.var.name).setTypeDef(codegen.getTypeInSymTb(this.var.ref_type));
 		if(this.expr!=null){
 			this.expr.ref_type=this.var.ref_type;
 			if(!this.expr.checkType(codegen))

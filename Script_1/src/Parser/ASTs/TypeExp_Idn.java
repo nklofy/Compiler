@@ -28,14 +28,14 @@ public class TypeExp_Idn extends AST {
 				return false;
 			if(this.r_pkg.getTypeInPkg().containsKey(var.name)){
 				this.rst_type="@"+codegen.getTmpSn();
-				codegen.addTypeSymTb(this.rst_type, this.r_pkg.getTypeInPkg().get(var.name));
+				codegen.addTypeInSymTb(this.rst_type, this.r_pkg.getTypeInPkg().get(var.name));
 			}else{
 				this.r_pkg=this.type_idn.r_pkg.getSubPkgs().get(var.name);
 				if(this.r_pkg==null)
 					return false;
 			}
 		}else{
-			if(codegen.getTypeSymTb(var.name)!=null){
+			if(codegen.getTypeInSymTb(var.name)!=null){
 				this.rst_type=var.name;
 			}else{
 				this.r_pkg=codegen.getPackage(var.name);

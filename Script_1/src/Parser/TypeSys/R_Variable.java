@@ -10,6 +10,12 @@ public class R_Variable {
 	T_Type type_def;
 	String name;
 
+	public String getVarName() {
+		return name;
+	}
+	public void setVarName(String name) {
+		this.name = name;
+	}
 	public boolean isStatic() {
 		return isStatic;
 	}
