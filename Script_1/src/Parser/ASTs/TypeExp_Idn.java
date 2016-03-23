@@ -8,7 +8,7 @@ import Parser.TypeSys.*;
 public class TypeExp_Idn extends AST {
 	TypeExp_Idn type_idn;
 	ExprPri_Var var;
-	String ret_type;
+	String rst_type;
 	R_Package r_pkg;
 	
 	public boolean setTypeIdn(TypeExp_Idn type_idn,ExprPri_Var var){
@@ -17,7 +17,7 @@ public class TypeExp_Idn extends AST {
 		return true;
 	}
 	public boolean genCode(CodeGenerator codegen){
-		IRCode code=new IRCode("PkgType",this.ret_type,this.var.name,this.r_pkg.getPkgName());
+		IRCode code=new IRCode("PkgType",this.rst_type,this.var.name,this.r_pkg.getPkgName());
 		codegen.addCode(code);
 		codegen.incLineNo();
 		return true;
@@ -27,16 +27,16 @@ public class TypeExp_Idn extends AST {
 			if(!this.type_idn.checkType(codegen))
 				return false;
 			if(this.r_pkg.getTypeInPkg().containsKey(var.name)){
-				this.ret_type="@"+codegen.getTmpSn();
-				codegen.addRTType(this.ret_type, this.r_pkg.getTypeInPkg().get(var.name));
+				this.rst_type="@"+codegen.getTmpSn();
+				codegen.addTypeSymTb(this.rst_type, this.r_pkg.getTypeInPkg().get(var.name));
 			}else{
 				this.r_pkg=this.type_idn.r_pkg.getSubPkgs().get(var.name);
 				if(this.r_pkg==null)
 					return false;
 			}
 		}else{
-			if(codegen.getRTType(var.name)!=null){
-				this.ret_type=var.name;
+			if(codegen.getTypeSymTb(var.name)!=null){
+				this.rst_type=var.name;
 			}else{
 				this.r_pkg=codegen.getPackage(var.name);
 				if(this.r_pkg==null){

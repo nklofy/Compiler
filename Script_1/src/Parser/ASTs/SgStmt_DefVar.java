@@ -43,6 +43,7 @@ public class SgStmt_DefVar extends AST {
 	}
 	public boolean upSymTbl(CodeGenerator codegen){
 		
+		return true;
 	}
 	public boolean checkType(CodeGenerator codegen){	//set var's type and expr's asgn_type 
 		if(this.pre_def!=null&&!this.pre_def.checkType(codegen))
@@ -52,7 +53,7 @@ public class SgStmt_DefVar extends AST {
 				return false;
 		}
 		this.var.ref_type=this.type_exp.rst_type;
-		this.getVarTb().get(this.var.name).setTypeDef(codegen.getRTType(this.var.ref_type));
+		this.getVarTb().get(this.var.name).setTypeDef(codegen.getTypeSymTb(this.var.ref_type));
 		if(this.expr!=null){
 			this.expr.ref_type=this.var.ref_type;
 			if(!this.expr.checkType(codegen))

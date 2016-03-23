@@ -33,7 +33,7 @@ public class Cls_Extd_Lst extends AST {
 		this.extd_types=new LinkedList<T_Class>();
 		for(TypeExp_Idn t:exts){
 			if(!t.checkType(codegen))return false;
-			T_Type t1=codegen.getRTType(t.ret_type);
+			T_Type t1=codegen.getTypeSymTb(t.rst_type);
 			if(!t1.isCls())return false;
 			this.extd_types.add((T_Class)t1);			
 		}

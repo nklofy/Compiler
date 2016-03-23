@@ -9,13 +9,14 @@ public class CodeGenerator {
 	ArrayList<IRCode> code_list=new ArrayList<IRCode> ();
 	public HashMap<String, LinkedList<IRCode>> rps_code_list=new HashMap<String,LinkedList<IRCode>>();
 	public HashMap<String, Integer> mp_label2line=new HashMap<String,Integer>();//for label and line No.
-	public LinkedList<String> labels_ifbd;
-	public LinkedList<String> labels_elsbd;
-	public LinkedList<String> labels_whlbd;
-	public LinkedList<String> labels_whlend;
-	public LinkedList<String> ret_types;//check function return type and return statment's type
+	public LinkedList<String> labels_ifbd=new LinkedList<String>();
+	public LinkedList<String> labels_elsbd=new LinkedList<String>();
+	public LinkedList<String> labels_whlbd=new LinkedList<String>();
+	public LinkedList<String> labels_whlend=new LinkedList<String>();
+	public LinkedList<String> ret_types=new LinkedList<String>();//check function return type and return statment's type
+	
 	//a type system for store/search type/name
-	LinkedList<AST> block_4symtbl;
+	LinkedList<AST> block_4symtb;
 	
 	//HashMap<String,T_Type> type_tb=new HashMap<String,T_Type>();//table of type info in RT
 		
@@ -69,20 +70,41 @@ public class CodeGenerator {
 		}
 		return true;
 	}
-	public T_Type getRTType(String name){
+	public T_Type getTypeSymTb(String name){
 		T_Type t=null;
-		for(AST ast:this.block_4symtbl){
+		for(AST ast:this.block_4symtb){
 			t=ast.type_table.get(name);
 			if(t!=null)
 				return t;
 		}		
 		return t;
 	}
-	public boolean addRTType(String name,T_Type type){
-		AST ast=this.block_4symtbl.getFirst();
+	public boolean addTypeSymTb(String name,T_Type type){
+		AST ast=this.block_4symtb.getFirst();
 		ast.type_table.put(name, type);
 		type.setTypeName(name);
 		return true;
+	}
+	public R_Variable getVarInTb(String name){//TODO
+		return null;
+	}	
+	public boolean addVarSymTb(String name, R_Variable r){
+		return true;
+	}	
+	public R_Function getFuncSymTb(String name){
+		return null;
+	}	
+	public boolean addFuncSymTb(String name, T_Function f){
+		return true;
+	}
+	public AST peekBlock4Sym() {
+		return block_4symtb.peek();
+	}
+	public void pushBlock4Sym(AST block) {
+		this.block_4symtb.addFirst(block);
+	}
+	public AST popBlock4Sym(){
+		return this.block_4symtb.remove();
 	}
 	public R_Package getPackage(String name){
 		return this.packages.get(name);
@@ -103,13 +125,5 @@ public class CodeGenerator {
 	public void addtFuncInFile(T_Function func_file) {
 		this.func_file.add(func_file);
 	}
-	public AST peekBlock4Sym() {
-		return block_4symtbl.peek();
-	}
-	public void pushBlock4Sym(AST block) {
-		this.block_4symtbl.addFirst(block);
-	}
-	public AST popBlock4Sym(){
-		return this.block_4symtbl.remove();
-	}
+	
 }

@@ -10,6 +10,10 @@ public class Stmt_DefIntf extends AST {
 	Gnrc_ParLst gnrc_parlst;
 	Cls_Extd_Lst extd_lst;
 	MbrDef_Lst mbrdef_lst;
+	String name;
+	String rst_type;//for IR code
+	T_Class t_type;//for type checking
+	
 	public boolean setIntfDef(Scp_InfoLst scp_infolst,ExprPri_Var var,Gnrc_ParLst gnrc_parlst,
 			Cls_Extd_Lst extd_lst,MbrDef_Lst mbrdef_lst){
 		this.scp_infolst=scp_infolst;
@@ -19,7 +23,7 @@ public class Stmt_DefIntf extends AST {
 		this.mbrdef_lst=mbrdef_lst;
 		T_Type r=new T_Type();
 		//r.setTypeDef(this);
-		this.addTypeUp(this.var.name);
+		//this.addTypeUp(this.var.name);
 		this.putTypeTb(this.var.name, r);
 		return true;
 	}

@@ -72,7 +72,7 @@ public class TypeExp extends AST {
 			break;			
 		case "TypeExp_Idn":
 			b=this.type_idn.checkType(codegen);
-			this.rst_type=this.type_idn.ret_type;
+			this.rst_type=this.type_idn.rst_type;
 			break;
 		case "TypeExp_Gnrc":
 			b=this.type_gnrc.checkType(codegen);

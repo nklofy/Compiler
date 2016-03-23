@@ -36,7 +36,7 @@ public class Cls_Impl_Lst extends AST {
 		this.impl_types=new LinkedList<T_Interface>();
 		for(TypeExp_Idn t:imps){
 			if(!t.checkType(codegen))return false;
-			T_Type t1=codegen.getRTType(t.ret_type);
+			T_Type t1=codegen.getTypeSymTb(t.rst_type);
 			if(!t1.isIntf())return false;
 			this.impl_types.add((T_Interface)t1);			
 		}

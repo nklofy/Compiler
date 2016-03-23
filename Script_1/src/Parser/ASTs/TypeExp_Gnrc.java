@@ -17,7 +17,7 @@ public class TypeExp_Gnrc extends AST {
 		return true;
 	}
 	public boolean genCode(CodeGenerator codegen){		
-		IRCode code=new IRCode("GnrcType",this.rst_type,this.idn_type.ret_type,this.args.ret_args);
+		IRCode code=new IRCode("GnrcType",this.rst_type,this.idn_type.rst_type,this.args.ret_args);
 		codegen.addCode(code);
 		codegen.incLineNo();
 		return true;
@@ -27,7 +27,7 @@ public class TypeExp_Gnrc extends AST {
 			return false;
 		if(!this.args.checkType(codegen))
 			return false;
-		T_Type t=codegen.getRTType(this.idn_type.ret_type);//class or interface or function?
+		T_Type t=codegen.getTypeSymTb(this.idn_type.rst_type);//class or interface or function?
 		if(!t.isGnrc())
 			return false;		
 		if(t.getGnrcPars().size()!=this.args.gnrc_args.size())
@@ -40,7 +40,7 @@ public class TypeExp_Gnrc extends AST {
 		for(int i=0;i<pars.size();i++){
 			t1.type_args.put(pars.get(i), args.get(i));
 		}
-		codegen.addRTType(this.rst_type, t1);
+		codegen.addTypeSymTb(this.rst_type, t1);
 		this.args.ret_args=this.args.gnrc_args.remove().getTypeName();
 		for(int i=1;i<this.args.gnrc_args.size();i++){
 			this.args.ret_args+=","+this.args.gnrc_args.remove();

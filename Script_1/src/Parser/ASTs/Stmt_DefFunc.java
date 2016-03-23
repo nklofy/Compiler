@@ -10,6 +10,8 @@ public class Stmt_DefFunc extends AST {
 	ExprPri_Var var;
 	FuncDef_ParLst pars;
 	AST_StmtList stmt_list;
+	String name;
+	T_Function t_type;//for type checking
 	
 	public void setFuncDef(Gnrc_ParLst gnrc_pars,TypeExp type_exp,ExprPri_Var var,FuncDef_ParLst pars,AST_StmtList stmt_list){
 		this.gnrc_pars=gnrc_pars;
@@ -19,9 +21,9 @@ public class Stmt_DefFunc extends AST {
 		this.stmt_list=stmt_list;
 		R_Function r=new R_Function();
 		r.setFuncDef(this);
-		this.addFuncUp(this.var.name);
+		//this.addFuncUp(this.var.name);
 		this.putFuncTb(this.var.name, r);
-		this.upAll(stmt_list);
+		//this.upAll(stmt_list);
 	}
 	public boolean genCode(CodeGenerator codegen){
 		return true;

@@ -13,6 +13,10 @@ public class Stmt_DefCls extends AST {
 	Cls_Extd_Lst extd_lst;
 	Cls_Impl_Lst impl_lst;
 	MbrDef_Lst mbrdef_lst;
+	String name;
+	String rst_type;//for IR code
+	T_Class t_type;//for type checking
+	
 	public boolean setClsDef(Scp_InfoLst scp_infolst,ExprPri_Var var,Gnrc_ParLst gnrc_parlst,
 			Cls_Extd_Lst extd_lst,Cls_Impl_Lst impl_lst,MbrDef_Lst mbrdef_lst){
 		this.scp_infolst=scp_infolst;
@@ -23,11 +27,19 @@ public class Stmt_DefCls extends AST {
 		this.mbrdef_lst=mbrdef_lst;
 		T_Type r=new T_Type();
 		//r.setTypeDef(this);
-		this.addTypeUp(this.var.name);
+		//this.addTypeUp(this.var.name);
 		this.putTypeTb(this.var.name, r);
 		return true;
 	}
 	public boolean genCode(CodeGenerator codegen){
+		
+		return true;
+	}
+	public boolean upSymTbl(CodeGenerator codegen){
+		this.name=this.var.name;
+		
+		
+		
 		
 		return true;
 	}

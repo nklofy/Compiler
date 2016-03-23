@@ -24,7 +24,7 @@ public class TypeExp_Arr extends AST {
 	}
 	public boolean checkType(CodeGenerator codegen){
 		if(!this.type_pre.checkType(codegen))return false;
-		T_Type t=codegen.getRTType(this.type_pre.rst_type);
+		T_Type t=codegen.getTypeSymTb(this.type_pre.rst_type);
 		T_Array t1=null;
 		if(t.isArray()){
 			t1=((T_Array)t);
@@ -37,7 +37,7 @@ public class TypeExp_Arr extends AST {
 			this.ele_type=t1.getTypeName();
 		}
 		this.rst_type="["+codegen.getTmpSn();			
-		codegen.addRTType(this.rst_type, t1);
+		codegen.addTypeSymTb(this.rst_type, t1);
 		t1.setArray(true);
 		this.dim=t1.getDims();
 		return true;

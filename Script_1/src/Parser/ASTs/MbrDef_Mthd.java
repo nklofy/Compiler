@@ -8,7 +8,7 @@ public class MbrDef_Mthd extends AST {
 	public boolean setMthd(Scp_InfoLst scps,Stmt_DefFunc func_def){
 		this.scps=scps;
 		this.func_def=func_def;
-		if(func_def.getMergedAsts()!=null){
+/*		if(func_def.getMergedAsts()!=null){
 			return false;
 		}
 		for(String s:func_def.getFuncUp()){
@@ -17,7 +17,7 @@ public class MbrDef_Mthd extends AST {
 			}else{
 				this.putFuncTb(s, func_def.getFuncTb().get(s));
 			}
-		}
+		}*/
 		return true;
 	}
 }

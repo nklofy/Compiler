@@ -15,7 +15,7 @@ public class MbrDef_Lst extends AST {
 			this.mbrs=new LinkedList<MbrDef>();			
 		}
 		this.mbrs.add(par);
-		this.upAll(par);
+		//this.upAll(par);
 	}
 	public boolean isE() {
 		return isE;
