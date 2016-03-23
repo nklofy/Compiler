@@ -5,7 +5,7 @@ import Parser.*;
 import Parser.TypeSys.*;
 
 public class R_Function {
-	T_Function type;
+	T_Type type;
 	AST func_def;
 	boolean isMulti=false;
 	LinkedList<R_Function> multimorphism;//other data struct maybe?	
@@ -41,10 +41,10 @@ public class R_Function {
 	public void setFuncDef(AST func_def) {
 		this.func_def = func_def;
 	}
-	public T_Function getTypeT() {
+	public T_Type getTypeT() {
 		return type;
 	}
-	public void setTypeT(T_Function type) {
+	public void setTypeT(T_Type type) {
 		this.type = type;
 	}
 }

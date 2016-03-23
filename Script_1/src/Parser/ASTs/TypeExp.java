@@ -10,6 +10,7 @@ public class TypeExp extends AST {
 	TypeExp_Idn type_idn;
 	TypeExp_Gnrc type_gnrc;
 	String rst_type;
+	T_Type t_type;
 	
 	public boolean setTypeExp(AST ast){
 		switch(this.getASTType()){
@@ -39,7 +40,7 @@ public class TypeExp extends AST {
 			this.type_array.genCode(codegen);
 			break;
 		case "TypeExp_Bsc":
-			this.type_basic.genCode(codegen);			
+			this.type_basic.genCode(codegen);
 			break;			
 		case "TypeExp_Func":
 			this.type_func.genCode(codegen);
@@ -55,32 +56,53 @@ public class TypeExp extends AST {
 		}
 		return true;
 	}
-	public boolean checkType(CodeGenerator codegen){
-		boolean b=false;
+	public boolean genSymTb(CodeGenerator codegen){
+		boolean b;
 		switch(this.getASTType()){
 		case "TypeExp_Arr":
-			b=this.type_array.checkType(codegen);
+			b=this.type_array.genSymTb(codegen);
 			this.rst_type=this.type_array.rst_type;
+			this.t_type=this.type_array.t_type;
 			break;
 		case "TypeExp_Bsc":
-			b=this.type_basic.checkType(codegen);
+			b=this.type_basic.genSymTb(codegen);
 			this.rst_type=this.type_basic.rst_type;
-			break;			
+			this.t_type=this.type_basic.t_type;
+			break;
 		case "TypeExp_Func":
-			b=this.type_func.checkType(codegen);
-			this.rst_type=this.type_func.ret_type;
-			break;			
+			b=this.type_func.genSymTb(codegen);
+			this.rst_type=this.type_array.rst_type;
+			this.t_type=this.type_array.t_type;
+			break;
 		case "TypeExp_Idn":
-			b=this.type_idn.checkType(codegen);
+			b=this.type_idn.genSymTb(codegen);
 			this.rst_type=this.type_idn.rst_type;
+			this.t_type=this.type_idn.t_type;
 			break;
 		case "TypeExp_Gnrc":
-			b=this.type_gnrc.checkType(codegen);
+			b=this.type_gnrc.genSymTb(codegen);
 			this.rst_type=this.type_gnrc.rst_type;
+			this.t_type=this.type_gnrc.t_type;
 			break;
 		default:
 			return false;
 		}
 		return b;
+	}
+	public boolean checkType(CodeGenerator codegen){
+		switch(this.getASTType()){
+		case "TypeExp_Arr":
+			return this.type_array.checkType(codegen);
+		case "TypeExp_Bsc":
+			return this.type_basic.checkType(codegen);
+		case "TypeExp_Func":
+			return this.type_func.checkType(codegen);
+		case "TypeExp_Idn":
+			return this.type_idn.checkType(codegen);
+		case "TypeExp_Gnrc":
+			return this.type_gnrc.checkType(codegen);
+		default:
+			return false;
+		}
 	}
 }

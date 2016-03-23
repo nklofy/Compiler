@@ -9,6 +9,7 @@ public class TypeExp_Arr extends AST {
 	String ele_type;
 	String rst_type;
 	int dim;
+	T_Type t_type;
 	
 	public TypeExp getPreType() {
 		return type_pre;
@@ -22,9 +23,9 @@ public class TypeExp_Arr extends AST {
 		codegen.incLineNo();
 		return true;
 	}
-	public boolean checkType(CodeGenerator codegen){
-		if(!this.type_pre.checkType(codegen))return false;
-		T_Type t=codegen.getTypeInSymTb(this.type_pre.rst_type);
+	public boolean genSymTb(CodeGenerator codegen){
+		if(!this.type_pre.genSymTb(codegen))return false;
+		T_Type t=this.type_pre.t_type;
 		T_Array t1=null;
 		if(t.isArray()){
 			t1=((T_Array)t);
@@ -37,10 +38,14 @@ public class TypeExp_Arr extends AST {
 			this.ele_type=t1.getTypeName();
 		}
 		this.rst_type="["+codegen.getTmpSn();			
-		codegen.addTypeInSymTb(this.rst_type, t1);
+		codegen.putTypeInSymTb(this.rst_type, t1);
 		t1.setArray(true);
 		this.dim=t1.getDims();
+		this.t_type=t1;
 		return true;
+	}
+	public boolean checkType(CodeGenerator codegen){
+		return this.type_pre.checkType(codegen);
 	}
 	
 	

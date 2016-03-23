@@ -10,6 +10,7 @@ public class TypeExp_Gnrc extends AST {
 	TypeExp_Idn idn_type;
 	Gnrc_ArgLst args;
 	String rst_type;
+	T_Type t_type;
 	
 	public boolean setGnrcType(TypeExp_Idn idn_type,Gnrc_ArgLst args){
 		this.args=args;
@@ -17,19 +18,19 @@ public class TypeExp_Gnrc extends AST {
 		return true;
 	}
 	public boolean genCode(CodeGenerator codegen){		
-		IRCode code=new IRCode("GnrcType",this.rst_type,this.idn_type.rst_type,this.args.ret_args);
+		IRCode code=new IRCode("GnrcType",this.rst_type,this.idn_type.rst_type,this.args.arg_types);
 		codegen.addCode(code);
 		codegen.incLineNo();
 		return true;
 	}
-	public boolean checkType(CodeGenerator codegen){
-		if(!this.idn_type.checkType(codegen))
+	public boolean genSymTb(CodeGenerator codegen){
+		if(!this.idn_type.genSymTb(codegen))
 			return false;
-		if(!this.args.checkType(codegen))
+		if(!this.args.genSymTb(codegen))
 			return false;
-		T_Type t=codegen.getTypeInSymTb(this.idn_type.rst_type);//class or interface or function?
+		T_Type t=this.idn_type.t_type;//class or interface or function?
 		if(!t.isGnrc())
-			return false;		
+			return false;
 		if(t.getGnrcPars().size()!=this.args.gnrc_args.size())
 			return false;
 		this.rst_type="<"+codegen.getTmpSn();
@@ -40,11 +41,14 @@ public class TypeExp_Gnrc extends AST {
 		for(int i=0;i<pars.size();i++){
 			t1.type_args.put(pars.get(i), args.get(i));
 		}
-		codegen.addTypeInSymTb(this.rst_type, t1);
-		this.args.ret_args=this.args.gnrc_args.remove().getTypeName();
+		codegen.putTypeInSymTb(this.rst_type, t1);
+		this.args.arg_types=this.args.gnrc_args.remove().getTypeName();
 		for(int i=1;i<this.args.gnrc_args.size();i++){
-			this.args.ret_args+=","+this.args.gnrc_args.remove();
+			this.args.arg_types+=","+this.args.gnrc_args.remove();
 		}
 		return true;
+	}
+	public boolean checkType(CodeGenerator codegen){		
+		return this.idn_type.checkType(codegen)&&this.args.checkType(codegen);
 	}
 }

@@ -9,6 +9,7 @@ public class Expr_Calc extends AST {
 	ExprCalc_NewArr newArr;
 	String rst_type;
 	String rst_val;
+	String ref_type;
 	
 	public boolean setCalc(AST ast){
 		switch(this.getASTType()){

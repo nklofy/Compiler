@@ -22,7 +22,7 @@ public class Stmt_DefFunc extends AST {
 		R_Function r=new R_Function();
 		r.setFuncDef(this);
 		//this.addFuncUp(this.var.name);
-		this.putFuncTb(this.var.name, r);
+		//this.putFuncTb(this.var.name, r);
 		//this.upAll(stmt_list);
 	}
 	public boolean genCode(CodeGenerator codegen){

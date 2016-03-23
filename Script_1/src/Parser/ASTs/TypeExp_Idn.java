@@ -9,41 +9,49 @@ public class TypeExp_Idn extends AST {
 	TypeExp_Idn type_idn;
 	ExprPri_Var var;
 	String rst_type;
-	R_Package r_pkg;
-	
+	R_Package rst_pkg;
+	T_Type t_type;
 	public boolean setTypeIdn(TypeExp_Idn type_idn,ExprPri_Var var){
 		this.var=var;
 		this.type_idn=type_idn;
 		return true;
 	}
 	public boolean genCode(CodeGenerator codegen){
-		IRCode code=new IRCode("PkgType",this.rst_type,this.var.name,this.r_pkg.getPkgName());
+		IRCode code=new IRCode("PkgType",this.rst_type,this.var.name,this.rst_pkg.getPkgName());
 		codegen.addCode(code);
 		codegen.incLineNo();
 		return true;
 	}
-	public boolean checkType(CodeGenerator codegen){
+	/* (non-Javadoc)
+	 * @see Parser.AST#genSymTb(Parser.CodeGenerator)
+	 */
+	public boolean genSymTb(CodeGenerator codegen){
 		if(this.type_idn!=null){
-			if(!this.type_idn.checkType(codegen))
+			if(!this.type_idn.genSymTb(codegen))
 				return false;
-			if(this.r_pkg.getTypeInPkg().containsKey(var.name)){
+			if(this.type_idn.rst_pkg==null)
+				return false;
+			if(this.type_idn.rst_pkg.getSubPkgs().containsKey(this.var.name)){
+				this.rst_pkg=this.type_idn.rst_pkg.getSubPkgs().get(var.name);
+			}
+			if(this.rst_pkg.getTypesInPkg().containsKey(var.name)){
 				this.rst_type="@"+codegen.getTmpSn();
-				codegen.addTypeInSymTb(this.rst_type, this.r_pkg.getTypeInPkg().get(var.name));
-			}else{
-				this.r_pkg=this.type_idn.r_pkg.getSubPkgs().get(var.name);
-				if(this.r_pkg==null)
-					return false;
+				codegen.putTypeInSymTb(this.rst_type, this.rst_pkg.getTypesInPkg().get(var.name));
+				this.t_type=codegen.getTypeInSymTb(this.rst_type);
 			}
+			if(this.rst_pkg==null&&this.rst_type==null)
+				return false;			
 		}else{
-			if(codegen.getTypeInSymTb(var.name)!=null){
+			if(codegen.getPackage(var.name)!=null){
+				this.rst_pkg=codegen.getPackage(var.name);				
+			}else
 				this.rst_type=var.name;
-			}else{
-				this.r_pkg=codegen.getPackage(var.name);
-				if(this.r_pkg==null){
-					return false;
-				}
-			}
-		}		
+		}
+		return true;
+	}
+	public boolean checkType(CodeGenerator codegen){
+		if(this.rst_type==null||codegen.getTypeInSymTb(this.rst_type)==null)
+			return false;
 		return true;
 	}
 }

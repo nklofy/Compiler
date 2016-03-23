@@ -17,7 +17,7 @@ public class R_Package {
 			this.sub_pkgs=new HashMap<String,R_Package>();
 		this.sub_pkgs.put(s,sub_pkg);
 	}
-	public HashMap<String, T_Function> getFuncInPkg() {
+	public HashMap<String, T_Function> getFuncsInPkg() {
 		return func_inPkg;
 	}
 	public void addFuncInPkg(String s, T_Function func) {
@@ -25,7 +25,7 @@ public class R_Package {
 			this.func_inPkg=new HashMap<String,T_Function>();
 		this.func_inPkg.put(s, func);
 	}
-	public HashMap<String, R_Variable> getVarInPkg() {
+	public HashMap<String, R_Variable> getVarsInPkg() {
 		return var_inPkg;
 	}
 	public void addVarInPkg(String s, R_Variable var) {
@@ -33,7 +33,7 @@ public class R_Package {
 			this.var_inPkg= new HashMap<String,R_Variable>();
 		this.var_inPkg.put(s, var);
 	}
-	public HashMap<String, T_Type> getTypeInPkg() {
+	public HashMap<String, T_Type> getTypesInPkg() {
 		return type_inPkg;
 	}
 	public void addTypeInPkg(String s, T_Type t) {

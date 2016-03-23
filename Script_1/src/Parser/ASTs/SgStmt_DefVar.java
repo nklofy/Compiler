@@ -14,7 +14,6 @@ public class SgStmt_DefVar extends AST {
 		this.pre_def = var_def;
 		this.type_exp=var_def.type_exp;
 		this.setVarTb(var_def.getVarTb());
-		//this.setVarUp(var_def.getVarUp());
 	}
 	public void setTypeExp(TypeExp type_exp) {
 		this.type_exp = type_exp;
@@ -38,30 +37,35 @@ public class SgStmt_DefVar extends AST {
 		}
 		return true;
 	}
-	public boolean upSymTb(CodeGenerator codegen){
-		if(this.pre_def!=null&&!this.pre_def.upSymTb(codegen))
+	public boolean genSymTb(CodeGenerator codegen){
+		if(this.pre_def!=null){
+			if(!this.pre_def.genSymTb(codegen))
 			return false;
-		else
-			if(this.type_exp.upSymTb(codegen))
+		}
+		else{
+			if(!this.type_exp.genSymTb(codegen))
 				return false;
+		}
+		if(codegen.getVarInSymTb(this.var.name)!=null)
+			return false;
 		R_Variable r=new R_Variable();
-		r.setTypeDef(codegen.getTypeInSymTb(this.type_exp.rst_type));
-		if(this.getVarTb().containsKey(this.var.name))
-			return false;1234
-		this.putVarTb(this.var.name, r);
+		r.setVarType(this.type_exp.t_type);
+		codegen.putVarInSymTb(this.var.name, r);
+		this.var.ref_type=this.type_exp.rst_type;
+		if(this.expr!=null)
+			this.expr.ref_type=this.var.ref_type;
 		return true;
 	}
 	public boolean checkType(CodeGenerator codegen){	//set var's type and expr's asgn_type 
-		if(this.pre_def!=null&&!this.pre_def.checkType(codegen))
-			return false;
+		if(this.pre_def!=null){
+			if(!this.pre_def.checkType(codegen))
+				return false;
+		}
 		else{
 			if(!this.type_exp.checkType(codegen))
 				return false;
 		}
-		this.var.ref_type=this.type_exp.rst_type;
-		this.getVarTb().get(this.var.name).setTypeDef(codegen.getTypeInSymTb(this.var.ref_type));
 		if(this.expr!=null){
-			this.expr.ref_type=this.var.ref_type;
 			if(!this.expr.checkType(codegen))
 				return false;
 		}

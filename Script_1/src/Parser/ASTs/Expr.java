@@ -29,7 +29,7 @@ public class Expr extends AST {
 	public boolean genCode(CodeGenerator codegen){
 		return true;
 	}
-	public boolean checkType(){
+	public boolean checkType(CodeGenerator codegen){
 		switch(this.getASTType()){
 		case "Expr_Lmbd":
 			

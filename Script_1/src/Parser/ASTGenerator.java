@@ -238,10 +238,9 @@ public class ASTGenerator {
 		break;
 //		28	crtTpFunc 0
 	case "crtTpFunc":
-		ast0=symbs.get(0).ast;
 		TypeExp ast_t28=new TypeExp();
 		ast_t28.setASTType(TypeExp_Func.class.getName());
-		ast_t28.setTypeExp(ast0);
+		ast_t28.setTypeExp(new TypeExp_Func());
 		ast=ast_t28;
 		break;
 //		29	crtBscTpInt 0

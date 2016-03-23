@@ -79,7 +79,7 @@ public class CodeGenerator {
 		}		
 		return null;
 	}
-	public boolean addTypeInSymTb(String name,T_Type type){
+	public boolean putTypeInSymTb(String name,T_Type type){
 		AST ast=this.block_4symtb.getFirst();
 		if(ast.type_table.containsKey(name))
 			return false;
@@ -95,8 +95,8 @@ public class CodeGenerator {
 				return r;
 		}
 		return null;
-	}	
-	public boolean addVarInSymTb(String name, R_Variable r){
+	}
+	public boolean putVarInSymTb(String name, R_Variable r){
 		AST ast=this.block_4symtb.getFirst();
 		if(ast.var_table.containsKey(name))
 			return false;
@@ -104,11 +104,11 @@ public class CodeGenerator {
 		r.setVarName(name);
 		return true;
 	}	
-	public T_Function getFuncInSymTb(String name, LinkedList<String> types){
+	public T_Function getFuncInSymTb(String name, T_Function type){
 		
 		return null;
 	}	
-	public boolean addFuncInSymTb(String name, T_Function f){
+	public boolean putFuncInSymTb(String name, T_Function f){
 		
 		return true;
 	}

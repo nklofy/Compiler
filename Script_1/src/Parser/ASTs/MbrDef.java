@@ -21,7 +21,6 @@ public class MbrDef extends AST {
 			if(ast.getMergedAsts()!=null){
 				break;
 			}
-			upAll(ast);
 			break;
 		case "MbrDef_Mthd":
 			this.mthd=(MbrDef_Mthd)ast;

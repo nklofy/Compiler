@@ -13,9 +13,6 @@ public class AST {
 	HashMap<String,R_Variable> var_table;
 	HashMap<String,T_Type> type_table;
 	HashMap<String,R_Function> func_table;
-//	LinkedList<String> var_up;
-//	LinkedList<String> type_up;
-//	LinkedList<String> func_up;	
 	
 	public String getASTType() {
 		return ast_type;
@@ -27,7 +24,7 @@ public class AST {
 	public boolean genCode(CodeGenerator codegen){
 		return true;
 	}
-	public boolean upSymTb(CodeGenerator codegen){
+	public boolean genSymTb(CodeGenerator codegen){
 		return true;
 	}
 	public boolean checkType(CodeGenerator codegen){
@@ -84,97 +81,6 @@ public class AST {
 			this.func_table.put(name, r);
 		}
 	}
-/*	public LinkedList<String> getVarUp() {
-		return var_up;
-	}
-	public void setVarUp(LinkedList<String> var_up) {
-		this.var_up = var_up;
-	}
-	public void addVarUp(String name){
-		if(this.var_up!=null)
-			this.var_up.add(name);
-		else{
-			this.var_up=new LinkedList<String>();
-			this.var_up.add(name);
-		}			
-	}
-	public LinkedList<String> getTypeUp() {
-		return type_up;
-	}
-	public void setTypeUp(LinkedList<String> type_up) {
-		this.type_up = type_up;
-	}
-	public void addTypeUp(String name) {
-		if(this.type_up!=null)
-			this.type_up.add(name);
-		else{
-			this.type_up=new LinkedList<String>();
-			this.type_up.add(name);
-		}
-	}
-	public LinkedList<String> getFuncUp() {
-		return func_up;
-	}
-	public void setFuncUp(LinkedList<String> func_up) {
-		this.func_up = func_up;
-	}
-	public void addFuncUp(String name) {
-		if(this.func_up!=null)
-			this.func_up.add(name);
-		else{
-			this.func_up=new LinkedList<String>();
-			this.func_up.add(name);
-		}
-	}
-	private boolean upVar(AST ast){
-		if(ast.getVarUp()==null){
-			return false;
-		}
-		for(String s:ast.getVarUp()){
-			if(this.var_table!=null && this.var_table.keySet().contains(s)){
-				System.out.println("error existing symbol name: "+ s);
-			}else{
-				this.putVarTb(s, ast.getVarTb().get(s));
-				this.addVarUp(s);
-			}
-		}
-		return true;
-	}
-	private boolean upFunc(AST ast){
-		if(ast.getFuncUp()==null){
-			return false;
-		}
-		for(String s:ast.getFuncUp()){
-			if(this.func_table!=null && this.func_table.keySet().contains(s)){
-				System.out.println("error existing symbol name: "+ s);
-			}else{
-				this.putFuncTb(s, ast.getFuncTb().get(s));
-				this.addFuncUp(s);
-			}
-		}
-		return true;
-	}
-	private boolean upType(AST ast){
-		if(ast.getTypeUp()==null){
-			return false;
-		}
-		for(String s:ast.getTypeUp()){
-			if(this.type_table!=null && this.type_table.keySet().contains(s)){
-				System.out.println("error existing symbol name: "+ s);
-			}else{
-				this.putTypeTb(s, ast.getTypeTb().get(s));
-				this.addTypeUp(s);
-			}
-		}
-		return true;
-	}
-	public boolean upAll(AST ast){			
-		upVar(ast);
-		upFunc(ast);
-		upType(ast);
-		return true;
-	}
-*/
 	public boolean isMerged() {
 		return isMerged;
 	}

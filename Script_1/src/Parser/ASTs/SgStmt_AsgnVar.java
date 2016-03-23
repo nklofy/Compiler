@@ -28,13 +28,13 @@ public class SgStmt_AsgnVar extends AST {
 		codegen.incLineNo();
 		return true;
 	}
-	public boolean upSymTb(CodeGenerator codegen){
-		return true;
-	}
-	public boolean checkType(CodeGenerator codegen){
-		if(!this.left_hand.checkType(codegen))
+	public boolean genSymTb(CodeGenerator codegen){		
+		if(!this.left_hand.genSymTb(codegen))
 			return false;
 		this.expr.ref_type=this.left_hand.ref_type;
-		return this.expr.checkType();
+		return this.expr.genSymTb(codegen);
+	}
+	public boolean checkType(CodeGenerator codegen){
+		return this.left_hand.checkType(codegen)&&this.expr.checkType(codegen);
 	}
 }
