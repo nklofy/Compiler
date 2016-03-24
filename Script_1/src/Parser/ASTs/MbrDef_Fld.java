@@ -5,6 +5,7 @@ import Parser.*;
 public class MbrDef_Fld extends AST {
 	Scp_InfoLst scps;
 	SgStmt_DefVar var_def;
+	
 	public boolean setFld(Scp_InfoLst scps,SgStmt_DefVar var_def){
 		this.scps=scps;
 		this.var_def=var_def;

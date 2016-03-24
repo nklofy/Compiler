@@ -26,6 +26,11 @@ public class Stmt_DefFunc extends AST {
 		//this.upAll(stmt_list);
 	}
 	public boolean genCode(CodeGenerator codegen){
+		codegen.pushBlock4Sym(this);
+		codegen.popBlock4Sym();
+		return true;
+	}
+	public boolean genSymTb(CodeGenerator codegen){
 		return true;
 	}
 	public boolean checkType(){

@@ -1,14 +1,15 @@
 package Parser.ASTs;
 
 import java.util.*;
+
 import Parser.*;
 import Parser.TypeSys.*;
 
 public class MbrDef_Lst extends AST {
 	boolean isE=false;
 	LinkedList<MbrDef> mbrs;
-	HashMap<String,T_Type> fields;
-	HashMap<String,R_Function> methods; 
+	LinkedList<R_Variable> fields;
+	LinkedList<T_Function> methods; 
 	
 	public void addMbr(MbrDef par){
 		if(this.mbrs==null){

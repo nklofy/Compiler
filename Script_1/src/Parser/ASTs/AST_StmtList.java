@@ -29,6 +29,7 @@ public class AST_StmtList extends AST {
 	}
 	public boolean checkType(CodeGenerator codegen){
 		boolean rst=true;
+		codegen.pushBlock4Sym(this);
 		for(int i=0;i<this.stmt_list.size();i++){
 			AST stmt=this.stmt_list.get(i);			
 			if(!stmt.checkType(codegen)){
@@ -37,6 +38,7 @@ public class AST_StmtList extends AST {
 				continue;
 			}
 		}
+		codegen.popBlock4Sym();
 		return rst;
 	}
 }

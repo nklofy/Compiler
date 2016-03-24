@@ -1,7 +1,6 @@
 package Parser.ASTs;
 
-import java.util.HashMap;
-
+import java.util.*;
 import Parser.*;
 import Parser.TypeSys.*;
 
@@ -21,14 +20,11 @@ public class Stmt_DefCls extends AST {
 			Cls_Extd_Lst extd_lst,Cls_Impl_Lst impl_lst,MbrDef_Lst mbrdef_lst){
 		this.scp_infolst=scp_infolst;
 		this.var=var;
+		this.name=this.var.name;
 		this.gnrc_parlst=gnrc_parlst;
 		this.extd_lst=extd_lst;
 		this.impl_lst=impl_lst;
 		this.mbrdef_lst=mbrdef_lst;
-		T_Type r=new T_Type();
-		//r.setTypeDef(this);
-		//this.addTypeUp(this.var.name);
-		this.putTypeTb(this.var.name, r);
 		return true;
 	}
 	public boolean genCode(CodeGenerator codegen){
@@ -36,16 +32,42 @@ public class Stmt_DefCls extends AST {
 		return true;
 	}
 	public boolean genSymTb(CodeGenerator codegen){
-		this.name=this.var.name;
-		
-		
-		
-		
+		if(codegen.getTypeInSymTb(this.name)!=null)
+			return false;
+		this.t_type=new T_Class();
+		codegen.putTypeInSymTb(this.name, this.t_type);
+		codegen.pushBlock4Sym(this);		
+		if(this.gnrc_parlst!=null&&!this.gnrc_parlst.genSymTb(codegen))
+			return false;
+		if(this.extd_lst!=null&&!this.extd_lst.genSymTb(codegen))
+			return false;
+		if(this.impl_lst!=null&&!this.impl_lst.genSymTb(codegen))
+			return false;
+		if(this.mbrdef_lst!=null&&!this.mbrdef_lst.genSymTb(codegen))
+			return false;
+		codegen.addTypeInFile(this.t_type);
+		if(this.gnrc_parlst!=null){
+			this.t_type.setGnrc(true);
+			this.t_type.setGnrcPars(this.gnrc_parlst.pars_name);			
+		}
+		if(this.extd_lst!=null){
+			this.t_type.setExtdTypes(this.extd_lst.extd_types);
+		}
+		if(this.impl_lst!=null){
+			this.t_type.setImplTypes(this.impl_lst.impl_types);			
+		}
+		if(this.mbrdef_lst!=null){
+			this.t_type.setMethods(this.mbrdef_lst.methods);
+			this.t_type.setFields(this.mbrdef_lst.fields);
+		}
+		codegen.popBlock4Sym();
 		return true;
 	}
 	public boolean checkType(CodeGenerator codegen){
-		if(!this.var.checkType(codegen))
-			return false;
+		codegen.pushBlock4Sym(this);
+		//check if implementing all the implements
+		//check if there is name error or conflict
+		
 		if(this.gnrc_parlst!=null&&!this.gnrc_parlst.checkType(codegen))
 			return false;
 		if(this.extd_lst!=null&&!this.extd_lst.checkType(codegen))
@@ -54,45 +76,15 @@ public class Stmt_DefCls extends AST {
 			return false;
 		if(this.mbrdef_lst!=null&&!this.mbrdef_lst.checkType(codegen))
 			return false;
-		T_Class cls_type=new T_Class();
-		codegen.addTypeInFile(cls_type);
-		if(this.gnrc_parlst!=null){
-			cls_type.setGnrc(true);
-			cls_type.setGnrcPars(this.gnrc_parlst.pars_name);			
-		}
-		if(this.extd_lst!=null){
-			cls_type.setExtdTypes(this.extd_lst.extd_types);
-		}
-		if(this.impl_lst!=null){
-			cls_type.setImplTypes(this.impl_lst.impl_types);			
-		}
-		if(this.mbrdef_lst!=null){
-			cls_type.setMethods(this.mbrdef_lst.methods);
-			cls_type.setFields(this.mbrdef_lst.fields);
-		}
+		LinkedList<T_Interface> impls=this.impl_lst.impl_types;1234
 		for(T_Interface i:this.impl_lst.impl_types){
-			HashMap<String, R_Function> fs=i.getMethods();
-			for(String s:fs.keySet()){
-				R_Function f=this.mbrdef_lst.methods.get(s);
-				if(f==null)
-					return false;
-				if(!fs.get(s).isMulti() && !f.isMulti()){
-					if(!fs.get(s).getTypeT().isEqType(f.getTypeT()))
-						return false;
-				}else if(fs.get(s).isMulti()&&f.isMulti()){
-					boolean hadFdAll=false;
-					for(R_Function r:fs.get(s).getMulti()){
-						hadFdAll=false;
-						for(R_Function r1:f.getMulti()){
-							if(r.getTypeT().isEqType(r1.getTypeT())) hadFdAll=true;
-						}
-						if(!hadFdAll) return false;
-					}
-				}else{
+			for(T_Function f:i.getMethods()){
+				if(!this.mbrdef_lst.methods.contains(f)){
 					return false;
 				}
 			}
 		}
+		codegen.popBlock4Sym();
 		return true;
 	}
 }

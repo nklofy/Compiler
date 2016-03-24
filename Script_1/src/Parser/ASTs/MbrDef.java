@@ -5,6 +5,7 @@ import Parser.*;
 public class MbrDef extends AST {
 	MbrDef_Fld fld;
 	MbrDef_Mthd mthd;
+	
 	public MbrDef(){}
 	public MbrDef(MbrDef_Fld fld){
 		this.fld=fld;
