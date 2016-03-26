@@ -49,7 +49,7 @@ public class SgStmt_DefVar extends AST {
 		if(codegen.getVarInSymTb(this.var.name)!=null)
 			return false;
 		R_Variable r=new R_Variable();
-		r.setVarType(this.type_exp.t_type);
+		r.setVarType(this.type_exp.rst_type);
 		codegen.putVarInSymTb(this.var.name, r);
 		this.var.ref_type=this.type_exp.rst_type;
 		if(this.expr!=null)

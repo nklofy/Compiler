@@ -10,7 +10,8 @@ public class TypeExp_Idn extends AST {
 	ExprPri_Var var;
 	String rst_type;
 	R_Package rst_pkg;
-	T_Type t_type;
+	//T_Type t_type;
+	
 	public boolean setTypeIdn(TypeExp_Idn type_idn,ExprPri_Var var){
 		this.var=var;
 		this.type_idn=type_idn;
@@ -22,9 +23,6 @@ public class TypeExp_Idn extends AST {
 		codegen.incLineNo();
 		return true;
 	}
-	/* (non-Javadoc)
-	 * @see Parser.AST#genSymTb(Parser.CodeGenerator)
-	 */
 	public boolean genSymTb(CodeGenerator codegen){
 		if(this.type_idn!=null){
 			if(!this.type_idn.genSymTb(codegen))
@@ -37,7 +35,7 @@ public class TypeExp_Idn extends AST {
 			if(this.rst_pkg.getTypesInPkg().containsKey(var.name)){
 				this.rst_type="@"+codegen.getTmpSn();
 				codegen.putTypeInSymTb(this.rst_type, this.rst_pkg.getTypesInPkg().get(var.name));
-				this.t_type=codegen.getTypeInSymTb(this.rst_type);
+				//this.t_type=codegen.getTypeInSymTb(this.rst_type);
 			}
 			if(this.rst_pkg==null&&this.rst_type==null)
 				return false;			

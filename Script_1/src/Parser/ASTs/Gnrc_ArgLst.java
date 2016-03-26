@@ -26,12 +26,12 @@ public class Gnrc_ArgLst extends AST {
 		if(!this.pre_args.genSymTb(codegen))return false;
 		if(this.pre_args!=null){
 			this.gnrc_args=this.pre_args.gnrc_args;
-			T_Type t=var.t_type;
+			T_Type t=codegen.getTypeInSymTb(var.rst_type);
 			if(t==null)return false;
 			this.gnrc_args.add(t);
 		}else{
 			this.gnrc_args=new LinkedList<T_Type>();
-			T_Type t=var.t_type;
+			T_Type t=codegen.getTypeInSymTb(var.rst_type);
 			if(t==null)return false;
 			this.gnrc_args.add(t);
 		}

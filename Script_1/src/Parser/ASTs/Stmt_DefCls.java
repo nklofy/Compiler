@@ -47,7 +47,7 @@ public class Stmt_DefCls extends AST {
 			return false;
 		codegen.addTypeInFile(this.t_type);
 		if(this.gnrc_parlst!=null){
-			this.t_type.setGnrc(true);
+			this.t_type.setKType(T_Type.KType.t_gnrc);
 			this.t_type.setGnrcPars(this.gnrc_parlst.pars_name);			
 		}
 		if(this.extd_lst!=null){

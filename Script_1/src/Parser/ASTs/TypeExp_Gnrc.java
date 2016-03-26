@@ -10,7 +10,7 @@ public class TypeExp_Gnrc extends AST {
 	TypeExp_Idn idn_type;
 	Gnrc_ArgLst args;
 	String rst_type;
-	T_Type t_type;
+	//T_Type t_type;
 	
 	public boolean setGnrcType(TypeExp_Idn idn_type,Gnrc_ArgLst args){
 		this.args=args;
@@ -28,7 +28,7 @@ public class TypeExp_Gnrc extends AST {
 			return false;
 		if(!this.args.genSymTb(codegen))
 			return false;
-		T_Type t=this.idn_type.t_type;//class or interface or function?
+		T_Type t=codegen.getTypeInSymTb(this.idn_type.rst_type);//class or interface or function?
 		if(!t.isGnrc())
 			return false;
 		if(t.getGnrcPars().size()!=this.args.gnrc_args.size())

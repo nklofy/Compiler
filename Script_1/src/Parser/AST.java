@@ -5,11 +5,11 @@ import Interpreter.*;
 import Parser.TypeSys.*;
 
 public class AST {
-	int line;
-	String ast_type;
-	AST ast_deMrg;	//de-merge, choose correct one
+	private int line;
+	private String ast_type;
+	private AST ast_deMrg;	//de-merge, choose correct one
 	HashSet<AST> merged_asts;
-	boolean isMerged=false;
+	private boolean isMerged=false;
 	HashMap<String,R_Variable> var_table;
 	HashMap<String,T_Type> type_table;
 	HashMap<String,R_Function> func_table;
@@ -68,10 +68,10 @@ public class AST {
 		if(this.func_table != null){
 			if(this.func_table.containsKey(name)){
 				if(this.func_table.get(name).isMulti()){
-					this.func_table.get(name).addMulti(r);
+					this.func_table.get(name).addFuncR(r);
 				}else{
 					this.func_table.get(name).setMulti();
-					this.func_table.get(name).addMulti(r);
+					this.func_table.get(name).addFuncR(r);
 				}
 			}else{
 				this.func_table.put(name, r);

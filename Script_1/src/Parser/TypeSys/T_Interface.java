@@ -2,69 +2,64 @@ package Parser.TypeSys;
 
 import java.util.*;
 
+import Parser.*;
+
 public class T_Interface extends T_Type {
-	LinkedList<T_Interface> extd_types=new LinkedList<T_Interface>();
-	LinkedList<T_Function> methods=new LinkedList<T_Function>();
-	HashMap<String,R_Function> name_methods=new HashMap<String,R_Function>();
-	LinkedList<T_Interface> all_intf=new LinkedList<T_Interface>();
+	private LinkedList<T_Interface> extd_types=new LinkedList<T_Interface>();
+	private HashMap<String,R_Function> methods=new HashMap<String,R_Function>();
+	private HashSet<String> all_extd=new HashSet<String>();
 	
-	public boolean isSubOf(T_Type type1){
-		if(this.extd_types.contains(type1)) return true;
-		for(T_Interface t:this.extd_types){
-			if(!t.extd_types.isEmpty()){
-				for(T_Interface t1:t.extd_types)
-				if(t1.isSubOf(type1)) return true;
-			}
-		}
-		return false;
-	}
-	public LinkedList<T_Function> getMethods() {
+	
+	public HashMap<String,R_Function> getMethods() {
 		return methods;
 	}
-	public void setMethods(LinkedList<T_Function> methods) {
-		this.methods = methods;
-	/*	for(T_Function f:this.methods){
-			if(!this.name_methods.containsKey(f.type_name)){
-				this.name_methods.put(f.type_name, new R_Function());
-			}
-			this.name_methods.get(f.type_name).setTypeT(f);			
-		}*/
+	public void setMethods(HashMap<String,R_Function> methods) {
+		this.methods = methods;	
 	}
 	public LinkedList<T_Interface> getExtdTypes() {
 		return extd_types;
 	}
 	public void setExtdTypes(LinkedList<T_Interface> extd_types) {
-		this.extd_types = extd_types;
-		/*for(T_Interface i:this.extd_types){
-			for(T_Function f:i.methods){
-				this.methods.add(f);
-				if(!this.name_methods.containsKey(f.type_name)){
-					this.name_methods.put(f.type_name, new R_Function());
-				}
-				this.name_methods.get(f.type_name).setTypeT(f);		
-			}
-		}*/
-	}	
-	public HashMap<String, R_Function> getNameMethods() {
-		return name_methods;
-	}
-	public void setNameMethods(HashMap<String, R_Function> name_methods) {
-		this.name_methods = name_methods;
+		this.extd_types = extd_types;		
 	}
 	
-	public LinkedList<T_Interface> getAllExtd(){	
-		return all_intf;
+	public HashSet<String> getAllExtd(){	
+		return all_extd;
 	}
-	public void setAllExtd(){
-		all_intf.addAll(this.extd_types);
-		for(T_Interface i1:this.extd_types){
-			if(!i1.extd_types.isEmpty()){
-				all_intf.addAll(i1.getAllExtd());
+
+	public boolean checkAllExtd(){
+		for(T_Interface t:this.extd_types){
+			for(String name:t.getAllExtd()){
+				if(this.all_extd.contains(t))
+					return false;
+				this.all_extd.add(name);
 			}
 		}
+		return true;
 	}
-	public boolean checkAllExtd(){
-		
+	public boolean checkAllMthd(){//add all methods in this type
+		for(T_Interface t:this.extd_types){
+			for(String name:t.methods.keySet()){
+				R_Function r=t.methods.get(name);
+				if(!this.methods.containsKey(name)){
+					this.methods.put(name, r);
+				}else{
+					R_Function r1=this.methods.get(name);
+					if(r.isMulti()){
+						for(String ts:r.getMulti().keySet()){
+							if(!r1.isCntnNameType(r.getMulti().get(ts))){
+								r1.addFuncR(r.getMulti().get(ts));
+							}
+							else return false;
+						}
+					}else{
+						if(!r1.isCntnNameType(r))
+							r1.addFuncR(r);
+						else return false;
+					}
+				}
+			}
+		}
 		return true;
 	}
 }

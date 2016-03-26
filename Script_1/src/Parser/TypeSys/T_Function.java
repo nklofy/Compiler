@@ -5,26 +5,32 @@ import Parser.*;
 import Parser.IR.*;
 
 public class T_Function extends T_Type {
-	T_Type re_type;
-	LinkedList<T_Type> par_types;
-	ArrayList<IRCode> func_body;
-	public boolean isEqFunc(T_Function t){
-		if (!this.getTypeName().equals(t.getTypeName())){
-			return false;
-		}
-		if(!isEqType(t))
-			return false;
-		return true;
+	private T_Type ret_type;
+	private LinkedList<T_Type> par_types;
+	
+
+	public T_Type getRetType() {
+		return ret_type;
 	}
-	public boolean isEqType(T_Function t){
-		if(!t.isFunc||!this.re_type.isEqType(t.re_type))return false;
-		if(this.par_types.size()!=t.par_types.size())return false;
-		if(this.isGnrc()!=t.isGnrc()) return false;
-		if(this.isGnrc()&&t.isGnrc()&&this.getGnrcPars().size()!=t.getGnrcPars().size()) return false;
-		for(int i=0;i<this.par_types.size();i++){
-			if(!this.par_types.get(i).isEqType(par_types.get(i)))
-				return false;
+	public void setRetType(T_Type ret_type) {
+		this.ret_type = ret_type;
+	}
+	public LinkedList<T_Type> getParTypes() {
+		return par_types;
+	}
+	public void setParTypes(LinkedList<T_Type> par_types) {
+		this.par_types = par_types;
+	}
+	
+	public void genTypeCode() {
+		String s=this.ret_type.getTypeCode()+"(";
+		for(T_Type t:this.par_types){
+			s=s+t.getTypeCode()+",";
 		}
-		return true;
+		s=s+")";
+		if(this.isGnrc()){
+			s=s+"<"+this.getGnrcPars().size()+">";
+		}
+		this.setTypeCode(s);
 	}
 }

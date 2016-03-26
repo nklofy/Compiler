@@ -7,7 +7,7 @@ public class R_Variable {
 	boolean isFinal;
 	boolean isStatic;
 	boolean isInit;
-	T_Type var_type;
+	String var_type;
 	String name;
 
 	public String getVarName() {
@@ -28,10 +28,10 @@ public class R_Variable {
 	public void setFinal(boolean isFinal) {
 		this.isFinal = isFinal;
 	}
-	public T_Type getVarType() {
+	public String getVarType() {
 		return var_type;
 	}
-	public void setVarType(T_Type type_def) {
+	public void setVarType(String type_def) {
 		this.var_type = type_def;
 	}
 }

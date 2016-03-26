@@ -2,57 +2,96 @@ package Parser.TypeSys;
 
 import java.util.*;
 import Parser.*;
+import Parser.IR.*;
 import Parser.TypeSys.*;
 
 public class R_Function {
-	T_Function t_type;
+	private T_Function t_type;
+	private String f_t_code;
+	private boolean isMulti=false;
+	private HashMap<String,R_Function> multi_func;//map of type-code to func record 			
+	private String func_name;	
+	private boolean is_inst;
+
+	ArrayList<IRCode> func_body;
 	AST func_def;
-	boolean isMulti=false;
-	LinkedList<T_Function> multimorphism;//other data struct maybe?	
-	T_Type ret_type;
-	ArrayList<T_Type> par_types;
+	
 	
 	public boolean isMulti() {
 		return isMulti;
 	}
 	public void setMulti() {
 		this.isMulti = true;
-		this.multimorphism=new LinkedList<T_Function>();
+		this.multi_func=new HashMap<String,R_Function>();
 	}
-	public void addMulti(R_Function r){
+	public boolean addFuncR(R_Function r){
 		if(!this.isMulti)
 			this.setMulti();
 		if(r.isMulti){
-			for(T_Function f:r.multimorphism){
-				this.multimorphism.add(f);
+			for(R_Function f:r.multi_func.values()){
+				if(this.multi_func.containsKey(f.f_t_code)){
+					return false;
+				}
+				this.multi_func.put(f.f_t_code,f);
 			}
 		}else{
-			this.multimorphism.add(r.t_type);
+			if(this.multi_func.containsKey(r.f_t_code))
+				return false;
+			this.multi_func.put(r.f_t_code,r);
 		}
+		return true;
 	}
-	public LinkedList<T_Function> getMulti() {
-		return multimorphism;
+	public HashMap<String,R_Function> getMulti() {
+		return multi_func;
 	}
-	public void setMulti(LinkedList<T_Function> multimorphism) {
-		this.multimorphism = multimorphism;
+	public void setMulti(HashMap<String,R_Function> multimorphism) {
+		this.multi_func = multimorphism;
+	}	
+	public T_Function getTypeT() {
+		return t_type;
 	}
-	public AST getFuncDef() {
+	public void setTypeT(T_Function type) {
+		this.t_type = type;		
+	}
+	public String getFTCode() {
+		return f_t_code;
+	}
+	public void setFTCode(String type_code) {
+		this.f_t_code = type_code;
+	}public AST getFuncDef() {
 		return func_def;
 	}
 	public void setFuncDef(AST func_def) {
 		this.func_def = func_def;
 	}
-	public T_Function getTypeT() {
-		return t_type;
+	
+	public boolean isEqNameType(R_Function r){//functions' name and type are the same
+		if(!this.isMulti&&!r.isMulti){
+			if(!this.func_name.equals(r.func_name))
+				return false;
+			if(!this.f_t_code.equals(r.f_t_code))
+				return false;
+		}else if(this.isMulti&&r.isMulti){
+			for(String s:this.multi_func.keySet()){
+				if(!this.multi_func.get(s).isEqNameType(r.multi_func.get(s)))
+					return false;
+			}
+		}else{
+			return false;
+		}
+		return true;
 	}
-	public void setTypeT(T_Function type) {
-		if(this.t_type==null){
-			this.t_type = type;
-			return;
+	public boolean isCntnNameType(R_Function r){//the same name and type with one of multi-func
+		if(!this.func_name.equals(r.func_name))
+			return false;
+		if(this.isMulti){
+			for(String s:this.multi_func.keySet()){
+				if(s.equals(r.f_t_code))
+					return true;
+			}
+		}else{
+			return this.f_t_code.equals(r.f_t_code);
 		}
-		if(!this.isMulti){
-			this.setMulti();
-		}
-		this.multimorphism.add(type);
+		return false;
 	}
 }

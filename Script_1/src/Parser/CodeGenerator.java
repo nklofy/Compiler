@@ -4,28 +4,29 @@ import Parser.IR.*;
 import Parser.TypeSys.*;
 
 public class CodeGenerator {
-	int crt_line=1;//code's line
-	int tmp_sn=1;//naming temp vars and labels
-	ArrayList<IRCode> code_list=new ArrayList<IRCode> ();
+	private int crt_line=1;//code's line
+	private int tmp_sn=1;//naming temp vars and labels
+	private ArrayList<IRCode> code_list=new ArrayList<IRCode> ();
 	public HashMap<String, LinkedList<IRCode>> rps_code_list=new HashMap<String,LinkedList<IRCode>>();
 	public HashMap<String, Integer> mp_label2line=new HashMap<String,Integer>();//for label and line No.
 	public LinkedList<String> labels_ifbd=new LinkedList<String>();
 	public LinkedList<String> labels_elsbd=new LinkedList<String>();
 	public LinkedList<String> labels_whlbd=new LinkedList<String>();
 	public LinkedList<String> labels_whlend=new LinkedList<String>();
+	
 	public LinkedList<String> ret_types=new LinkedList<String>();//check function return type and return statment's type
 	
 	//a type system for store/search type/name
-	LinkedList<AST> block_4symtb;
+	private LinkedList<AST> block_4symtb;
 	
 	//HashMap<String,T_Type> type_tb=new HashMap<String,T_Type>();//table of type info in RT
 		
 	
-	HashMap<String,R_Package> packages=new HashMap<String,R_Package>();//deal with package/name-space
+	private HashMap<String,R_Package> packages=new HashMap<String,R_Package>();//deal with package/name-space
 	
-	LinkedList<T_Type> type_file=new LinkedList<T_Type>();//used for generating symbol table in output file
-	LinkedList<T_Function> func_file=new LinkedList<T_Function>();
-	LinkedList<R_Variable> var_file=new LinkedList<R_Variable>();
+	private LinkedList<T_Type> type_file=new LinkedList<T_Type>();//used for generating symbol table in output file
+	private LinkedList<T_Function> func_file=new LinkedList<T_Function>();
+	private LinkedList<R_Variable> var_file=new LinkedList<R_Variable>();
 	
 	
 	

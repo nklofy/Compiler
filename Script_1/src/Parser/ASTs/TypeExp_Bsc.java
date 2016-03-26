@@ -6,7 +6,7 @@ import Parser.TypeSys.*;
 public class TypeExp_Bsc extends AST {	
 	String b_type;
 	String rst_type;
-	T_Type t_type;
+	//T_Type t_type;
 	
 	public void setTypeT(String b_type) {
 		this.b_type =b_type;

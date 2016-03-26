@@ -10,7 +10,7 @@ public class TypeExp extends AST {
 	TypeExp_Idn type_idn;
 	TypeExp_Gnrc type_gnrc;
 	String rst_type;
-	T_Type t_type;
+	//T_Type t_type;
 	
 	public boolean setTypeExp(AST ast){
 		switch(this.getASTType()){
@@ -62,27 +62,22 @@ public class TypeExp extends AST {
 		case "TypeExp_Arr":
 			b=this.type_array.genSymTb(codegen);
 			this.rst_type=this.type_array.rst_type;
-			this.t_type=this.type_array.t_type;
 			break;
 		case "TypeExp_Bsc":
 			b=this.type_basic.genSymTb(codegen);
 			this.rst_type=this.type_basic.rst_type;
-			this.t_type=this.type_basic.t_type;
 			break;
 		case "TypeExp_Func":
 			b=this.type_func.genSymTb(codegen);
 			this.rst_type=this.type_array.rst_type;
-			this.t_type=this.type_array.t_type;
 			break;
 		case "TypeExp_Idn":
 			b=this.type_idn.genSymTb(codegen);
 			this.rst_type=this.type_idn.rst_type;
-			this.t_type=this.type_idn.t_type;
 			break;
 		case "TypeExp_Gnrc":
 			b=this.type_gnrc.genSymTb(codegen);
 			this.rst_type=this.type_gnrc.rst_type;
-			this.t_type=this.type_gnrc.t_type;
 			break;
 		default:
 			return false;
