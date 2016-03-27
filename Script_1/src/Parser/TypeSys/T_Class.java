@@ -4,8 +4,8 @@ import java.util.*;
 import Parser.*;
 
 public class T_Class extends T_Type {
-	private LinkedList<T_Interface> impl_types=new LinkedList<T_Interface>();
-	private LinkedList<T_Class> extd_types=new LinkedList<T_Class>();
+	private LinkedList<String> impl_types=new LinkedList<String>();
+	private LinkedList<String> extd_types=new LinkedList<String>();
 	private HashMap<String,R_Function> methods=new HashMap<String,R_Function>();
 	private HashMap<String,R_Variable> fields=new HashMap<String,R_Variable>();
 	private HashSet<String> all_impl=new HashSet<String>();	
@@ -24,16 +24,16 @@ public class T_Class extends T_Type {
 	public void setMethods(HashMap<String,R_Function> methods) {
 		this.methods = methods;
 	}
-	public LinkedList<T_Interface> getImplTypes() {
+	public LinkedList<String> getImplTypes() {
 		return impl_types;
 	}
-	public void setImplTypes(LinkedList<T_Interface> impl_types) {
+	public void setImplTypes(LinkedList<String> impl_types) {
 		this.impl_types = impl_types;
 	}
-	public LinkedList<T_Class> getExtdTypes() {
+	public LinkedList<String> getExtdTypes() {
 		return extd_types;
 	}
-	public void setExtdTypes(LinkedList<T_Class> extd_types) {
+	public void setExtdTypes(LinkedList<String> extd_types) {
 		this.extd_types = extd_types;
 	}
 	public HashSet<String> getAllImpl() {
@@ -50,7 +50,8 @@ public class T_Class extends T_Type {
 	}
 	//for type checking
 	public boolean checkAllImpl(CodeGenerator codegen){//no ring inheriting in impl types 
-		for(T_Interface t:this.impl_types){
+		for(String s:this.impl_types){
+			T_Interface t= (T_Interface) codegen.getTypeInSymTb(s);
 			if(this.all_impl.contains(t.getTypeName()))return false;
 			this.all_impl.add(t.getTypeName());
 			for(String name:t.getAllExtd()){
@@ -58,7 +59,8 @@ public class T_Class extends T_Type {
 				this.all_impl.add(name);
 			}		
 		}
-		for(T_Class t:this.extd_types){
+		for(String s:this.extd_types){
+			T_Class t= (T_Class) codegen.getTypeInSymTb(s);
 			for(String name:t.getAllImpl()){
 				if(this.all_impl.contains(name))return false;
 				this.all_impl.add(name);
@@ -67,7 +69,8 @@ public class T_Class extends T_Type {
 		return true;
 	}
 	public boolean checkAllExtd(CodeGenerator codegen){//no ring inheriting in extd types
-		for(T_Class t:this.extd_types){
+		for(String s:this.extd_types){
+			T_Class t=(T_Class) codegen.getTypeInSymTb(s);
 			for(String name:t.getAllExtd()){
 				if(this.all_extd.contains(name))return false;
 				this.all_extd.add(name);
@@ -76,7 +79,8 @@ public class T_Class extends T_Type {
 		return true;
 	}
 	public boolean checkAllMthd(CodeGenerator codegen){
-		for(T_Interface t:this.impl_types){//make sure all interface are implemented
+		for(String s:this.impl_types){//make sure all interface are implemented
+			T_Interface t=(T_Interface) codegen.getTypeInSymTb(s);
 			for(String name:t.getMethods().keySet()){
 				if(!this.methods.containsKey(name)) return false;
 				if(!this.methods.get(name).isEqNameType(t.getMethods().get(name))){
@@ -84,7 +88,8 @@ public class T_Class extends T_Type {
 				}				
 			}
 		}
-		for(T_Class t:this.extd_types){//gen all methods in this type, including super classes's
+		for(String s:this.extd_types){//gen all methods in this type, including super classes's
+			T_Class t= (T_Class) codegen.getTypeInSymTb(s);
 			for(String name:t.methods.keySet()){
 				R_Function r=t.methods.get(name);
 				if(!this.methods.containsKey(name)){
@@ -107,7 +112,8 @@ public class T_Class extends T_Type {
 		return true;
 	}
 	public boolean checkAllField(CodeGenerator codegen){//gen all fields in this type, including super classes's
-		for(T_Class t:this.extd_types){
+		for(String s:this.extd_types){
+			T_Class t = (T_Class) codegen.getTypeInSymTb(s);
 			for(String name:t.fields.keySet()){
 				if(!this.fields.containsKey(name)){
 					this.fields.put(name, t.fields.get(name));

@@ -8,7 +8,7 @@ import Parser.TypeSys.*;
 public class Cls_Extd_Lst extends AST {
 	boolean isE=false;
 	LinkedList<TypeExp_Idn> exts;
-	LinkedList<T_Class> extd_types;
+	LinkedList<String> extd_types;
 	
 	public void addExtd(TypeExp_Idn par){
 		if(this.exts==null){
@@ -22,21 +22,29 @@ public class Cls_Extd_Lst extends AST {
 	public void setE() {
 		this.isE = true;
 	}
-	public boolean genCode(CodeGenerator codegen){
-		
+	public boolean genCode(CodeGenerator codegen){		
+		return true;
+	}
+	public boolean genSymTb(CodeGenerator codegen){
+		if(isE){
+			return true;
+		}
+		this.extd_types=new LinkedList<String>();
+		HashSet<String> all_t=new HashSet<String>();
+		for(TypeExp_Idn t:exts){
+			if(!t.genSymTb(codegen))return false;
+			if(all_t.contains(t.rst_type))
+				return false;
+			this.extd_types.add(t.rst_type);
+			all_t.add(t.rst_type);
+		}
 		return true;
 	}
 	public boolean checkType(CodeGenerator codegen){
 		if(isE){
 			return true;
 		}
-		this.extd_types=new LinkedList<T_Class>();
-		for(TypeExp_Idn t:exts){
-			if(!t.checkType(codegen))return false;
-			T_Type t1=codegen.getTypeInSymTb(t.rst_type);
-			if(t1.getKType()!=T_Type.KType.t_cls)return false;
-			this.extd_types.add((T_Class)t1);			
-		}
+		
 		return true;
 	}
 }

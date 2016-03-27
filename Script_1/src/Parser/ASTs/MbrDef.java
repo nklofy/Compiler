@@ -40,4 +40,16 @@ public class MbrDef extends AST {
 		}
 		return true;
 	}
+	public boolean genCode(CodeGenerator codegen){
+		
+		return true;
+	}
+	public boolean genSymTb(CodeGenerator codegen){
+		
+		return true;
+	}
+	public boolean checkType(CodeGenerator codegen){
+		
+		return true;
+	}
 }

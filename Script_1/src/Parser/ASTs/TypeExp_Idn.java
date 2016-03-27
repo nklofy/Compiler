@@ -10,7 +10,7 @@ public class TypeExp_Idn extends AST {
 	ExprPri_Var var;
 	String rst_type;
 	R_Package rst_pkg;
-	//T_Type t_type;
+	T_Type t_type;
 	
 	public boolean setTypeIdn(TypeExp_Idn type_idn,ExprPri_Var var){
 		this.var=var;
@@ -49,6 +49,9 @@ public class TypeExp_Idn extends AST {
 	}
 	public boolean checkType(CodeGenerator codegen){
 		if(this.rst_type==null||codegen.getTypeInSymTb(this.rst_type)==null)
+			return false;
+		this.t_type=codegen.getTypeInSymTb(this.rst_type);
+		if(this.t_type==null)
 			return false;
 		return true;
 	}

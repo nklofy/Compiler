@@ -11,7 +11,7 @@ import Parser.TypeSys.T_Type;
 public class Cls_Impl_Lst extends AST {
 	boolean isE=false;
 	LinkedList<TypeExp_Idn> imps;
-	LinkedList<T_Interface> impl_types;
+	LinkedList<String> extd_types;
 	
 	public void addImp(TypeExp_Idn par){
 		if(this.imps==null){
@@ -29,17 +29,26 @@ public class Cls_Impl_Lst extends AST {
 		
 		return true;
 	}
+	public boolean genSymTb(CodeGenerator codegen){
+		if(isE){
+			return true;
+		}
+		this.extd_types=new LinkedList<String>();
+		HashSet<String> all_t=new HashSet<String>();
+		for(TypeExp_Idn t:imps){
+			if(!t.genSymTb(codegen))return false;
+			if(all_t.contains(t.rst_type))
+				return false;
+			this.extd_types.add(t.rst_type);
+			all_t.add(t.rst_type);
+		}
+		return true;
+	}
 	public boolean checkType(CodeGenerator codegen){
 		if(isE){
 			return true;
 		}
-		this.impl_types=new LinkedList<T_Interface>();
-		for(TypeExp_Idn t:imps){
-			if(!t.checkType(codegen))return false;
-			T_Type t1=codegen.getTypeInSymTb(t.rst_type);
-			if(t1.getKType()!=T_Type.KType.t_intf)return false;
-			this.impl_types.add((T_Interface)t1);			
-		}
+		
 		return true;
 	}
 }

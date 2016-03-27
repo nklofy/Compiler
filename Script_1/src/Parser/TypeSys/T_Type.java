@@ -26,9 +26,9 @@ public class T_Type {
 	public String getTypeCode() {
 		return type_code;
 	}
-	public void genTypeCode(){
+/*	public void genTypeCode(){
 		this.type_code=this.type_name;
-	}
+	}*/
 	public void setTypeCode(String type_code) {
 		this.type_code = type_code;
 	}
@@ -50,5 +50,5 @@ public class T_Type {
 	public void setKType(KType k_type) {
 		this.k_type = k_type;
 	}
-	public enum KType{t_bsc,t_arr,t_func,t_gnrc,t_cls,t_intf}
+	public enum KType{t_bsc,t_arr,t_func,t_gnrc,t_cls,t_intf,t_dummy}
 }

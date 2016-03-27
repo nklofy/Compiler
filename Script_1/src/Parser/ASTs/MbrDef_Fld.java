@@ -1,3 +1,4 @@
+
 package Parser.ASTs;
 
 import Parser.*;
@@ -19,6 +20,18 @@ public class MbrDef_Fld extends AST {
 				this.putVarTb(s, var_def.getVarTb().get(s));
 			}
 		}
+		return true;
+	}
+	public boolean genCode(CodeGenerator codegen){
+		
+		return true;
+	}
+	public boolean genSymTb(CodeGenerator codegen){
+		
+		return true;
+	}
+	public boolean checkType(CodeGenerator codegen){
+		
 		return true;
 	}
 }

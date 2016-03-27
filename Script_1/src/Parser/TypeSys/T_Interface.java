@@ -5,7 +5,7 @@ import java.util.*;
 import Parser.*;
 
 public class T_Interface extends T_Type {
-	private LinkedList<T_Interface> extd_types=new LinkedList<T_Interface>();
+	private LinkedList<String> extd_types=new LinkedList<String>();
 	private HashMap<String,R_Function> methods=new HashMap<String,R_Function>();
 	private HashSet<String> all_extd=new HashSet<String>();
 	
@@ -16,10 +16,10 @@ public class T_Interface extends T_Type {
 	public void setMethods(HashMap<String,R_Function> methods) {
 		this.methods = methods;	
 	}
-	public LinkedList<T_Interface> getExtdTypes() {
+	public LinkedList<String> getExtdTypes() {
 		return extd_types;
 	}
-	public void setExtdTypes(LinkedList<T_Interface> extd_types) {
+	public void setExtdTypes(LinkedList<String> extd_types) {
 		this.extd_types = extd_types;		
 	}
 	
@@ -27,8 +27,9 @@ public class T_Interface extends T_Type {
 		return all_extd;
 	}
 
-	public boolean checkAllExtd(){
-		for(T_Interface t:this.extd_types){
+	public boolean checkAllExtd(CodeGenerator codegen){
+		for(String s:this.extd_types){
+			T_Interface t = (T_Interface) codegen.getTypeInSymTb(s);
 			for(String name:t.getAllExtd()){
 				if(this.all_extd.contains(t))
 					return false;
@@ -37,8 +38,9 @@ public class T_Interface extends T_Type {
 		}
 		return true;
 	}
-	public boolean checkAllMthd(){//add all methods in this type
-		for(T_Interface t:this.extd_types){
+	public boolean checkAllMthd(CodeGenerator codegen){//add all methods in this type
+		for(String s:this.extd_types){
+			T_Interface t = (T_Interface) codegen.getTypeInSymTb(s);
 			for(String name:t.methods.keySet()){
 				R_Function r=t.methods.get(name);
 				if(!this.methods.containsKey(name)){

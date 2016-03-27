@@ -28,24 +28,26 @@ public class TypeExp_Gnrc extends AST {
 			return false;
 		if(!this.args.genSymTb(codegen))
 			return false;
-		T_Type t=codegen.getTypeInSymTb(this.idn_type.rst_type);//class or interface or function?
-		if(!t.isGnrc())
+		T_Type t=codegen.getTypeInSymTb(this.idn_type.rst_type);//TODO
+		/*if(!t.isGnrc())
 			return false;
 		if(t.getGnrcPars().size()!=this.args.gnrc_args.size())
 			return false;
+			*/
 		this.rst_type="<"+codegen.getTmpSn();
 		LinkedList<String> pars=t.getGnrcPars();
-		LinkedList<T_Type> args=this.args.gnrc_args;
+		LinkedList<String> args=this.args.gnrc_args;
 		T_Generic t1=new T_Generic();
-		t1.core_type=t;
+		t1.setCoreType(this.idn_type.rst_type);
 		for(int i=0;i<pars.size();i++){
-			t1.type_args.put(pars.get(i), args.get(i));
+			t1.getTypeArgs().put(pars.get(i), args.get(i));
 		}
 		codegen.putTypeInSymTb(this.rst_type, t1);
-		this.args.arg_types=this.args.gnrc_args.remove().getTypeName();
-		for(int i=1;i<this.args.gnrc_args.size();i++){
-			this.args.arg_types+=","+this.args.gnrc_args.remove();
+		String s="";
+		for(int i=0;i<this.args.gnrc_args.size();i++){
+			s+=this.args.gnrc_args.remove()+",";
 		}
+		this.args.setArgTypes(s);
 		return true;
 	}
 	public boolean checkType(CodeGenerator codegen){		

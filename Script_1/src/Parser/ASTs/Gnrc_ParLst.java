@@ -2,6 +2,7 @@ package Parser.ASTs;
 
 import java.util.*;
 import Parser.*;
+import Parser.TypeSys.*;
 
 public class Gnrc_ParLst extends AST {
 	boolean isE=false;
@@ -23,15 +24,23 @@ public class Gnrc_ParLst extends AST {
 		
 		return true;
 	}
-	public boolean checkType(CodeGenerator codegen){
+	public boolean genSymTb(CodeGenerator codegen){
 		if(isE)
 			return true;
 		this.pars_name=new LinkedList<String>();
+		HashSet<String> all_ns=new HashSet<String>();
 		for(Gnrc_Par p:pars){
-			if(!p.checkType(codegen))
+			if(!p.genSymTb(codegen))
 				return false;
 			this.pars_name.add(p.var.name);
+			if(all_ns.contains(p.var.name))
+				return false;
+			all_ns.add(p.var.name);
 		}
+		return true;
+	}
+	public boolean checkType(CodeGenerator codegen){
+		
 		return true;
 	}
 }

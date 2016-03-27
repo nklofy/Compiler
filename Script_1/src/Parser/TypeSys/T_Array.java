@@ -1,14 +1,14 @@
 package Parser.TypeSys;
 
 public class T_Array extends T_Type {
-	T_Type ele_type;
+	String ele_type;
 	int dims;
 	
 
-	public T_Type getEleType() {
+	public String getEleType() {
 		return ele_type;
 	}
-	public void setEleType(T_Type ele_type) {
+	public void setEleType(String ele_type) {
 		this.ele_type = ele_type;
 	}
 	public int getDims() {

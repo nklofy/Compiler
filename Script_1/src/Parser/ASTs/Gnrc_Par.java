@@ -14,11 +14,16 @@ public class Gnrc_Par extends AST {
 		this.idn=idn;
 	}
 	public boolean genCode(CodeGenerator codegen){
+		
+		return true;
+	}
+	public boolean genSymTb(CodeGenerator codegen){
+		if(!this.var.genSymTb(codegen))
+			return false;	
 		return true;
 	}
 	public boolean checkType(CodeGenerator codegen){
-		if(!this.var.checkType(codegen))
-			return false;
+		
 		return true;
 	}
 }

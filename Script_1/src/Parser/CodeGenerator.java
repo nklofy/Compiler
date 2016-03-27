@@ -105,12 +105,25 @@ public class CodeGenerator {
 		r.setVarName(name);
 		return true;
 	}	
-	public T_Function getFuncInSymTb(String name, T_Function type){
-		
+	public R_Function getFuncInSymTb(String name){//return maybe polymorphic
+		R_Function f=null;
+		for(AST ast:this.block_4symtb){
+			f=ast.func_table.get(name);
+			if(f!=null)
+				return f;
+		}
 		return null;
 	}	
-	public boolean putFuncInSymTb(String name, T_Function f){
-		
+	public boolean putFuncInSymTb(String name, R_Function f){//f should not polymorphic
+		AST ast=this.block_4symtb.getFirst();
+		if(ast.func_table.containsKey(name)){
+			R_Function f1=ast.func_table.get(name);
+			if(f1.isCntnNameType(f))
+				return false;
+			f1.addFuncR(f);			
+		}else
+			ast.func_table.put(name, f);
+		f.setFuncName(name);
 		return true;
 	}
 	public AST peekBlock4Sym() {

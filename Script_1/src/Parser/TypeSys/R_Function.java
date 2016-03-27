@@ -8,7 +8,7 @@ import Parser.TypeSys.*;
 public class R_Function {
 	private T_Function t_type;
 	private String f_t_code;
-	private boolean isMulti=false;
+	private boolean isMulti=false;	//polymorphic
 	private HashMap<String,R_Function> multi_func;//map of type-code to func record 			
 	private String func_name;	
 	private boolean is_inst;
@@ -17,6 +17,12 @@ public class R_Function {
 	AST func_def;
 	
 	
+	public String getFuncName() {
+		return func_name;
+	}
+	public void setFuncName(String func_name) {
+		this.func_name = func_name;
+	}
 	public boolean isMulti() {
 		return isMulti;
 	}
@@ -58,7 +64,8 @@ public class R_Function {
 	}
 	public void setFTCode(String type_code) {
 		this.f_t_code = type_code;
-	}public AST getFuncDef() {
+	}
+	public AST getFuncDef() {
 		return func_def;
 	}
 	public void setFuncDef(AST func_def) {

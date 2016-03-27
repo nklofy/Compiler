@@ -19,6 +19,9 @@ public class ExprPri_Var extends AST {
 		
 		return true;
 	}
+	public boolean genSymTb(CodeGenerator codegen){
+		return true;
+	}
 	public boolean checkType(CodeGenerator codegen){
 		
 		return true;
