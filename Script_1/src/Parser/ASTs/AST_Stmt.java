@@ -65,23 +65,11 @@ public class AST_Stmt extends AST {
 	public boolean genSymTb(CodeGenerator codegen){
 		switch(this.getASTType()){
 		case "Stmt_DefCls":
-			if(codegen.getTypeInSymTb(this.stmt_cls.name)!=null)
-				return false;
-			boolean b=this.stmt_cls.genSymTb(codegen);
-			codegen.putTypeInSymTb(this.stmt_cls.name,this.stmt_cls.t_type);
-			return b;
+			return this.stmt_cls.genSymTb(codegen);			
 		case "Stmt_DefIntf":
-			if(codegen.getTypeInSymTb(this.stmt_intf.name)!=null)
-				return false;
-			b=this.stmt_intf.genSymTb(codegen);
-			codegen.putTypeInSymTb(this.stmt_intf.name, this.stmt_intf.t_type);
-			return b;
+			return this.stmt_intf.genSymTb(codegen);
 		case "Stmt_DefFunc":
-			if(codegen.getFuncInSymTb(this.stmt_func.name, this.stmt_func.t_type)!=null)
-				return false;
-			b=this.stmt_func.genSymTb(codegen);
-			codegen.putFuncInSymTb(this.stmt_func.name, this.stmt_func.t_type);
-			return b;
+			return this.stmt_func.genSymTb(codegen);
 		case "Stmt_If":
 			return this.stmt_if.genSymTb(codegen);			
 		case "Stmt_Whl":

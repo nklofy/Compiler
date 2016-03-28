@@ -1,11 +1,13 @@
 package Parser.ASTs;
 
 import Parser.*;
+import Parser.TypeSys.*;
 
 public class MbrDef extends AST {
 	MbrDef_Fld fld;
 	MbrDef_Mthd mthd;
-	
+	R_Variable r_var;
+	R_Function r_func;
 	public MbrDef(){}
 	public MbrDef(MbrDef_Fld fld){
 		this.fld=fld;
@@ -18,24 +20,10 @@ public class MbrDef extends AST {
 	public boolean setMbr(AST ast){
 		switch(this.getASTType()){
 		case "MbrDef_Fld":
-			this.fld=(MbrDef_Fld)ast;
-			if(ast.getMergedAsts()!=null){
-				break;
-			}
+			this.fld=(MbrDef_Fld)ast;			
 			break;
 		case "MbrDef_Mthd":
 			this.mthd=(MbrDef_Mthd)ast;
-			if(ast.getMergedAsts()!=null){
-				break;
-			}
-			for(String s:ast.getFuncUp()){
-				if(this.getFuncTb()!=null && this.getFuncTb().keySet().contains(s)){
-					System.out.println("error existing symbol name: "+ s);
-				}else{
-					this.putFuncTb(s, ast.getFuncTb().get(s));
-					this.addFuncUp(s);
-				}
-			}
 			break;
 		}
 		return true;
@@ -45,11 +33,32 @@ public class MbrDef extends AST {
 		return true;
 	}
 	public boolean genSymTb(CodeGenerator codegen){
-		
+		switch(this.getASTType()){
+		case "MbrDef_Fld":
+			if(!this.fld.genSymTb(codegen))
+				return false;
+			this.r_var=new R_Variable();
+			this.r_var
+			break;
+		case "MbrDef_Mthd":
+			if(!this.mthd.genSymTb(codegen))
+				return false;
+			this.r_func=new R_Function();
+			
+			break;
+		default:return false;
+		}
 		return true;
 	}
 	public boolean checkType(CodeGenerator codegen){
-		
-		return true;
+		switch(this.getASTType()){
+		case "MbrDef_Fld":
+			return this.fld.checkType(codegen);
+			
+		case "MbrDef_Mthd":
+			return this.mthd.checkType(codegen);
+			
+		default:return false;
+		}
 	}
 }

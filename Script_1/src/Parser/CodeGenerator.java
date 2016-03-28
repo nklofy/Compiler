@@ -85,7 +85,6 @@ public class CodeGenerator {
 		if(ast.type_table.containsKey(name))
 			return false;
 		ast.type_table.put(name, type);
-		type.setTypeName(name);
 		return true;
 	}
 	public R_Variable getVarInSymTb(String name){//TODO
@@ -102,7 +101,6 @@ public class CodeGenerator {
 		if(ast.var_table.containsKey(name))
 			return false;
 		ast.var_table.put(name, r);
-		r.setVarName(name);
 		return true;
 	}	
 	public R_Function getFuncInSymTb(String name){//return maybe polymorphic
@@ -114,16 +112,23 @@ public class CodeGenerator {
 		}
 		return null;
 	}	
-	public boolean putFuncInSymTb(String name, R_Function f){//f should not polymorphic
+	public boolean putFuncInSymTb(String name, R_Function f){//f can be polymorphic
 		AST ast=this.block_4symtb.getFirst();
 		if(ast.func_table.containsKey(name)){
 			R_Function f1=ast.func_table.get(name);
+			if(f.isMulti()){
+				for(R_Function f2:f.getMulti().values()){
+					if(f1.isCntnNameType(f2))
+						return false;
+					f1.addFuncR(f2);
+				}
+				return true;
+			}
 			if(f1.isCntnNameType(f))
 				return false;
 			f1.addFuncR(f);			
 		}else
 			ast.func_table.put(name, f);
-		f.setFuncName(name);
 		return true;
 	}
 	public AST peekBlock4Sym() {

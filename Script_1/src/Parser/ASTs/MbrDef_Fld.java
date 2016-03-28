@@ -13,13 +13,6 @@ public class MbrDef_Fld extends AST {
 		if(var_def.getMergedAsts()!=null){
 			return false;
 		}
-		for(String s:var_def.getVarUp()){
-			if(this.getVarTb()!=null && this.getVarTb().keySet().contains(s)){
-				System.out.println("error existing symbol name: "+ s);
-			}else{
-				this.putVarTb(s, var_def.getVarTb().get(s));
-			}
-		}
 		return true;
 	}
 	public boolean genCode(CodeGenerator codegen){

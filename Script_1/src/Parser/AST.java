@@ -30,13 +30,13 @@ public class AST {
 	public boolean checkType(CodeGenerator codegen){
 		return true;
 	}
-	public HashMap<String, R_Variable> getVarTb() {
+	HashMap<String, R_Variable> getVarTb() {
 		return var_table;
 	}
-	public void setVarTb(HashMap<String, R_Variable> t) {
+	void setVarTb(HashMap<String, R_Variable> t) {
 		this.var_table=t;
 	}
-	public void putVarTb(String name, R_Variable r) {
+	void putVarTb(String name, R_Variable r) {
 		if(this.var_table != null){
 			this.var_table.put(name, r);
 		}else{
@@ -44,13 +44,13 @@ public class AST {
 			this.var_table.put(name, r);
 		}
 	}
-	public HashMap<String, T_Type> getTypeTb() {
+	HashMap<String, T_Type> getTypeTb() {
 		return type_table;
 	}
-	public void setTypeTb(HashMap<String, T_Type> t) {
+	void setTypeTb(HashMap<String, T_Type> t) {
 		this.type_table=t;
 	}
-	public void putTypeTb(String name, T_Type r) {
+	void putTypeTb(String name, T_Type r) {
 		if(this.type_table != null){
 			this.type_table.put(name, r);
 		}else{
@@ -58,13 +58,13 @@ public class AST {
 			this.type_table.put(name, r);
 		}
 	}
-	public HashMap<String, R_Function> getFuncTb() {
+	HashMap<String, R_Function> getFuncTb() {
 		return func_table;
 	}
-	public void setFuncTb(HashMap<String, R_Function> t) {
+	void setFuncTb(HashMap<String, R_Function> t) {
 		this.func_table=t;
 	}
-	public void putFuncTb(String name, R_Function r) {
+	void putFuncTb(String name, R_Function r) {
 		if(this.func_table != null){
 			if(this.func_table.containsKey(name)){
 				if(this.func_table.get(name).isMulti()){

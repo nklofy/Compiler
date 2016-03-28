@@ -13,10 +13,11 @@ public class MbrDef_Lst extends AST {
 	
 	public void addMbr(MbrDef par){
 		if(this.mbrs==null){
-			this.mbrs=new LinkedList<MbrDef>();			
+			this.mbrs=new LinkedList<MbrDef>();
+			this.fields=new LinkedList<R_Variable>();
+			this.methods=new LinkedList<R_Function>();
 		}
 		this.mbrs.add(par);
-		//this.upAll(par);
 	}
 	public boolean isE() {
 		return isE;
@@ -29,7 +30,16 @@ public class MbrDef_Lst extends AST {
 		return true;
 	}
 	public boolean genSymTb(CodeGenerator codegen){
-		
+		for(MbrDef mbr:mbrs){
+			if(!mbr.genSymTb(codegen))
+				return false;
+			if(mbr.getASTType().equals("MbrDef_Fld")){
+				this.fields.add(mbr.r_var);
+			}else if(mbr.getASTType().equals("MbrDef_Mthd")){
+				this.methods.add(mbr.r_func);
+			}else
+				return false;
+		}
 		return true;
 	}
 	public boolean checkType(CodeGenerator codegen){

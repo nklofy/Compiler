@@ -13,7 +13,6 @@ public class SgStmt_DefVar extends AST {
 	public void setPredef(SgStmt_DefVar var_def) {
 		this.pre_def = var_def;
 		this.type_exp=var_def.type_exp;
-		this.setVarTb(var_def.getVarTb());
 	}
 	public void setTypeExp(TypeExp type_exp) {
 		this.type_exp = type_exp;
@@ -50,6 +49,7 @@ public class SgStmt_DefVar extends AST {
 			return false;
 		R_Variable r=new R_Variable();
 		r.setVarType(this.type_exp.rst_type);
+		r.setVarName(this.var.name);
 		codegen.putVarInSymTb(this.var.name, r);
 		this.var.ref_type=this.type_exp.rst_type;
 		if(this.expr!=null)
