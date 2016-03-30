@@ -2,6 +2,7 @@ package Parser.ASTs;
 
 import java.util.*;
 import Parser.*;
+import Parser.IR.*;
 import Parser.TypeSys.*;
 
 public class Stmt_DefCls extends AST {
@@ -28,35 +29,50 @@ public class Stmt_DefCls extends AST {
 		return true;
 	}
 	public boolean genCode(CodeGenerator codegen){
+		codegen.pushBlock4Sym(this);
+		int in=codegen.getLineNo();
+		ArrayList<IRCode> old_ir=codegen.getCodeList();
 		
+		for(MbrDef f:this.mbrdef_lst.mbrs){
+			if(f.mthd!=null){
+				codegen.setCodeList(new ArrayList<IRCode>());
+				codegen.setLineNo(-1);
+				f.mthd.func_def.genCode(codegen);
+				f.mthd.func_def.r_func.setFuncBody(codegen.getCodeList());
+			}
+		}		
+		codegen.setCodeList(old_ir);
+		codegen.setLineNo(in);
+		codegen.popBlock4Sym();
 		return true;
 	}
 	public boolean genSymTb(CodeGenerator codegen){
 		if(codegen.getTypeInSymTb(this.name)!=null)
 			return false;
 		this.t_type=new T_Class();
+		this.t_type.setKType(T_Type.KType.t_cls);
 		codegen.putTypeInSymTb(this.name, this.t_type);
 		codegen.pushBlock4Sym(this);		
-		if(this.gnrc_parlst!=null&&!this.gnrc_parlst.genSymTb(codegen))
+		if(!this.gnrc_parlst.genSymTb(codegen))
 			return false;
-		if(this.extd_lst!=null&&!this.extd_lst.genSymTb(codegen))
+		if(!this.extd_lst.genSymTb(codegen))
 			return false;
-		if(this.impl_lst!=null&&!this.impl_lst.genSymTb(codegen))
+		if(!this.impl_lst.genSymTb(codegen))
 			return false;
-		if(this.mbrdef_lst!=null&&!this.mbrdef_lst.genSymTb(codegen))
+		if(!this.mbrdef_lst.genSymTb(codegen))
 			return false;
 		codegen.addTypeInFile(this.t_type);
-		if(this.gnrc_parlst!=null){
-			this.t_type.setKType(T_Type.KType.t_gnrc);
+		if(!this.gnrc_parlst.isE()){
+			this.t_type.setGnrc(true);
 			this.t_type.setGnrcPars(this.gnrc_parlst.pars_name);			
 		}
-		if(this.extd_lst!=null){
+		if(!this.extd_lst.isE()){
 			this.t_type.setExtdTypes(this.extd_lst.extd_types);
 		}
-		if(this.impl_lst!=null){
+		if(!this.impl_lst.isE()){
 			this.t_type.setImplTypes(this.impl_lst.extd_types);			
 		}
-		if(this.mbrdef_lst!=null){
+		if(!this.mbrdef_lst.isE()){
 			for(R_Function f:this.mbrdef_lst.methods){
 				HashMap<String,R_Function> ms=this.t_type.getMethods();
 				if(ms.containsKey(f.getFuncName())){
@@ -91,9 +107,9 @@ public class Stmt_DefCls extends AST {
 	}
 	public boolean checkType(CodeGenerator codegen){
 		codegen.pushBlock4Sym(this);
-		if(this.gnrc_parlst!=null&&!this.gnrc_parlst.checkType(codegen))
+		if(!this.gnrc_parlst.checkType(codegen))
 			return false;
-		if(this.extd_lst!=null&&!this.extd_lst.checkType(codegen))
+		if(!this.extd_lst.checkType(codegen))
 			return false;
 		for(String name:this.extd_lst.extd_types){
 			T_Type t=codegen.getTypeInSymTb(name);
@@ -102,7 +118,7 @@ public class Stmt_DefCls extends AST {
 			if(t.getKType()!=T_Type.KType.t_cls)
 				return false;
 		}
-		if(this.impl_lst!=null&&!this.impl_lst.checkType(codegen))
+		if(!this.impl_lst.checkType(codegen))
 			return false;
 		for(String name:this.impl_lst.extd_types){
 			T_Type t=codegen.getTypeInSymTb(name);
@@ -111,7 +127,7 @@ public class Stmt_DefCls extends AST {
 			if(t.getKType()!=T_Type.KType.t_intf)
 				return false;
 		}
-		if(this.mbrdef_lst!=null&&!this.mbrdef_lst.checkType(codegen))
+		if(!this.mbrdef_lst.checkType(codegen))
 			return false;
 		if(!this.t_type.checkAllImpl(codegen))
 			return false;

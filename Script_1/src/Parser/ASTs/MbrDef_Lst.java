@@ -34,7 +34,7 @@ public class MbrDef_Lst extends AST {
 			if(!mbr.genSymTb(codegen))
 				return false;
 			if(mbr.getASTType().equals("MbrDef_Fld")){
-				this.fields.add(mbr.r_var);
+				this.fields.addAll(mbr.r_vars);
 			}else if(mbr.getASTType().equals("MbrDef_Mthd")){
 				this.methods.add(mbr.r_func);
 			}else

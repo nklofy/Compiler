@@ -4,7 +4,7 @@ import Parser.IR.*;
 import Parser.TypeSys.*;
 
 public class CodeGenerator {
-	private int crt_line=1;//code's line
+	private int crt_line=-1;//the last row's number of codes
 	private int tmp_sn=1;//naming temp vars and labels
 	private ArrayList<IRCode> code_list=new ArrayList<IRCode> ();
 	public HashMap<String, LinkedList<IRCode>> rps_code_list=new HashMap<String,LinkedList<IRCode>>();
@@ -36,6 +36,9 @@ public class CodeGenerator {
 	public void incLineNo() {
 		this.crt_line ++;
 	}
+	public void setLineNo(int i){
+		this.crt_line=i;
+	}
 	public int getTmpSn() {
 		return this.tmp_sn++;
 	}
@@ -43,6 +46,9 @@ public class CodeGenerator {
 		this.tmp_sn ++;
 	}
 
+	public void setCodeList(ArrayList<IRCode> code_list) {
+		this.code_list = code_list;
+	}
 	public void addCode(IRCode code){
 		this.code_list.add(code);
 	}

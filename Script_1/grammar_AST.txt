@@ -37,9 +37,9 @@
 35 idn_type idn_type . var 
 36 idn_type var 
 37 generic_type idn_type < generic_args > 
-38 generic_args generic_args , idn_type 
+38 generic_args generic_args , type_exp 
 39 generic_args generic_args , ? extends idn_type 
-40 generic_args idn_type 
+40 generic_args type_exp 
 41 generic_args ? extends idn_type 
 42 class_def scope_info_list class var generic_pars_list extends_list implements_list { member_def_list } 
 43 interface_def scope_info_list interface var generic_pars_list extends_list { member_def_list } 

@@ -1,7 +1,9 @@
 package Parser.ASTs;
 
+import java.util.*;
+
 import Parser.*;
-import Parser.IR.IRCode;
+import Parser.IR.*;
 import Parser.TypeSys.*;
 
 public class SgStmt_DefVar extends AST {
@@ -9,6 +11,7 @@ public class SgStmt_DefVar extends AST {
 	TypeExp type_exp;
 	ExprPri_Var var;
 	Expr expr;
+	LinkedList<R_Variable> r_vars;
 	
 	public void setPredef(SgStmt_DefVar var_def) {
 		this.pre_def = var_def;
@@ -29,7 +32,6 @@ public class SgStmt_DefVar extends AST {
 		}
 		if(this.var!=null&&this.expr!=null){
 			this.expr.genCode(codegen);
-			this.var.tmp_addr="$"+codegen.getTmpSn();
 			IRCode code=new IRCode("cpy",this.var.ref_type,this.var.tmp_addr,this.expr.rst_val);
 			codegen.addCode(code);
 			codegen.incLineNo();
@@ -40,17 +42,21 @@ public class SgStmt_DefVar extends AST {
 		if(this.pre_def!=null){
 			if(!this.pre_def.genSymTb(codegen))
 			return false;
+			this.r_vars=this.pre_def.r_vars;
 		}
 		else{
 			if(!this.type_exp.genSymTb(codegen))
 				return false;
+			this.r_vars=new LinkedList<R_Variable>();
 		}
 		if(codegen.getVarInSymTb(this.var.name)!=null)
 			return false;
 		R_Variable r=new R_Variable();
 		r.setVarType(this.type_exp.rst_type);
 		r.setVarName(this.var.name);
+		r.setTmpAddr(this.var.tmp_addr);
 		codegen.putVarInSymTb(this.var.name, r);
+		this.r_vars.add(r);
 		this.var.ref_type=this.type_exp.rst_type;
 		if(this.expr!=null)
 			this.expr.ref_type=this.var.ref_type;

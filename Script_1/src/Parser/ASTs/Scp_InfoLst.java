@@ -19,4 +19,16 @@ public class Scp_InfoLst extends AST {
 		}
 		this.scp_infos.add(scp);
 	}
+	public boolean genCode(CodeGenerator codegen){
+		
+		return true;
+	}
+	public boolean genSymTb(CodeGenerator codegen){
+		
+		return true;
+	}
+	public boolean checkType(CodeGenerator codegen){
+		
+		return true;
+	}
 }

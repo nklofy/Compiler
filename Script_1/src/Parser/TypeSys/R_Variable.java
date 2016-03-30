@@ -6,8 +6,9 @@ import Parser.TypeSys.*;
 public class R_Variable {
 	boolean isFinal;
 	boolean isStatic;
-	boolean isInit;
+	boolean isDummy;
 	String var_type;
+	String tmp_addr;
 	String name;
 
 	public String getVarName() {
@@ -15,6 +16,18 @@ public class R_Variable {
 	}
 	public void setVarName(String name) {
 		this.name = name;
+	}
+	public String getTmpAddr() {
+		return tmp_addr;
+	}
+	public void setTmpAddr(String tmp_addr) {
+		this.tmp_addr = tmp_addr;
+	}
+	public boolean isDummy() {
+		return isDummy;
+	}
+	public void setDummy(boolean isDummy) {
+		this.isDummy = isDummy;
 	}
 	public boolean isStatic() {
 		return isStatic;

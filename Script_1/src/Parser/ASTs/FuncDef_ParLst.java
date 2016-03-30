@@ -21,6 +21,9 @@ public class FuncDef_ParLst extends AST {
 	public boolean genCode(CodeGenerator codegen){
 		return true;
 	}
+	public boolean genSymTb(CodeGenerator codegen){
+		return true;
+	}
 	public boolean checkType(CodeGenerator codegen){
 		return true;
 	}

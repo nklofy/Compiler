@@ -1,12 +1,14 @@
 package Parser.ASTs;
 
+import java.util.*;
+
 import Parser.*;
 import Parser.TypeSys.*;
 
 public class MbrDef extends AST {
 	MbrDef_Fld fld;
 	MbrDef_Mthd mthd;
-	R_Variable r_var;
+	LinkedList<R_Variable> r_vars;
 	R_Function r_func;
 	public MbrDef(){}
 	public MbrDef(MbrDef_Fld fld){
@@ -37,14 +39,12 @@ public class MbrDef extends AST {
 		case "MbrDef_Fld":
 			if(!this.fld.genSymTb(codegen))
 				return false;
-			this.r_var=new R_Variable();
-			this.r_var
+			this.r_vars=this.fld.var_def.r_vars;
 			break;
 		case "MbrDef_Mthd":
 			if(!this.mthd.genSymTb(codegen))
 				return false;
-			this.r_func=new R_Function();
-			
+			this.r_func=this.mthd.func_def.r_func;
 			break;
 		default:return false;
 		}
@@ -54,10 +54,8 @@ public class MbrDef extends AST {
 		switch(this.getASTType()){
 		case "MbrDef_Fld":
 			return this.fld.checkType(codegen);
-			
 		case "MbrDef_Mthd":
-			return this.mthd.checkType(codegen);
-			
+			return this.mthd.checkType(codegen);			
 		default:return false;
 		}
 	}

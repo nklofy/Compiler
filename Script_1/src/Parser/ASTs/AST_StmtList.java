@@ -10,12 +10,13 @@ public class AST_StmtList extends AST {
 	
 	public void addStmt(AST stmt){
 		this.stmt_list.add(stmt);
-		//this.upAll(stmt);
 	}
 	public boolean genCode(CodeGenerator codegen){
+		codegen.pushBlock4Sym(this);
 		for(AST stmt:this.stmt_list){
 			stmt.genCode(codegen);
 		}
+		codegen.popBlock4Sym();
 		return true;
 	}
 	public boolean genSymTb(CodeGenerator codegen){

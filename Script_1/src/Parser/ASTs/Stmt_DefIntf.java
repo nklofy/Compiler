@@ -27,6 +27,9 @@ public class Stmt_DefIntf extends AST {
 		return true;
 	}
 	public boolean genCode(CodeGenerator codegen){
+		//codegen.pushBlock4Sym(this);
+		
+		//codegen.popBlock4Sym();
 		return true;
 	}
 	public boolean genSymTb(CodeGenerator codegen){
@@ -35,21 +38,21 @@ public class Stmt_DefIntf extends AST {
 		this.t_type=new T_Interface();
 		codegen.putTypeInSymTb(this.name, this.t_type);
 		codegen.pushBlock4Sym(this);
-		if(this.gnrc_parlst!=null&&!this.gnrc_parlst.genSymTb(codegen))
+		if(!this.gnrc_parlst.genSymTb(codegen))
 			return false;
-		if(this.extd_lst!=null&&!this.extd_lst.genSymTb(codegen))
+		if(!this.extd_lst.genSymTb(codegen))
 			return false;		
-		if(this.mbrdef_lst!=null&&!this.mbrdef_lst.genSymTb(codegen))
+		if(!this.mbrdef_lst.genSymTb(codegen))
 			return false;
 		codegen.addTypeInFile(this.t_type);
-		if(this.gnrc_parlst!=null){
+		if(!this.gnrc_parlst.isE()){
 			this.t_type.setKType(T_Type.KType.t_gnrc);
 			this.t_type.setGnrcPars(this.gnrc_parlst.pars_name);			
 		}
-		if(this.extd_lst!=null){
+		if(!this.extd_lst.isE()){
 			this.t_type.setExtdTypes(this.extd_lst.extd_types);
 		}
-		if(this.mbrdef_lst!=null){
+		if(!this.mbrdef_lst.isE()){
 			for(R_Function f:this.mbrdef_lst.methods){
 				HashMap<String,R_Function> ms=this.t_type.getMethods();
 				if(ms.containsKey(f.getFuncName())){
@@ -62,6 +65,7 @@ public class Stmt_DefIntf extends AST {
 				}else{
 					ms.put(f.getFuncName(), f);
 				}
+				f.setDummy(true);
 			}
 			if(this.mbrdef_lst.fields!=null){
 				return false;
@@ -69,7 +73,7 @@ public class Stmt_DefIntf extends AST {
 		}
 		codegen.popBlock4Sym();
 		String s=this.name;
-		if(this.gnrc_parlst!=null){
+		if(!this.gnrc_parlst.isE()){
 			s+="<"+this.gnrc_parlst.pars_name.size()+">";
 		}
 		this.t_type.setTypeCode(s);
@@ -77,9 +81,9 @@ public class Stmt_DefIntf extends AST {
 	}
 	public boolean checkType(CodeGenerator codegen){
 		codegen.pushBlock4Sym(this);
-		if(this.gnrc_parlst!=null&&!this.gnrc_parlst.checkType(codegen))
+		if(!this.gnrc_parlst.checkType(codegen))
 			return false;
-		if(this.extd_lst!=null&&!this.extd_lst.checkType(codegen))
+		if(!this.extd_lst.checkType(codegen))
 			return false;
 		for(String name:this.extd_lst.extd_types){
 			T_Type t=codegen.getTypeInSymTb(name);
@@ -88,7 +92,7 @@ public class Stmt_DefIntf extends AST {
 			if(t.getKType()!=T_Type.KType.t_intf)
 				return false;
 		}
-		if(this.mbrdef_lst!=null&&!this.mbrdef_lst.checkType(codegen))
+		if(!this.mbrdef_lst.checkType(codegen))
 			return false;
 		if(!this.t_type.checkAllExtd(codegen))
 			return false;

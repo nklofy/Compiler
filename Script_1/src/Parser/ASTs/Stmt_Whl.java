@@ -15,12 +15,12 @@ public class Stmt_Whl extends AST {
 	}
 	public boolean genCode(CodeGenerator codegen){
 		this.bool_exp.genCode(codegen);
-		IRCode code=new IRCode("while",this.bool_exp.getVal(),null,null);
+		String lb_whlbd=":"+codegen.getTmpSn();
+		String lb_whlend=":"+codegen.getTmpSn();
+		IRCode code=new IRCode("while",this.bool_exp.getVal(),lb_whlbd,lb_whlend);
 		codegen.incLineNo();
 		codegen.addCode(code);
 		int ln_whlbd =codegen.getLineNo()+1;
-		String lb_whlbd=":"+codegen.getTmpSn();
-		String lb_whlend=":"+codegen.getTmpSn();
 		codegen.labels_whlbd.add(lb_whlbd);
 		codegen.labels_whlend.add(lb_whlend);
 		codegen.mp_label2line.put(lb_whlbd, ln_whlbd);

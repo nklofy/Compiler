@@ -87,9 +87,9 @@ generic_type |>
    idn_type < generic_args >
 
 generic_args |>
-   generic_args , idn_type
+   generic_args , type_exp
 >| generic_args , ? extends idn_type
->| idn_type
+>| type_exp
 >| ? extends idn_type
 
 class_def |>

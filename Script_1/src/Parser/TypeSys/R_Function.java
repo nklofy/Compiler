@@ -10,8 +10,8 @@ public class R_Function {
 	private String f_t_code;
 	private boolean isMulti=false;	//polymorphic
 	private HashMap<String,R_Function> multi_func;//map of type-code to func record 			
-	private String func_name;	
-	private boolean is_inst;
+	private String func_name;
+	private boolean isDummy;
 
 	ArrayList<IRCode> func_body;
 	AST func_def;
@@ -22,6 +22,18 @@ public class R_Function {
 	}
 	public void setFuncName(String func_name) {
 		this.func_name = func_name;
+	}
+	public ArrayList<IRCode> getFuncBody() {
+		return func_body;
+	}
+	public void setFuncBody(ArrayList<IRCode> func_body) {
+		this.func_body = func_body;
+	}
+	public boolean isDummy() {
+		return isDummy;
+	}
+	public void setDummy(boolean is_dummy) {
+		this.isDummy = is_dummy;
 	}
 	public boolean isMulti() {
 		return isMulti;

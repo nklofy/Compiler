@@ -13,6 +13,9 @@ public class FuncDef_Par extends AST {
 	public boolean genCode(CodeGenerator codegen){
 		return true;
 	}
+	public boolean genSymTb(CodeGenerator codegen){
+		return true;
+	}
 	public boolean checkType(CodeGenerator codegen){
 		return true;
 	}

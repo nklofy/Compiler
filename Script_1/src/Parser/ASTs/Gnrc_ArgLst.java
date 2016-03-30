@@ -5,14 +5,14 @@ import java.util.*;
 import Parser.*;
 import Parser.TypeSys.*;
 
-public class Gnrc_ArgLst extends AST {	
+public class Gnrc_ArgLst extends AST {
 	Gnrc_ArgLst pre_args;
-	TypeExp_Idn var;
+	TypeExp var;
 	TypeExp_Idn ext_idn_t;
 	LinkedList<String>gnrc_args;
 	String arg_types;
 	
-	public boolean setGnrcArgs(Gnrc_ArgLst pre_args,TypeExp_Idn var,TypeExp_Idn idn_type){
+	public boolean setGnrcArgs(Gnrc_ArgLst pre_args,TypeExp var,TypeExp_Idn idn_type){
 		this.pre_args=pre_args;
 		this.var=var;
 		this.ext_idn_t=idn_type;		

@@ -308,7 +308,7 @@ public class ASTGenerator {
 		ast0=symbs.get(0).ast;
 		ast2=symbs.get(2).ast;
 		Gnrc_ArgLst ast_t38 = new Gnrc_ArgLst();
-		ast_t38.setGnrcArgs((Gnrc_ArgLst)ast2, (TypeExp_Idn)ast0, null);
+		ast_t38.setGnrcArgs((Gnrc_ArgLst)ast2, (TypeExp)ast0, null);
 		ast=ast_t38;
 		break;		
 //		39	lnkGnrcArgsExt 4 0
@@ -323,7 +323,7 @@ public class ASTGenerator {
 	case "crtGnrcArgsVar":
 		ast0=symbs.get(0).ast;
 		Gnrc_ArgLst ast_t40= new Gnrc_ArgLst();
-		ast_t40.setGnrcArgs(null, (TypeExp_Idn)ast0, null);
+		ast_t40.setGnrcArgs(null, (TypeExp)ast0, null);
 		ast=ast_t40;
 		break;
 //		41	crtGnrcArgsExt 0

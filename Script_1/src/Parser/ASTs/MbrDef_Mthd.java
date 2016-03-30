@@ -5,6 +5,8 @@ import Parser.*;
 public class MbrDef_Mthd extends AST {
 	Scp_InfoLst scps;
 	Stmt_DefFunc func_def;
+	
+	
 	public boolean setMthd(Scp_InfoLst scps,Stmt_DefFunc func_def){
 		this.scps=scps;
 		this.func_def=func_def;
@@ -25,11 +27,17 @@ public class MbrDef_Mthd extends AST {
 		return true;
 	}
 	public boolean genSymTb(CodeGenerator codegen){
-		
+		if(this.scps!=null&&!this.scps.genSymTb(codegen))
+			return false;
+		if(this.func_def!=null&&!this.func_def.genSymTb(codegen))
+			return false;
 		return true;
 	}
 	public boolean checkType(CodeGenerator codegen){
-		
+		if(this.scps!=null&&!this.scps.checkType(codegen))
+			return false;
+		if(this.func_def!=null&&!this.func_def.checkType(codegen))
+			return false;
 		return true;
 	}
 }
