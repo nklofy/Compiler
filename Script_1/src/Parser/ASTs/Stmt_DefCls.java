@@ -29,20 +29,12 @@ public class Stmt_DefCls extends AST {
 		return true;
 	}
 	public boolean genCode(CodeGenerator codegen){
-		codegen.pushBlock4Sym(this);
-		int in=codegen.getLineNo();
-		ArrayList<IRCode> old_ir=codegen.getCodeList();
-		
+		codegen.pushBlock4Sym(this);		
 		for(MbrDef f:this.mbrdef_lst.mbrs){
-			if(f.mthd!=null){
-				codegen.setCodeList(new ArrayList<IRCode>());
-				codegen.setLineNo(-1);
+			if(f.mthd!=null){				
 				f.mthd.func_def.genCode(codegen);
-				f.mthd.func_def.r_func.setFuncBody(codegen.getCodeList());
 			}
-		}		
-		codegen.setCodeList(old_ir);
-		codegen.setLineNo(in);
+		}			
 		codegen.popBlock4Sym();
 		return true;
 	}

@@ -37,13 +37,16 @@ public class SgStmt_CtrFlw extends AST {
 			codegen.incLineNo();
 			break;			
 		case t_return:
-			code =new IRCode("return",null,null,null);
+			code =new IRCode("ret",null,null,null);
 			break;			
 		case t_returnExp:
 			code =new IRCode("retExp",this.return_exp.rst_type,this.return_exp.rst_val,null);
 			break;
 		default:return false;		
 		}
+		return true;
+	}
+	public boolean genSymTb(CodeGenerator codegen){		
 		return true;
 	}
 	public boolean checkType(CodeGenerator codegen){

@@ -23,7 +23,7 @@ public class SgStmt_AsgnVar extends AST {
 		this.left_hand.genCode(codegen);
 		this.expr.genCode(codegen);
 		IRCode code;
-		code=new IRCode("cpy",this.left_hand.ref_type,this.left_hand.rst_addr,this.expr.getRst());		
+		code=new IRCode("mov",this.left_hand.ref_type,this.left_hand.rst_addr,this.expr.getRst());		
 		codegen.addCode(code);
 		codegen.incLineNo();
 		return true;

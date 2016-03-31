@@ -1,6 +1,9 @@
 package Parser.ASTs;
 
+import java.util.ArrayList;
+
 import Parser.*;
+import Parser.IR.IRCode;
 import Parser.TypeSys.*;
 
 public class Stmt_DefFunc extends AST {
@@ -26,8 +29,15 @@ public class Stmt_DefFunc extends AST {
 	}
 	public boolean genCode(CodeGenerator codegen){
 		codegen.pushBlock4Sym(this);
+		int in=codegen.getLineNo();
+		ArrayList<IRCode> old_ir=codegen.getCodeList();
+		codegen.setCodeList(new ArrayList<IRCode>());
+		codegen.setLineNo(-1);
 		if(!this.stmt_list.genCode(codegen))
 			return false;
+		this.r_func.setFuncBody(codegen.getCodeList());
+		codegen.setCodeList(old_ir);
+		codegen.setLineNo(in);
 		codegen.popBlock4Sym();
 		return true;
 	}
@@ -35,11 +45,17 @@ public class Stmt_DefFunc extends AST {
 		codegen.pushBlock4Sym(this);
 		this.r_func=new R_Function();
 		this.t_type=new T_Function();
-		if(this.gnrc_pars.isE()){
+		if(!this.gnrc_pars.isE()){
 			if(!this.gnrc_pars.genSymTb(codegen))
 				return false;
 			this.t_type.setGnrc(true);
 			this.t_type.setGnrcPars(this.gnrc_pars.pars_name);
+		}
+		if(!this.pars.isE()){
+			if(!this.pars.genSymTb(codegen))
+				return false;
+			this.t_type.setParTypes(this.pars.pars_type);
+			this.r_func.setParsName(this.pars.pars_name);
 		}
 		this.stmt_list.genCode(codegen);
 		codegen.popBlock4Sym();
@@ -47,7 +63,15 @@ public class Stmt_DefFunc extends AST {
 	}
 	public boolean checkType(CodeGenerator codegen){
 		codegen.pushBlock4Sym(this);
-		
+		if(!this.gnrc_pars.isE()&&!this.gnrc_pars.checkType(codegen)){
+			return false;
+		}
+		if(!this.pars.isE()&&this.pars.checkType(codegen)){
+			return false;
+		}
+		if(!this.stmt_list.checkType(codegen)){
+			return false;
+		}
 		codegen.popBlock4Sym();
 		return true;
 	}

@@ -12,7 +12,7 @@ public class R_Function {
 	private HashMap<String,R_Function> multi_func;//map of type-code to func record 			
 	private String func_name;
 	private boolean isDummy;
-
+	LinkedList<String> pars_name;
 	ArrayList<IRCode> func_body;
 	AST func_def;
 	
@@ -34,6 +34,12 @@ public class R_Function {
 	}
 	public void setDummy(boolean is_dummy) {
 		this.isDummy = is_dummy;
+	}
+	public LinkedList<String> getParsName() {
+		return pars_name;
+	}
+	public void setParsName(LinkedList<String> pars_name) {
+		this.pars_name = pars_name;
 	}
 	public boolean isMulti() {
 		return isMulti;
