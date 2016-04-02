@@ -47,7 +47,7 @@ public class Stmt_DefIntf extends AST {
 		codegen.addTypeInFile(this.t_type);
 		if(!this.gnrc_parlst.isE()){
 			this.t_type.setKType(T_Type.KType.t_gnrc);
-			this.t_type.setGnrcPars(this.gnrc_parlst.pars_name);			
+			this.t_type.setGnrcPars(this.gnrc_parlst.types_name);			
 		}
 		if(!this.extd_lst.isE()){
 			this.t_type.setExtdTypes(this.extd_lst.extd_types);
@@ -74,9 +74,9 @@ public class Stmt_DefIntf extends AST {
 		codegen.popBlock4Sym();
 		String s=this.name;
 		if(!this.gnrc_parlst.isE()){
-			s+="<"+this.gnrc_parlst.pars_name.size()+">";
+			s+="<"+this.gnrc_parlst.types_name.size()+">";
 		}
-		this.t_type.setTypeCode(s);
+		this.t_type.setTypeSig(s);
 		return true;
 	}
 	public boolean checkType(CodeGenerator codegen){

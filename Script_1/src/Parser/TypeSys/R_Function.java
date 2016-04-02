@@ -7,9 +7,9 @@ import Parser.TypeSys.*;
 
 public class R_Function {
 	private T_Function t_type;
-	private String f_t_code;
+	private String func_sig;
 	private boolean isMulti=false;	//polymorphic
-	private HashMap<String,R_Function> multi_func;//map of type-code to func record 			
+	private HashMap<String, R_Function> multi_func;//will change?			
 	private String func_name;
 	private boolean isDummy;
 	LinkedList<String> pars_name;
@@ -46,29 +46,29 @@ public class R_Function {
 	}
 	public void setMulti() {
 		this.isMulti = true;
-		this.multi_func=new HashMap<String,R_Function>();
+		this.multi_func=new HashMap<String, R_Function>();
 	}
 	public boolean addFuncR(R_Function r){
 		if(!this.isMulti)
 			this.setMulti();
 		if(r.isMulti){
 			for(R_Function f:r.multi_func.values()){
-				if(this.multi_func.containsKey(f.f_t_code)){
+				if(this.multi_func.containsKey(f.func_sig)){
 					return false;
 				}
-				this.multi_func.put(f.f_t_code,f);
+				this.multi_func.put(f.func_sig,f);
 			}
 		}else{
-			if(this.multi_func.containsKey(r.f_t_code))
+			if(this.multi_func.containsKey(r.func_sig))
 				return false;
-			this.multi_func.put(r.f_t_code,r);
+			this.multi_func.put(r.func_sig,r);
 		}
 		return true;
 	}
-	public HashMap<String,R_Function> getMulti() {
+	public HashMap<String, R_Function> getMulti() {
 		return multi_func;
 	}
-	public void setMulti(HashMap<String,R_Function> multimorphism) {
+	public void setMulti(HashMap<String, R_Function> multimorphism) {
 		this.multi_func = multimorphism;
 	}	
 	public T_Function getTypeT() {
@@ -77,11 +77,11 @@ public class R_Function {
 	public void setTypeT(T_Function type) {
 		this.t_type = type;		
 	}
-	public String getFTCode() {
-		return f_t_code;
+	public String getFuncSig() {
+		return this.func_sig;
 	}
-	public void setFTCode(String type_code) {
-		this.f_t_code = type_code;
+	public void setFuncSig(String type_code) {
+		this.func_sig = type_code;
 	}
 	public AST getFuncDef() {
 		return func_def;
@@ -94,7 +94,7 @@ public class R_Function {
 		if(!this.isMulti&&!r.isMulti){
 			if(!this.func_name.equals(r.func_name))
 				return false;
-			if(!this.f_t_code.equals(r.f_t_code))
+			if(!this.func_sig.equals(r.func_sig))
 				return false;
 		}else if(this.isMulti&&r.isMulti){
 			for(String s:this.multi_func.keySet()){
@@ -111,11 +111,11 @@ public class R_Function {
 			return false;
 		if(this.isMulti){
 			for(String s:this.multi_func.keySet()){
-				if(s.equals(r.f_t_code))
+				if(s.equals(r.func_sig))
 					return true;
 			}
 		}else{
-			return this.f_t_code.equals(r.f_t_code);
+			return this.func_sig.equals(r.func_sig);
 		}
 		return false;
 	}

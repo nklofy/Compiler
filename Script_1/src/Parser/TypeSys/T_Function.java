@@ -7,7 +7,6 @@ import Parser.IR.*;
 public class T_Function extends T_Type {
 	private String ret_type;
 	private LinkedList<String> par_types;
-	private String f_t_Code;//for function's type checking
 	
 	public String getRetType() {
 		return ret_type;
@@ -21,25 +20,20 @@ public class T_Function extends T_Type {
 	public void setParTypes(LinkedList<String> par_types) {
 		this.par_types = par_types;
 	}
-	public String getFTCode() {
-		return f_t_Code;
-	}
-	public void setFTCode(String f_t_Code) {
-		this.f_t_Code = f_t_Code;
-	}
-	
-	public void genFTCode(CodeGenerator codegen) {
+	public void genFuncSig(CodeGenerator codegen) {
 		String s="";
 		if(this.isGnrc()){
-			s="<"+this.getGnrcPars().size()+">";
+			s+="<";
+			for(String g:this.getGnrcPars()){
+				s+=codegen.getTypeInSymTb(g).getTypeSig()+",";
+			}
+			s+=">";
 		}
-		s=codegen.getTypeInSymTb(this.ret_type).getTypeCode()+"(";
+		s=codegen.getTypeInSymTb(this.ret_type).getTypeSig()+"(";
 		for(String name:this.par_types){
-			T_Type t= codegen.getTypeInSymTb(name);
-			s=s+t.getTypeCode()+",";
+			s+=codegen.getTypeInSymTb(name).getTypeSig()+",";
 		}
-		s=s+")";
-		
-		this.setFTCode(s);
+		s+=")";		
+		this.setTypeSig(s);
 	}
 }

@@ -9,4 +9,14 @@ public class Expr_Lmbd extends AST {
 		this.par_lst=par_lst;
 		this.stmt_list=stmt_list;
 	}
+	public boolean genCode(CodeGenerator codegen){
+		return true;
+	}
+	public boolean genSymTb(CodeGenerator codegen){
+		//new type, new var, new function, put in table
+		return true;
+	}
+	public boolean checkType(CodeGenerator codegen){
+		return true;
+	}
 }

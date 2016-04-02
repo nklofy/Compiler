@@ -11,7 +11,8 @@ public class ExprCalc_Bool extends AST {
 	boolean isTrue=false;
 	boolean isFalse=false;
 	public en_Bl t_exp;
-	public String ret_val;	//temp variable for calc result
+	String rst_val;
+	String rst_type;
 	
 	public boolean setBiBool(ExprCalc_Bool bool_1,String opt,ExprCalc_Bool bool_2){
 		this.t_exp=en_Bl.t_biBool;

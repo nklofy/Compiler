@@ -24,21 +24,46 @@ public class Expr extends AST {
 		return true;
 	}
 	public String getRst(){
-		return null;
+		return this.rst_val;
 	}
 	public boolean genCode(CodeGenerator codegen){
+		switch(this.getASTType()){
+		case "Expr_Lmbd":
+			this.lmbd.genCode(codegen);
+			break;
+		case "Expr_Calc":
+			this.calc.genCode(codegen);
+			break;
+		default:
+			return false;
+		}
+		return true;
+	}
+	public boolean genSymTb(CodeGenerator codegen){
+		switch(this.getASTType()){
+		case "Expr_Lmbd":
+			if(!this.lmbd.genSymTb(codegen))
+				return false;
+			break;
+		case "Expr_Calc":
+			if(!this.calc.genSymTb(codegen))
+;				return false;
+		default:
+			return false;
+		}
 		return true;
 	}
 	public boolean checkType(CodeGenerator codegen){
 		switch(this.getASTType()){
 		case "Expr_Lmbd":
-			
-			break;
+			if(!this.lmbd.checkType(codegen))
+				return false;
 		case "Expr_Calc":
-			
+			if(!this.calc.checkType(codegen))
+				return false;
 			break;
 		default:
-			break;
+			return false;
 		}
 		return true;
 	}

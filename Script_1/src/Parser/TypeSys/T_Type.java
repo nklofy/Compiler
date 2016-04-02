@@ -5,32 +5,38 @@ import java.util.*;
 public class T_Type {
 	private KType k_type;//kind of type
 	private String type_name;
-	private String type_code;//code types for hash, search, compare
+	private String type_sig;//code types for hash, search, compare
 	private boolean isGnrc;//has generic pars as a core type
 	private LinkedList<String> pars_Gnrc=new LinkedList<String>();	
+	private boolean isDummy=false;
 	
 	
+
 	public boolean isEqType(T_Type t){
-		if(this.type_code.equals(t.type_code))
+		if(this.type_sig.equals(t.type_sig))
 			return true;
 		return false;
 	}
 	
 	//sets and gets	
+	public boolean isDummy() {
+		return isDummy;
+	}
+	public void setDummy() {
+		this.isDummy = true;
+		this.k_type=KType.t_dummy;		
+	}
 	public boolean isGnrc() {
 		return isGnrc;
 	}
 	public void setGnrc(boolean hasGnrcPar) {
 		this.isGnrc = hasGnrcPar;
 	}
-	public String getTypeCode() {
-		return type_code;
+	public String getTypeSig() {
+		return type_sig;
 	}
-/*	public void genTypeCode(){
-		this.type_code=this.type_name;
-	}*/
-	public void setTypeCode(String type_code) {
-		this.type_code = type_code;
+	public void setTypeSig(String type_code) {
+		this.type_sig = type_code;
 	}
 	public LinkedList<String> getGnrcPars() {
 		return pars_Gnrc;
@@ -43,6 +49,7 @@ public class T_Type {
 	}
 	public void setTypeName(String type_name) {
 		this.type_name = type_name;
+		this.type_sig=this.type_name;
 	}
 	public KType getKType() {
 		return k_type;

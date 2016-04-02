@@ -46,7 +46,7 @@ public class T_Class extends T_Type {
 		String s=this.getTypeName();
 		if(this.isGnrc())
 			s=s+"<"+this.getGnrcPars().size()+">";
-		this.setTypeCode(s);
+		this.setTypeSig(s);
 	}
 	//for type checking
 	public boolean checkAllImpl(CodeGenerator codegen){//no ring inheriting in impl types 

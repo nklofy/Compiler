@@ -26,8 +26,8 @@ public class R_Variable {
 	public boolean isDummy() {
 		return isDummy;
 	}
-	public void setDummy(boolean isDummy) {
-		this.isDummy = isDummy;
+	public void setDummy() {
+		this.isDummy = true;
 	}
 	public boolean isStatic() {
 		return isStatic;

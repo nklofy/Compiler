@@ -49,13 +49,25 @@ public class Stmt_DefFunc extends AST {
 			if(!this.gnrc_pars.genSymTb(codegen))
 				return false;
 			this.t_type.setGnrc(true);
-			this.t_type.setGnrcPars(this.gnrc_pars.pars_name);
+			this.t_type.setGnrcPars(this.gnrc_pars.types_name);
+			for(String s:this.gnrc_pars.types_name){
+				T_Type t=new T_Type();
+				t.setDummy();t.setTypeName(s);
+				codegen.putTypeInSymTb(s, t);
+			}
 		}
 		if(!this.pars.isE()){
 			if(!this.pars.genSymTb(codegen))
 				return false;
 			this.t_type.setParTypes(this.pars.pars_type);
 			this.r_func.setParsName(this.pars.pars_name);
+			for(int i=0;i<this.pars.pars_name.size();i++){
+				String s=this.pars.pars_name.get(i);
+				R_Variable r=new R_Variable();
+				r.setDummy();
+				r.setVarType(this.pars.pars_type.get(i));
+				codegen.putVarInSymTb(s, r);
+			}
 		}
 		this.stmt_list.genCode(codegen);
 		codegen.popBlock4Sym();

@@ -6,13 +6,13 @@ import Parser.TypeSys.*;
 
 public class Gnrc_ParLst extends AST {
 	boolean isE=false;
-	LinkedList<Gnrc_Par> pars;
-	LinkedList<String> pars_name;
+	LinkedList<Gnrc_Par> g_pars;
+	LinkedList<String> types_name;
 	public void addPar(Gnrc_Par par){
-		if(pars==null){
-			this.pars=new LinkedList<Gnrc_Par>();			
+		if(g_pars==null){
+			this.g_pars=new LinkedList<Gnrc_Par>();			
 		}
-		this.pars.add(par);
+		this.g_pars.add(par);
 	}
 	public boolean isE() {
 		return isE;
@@ -27,12 +27,12 @@ public class Gnrc_ParLst extends AST {
 	public boolean genSymTb(CodeGenerator codegen){
 		if(isE)
 			return true;
-		this.pars_name=new LinkedList<String>();
+		this.types_name=new LinkedList<String>();
 		HashSet<String> all_ns=new HashSet<String>();
-		for(Gnrc_Par p:pars){
+		for(Gnrc_Par p:g_pars){
 			if(!p.genSymTb(codegen))
 				return false;
-			this.pars_name.add(p.var.name);
+			this.types_name.add(p.var.name);
 			if(all_ns.contains(p.var.name))
 				return false;
 			all_ns.add(p.var.name);

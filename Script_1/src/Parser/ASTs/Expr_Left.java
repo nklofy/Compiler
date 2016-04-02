@@ -37,20 +37,31 @@ public class Expr_Left extends AST {
 		}
 		return true;
 	}
-	public boolean checkType(CodeGenerator codegen){
-		boolean b=false;
+	public boolean genSymTb(CodeGenerator codegen){
 		switch(this.getASTType()){
 		case "ExprAccs_Fld":
-			b=this.acces_field.checkType(codegen);
+			if(!this.acces_field.genSymTb(codegen))
+				return false;
 			this.ref_type=this.acces_field.ref_type;
 			break;
 		case "ExprAccs_Arr":
-			b=this.acces_array.checkType(codegen);
+			if(!this.acces_array.genSymTb(codegen))
+				return false;
 			this.ref_type=this.acces_array.ref_type;
 			break;
-		default:
-			break;
+			default:
+				return false;
 		}
-		return b;
+		return true;
+	}
+	public boolean checkType(CodeGenerator codegen){
+		switch(this.getASTType()){
+		case "ExprAccs_Fld":
+			return this.acces_field.checkType(codegen);
+		case "ExprAccs_Arr":
+			return this.acces_array.checkType(codegen);
+		default:
+			return false;
+		}
 	}
 }

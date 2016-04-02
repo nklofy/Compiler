@@ -40,7 +40,7 @@ public class TypeExp_Arr extends AST {
 		codegen.putTypeInSymTb(this.rst_type, t1);
 		t1.setKType(T_Type.KType.t_arr);
 		this.dim=t1.getDims();
-		t1.setTypeCode(this.ele_type+"["+this.dim+"]");
+		t1.setTypeSig(this.ele_type+"["+this.dim+"]");
 		this.t_type=t1;
 		return true;
 	}
