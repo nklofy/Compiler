@@ -38,4 +38,44 @@ public class ExprCalc_Add extends AST {
 		this.unary = unary;
 	}
 	public enum en_Add{t_biAdd,t_biMul,t_un}
+	
+	public boolean genCode(CodeGenerator codegen){
+		switch(this.t_Add){
+		case t_biAdd:
+			break;
+		case t_biMul:
+			break;
+		case t_un:
+			break;
+		default:
+			break;
+		}
+		return true;
+	}
+	public boolean genSymTb(CodeGenerator codegen){
+		switch(this.t_Add){
+		case t_biAdd:
+			break;
+		case t_biMul:
+			break;
+		case t_un:
+			break;
+		default:
+			break;
+		}
+		return true;
+	}
+	public boolean checkType(CodeGenerator codegen){
+		switch(this.t_Add){
+		case t_biAdd:
+			break;
+		case t_biMul:
+			break;
+		case t_un:
+			break;
+		default:
+			break;
+		}
+		return true;
+	}
 }

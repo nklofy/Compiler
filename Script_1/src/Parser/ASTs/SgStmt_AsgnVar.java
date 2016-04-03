@@ -28,7 +28,7 @@ public class SgStmt_AsgnVar extends AST {
 		codegen.incLineNo();
 		return true;
 	}
-	public boolean genSymTb(CodeGenerator codegen){		
+	public boolean genSymTb(CodeGenerator codegen){
 		if(!this.left_hand.genSymTb(codegen))
 			return false;
 		this.expr.ref_type=this.left_hand.ref_type;

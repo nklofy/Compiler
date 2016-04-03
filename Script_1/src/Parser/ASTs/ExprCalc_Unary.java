@@ -15,5 +15,14 @@ public class ExprCalc_Unary extends AST {
 		this.cast=cast;
 		return true;
 	}
-	
+	public boolean genCode(CodeGenerator codegen){
+		return true;
+	}
+	public boolean genSymTb(CodeGenerator codegen){
+		//new type, new var, new function, put in table
+		return true;
+	}
+	public boolean checkType(CodeGenerator codegen){
+		return true;
+	}
 }

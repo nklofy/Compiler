@@ -21,4 +21,15 @@ public class ExprAccs_App extends AST {
 		this.var=var;
 		this.arg_lst=arg_lst;
 	}
+	
+	public boolean genCode(CodeGenerator codegen){
+		return true;
+	}
+	public boolean genSymTb(CodeGenerator codegen){
+		//new type, new var, new function, put in table
+		return true;
+	}
+	public boolean checkType(CodeGenerator codegen){
+		return true;
+	}
 }

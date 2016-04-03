@@ -10,4 +10,14 @@ public class ExprUnr_Cast extends AST {
 		this.accs=accs;
 		return true;
 	}
+	public boolean genCode(CodeGenerator codegen){
+		return true;
+	}
+	public boolean genSymTb(CodeGenerator codegen){
+		//new type, new var, new function, put in table
+		return true;
+	}
+	public boolean checkType(CodeGenerator codegen){
+		return true;
+	}
 }
