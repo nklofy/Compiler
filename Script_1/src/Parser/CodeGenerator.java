@@ -13,7 +13,7 @@ public class CodeGenerator {
 	public LinkedList<String> labels_elsbd=new LinkedList<String>();
 	public LinkedList<String> labels_whlbd=new LinkedList<String>();
 	public LinkedList<String> labels_whlend=new LinkedList<String>();
-	
+	public TypeSystem type_sys=new TypeSystem();
 	public LinkedList<String> ret_types=new LinkedList<String>();//check function return type and return statment's type
 	
 	//a type system for store/search type/name

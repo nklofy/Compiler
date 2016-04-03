@@ -7,6 +7,7 @@ public class ExprCalc_Cond extends AST {
 	ExprCalc_Bool bool_exp;
 	String rst_val;
 	String rst_type;
+	String ref_type;
 	
 	public void setBoolExp(ExprCalc_Bool bool_exp) {
 		this.bool_exp = bool_exp;

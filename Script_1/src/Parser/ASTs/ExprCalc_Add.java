@@ -9,6 +9,10 @@ public class ExprCalc_Add extends AST {
 	ExprCalc_Unary unary;
 	ExprAccs accs;
 	en_Add t_Add;
+	String rst_val;
+	String rst_type;
+	String ref_type;
+	
 	public boolean setBiAdd(ExprCalc_Add add_1,	String opt, ExprCalc_Add add_2){
 		this.t_Add=en_Add.t_biAdd;
 		this.add_1=add_1;

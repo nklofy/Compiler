@@ -42,14 +42,14 @@ public class TypeSystem {//defining, producing, managing all kinds of Types, dec
 		
 		return true;
 	}
-	/*
-	public boolean canAsn(T_Type type1){
+	
+	public boolean canAsn(T_Type type1,T_Type type2){
 		
 		return true;
 	}
-	public boolean canTrans(T_Type type1){
+	public boolean canTrans(T_Type type1,T_Type type2){
 		return true;
-	}*/
+	}
 	/*
 	public boolean isImplOf(T_Type type1){
 		if(this.impl_types.contains(type1)) return true;
