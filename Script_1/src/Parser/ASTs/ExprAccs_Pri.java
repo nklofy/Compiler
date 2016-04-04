@@ -7,6 +7,10 @@ public class ExprAccs_Pri extends AST {
 	ExprPri_Str str;
 	ExprPri_Num num;
 	ExprCalc_Cond cond;
+	String rst_val;
+	String ref_type;
+	String rst_type;
+	
 	public void setPri(AST ast){
 		switch(this.getASTType()){
 		case "ExprPri_Chr":

@@ -43,6 +43,9 @@ public class TypeSystem {//defining, producing, managing all kinds of Types, dec
 		return true;
 	}
 	
+	public boolean canOpt(T_Type type1, String opt, int position){//0 means return position, -1 means left, 1 means right
+		return true;
+	}
 	public boolean canAsn(T_Type type1,T_Type type2){
 		
 		return true;

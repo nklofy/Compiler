@@ -32,7 +32,7 @@ public class SgStmt_DefVar extends AST {
 		}
 		if(this.var!=null&&this.expr!=null){
 			this.expr.genCode(codegen);
-			IRCode code=new IRCode("mov",this.var.ref_type,this.var.tmp_addr,this.expr.rst_val);
+			IRCode code=new IRCode("mov",this.var.ref_type,this.var.rst_val,this.expr.rst_val);
 			codegen.addCode(code);
 			codegen.incLineNo();
 		}
@@ -54,7 +54,7 @@ public class SgStmt_DefVar extends AST {
 		R_Variable r=new R_Variable();
 		r.setVarType(this.type_exp.rst_type);
 		r.setVarName(this.var.name);
-		r.setTmpAddr(this.var.tmp_addr);
+		r.setTmpAddr(this.var.rst_val);
 		codegen.putVarInSymTb(this.var.name, r);
 		this.r_vars.add(r);
 		this.var.ref_type=this.type_exp.rst_type;

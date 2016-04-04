@@ -26,11 +26,11 @@ public class Expr_Left extends AST {
 		switch(this.getASTType()){
 		case "ExprAccs_Fld":
 			this.acces_field.genCode(codegen);
-			this.rst_addr=this.acces_field.rst_addr;
+			this.rst_addr=this.acces_field.rst_val;
 			break;
 		case "ExprAccs_Arr":
 			this.acces_array.genCode(codegen);
-			this.rst_addr=this.acces_array.rst_addr;
+			this.rst_addr=this.acces_array.rst_val;
 			break;
 			default:
 				return false;

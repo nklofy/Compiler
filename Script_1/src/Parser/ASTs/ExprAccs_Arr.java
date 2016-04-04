@@ -5,8 +5,9 @@ import Parser.*;
 public class ExprAccs_Arr extends AST {
 	ExprAccs_Fld pre_fld;
 	NewArr_DimLst dim_lst;
-	String rst_addr;
+	String rst_val;
 	String ref_type;
+	String rst_type;
 	
 	public void setAccs(ExprAccs_Fld pre_fld,NewArr_DimLst dim_lst){
 		this.pre_fld=pre_fld;

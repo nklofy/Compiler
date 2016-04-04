@@ -20,9 +20,9 @@ public class ExprCalc_Cond extends AST {
 	public boolean genSymTb(CodeGenerator codegen){
 		if(!this.bool_exp.genSymTb(codegen))
 			return false;
-		this.rst_val=this.bool_exp.rst_val;
 		this.bool_exp.ref_type=this.ref_type;
 		this.rst_type=this.bool_exp.rst_type;
+		this.rst_val=this.bool_exp.rst_val;
 		return true;
 	}
 	public boolean checkType(CodeGenerator codegen){

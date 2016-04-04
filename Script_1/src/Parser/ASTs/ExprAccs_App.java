@@ -7,6 +7,10 @@ public class ExprAccs_App extends AST {
 	ExprAccs_App pre_app;
 	ExprPri_Var var;
 	FuncApp_ArgLst arg_lst;
+	String rst_val;
+	String ref_type;
+	String rst_type;
+	
 	public void lnkApp(ExprAccs pre_accs,ExprPri_Var var,FuncApp_ArgLst arg_lst){
 		this.pre_accs=pre_accs;
 		this.var=var;

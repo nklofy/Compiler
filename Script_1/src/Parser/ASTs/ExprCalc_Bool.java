@@ -104,15 +104,10 @@ public class ExprCalc_Bool extends AST {
 				code=new IRCode("NOT",this.rst_val,this.add_1.rst_val,null);
 				codegen.addCode(code);
 				codegen.incLineNo();
-			}else if(this.opt==null){
-				this.rst_val=this.add_1.rst_val;
 			}
 			break;
 		case t_cnst:
-			if(this.isTrue)
-				this.rst_val="true";//or set the r_variable has a value of "true"? 
-			else
-				this.rst_val="false";
+			
 			break;
 		default:
 			break;
@@ -120,14 +115,15 @@ public class ExprCalc_Bool extends AST {
 		return true;
 	}
 	public boolean genSymTb(CodeGenerator codegen){
-		R_Variable r=new R_Variable();
-		this.rst_val="%"+codegen.getTmpSn();
-		r.setVarName(this.rst_val);
-		r.setTmpAddr(this.rst_val);
-		r.setVarType("bool");
-		this.rst_type="bool";
-		codegen.putVarInSymTb(this.rst_val, r);
-		this.rst_type="bool";
+		if(this.t_exp!=en_Bl.t_cnst&&this.t_exp!=en_Bl.t_un||this.opt!=null){
+			R_Variable r=new R_Variable();
+			this.rst_val="%"+codegen.getTmpSn();
+			r.setVarName(this.rst_val);
+			r.setTmpAddr(this.rst_val);
+			r.setVarType("bool");
+			codegen.putVarInSymTb(this.rst_val, r);
+			this.rst_type="bool";
+		}
 		switch(this.t_exp){
 		case t_biBool:
 			if(!this.bool_1.genSymTb(codegen)||!this.bool_2.genSymTb(codegen))
@@ -144,9 +140,20 @@ public class ExprCalc_Bool extends AST {
 		case t_un:
 			if(!this.add_1.genSymTb(codegen))
 				return false;
-			this.add_1.ref_type="bool";
+			if(this.opt.equals("!")){
+				this.add_1.ref_type="bool";
+			}else{
+				this.rst_type=this.add_1.rst_type;
+				this.add_1.ref_type=this.ref_type;
+				this.rst_val=this.add_1.rst_val;
+			}
 			break;
 		case t_cnst:
+			if(this.isTrue)
+				this.rst_val="true";//or set the r_variable has a value of "true"? 
+			else
+				this.rst_val="false";
+			this.rst_type="bool";
 			break;
 		default:
 			break;
@@ -159,19 +166,22 @@ public class ExprCalc_Bool extends AST {
 		switch(this.t_exp){
 		case t_biBool:
 			if(!this.bool_1.genSymTb(codegen)||!this.bool_2.genSymTb(codegen)
-					||!this.bool_1.rst_type.equals("bool")||!this.bool_2.rst_type.equals("boll"))
+					||!this.bool_1.rst_type.equals("bool")||!this.bool_2.rst_type.equals("bool"))
 				return false;
 			break;
 		case t_biCmp:
 			if(!this.add_1.genSymTb(codegen)||!this.add_2.genSymTb(codegen)
-					||!this.add_1.rst_type.equals("bool")||!this.add_2.rst_type.equals("boll"))
+					||!this.add_1.rst_type.equals("bool")||!this.add_2.rst_type.equals("bool"))
 				return false;
 			break;
 		case t_un:
 			if(!this.add_1.genSymTb(codegen)||!this.add_1.rst_type.equals("bool"))
-				return false;	
+				return false;
+			
 			break;
-		case t_cnst:			
+		case t_cnst:
+			if(!this.ref_type.equals("bool"))
+				return false;
 			break;
 		default:
 			break;
