@@ -283,7 +283,7 @@ pri_exp |>
 
 apply_exp |> 
    access_exp . var ( arg_list ) 
->| apply_exp . var ( arg_list )
+>| access_exp . < generic_args > var ( arg_list )
 >| < generic_args > var ( arg_list ) 
 >| var ( arg_list ) 
 

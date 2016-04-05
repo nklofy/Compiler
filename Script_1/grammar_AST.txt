@@ -147,7 +147,7 @@
 145 pri_exp chr 
 146 pri_exp ( cond_exp ) 
 147 apply_exp access_exp . var ( arg_list ) 
-148 apply_exp apply_exp . var ( arg_list ) 
+148 apply_exp access_exp . < generic_args > var ( arg_list ) 
 149 apply_exp < generic_args > var ( arg_list ) 
 150 apply_exp var ( arg_list ) 
 151 arg_list arguments 
@@ -306,7 +306,7 @@
 145 crtPriChr 0
 146 crtPriCnd 1
 147 crtAppAcc 5 3 1
-148 crtAppApp 5 3 1
+148 lnkAppGnrc 7 5 3 1
 149 crtAppGnrc 5 3 1
 150 crtAppVar 3 1
 151 crtArgLst 0

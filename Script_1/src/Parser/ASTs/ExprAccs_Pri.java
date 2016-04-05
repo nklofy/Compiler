@@ -24,19 +24,79 @@ public class ExprAccs_Pri extends AST {
 			break;
 		case "ExprCalc_Cond":
 			this.cond=(ExprCalc_Cond)ast;
-			default:
-				break;
+		default:
+			break;
 		}
 	}
 	
 	public boolean genCode(CodeGenerator codegen){
+		switch(this.getASTType()){
+		case "ExprPri_Chr":
+			this.chr.genCode(codegen);
+			break;
+		case "ExprPri_Str":
+			this.str.genCode(codegen);
+			break;
+		case "ExprPri_Num":
+			this.num.genCode(codegen);
+			break;
+		case "ExprCalc_Cond":
+			this.cond.genCode(codegen);
+		default:
+			break;
+		}
 		return true;
 	}
 	public boolean genSymTb(CodeGenerator codegen){
-		//new type, new var, new function, put in table
+		switch(this.getASTType()){
+		case "ExprPri_Chr":
+			if(!this.chr.genSymTb(codegen))
+				return false;
+			this.rst_type="char";
+			this.rst_val=this.chr.rst_val;
+			break;
+		case "ExprPri_Str":
+			if(!this.str.genSymTb(codegen))
+				return false;
+			this.rst_type="string";
+			this.rst_val=this.str.rst_val;
+			break;
+		case "ExprPri_Num":
+			if(!this.num.genSymTb(codegen))
+				return false;
+			this.rst_type=this.num.rst_type;
+			this.rst_val=this.num.rst_val;
+			break;
+		case "ExprCalc_Cond":
+			if(!this.cond.genSymTb(codegen))
+				return false;
+			this.rst_type=this.cond.rst_type;
+			this.rst_val=this.cond.rst_val;
+		default:
+			break;
+		}
 		return true;
 	}
 	public boolean checkType(CodeGenerator codegen){
+		switch(this.getASTType()){
+		case "ExprPri_Chr":
+			if(!this.chr.checkType(codegen))
+				return false;
+			break;
+		case "ExprPri_Str":
+			if(!this.str.checkType(codegen))
+				return false;
+			break;
+		case "ExprPri_Num":
+			if(!this.num.checkType(codegen))
+				return false;
+			break;
+		case "ExprCalc_Cond":
+			if(!this.cond.checkType(codegen))
+				return false;
+		default:
+			break;
+		}
 		return true;
 	}
 }

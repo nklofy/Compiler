@@ -4,7 +4,10 @@ import Parser.AST;
 import Parser.CodeGenerator;
 
 public class ExprPri_Chr extends AST {
-
+	String rst_val;
+	String ref_type;
+	String rst_type;
+	
 	public void setChr(String value) {
 		// TODO Auto-generated method stub
 		

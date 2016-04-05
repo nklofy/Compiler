@@ -1107,33 +1107,39 @@ public class ASTGenerator {
 		break;
 //		147	crtAppAcc 5 3 1
 	case "crtAppAcc":
+		ast7=symbs.get(7).ast;
 		ast5=symbs.get(5).ast;
 		ast3=symbs.get(3).ast;
 		ast1=symbs.get(1).ast;
 		ExprAccs_App ast_t147=new ExprAccs_App();
-		ast_t147.lnkApp((ExprAccs)ast5,(ExprPri_Var)ast3,(FuncApp_ArgLst)ast1);
+		ast_t147.lnkApp((ExprAccs)ast7,(Gnrc_ArgLst) ast5,(ExprPri_Var)ast3,(FuncApp_ArgLst)ast1);
 		ast=ast_t147;
 		break;
 //		148	crtAppApp 5 3 1
-	case "crtAppApp":
+	case "lnkAppGnrc":
 		ast5=symbs.get(5).ast;
 		ast3=symbs.get(3).ast;
 		ast1=symbs.get(1).ast;
 		ExprAccs_App ast_t148=new ExprAccs_App();
-		ast_t148.lnkApp((ExprAccs_App)ast5,(ExprPri_Var)ast3,(FuncApp_ArgLst)ast1);
+		ast_t148.lnkApp((ExprAccs)ast5,null,(ExprPri_Var)ast3,(FuncApp_ArgLst)ast1);
 		ast=ast_t148;
 		break;
 //		149	crtAppVar 3 1	
 	case "crtAppGnrc":
-		
+		ast5=symbs.get(5).ast;
+		ast3=symbs.get(3).ast;
+		ast1=symbs.get(1).ast;
+		ExprAccs_App ast_t149=new ExprAccs_App();
+		ast_t149.setApp((Gnrc_ArgLst)ast5,(ExprPri_Var)ast3,(FuncApp_ArgLst)ast1);
+		ast=ast_t149;
 		break;
 //		150	crtAppVar 3 1
 	case "crtAppVar":
 		ast3=symbs.get(3).ast;
 		ast1=symbs.get(1).ast;
-		ExprAccs_App ast_t149=new ExprAccs_App();
-		ast_t149.setApp((ExprPri_Var)ast3,(FuncApp_ArgLst)ast1);
-		ast=ast_t149;
+		ExprAccs_App ast_t150=new ExprAccs_App();
+		ast_t150.setApp(null,(ExprPri_Var)ast3,(FuncApp_ArgLst)ast1);
+		ast=ast_t150;
 		break;
 //		151	crtArgLst 0
 	case "crtArgLst":
@@ -1142,32 +1148,32 @@ public class ASTGenerator {
 		break;
 //		152	crtArgLstE 0
 	case "crtArgLstE":
-		FuncApp_ArgLst ast_t151=new FuncApp_ArgLst();
-		ast_t151.setE();
-		ast=ast_t151;
+		FuncApp_ArgLst ast_t152=new FuncApp_ArgLst();
+		ast_t152.setE();
+		ast=ast_t152;
 		break;
 //		153	lnkArgLst 2 0
 	case "lnkArgLst":
 		ast0=symbs.get(0).ast;
 		ast2=symbs.get(2).ast;
-		FuncApp_ArgLst ast_t152=(FuncApp_ArgLst)ast2;
-		ast_t152.addArg((Expr_Calc)ast0);
-		ast=ast_t152;
+		FuncApp_ArgLst ast_t153=(FuncApp_ArgLst)ast2;
+		ast_t153.addArg((Expr_Calc)ast0);
+		ast=ast_t153;
 		break;
 //		154	crtArgCalc 0
 	case "crtArgCalc":
 		ast0=symbs.get(0).ast;
-		FuncApp_ArgLst ast_t153=new FuncApp_ArgLst();
-		ast_t153.addArg((Expr_Calc)ast0);
-		ast=ast_t153;
+		FuncApp_ArgLst ast_t154=new FuncApp_ArgLst();
+		ast_t154.addArg((Expr_Calc)ast0);
+		ast=ast_t154;
 		break;
 //		155	crtLbdExp 7 5 1
 	case "crtLbdExp":
 		ast0=symbs.get(0).ast;
 		ast2=symbs.get(2).ast;
-		Expr_Lmbd ast_t154=new Expr_Lmbd();
-		ast_t154.setLmbd((FuncDef_ParLst)ast2, (AST_StmtList)ast0);
-		ast=ast_t154;
+		Expr_Lmbd ast_t155=new Expr_Lmbd();
+		ast_t155.setLmbd((FuncDef_ParLst)ast2, (AST_StmtList)ast0);
+		ast=ast_t155;
 		break;
 	
 	default:

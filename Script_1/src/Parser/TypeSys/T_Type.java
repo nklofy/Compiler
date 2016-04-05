@@ -38,6 +38,9 @@ public class T_Type {
 	public void setTypeSig(String type_code) {
 		this.type_sig = type_code;
 	}
+	public void genTypeSig(){
+		
+	}
 	public LinkedList<String> getGnrcPars() {
 		return pars_Gnrc;
 	}
