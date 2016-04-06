@@ -12,6 +12,9 @@ public class ExprAccs_App extends AST {
 	String rst_val;
 	String ref_type;
 	String rst_type;
+	String rst_func;
+	String func_name;
+	String func_sig;
 	
 	public void lnkApp(ExprAccs pre_accs,Gnrc_ArgLst g_lst,ExprPri_Var var,FuncApp_ArgLst arg_lst){
 		this.pre_accs=pre_accs;
@@ -31,7 +34,11 @@ public class ExprAccs_App extends AST {
 			this.gnrc_args.genCode(codegen);
 		if(this.arg_lst!=null)
 			this.arg_lst.genCode(codegen);
-		IRCode code=new IRCode("call",this.rst_val,this.var.name,String.valueOf(this.arg_lst.size));
+		IRCode code=new IRCode("getFunc",this.rst_func,this.func_name,this.func_sig);
+		codegen.addCode(code);
+		codegen.incLineNo();1234
+		//getMethod TODO
+		code=new IRCode("invoke",this.rst_val,this.rst_func,String.valueOf(this.gnrc_args.size+this.arg_lst.size));
 		codegen.addCode(code);
 		codegen.incLineNo();
 		return true;
@@ -54,16 +61,19 @@ public class ExprAccs_App extends AST {
 		if(this.arg_lst!=null&&!this.arg_lst.checkType(codegen))
 			return false;
 		R_Function f=codegen.getFuncInSymTb(this.var.name);
-		if(f.isMulti()){
-			if(f.getMulti().keySet().contains(o)){
-				
-			}else{
-				for(R_Function f1:f.getMulti().values()){
-					
-				}
-			}			
+		
+		if(f.isMulti()){2345
+			for(R_Function f1:f.getMulti().values()){
+				if(codegen.type_sys.checkFuncEx(f1, this.gnrc_args.gnrc_args, this.arg_lst.arg_types))
+					return true;	
+			}
+			for(R_Function f1:f.getMulti().values()){
+				if(codegen.type_sys.checkFuncCs(f1, this.gnrc_args.gnrc_args, this.arg_lst.arg_types))
+					return true;	
+			}
 		}else{
-			
+			if(codegen.type_sys.checkFuncEx(f, this.gnrc_args.gnrc_args, this.arg_lst.arg_types))
+				this.rst_val=f.getFuncName();
 		}
 		return true;
 	}

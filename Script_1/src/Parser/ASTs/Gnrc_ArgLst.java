@@ -11,6 +11,7 @@ public class Gnrc_ArgLst extends AST {
 	TypeExp_Idn ext_idn_t;
 	LinkedList<String>gnrc_args;
 	String arg_types;
+	int size;
 	
 	public boolean setGnrcArgs(Gnrc_ArgLst pre_args,TypeExp var,TypeExp_Idn idn_type){
 		this.pre_args=pre_args;

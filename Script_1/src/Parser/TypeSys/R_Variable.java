@@ -4,12 +4,13 @@ import Parser.AST;
 import Parser.TypeSys.*;
 
 public class R_Variable {
-	boolean isFinal;
-	boolean isStatic;
-	boolean isDummy;
-	String var_type;
-	String tmp_addr;
-	String name;
+	private boolean isFinal;
+	private boolean isStatic;
+	private boolean isDummy;
+	private boolean isField;
+	private String var_type;
+	private String tmp_addr;
+	private String name;
 
 	public String getVarName() {
 		return name;
@@ -40,6 +41,12 @@ public class R_Variable {
 	}
 	public void setFinal(boolean isFinal) {
 		this.isFinal = isFinal;
+	}
+	public boolean isField() {
+		return isField;
+	}
+	public void setField(boolean isField) {
+		this.isField = isField;
 	}
 	public String getVarType() {
 		return var_type;

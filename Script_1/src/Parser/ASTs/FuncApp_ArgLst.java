@@ -6,6 +6,7 @@ import Parser.*;
 
 public class FuncApp_ArgLst extends AST {
 	LinkedList<Expr_Calc> args;
+	LinkedList<String> arg_types;
 	boolean isE=false;
 	String rst_val;
 	int size;
