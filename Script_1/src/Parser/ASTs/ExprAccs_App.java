@@ -12,7 +12,8 @@ public class ExprAccs_App extends AST {
 	String rst_val;
 	String ref_type;
 	String rst_type;
-	String rst_func;
+	String ptr_func;//pointer to function
+	String ptr_scp;//search scope for function
 	String func_name;
 	String func_sig;
 	
@@ -34,11 +35,14 @@ public class ExprAccs_App extends AST {
 			this.gnrc_args.genCode(codegen);
 		if(this.arg_lst!=null)
 			this.arg_lst.genCode(codegen);
-		IRCode code=new IRCode("getFunc",this.rst_func,this.func_name,this.func_sig);
-		codegen.addCode(code);
-		codegen.incLineNo();1234
+		IRCode code=null;
+		if(this.ptr_scp!=null){
+			code=new IRCode("getFunc",this.ptr_func,this.ptr_scp,this.func_name+":"+this.func_sig);
+			codegen.addCode(code);
+			codegen.incLineNo();
+		}
 		//getMethod TODO
-		code=new IRCode("invoke",this.rst_val,this.rst_func,String.valueOf(this.gnrc_args.size+this.arg_lst.size));
+		code=new IRCode("invoke",this.rst_val,this.ptr_func,String.valueOf(this.gnrc_args.size+this.arg_lst.size));
 		codegen.addCode(code);
 		codegen.incLineNo();
 		return true;
@@ -60,19 +64,40 @@ public class ExprAccs_App extends AST {
 			return false;
 		if(this.arg_lst!=null&&!this.arg_lst.checkType(codegen))
 			return false;
-		R_Function f=codegen.getFuncInSymTb(this.var.name);
+		R_Function f=null;
+		if(this.pre_accs==null){
+			f=codegen.getFuncInSymTb(this.var.name);
+			if(f.isMethod()){
+				this.ptr_func="*"+f.getFuncName();
+				this.ptr_scp="this";
+			}
+			if(codegen.checkFuncEx(f, this.gnrc_args.types_name,this.arg_lst.arg_types)){
+								
+				return true;
+			}				
+		}else{
+			if(this.pre_accs.rst_type.equals("class")){
+				
+			}else if(this.pre_accs.rst_val.equals("this")){
+				
+			}else if(codegen.getVarInSymTb(this.pre_accs.rst_val)!=null){
+				
+			}else
+				return false;
+			
+		}
 		
-		if(f.isMulti()){2345
+		if(f.isMulti()){
 			for(R_Function f1:f.getMulti().values()){
-				if(codegen.type_sys.checkFuncEx(f1, this.gnrc_args.gnrc_args, this.arg_lst.arg_types))
+				if(codegen.checkFuncEx(f1, this.gnrc_args.gnrc_args, this.arg_lst.arg_types))
 					return true;	
 			}
 			for(R_Function f1:f.getMulti().values()){
-				if(codegen.type_sys.checkFuncCs(f1, this.gnrc_args.gnrc_args, this.arg_lst.arg_types))
+				if(codegen.checkFuncCs(f1, this.gnrc_args.gnrc_args, this.arg_lst.arg_types))
 					return true;	
 			}
 		}else{
-			if(codegen.type_sys.checkFuncEx(f, this.gnrc_args.gnrc_args, this.arg_lst.arg_types))
+			if(codegen.checkFuncEx(f, this.gnrc_args.gnrc_args, this.arg_lst.arg_types))
 				this.rst_val=f.getFuncName();
 		}
 		return true;

@@ -54,24 +54,7 @@ public class TypeSystem {//defining, producing, managing all kinds of Types, dec
 	public void setCodegen(CodeGenerator codegen) {
 		this.codegen = codegen;
 	}
-	public boolean canOpt(T_Type type1, String opt, int position){//0 means return position, -1 means left, 1 means right
-		return true;
-	}
-	public boolean canAsn(T_Type type1,T_Type type2){
-		
-		return true;
-	}
-	public boolean canTrans(T_Type type1,T_Type type2){
-		return true;
-	}
-	public boolean checkFuncEx(R_Function r, LinkedList<String>gnrc_args, LinkedList<String>args){
-		
-		return true;
-	}
-	public boolean checkFuncCs(R_Function r, LinkedList<String>gnrc_args, LinkedList<String>args){
-		
-		return true;
-	}
+	
 	/*
 	public boolean isImplOf(T_Type type1){
 		if(this.impl_types.contains(type1)) return true;

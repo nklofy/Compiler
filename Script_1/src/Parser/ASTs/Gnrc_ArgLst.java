@@ -9,8 +9,8 @@ public class Gnrc_ArgLst extends AST {
 	Gnrc_ArgLst pre_args;
 	TypeExp var;
 	TypeExp_Idn ext_idn_t;
-	LinkedList<String>gnrc_args;
-	String arg_types;
+	LinkedList<String>types_name;
+	String args_sig;
 	int size;
 	
 	public boolean setGnrcArgs(Gnrc_ArgLst pre_args,TypeExp var,TypeExp_Idn idn_type){
@@ -20,17 +20,17 @@ public class Gnrc_ArgLst extends AST {
 		return true;
 	}
 	
-	public LinkedList<String> getGnrcArgs() {
-		return gnrc_args;
+	public LinkedList<String> getTypesName() {
+		return types_name;
 	}
-	public void setGnrcArgs(LinkedList<String> gnrc_args) {
-		this.gnrc_args = gnrc_args;
+	public void setTypesName(LinkedList<String> gnrc_args) {
+		this.types_name = gnrc_args;
 	}
-	public String getArgTypes() {
-		return arg_types;
+	public String getArgsSig() {
+		return args_sig;
 	}
-	public void setArgTypes(String arg_types) {
-		this.arg_types = arg_types;
+	public void setArgsSig(String arg_types) {
+		this.args_sig = arg_types;
 	}
 
 	public boolean genCode(CodeGenerator codegen){
@@ -40,11 +40,11 @@ public class Gnrc_ArgLst extends AST {
 	public boolean genSymTb(CodeGenerator codegen){
 		if(!this.pre_args.genSymTb(codegen))return false;
 		if(this.pre_args!=null){
-			this.gnrc_args=this.pre_args.gnrc_args;
-			this.gnrc_args.add(var.rst_type);
+			this.types_name=this.pre_args.types_name;
+			this.types_name.add(var.rst_type);
 		}else{
-			this.gnrc_args=new LinkedList<String>();
-			this.gnrc_args.add(var.rst_type);
+			this.types_name=new LinkedList<String>();
+			this.types_name.add(var.rst_type);
 		}
 		return true;
 	}

@@ -71,7 +71,7 @@ public class ExprCalc_NewCls extends AST {
 		}
 		if(codegen.getTypeInSymTb(this.rst_type).getKType()!=T_Type.KType.t_cls)
 			return false;
-		if(!codegen.type_sys.canAsn(codegen.getTypeInSymTb(this.ref_type), 
+		if(!codegen.canAsn(codegen.getTypeInSymTb(this.ref_type), 
 				codegen.getTypeInSymTb(this.rst_type)))
 			return false;
 		return true;

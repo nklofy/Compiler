@@ -18,7 +18,7 @@ public class TypeExp_Gnrc extends AST {
 		return true;
 	}
 	public boolean genCode(CodeGenerator codegen){		
-		IRCode code=new IRCode("GnrcType",this.rst_type,this.idn_type.rst_type,this.args.arg_types);
+		IRCode code=new IRCode("GnrcType",this.rst_type,this.idn_type.rst_type,this.args.args_sig);
 		codegen.addCode(code);
 		codegen.incLineNo();
 		return true;
@@ -36,7 +36,7 @@ public class TypeExp_Gnrc extends AST {
 			*/
 		this.rst_type="<"+codegen.getTmpSn();
 		LinkedList<String> pars=t.getGnrcPars();
-		LinkedList<String> args=this.args.gnrc_args;
+		LinkedList<String> args=this.args.types_name;
 		T_Generic t1=new T_Generic();
 		t1.setCoreType(this.idn_type.rst_type);
 		for(int i=0;i<pars.size();i++){
@@ -44,10 +44,10 @@ public class TypeExp_Gnrc extends AST {
 		}
 		codegen.putTypeInSymTb(this.rst_type, t1);
 		String s="";
-		for(int i=0;i<this.args.gnrc_args.size();i++){
-			s+=this.args.gnrc_args.remove()+",";
+		for(int i=0;i<this.args.types_name.size();i++){
+			s+=this.args.types_name.remove()+",";
 		}
-		this.args.setArgTypes(s);
+		this.args.setArgsSig(s);
 		return true;
 	}
 	public boolean checkType(CodeGenerator codegen){		

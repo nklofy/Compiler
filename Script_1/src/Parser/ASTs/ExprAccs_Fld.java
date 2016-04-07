@@ -44,20 +44,25 @@ public class ExprAccs_Fld extends AST {
 			}
 		}
 		if(this.var!=null){
-			if(this.var.genSymTb(codegen)){
+			if(!this.var.genSymTb(codegen)){
 				return false;
 			}
 			if(this.pre_fld==null){
 				this.rst_val=this.var.rst_val;
 				this.rst_type=this.var.rst_type;
 				this.var.ref_type=this.ref_type;
+				return true;
 			}
 		}
 		if(sign.equals("super")){
 			this.rst_val="super";
 		}else if(sign.equals("this")){
 			this.rst_val="this";
-		}
+		}else if(sign.equals("class")){
+			this.rst_type="class";
+			this.rst_val=this.pre_fld.rst_val;
+		}else
+			return false;
 		return true;
 	}
 	public boolean checkType(CodeGenerator codegen){
@@ -75,7 +80,7 @@ public class ExprAccs_Fld extends AST {
 				if(r1==null)return false;
 				this.rst_type=r1.getVarType();
 				T_Type t1=codegen.getTypeInSymTb(r1.getVarType());
-				if(this.ref_type!=null&&!codegen.type_sys.canAsn(codegen.getTypeInSymTb(this.ref_type), t1))
+				if(this.ref_type!=null&&!codegen.canAsn(codegen.getTypeInSymTb(this.ref_type), t1))
 					return false;
 				this.rst_val="%"+codegen.getTmpSn();
 				R_Variable r0=new R_Variable();
@@ -91,7 +96,7 @@ public class ExprAccs_Fld extends AST {
 			if(this.var.checkType(codegen)){
 				return false;
 			}
-			if(!codegen.type_sys.canAsn(codegen.getTypeInSymTb(this.ref_type), codegen.getTypeInSymTb(this.rst_type)))
+			if(!codegen.canAsn(codegen.getTypeInSymTb(this.ref_type), codegen.getTypeInSymTb(this.rst_type)))
 				return false;
 		}else if(sign.equals("super")){
 			

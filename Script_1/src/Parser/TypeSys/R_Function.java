@@ -12,7 +12,7 @@ public class R_Function {
 	private HashMap<String, R_Function> multi_func;//will change?			
 	private String func_name;
 	private boolean isDummy;
-	private boolean isField;
+	private boolean isMethod;
 	LinkedList<String> pars_name;
 	ArrayList<IRCode> func_body;
 	AST func_def;
@@ -36,11 +36,11 @@ public class R_Function {
 	public void setDummy(boolean is_dummy) {
 		this.isDummy = is_dummy;
 	}
-	public boolean isField() {
-		return isField;
+	public boolean isMethod() {
+		return isMethod;
 	}
-	public void setField(boolean isField) {
-		this.isField = isField;
+	public void setMethod(boolean isField) {
+		this.isMethod = isField;
 	}
 	public LinkedList<String> getParsName() {
 		return pars_name;
@@ -126,4 +126,5 @@ public class R_Function {
 		}
 		return false;
 	}
+	
 }

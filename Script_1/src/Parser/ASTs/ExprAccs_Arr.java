@@ -56,7 +56,7 @@ public class ExprAccs_Arr extends AST {
 		t2.setDims(d2);
 		t2.setEleType(((T_Array)t1).getEleType());
 		t2.genTypeSig();
-		if(!codegen.type_sys.canAsn(codegen.getTypeInSymTb(this.ref_type),t2))
+		if(!codegen.canAsn(codegen.getTypeInSymTb(this.ref_type),t2))
 			return false;
 		return true;
 	}
