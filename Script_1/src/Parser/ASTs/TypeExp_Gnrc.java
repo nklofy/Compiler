@@ -18,7 +18,7 @@ public class TypeExp_Gnrc extends AST {
 		return true;
 	}
 	public boolean genCode(CodeGenerator codegen){		
-		IRCode code=new IRCode("GnrcType",this.rst_type,this.idn_type.rst_type,this.args.args_sig);
+		IRCode code=new IRCode("GnrcType",this.rst_type,this.idn_type.rst_type,this.args.rst_val);
 		codegen.addCode(code);
 		codegen.incLineNo();
 		return true;
@@ -47,7 +47,7 @@ public class TypeExp_Gnrc extends AST {
 		for(int i=0;i<this.args.types_name.size();i++){
 			s+=this.args.types_name.remove()+",";
 		}
-		this.args.setArgsSig(s);
+		this.args.rst_val=s;
 		return true;
 	}
 	public boolean checkType(CodeGenerator codegen){		

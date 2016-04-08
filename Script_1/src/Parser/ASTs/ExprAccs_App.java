@@ -3,6 +3,7 @@ package Parser.ASTs;
 import Parser.*;
 import Parser.IR.*;
 import Parser.TypeSys.*;
+import java.util.*;
 
 public class ExprAccs_App extends AST {
 	ExprAccs pre_accs;
@@ -41,8 +42,22 @@ public class ExprAccs_App extends AST {
 			codegen.addCode(code);
 			codegen.incLineNo();
 		}
-		//getMethod TODO
-		code=new IRCode("invoke",this.rst_val,this.ptr_func,String.valueOf(this.gnrc_args.size+this.arg_lst.size));
+		if(this.gnrc_args!=null){
+			code=new IRCode("pushGArgs",this.ptr_func,this.gnrc_args.rst_val,null);
+			codegen.addCode(code);
+			codegen.incLineNo();
+		}
+		if(this.arg_lst!=null){
+			code=new IRCode("pushFArgs",this.ptr_func,this.arg_lst.rst_val,null);
+			codegen.addCode(code);
+			codegen.incLineNo();
+		}
+		if(this.ptr_scp.equals("this")){
+			code=new IRCode("pushThis",this.ptr_func,this.ptr_scp,null);
+			codegen.addCode(code);
+			codegen.incLineNo();
+		}
+		code=new IRCode("invoke",this.ptr_func,this.rst_val,null);
 		codegen.addCode(code);
 		codegen.incLineNo();
 		return true;
@@ -54,7 +69,6 @@ public class ExprAccs_App extends AST {
 			return false;
 		if(this.arg_lst!=null&&this.arg_lst.genSymTb(codegen))
 			return false;
-		this.rst_val="%"+codegen.getTmpSn();
 		return true;
 	}
 	public boolean checkType(CodeGenerator codegen){
@@ -65,41 +79,84 @@ public class ExprAccs_App extends AST {
 		if(this.arg_lst!=null&&!this.arg_lst.checkType(codegen))
 			return false;
 		R_Function f=null;
-		if(this.pre_accs==null){
+		R_Variable r=new R_Variable();	
+		this.ptr_func="*"+codegen.getTmpSn();
+		this.rst_val="%"+codegen.getTmpSn();	
+		this.func_name=this.var.rst_val;
+		//this.rst_type
+		//R_Variable		
+		//this.ptr_func
+		//this.ptr_scp
+		//this.func_sig
+		if(this.pre_accs==null||this.pre_accs.rst_val.equals("this")){// f()/this.f()
 			f=codegen.getFuncInSymTb(this.var.name);
-			if(f.isMethod()){
-				this.ptr_func="*"+f.getFuncName();
-				this.ptr_scp="this";
-			}
-			if(codegen.checkFuncEx(f, this.gnrc_args.types_name,this.arg_lst.arg_types)){
-								
-				return true;
-			}				
-		}else{
-			if(this.pre_accs.rst_type.equals("class")){
-				
-			}else if(this.pre_accs.rst_val.equals("this")){
-				
-			}else if(codegen.getVarInSymTb(this.pre_accs.rst_val)!=null){
-				
-			}else
+			if(f==null)
 				return false;
-			
+			if(f.isMethod()){				
+				this.ptr_scp="this";
+			}else if(this.pre_accs.rst_val.equals("this")){
+				return false;
+			}			
+		}else{//if(this.pre_accs==null)
+			if(this.pre_accs.rst_type.equals("class")){//A.class.f()
+				T_Generic t=new T_Generic();
+				t.setCoreType("class"); //t is class<A>
+				LinkedList<String> l=new LinkedList<String>();
+				l.add(this.pre_accs.rst_val);
+				t.setGnrcPars(l);
+				this.ptr_scp="<"+codegen.getTmpSn();
+				codegen.putTypeInSymTb(this.ptr_scp, t);
+				R_Variable r1=new R_Variable();
+				r1.setVarName(this.ptr_scp);
+				r1.setVarType("class");
+				r1.setTmpAddr(this.ptr_scp);
+				codegen.putVarInSymTb(this.ptr_scp, r1);
+				T_Class t1=((T_Class)codegen.getTypeInSymTb("class"));
+				
+				f=.getMethods().get(this.func_name);				
+			}else if(codegen.getVarInSymTb(this.pre_accs.rst_val)!=null){//a.f()
+				this.ptr_scp=this.pre_accs.rst_val;
+				T_Class t=(T_Class) codegen.getTypeInSymTb(codegen.getVarInSymTb(this.pre_accs.rst_val).getVarType());
+				f=t.getMethods().get(this.func_name);
+			}else if(codegen.getTypeInSymTb(this.pre_accs.rst_val)!=null){//A.f()
+				this.ptr_scp=this.pre_accs.rst_val;
+				T_Class t=(T_Class) codegen.getTypeInSymTb(this.ptr_scp);
+				f=t.getMethods().get(this.func_name);
+			}
+			else
+				return false;
 		}
-		
-		if(f.isMulti()){
-			for(R_Function f1:f.getMulti().values()){
-				if(codegen.checkFuncEx(f1, this.gnrc_args.gnrc_args, this.arg_lst.arg_types))
-					return true;	
+		if(!f.isMulti()){
+			if(codegen.checkFuncEx(f, this.gnrc_args.types_name, this.arg_lst.arg_types)
+					||codegen.checkFuncCs(f, this.gnrc_args.types_name, this.arg_lst.arg_types)){
+				this.rst_type=f.getTypeT().getRetType();
+				this.func_sig=f.getFuncSig();
 			}
-			for(R_Function f1:f.getMulti().values()){
-				if(codegen.checkFuncCs(f1, this.gnrc_args.gnrc_args, this.arg_lst.arg_types))
-					return true;	
-			}
+			else
+				return false;
 		}else{
-			if(codegen.checkFuncEx(f, this.gnrc_args.gnrc_args, this.arg_lst.arg_types))
-				this.rst_val=f.getFuncName();
+			for(R_Function f1:f.getMulti().values()){
+				if(codegen.checkFuncEx(f1, this.gnrc_args.types_name, this.arg_lst.arg_types)){
+					this.rst_type=f1.getTypeT().getRetType();
+					this.func_sig=f1.getFuncSig();
+				}						
+			}
+			for(R_Function f1:f.getMulti().values()){
+				if(codegen.checkFuncCs(f1, this.gnrc_args.types_name, this.arg_lst.arg_types)){
+					this.rst_type=f1.getTypeT().getRetType();
+					this.func_sig=f1.getFuncSig();
+				}
+			}
+			if(this.rst_type==null)
+				return false;
 		}
-		return true;
+		r=new R_Variable();
+		r.setVarName(this.rst_val);
+		r.setVarType(this.rst_type);
+		r.setTmpAddr(this.rst_val);
+		codegen.putVarInSymTb(this.rst_val, r);
+		if(!codegen.canAsn(codegen.getTypeInSymTb(this.ref_type), codegen.getTypeInSymTb(this.rst_type)))
+			return false;
+		return true;		
 	}
 }

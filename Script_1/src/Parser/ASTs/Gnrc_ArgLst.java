@@ -10,7 +10,7 @@ public class Gnrc_ArgLst extends AST {
 	TypeExp var;
 	TypeExp_Idn ext_idn_t;
 	LinkedList<String>types_name;
-	String args_sig;
+	String rst_val;
 	int size;
 	
 	public boolean setGnrcArgs(Gnrc_ArgLst pre_args,TypeExp var,TypeExp_Idn idn_type){
@@ -26,13 +26,13 @@ public class Gnrc_ArgLst extends AST {
 	public void setTypesName(LinkedList<String> gnrc_args) {
 		this.types_name = gnrc_args;
 	}
-	public String getArgsSig() {
-		return args_sig;
+/*	public String getArgsSig() {
+		return rst_val;
 	}
 	public void setArgsSig(String arg_types) {
-		this.args_sig = arg_types;
+		this.rst_val = arg_types;
 	}
-
+*/
 	public boolean genCode(CodeGenerator codegen){
 		
 		return true;

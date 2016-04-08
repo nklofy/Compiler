@@ -7,7 +7,8 @@ public class T_Type {
 	private String type_name;
 	private String type_sig;//code types for hash, search, compare
 	private boolean isGnrc;//has generic pars as a core type
-	private LinkedList<String> pars_Gnrc=new LinkedList<String>();	
+	private LinkedList<String> pars_Gnrc=new LinkedList<String>();
+	private T_Generic gnrc_wrap;
 	private boolean isDummy=false;
 	
 	
