@@ -3,6 +3,7 @@
 this language is colsed to completion (Oh, not yet). I named it as YF language, abbreviated as YFlang. It has static typed OO features  for example, class, interface, inheritance, implemention, generic, reflection, etc, and also, dynamic typed functional programming is supported, including lambda expression and high order function. Of cause it can do type inference and checking. And i'm considering if i should add map/reduce/fmap even functor/monad as buildin functions or types in it. i guess it will be finished by next month. 
 
 older version: ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
   Recently, parser generator is updated to GLR. For parsing complex or even ambiguous grammars, LR(1) is not as powerful as GLR. Then the LR(1) parser generator is updated to GLR. The script language and its compiler is still in process. There will be many new features, such as OOP, sub-class, interface, generic, lambda expression... Maybe look like java language. IR is still in AST form. After that, the next step may be optimizing interpreter, or designing virtual machine.
   
   the old version:  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
