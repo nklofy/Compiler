@@ -111,19 +111,23 @@ public class ExprAccs_App extends AST {
 				r1.setVarType("class");
 				r1.setTmpAddr(this.ptr_scp);
 				codegen.putVarInSymTb(this.ptr_scp, r1);
-				T_Class t1=((T_Class)codegen.getTypeInSymTb("class"));
-				
-				f=.getMethods().get(this.func_name);				
-			}else if(codegen.getVarInSymTb(this.pre_accs.rst_val)!=null){//a.f()
+				T_Class t1=((T_Class)codegen.getTypeInSymTb("class"));				
+				f=t1.getMethods().get(this.func_name);
+				codegen.gnrc_arg.addFirst(new HashMap<String,String>());
+				codegen.gnrc_arg.getFirst().put("T", this.ptr_scp);
+			}else if(codegen.getVarInSymTb(this.pre_accs.rst_val)!=null
+					||codegen.getTypeInSymTb(this.pre_accs.rst_val)!=null){// a.f()/A.f()
 				this.ptr_scp=this.pre_accs.rst_val;
-				T_Class t=(T_Class) codegen.getTypeInSymTb(codegen.getVarInSymTb(this.pre_accs.rst_val).getVarType());
-				f=t.getMethods().get(this.func_name);
-			}else if(codegen.getTypeInSymTb(this.pre_accs.rst_val)!=null){//A.f()
-				this.ptr_scp=this.pre_accs.rst_val;
-				T_Class t=(T_Class) codegen.getTypeInSymTb(this.ptr_scp);
-				f=t.getMethods().get(this.func_name);
-			}
-			else
+				T_Type t=codegen.getTypeInSymTb(codegen.getVarInSymTb(this.pre_accs.rst_val).getVarType());
+				if(t.getKType()==T_Type.KType.t_cls){
+					f=((T_Class)t).getMethods().get(this.func_name);
+				}else if(t.getKType()==T_Type.KType.t_gnrc){
+					T_Type t1=codegen.getTypeInSymTb(((T_Generic)t).getCoreType());
+					f=((T_Class)t1).getMethods().get(this.var.name);
+					codegen.gnrc_arg.addFirst(((T_Generic)t).getTypeArgTb());
+				}else
+					return false;
+			}else
 				return false;
 		}
 		if(!f.isMulti()){

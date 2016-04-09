@@ -40,7 +40,7 @@ public class TypeExp_Gnrc extends AST {
 		T_Generic t1=new T_Generic();
 		t1.setCoreType(this.idn_type.rst_type);
 		for(int i=0;i<pars.size();i++){
-			t1.getTypeArgs().put(pars.get(i), args.get(i));
+			t1.getTypeArgTb().put(pars.get(i), args.get(i));
 		}
 		codegen.putTypeInSymTb(this.rst_type, t1);
 		String s="";

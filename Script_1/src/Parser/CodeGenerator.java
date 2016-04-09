@@ -15,6 +15,8 @@ public class CodeGenerator {
 	public LinkedList<String> labels_whlend=new LinkedList<String>();
 	public TypeSystem type_sys=new TypeSystem();
 	public LinkedList<String> ret_types=new LinkedList<String>();//check function return type and return statment's type
+	public LinkedList<HashMap<String,String>> gnrc_arg=new LinkedList<HashMap<String,String>>();
+	public LinkedList<HashMap<String,String>> func_arg=new LinkedList<HashMap<String,String>>();
 	
 	//a type system for store/search type/name
 	private LinkedList<AST> block_4symtb;
@@ -79,11 +81,14 @@ public class CodeGenerator {
 	}
 	public T_Type getTypeInSymTb(String name){
 		T_Type t=null;
+		String s=FindGnrcArgTb(name);
+		if(s!=null)
+			name=s;
 		for(AST ast:this.block_4symtb){
 			t=ast.type_table.get(name);
 			if(t!=null)
 				return t;
-		}		
+		}
 		return null;
 	}
 	public boolean putTypeInSymTb(String name,T_Type type){
@@ -95,6 +100,9 @@ public class CodeGenerator {
 	}
 	public R_Variable getVarInSymTb(String name){//TODO
 		R_Variable r=null;
+		String s=FindFuncArgTb(name);
+		if(s!=null)
+			name=s;
 		for(AST ast:this.block_4symtb){
 			r=ast.var_table.get(name);
 			if(r!=null)
@@ -182,5 +190,19 @@ public class CodeGenerator {
 	public boolean checkFuncCs(R_Function r, LinkedList<String>gnrc_args, LinkedList<String>args){
 		
 		return true;
+	}
+	public String FindGnrcArgTb(String s){
+		for(HashMap<String,String> map:this.gnrc_arg){
+			if(map.containsKey(s))
+				return map.get(s);
+		}
+		return null;
+	}
+	public String FindFuncArgTb(String s){
+		for(HashMap<String,String> map:this.func_arg){
+			if(map.containsKey(s))
+				return map.get(s);
+		}
+		return null;
 	}
 }
