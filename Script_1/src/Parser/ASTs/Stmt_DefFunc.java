@@ -45,6 +45,7 @@ public class Stmt_DefFunc extends AST {
 		codegen.pushBlock4Sym(this);
 		this.r_func=new R_Function();
 		this.t_type=new T_Function();
+		this.r_func.setTypeT(this.t_type);
 		if(!this.gnrc_pars.isE()){
 			if(!this.gnrc_pars.genSymTb(codegen))
 				return false;
@@ -69,7 +70,7 @@ public class Stmt_DefFunc extends AST {
 				codegen.putVarInSymTb(s, r);
 			}
 		}
-		this.stmt_list.genCode(codegen);
+		this.stmt_list.genSymTb(codegen);
 		codegen.popBlock4Sym();
 		return true;
 	}

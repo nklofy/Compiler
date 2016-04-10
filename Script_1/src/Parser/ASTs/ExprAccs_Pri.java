@@ -52,13 +52,13 @@ public class ExprAccs_Pri extends AST {
 		case "ExprPri_Chr":
 			if(!this.chr.genSymTb(codegen))
 				return false;
-			this.rst_type="char";
+			this.rst_type=this.chr.rst_type;
 			this.rst_val=this.chr.rst_val;
 			break;
 		case "ExprPri_Str":
 			if(!this.str.genSymTb(codegen))
 				return false;
-			this.rst_type="string";
+			this.rst_type=this.str.rst_type;
 			this.rst_val=this.str.rst_val;
 			break;
 		case "ExprPri_Num":

@@ -9,17 +9,21 @@ public class ExprPri_Chr extends AST {
 	String rst_type;
 	
 	public void setChr(String value) {
-		// TODO Auto-generated method stub
-		
+		this.rst_val=value;
 	}
 	public boolean genCode(CodeGenerator codegen){
 		return true;
 	}
 	public boolean genSymTb(CodeGenerator codegen){
-		//new type, new var, new function, put in table
 		return true;
 	}
 	public boolean checkType(CodeGenerator codegen){
+		if(this.rst_val.length()!=1)
+			return false;
+		if(!this.ref_type.equals("char")&&!this.ref_type.equals("string")){
+			return false;
+		}
+		this.rst_type=this.ref_type;
 		return true;
 	}
 }

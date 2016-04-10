@@ -17,6 +17,7 @@ public class ExprAccs_App extends AST {
 	String ptr_scp;//search scope for function
 	String func_name;
 	String func_sig;
+	boolean inGType=false;
 	
 	public void lnkApp(ExprAccs pre_accs,Gnrc_ArgLst g_lst,ExprPri_Var var,FuncApp_ArgLst arg_lst){
 		this.pre_accs=pre_accs;
@@ -79,9 +80,9 @@ public class ExprAccs_App extends AST {
 		if(this.arg_lst!=null&&!this.arg_lst.checkType(codegen))
 			return false;
 		R_Function f=null;
-		R_Variable r=new R_Variable();	
+		R_Variable r=new R_Variable();
 		this.ptr_func="*"+codegen.getTmpSn();
-		this.rst_val="%"+codegen.getTmpSn();	
+		this.rst_val="%"+codegen.getTmpSn();
 		this.func_name=this.var.rst_val;
 		//this.rst_type
 		//R_Variable		
@@ -92,11 +93,11 @@ public class ExprAccs_App extends AST {
 			f=codegen.getFuncInSymTb(this.var.name);
 			if(f==null)
 				return false;
-			if(f.isMethod()){				
+			if(f.isMethod()){
 				this.ptr_scp="this";
 			}else if(this.pre_accs.rst_val.equals("this")){
 				return false;
-			}			
+			}
 		}else{//if(this.pre_accs==null)
 			if(this.pre_accs.rst_type.equals("class")){//A.class.f()
 				T_Generic t=new T_Generic();
@@ -115,6 +116,7 @@ public class ExprAccs_App extends AST {
 				f=t1.getMethods().get(this.func_name);
 				codegen.gnrc_arg.addFirst(new HashMap<String,String>());
 				codegen.gnrc_arg.getFirst().put("T", this.ptr_scp);
+				this.inGType=true;
 			}else if(codegen.getVarInSymTb(this.pre_accs.rst_val)!=null
 					||codegen.getTypeInSymTb(this.pre_accs.rst_val)!=null){// a.f()/A.f()
 				this.ptr_scp=this.pre_accs.rst_val;
@@ -125,29 +127,32 @@ public class ExprAccs_App extends AST {
 					T_Type t1=codegen.getTypeInSymTb(((T_Generic)t).getCoreType());
 					f=((T_Class)t1).getMethods().get(this.var.name);
 					codegen.gnrc_arg.addFirst(((T_Generic)t).getTypeArgTb());
+					this.inGType=true;
 				}else
 					return false;
 			}else
 				return false;
 		}
+		LinkedList<String> args1=this.gnrc_args==null?null:this.gnrc_args.types_name;
+		LinkedList<String> args2=this.arg_lst==null?null:this.arg_lst.arg_types;
 		if(!f.isMulti()){
-			if(codegen.checkFuncEx(f, this.gnrc_args.types_name, this.arg_lst.arg_types)
-					||codegen.checkFuncCs(f, this.gnrc_args.types_name, this.arg_lst.arg_types)){
-				this.rst_type=f.getTypeT().getRetType();
+			if(codegen.checkFuncEx(f, args1, args2)
+					||codegen.checkFuncCs(f, args1, args2)){
+				this.rst_type=((T_Function)(f.getTypeT())).getRetType();
 				this.func_sig=f.getFuncSig();
 			}
 			else
 				return false;
 		}else{
 			for(R_Function f1:f.getMulti().values()){
-				if(codegen.checkFuncEx(f1, this.gnrc_args.types_name, this.arg_lst.arg_types)){
-					this.rst_type=f1.getTypeT().getRetType();
+				if(codegen.checkFuncEx(f1, args1, args2)){
+					this.rst_type=((T_Function)(f.getTypeT())).getRetType();
 					this.func_sig=f1.getFuncSig();
 				}						
 			}
 			for(R_Function f1:f.getMulti().values()){
-				if(codegen.checkFuncCs(f1, this.gnrc_args.types_name, this.arg_lst.arg_types)){
-					this.rst_type=f1.getTypeT().getRetType();
+				if(codegen.checkFuncCs(f1, args1, args2)){
+					this.rst_type=((T_Function)(f.getTypeT())).getRetType();
 					this.func_sig=f1.getFuncSig();
 				}
 			}
@@ -161,6 +166,8 @@ public class ExprAccs_App extends AST {
 		codegen.putVarInSymTb(this.rst_val, r);
 		if(!codegen.canAsn(codegen.getTypeInSymTb(this.ref_type), codegen.getTypeInSymTb(this.rst_type)))
 			return false;
+		if(this.inGType)
+			codegen.gnrc_arg.remove();
 		return true;		
 	}
 }

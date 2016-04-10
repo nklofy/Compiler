@@ -9,17 +9,18 @@ public class ExprPri_Str extends AST {
 	String rst_type;
 	
 	public void setStr(String value) {
-		// TODO Auto-generated method stub
-		
+		this.rst_val=value;		
 	}
 	public boolean genCode(CodeGenerator codegen){
 		return true;
 	}
 	public boolean genSymTb(CodeGenerator codegen){
-		//new type, new var, new function, put in table
 		return true;
 	}
 	public boolean checkType(CodeGenerator codegen){
+		if(!this.ref_type.equals("string")){
+			return false;
+		}
 		return true;
 	}
 }

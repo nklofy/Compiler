@@ -180,7 +180,7 @@ public class CodeGenerator {
 		
 		return true;
 	}
-	public boolean canTrans(T_Type type1,T_Type type2){
+	public boolean canCast(T_Type type1,T_Type type2){
 		return true;
 	}
 	public boolean checkFuncEx(R_Function r, LinkedList<String>gnrc_args, LinkedList<String>args){
