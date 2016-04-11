@@ -69,7 +69,8 @@ public class Stmt_DefFunc extends AST {
 				r.setVarType(this.pars.pars_type.get(i));
 				codegen.putVarInSymTb(s, r);
 			}
-		}
+		}		
+		codegen.putFuncInSymTb(this.name, this.r_func);
 		this.stmt_list.genSymTb(codegen);
 		codegen.popBlock4Sym();
 		return true;

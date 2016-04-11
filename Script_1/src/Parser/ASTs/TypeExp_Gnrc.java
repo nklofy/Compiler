@@ -27,14 +27,20 @@ public class TypeExp_Gnrc extends AST {
 		if(!this.idn_type.genSymTb(codegen))
 			return false;
 		if(!this.args.genSymTb(codegen))
+			return false;		
+		this.rst_type="<"+codegen.getTmpSn();		
+		return true;
+	}
+	public boolean checkType(CodeGenerator codegen){		
+		if(!this.idn_type.checkType(codegen))
+			return false;
+		if(!this.args.checkType(codegen))
 			return false;
 		T_Type t=codegen.getTypeInSymTb(this.idn_type.rst_type);//TODO
-		/*if(!t.isGnrc())
+		if(!t.isGnrc())
 			return false;
-		if(t.getGnrcPars().size()!=this.args.gnrc_args.size())
+		if(t.getGnrcPars().size()!=this.args.types_name.size())
 			return false;
-			*/
-		this.rst_type="<"+codegen.getTmpSn();
 		LinkedList<String> pars=t.getGnrcPars();
 		LinkedList<String> args=this.args.types_name;
 		T_Generic t1=new T_Generic();
@@ -47,10 +53,7 @@ public class TypeExp_Gnrc extends AST {
 		for(int i=0;i<this.args.types_name.size();i++){
 			s+=this.args.types_name.remove()+",";
 		}
-		this.args.rst_val=s;
+		this.args.rst_val=s;	
 		return true;
-	}
-	public boolean checkType(CodeGenerator codegen){		
-		return this.idn_type.checkType(codegen)&&this.args.checkType(codegen);
 	}
 }
