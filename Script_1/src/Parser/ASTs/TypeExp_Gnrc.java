@@ -48,12 +48,7 @@ public class TypeExp_Gnrc extends AST {
 		for(int i=0;i<pars.size();i++){
 			t1.getTypeArgTb().put(pars.get(i), args.get(i));
 		}
-		codegen.putTypeInSymTb(this.rst_type, t1);
-		String s="";
-		for(int i=0;i<this.args.types_name.size();i++){
-			s+=this.args.types_name.remove()+",";
-		}
-		this.args.rst_val=s;	
+		codegen.putTypeInSymTb(this.rst_type, t1);			
 		return true;
 	}
 }

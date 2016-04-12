@@ -9,7 +9,7 @@ public class FuncApp_ArgLst extends AST {
 	LinkedList<String> arg_types;
 	boolean isE=false;
 	String rst_val;
-	int size;
+	//int size;
 	
 	public boolean isE() {
 		return isE;
@@ -24,13 +24,27 @@ public class FuncApp_ArgLst extends AST {
 		this.args.add(ast);
 	}
 	public boolean genCode(CodeGenerator codegen){
+		
 		return true;
 	}
-	public boolean genSymTb(CodeGenerator codegen){
-		//new type, new var, new function, put in table
+	public boolean genSymTb(CodeGenerator codegen){		
+		if(this.isE)
+			return true;
+		for(Expr_Calc exp:this.args){
+			if(!exp.genSymTb(codegen))
+				return false;
+			this.rst_val+=exp.rst_val+",";
+			//this.size++;
+		}
 		return true;
 	}
 	public boolean checkType(CodeGenerator codegen){
+		if(this.isE)
+		return true;
+		for(Expr_Calc exp:this.args){
+			if(!exp.checkType(codegen))
+				return false;
+		}
 		return true;
 	}
 }

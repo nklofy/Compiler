@@ -15,7 +15,7 @@ public class TypeExp_Func extends AST {
 		return true;
 	}
 	public boolean genSymTb(CodeGenerator codegen){
-		this.ref_type="function";
+		this.rst_type="function";
 		return true;
 	}
 	public boolean checkType(CodeGenerator codegen){

@@ -58,7 +58,7 @@ public class ExprAccs_App extends AST {
 			codegen.addCode(code);
 			codegen.incLineNo();
 		}
-		code=new IRCode("invoke",this.ptr_func,this.rst_val,null);
+		code=new IRCode("invoke",this.ptr_func,this.rst_val,this.rst_type);
 		codegen.addCode(code);
 		codegen.incLineNo();
 		return true;
@@ -95,6 +95,8 @@ public class ExprAccs_App extends AST {
 				return false;
 			if(f.isMethod()){
 				this.ptr_scp="this";
+			}else if(this.pre_accs==null){
+				this.ptr_scp="global";
 			}else if(this.pre_accs.rst_val.equals("this")){
 				return false;
 			}

@@ -49,6 +49,19 @@ public class Gnrc_ArgLst extends AST {
 		return true;
 	}
 	public boolean checkType(CodeGenerator codegen){
-		return this.pre_args.checkType(codegen)&&this.var.checkType(codegen);//in future, add constraints on var's types
+		if(!this.pre_args.checkType(codegen))
+			return false;
+		if(!this.var.checkType(codegen))
+			return false;
+		String s="";
+		int c=this.types_name.size();
+		for(int i=0;i<c;i++){
+			String s1=this.types_name.remove();
+			if(codegen.getTypeInSymTb(s1)==null)
+				return false;
+			s+=s1+",";
+		}
+		this.rst_val=s;
+		return true;
 	}
 }

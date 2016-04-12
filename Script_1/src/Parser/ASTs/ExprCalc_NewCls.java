@@ -27,13 +27,11 @@ public class ExprCalc_NewCls extends AST {
 		if(this.gnrc_type!=null){
 			this.gnrc_type.genCode(codegen);
 		}
-		int par_count;
 		if(!this.args.isE()){
-			this.args.genCode(codegen);
-			par_count=this.args.args.size();
+			this.args.genCode(codegen);		
 		}else
-			par_count=0;
-		IRCode code =new IRCode("newObj",this.rst_type,this.rst_val,String.valueOf(par_count));
+			this.args.rst_val="null";
+		IRCode code =new IRCode("newObj",this.rst_type,this.rst_val,this.args.rst_val);
 		codegen.addCode(code);
 		codegen.incLineNo();
 		return true;
