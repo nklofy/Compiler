@@ -1,6 +1,6 @@
 
 # Compiler
-Design of this language is close to completion (Oh, not yet). I named it as YF language, abbreviated as YFlang. It has static typed OO features  for example, class, interface, inheritance, implemention, generic, reflection, etc, and also, dynamic typed functional programming is supported, including lambda expression and high order function. Of cause it can do type inference and checking. And i'm considering if i should add map/reduce/fmap even functor/monad as buildin functions or types in it. i guess it will be finished by next month. 
+I named this language YF language, abbreviated as YFlang. It has static typed OO features such as class, interface, inheritance, implemention, generic, reflection, etc, and also, dynamic typed functional programming, including lambda expression and high order function. Of cause it can do type inference and checking. Maybe i will add map/reduce/fmap functions even functor/monad type as buildin functionalities in it. i guess the compiler will be finished soon. 
 
 older version: ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
