@@ -1,20 +1,35 @@
 package Parser.ASTs;
 
-import Parser.AST;
-import Parser.CodeGenerator;
+import Parser.*;
+import Parser.IR.*;
+import Parser.TypeSys.*;
 
 public class ExprPri_Str extends AST {
+	String str;
 	String rst_val;
 	String ref_type;
 	String rst_type;
 	
 	public void setStr(String value) {
-		this.rst_val=value;		
+		this.str=value;		
 	}
 	public boolean genCode(CodeGenerator codegen){
+		IRCode code=new IRCode("load_s",this.rst_val,null,null);
+		codegen.addCode(code);
+		codegen.incLineNo();
+		code=new IRCode(this.str,null,null,null);
+		codegen.addCode(code);
+		codegen.incLineNo();
 		return true;
 	}
 	public boolean genSymTb(CodeGenerator codegen){
+		this.rst_type="string";
+		this.rst_val="%"+codegen.getTmpSn();
+		R_Variable r=new R_Variable();
+		r.setVarName(this.rst_val);
+		r.setTmpAddr(this.rst_val);
+		r.setVarType(this.rst_type);
+		codegen.putVarInSymTb(this.rst_val, r);
 		return true;
 	}
 	public boolean checkType(CodeGenerator codegen){
