@@ -147,16 +147,11 @@ public class ExprAccs_App extends AST {
 				return false;
 		}else{
 			for(R_Function f1:f.getMulti().values()){
-				if(codegen.checkFuncEx(f1, args1, args2)){
+				if(codegen.checkFuncEx(f1, args1, args2)
+						||codegen.checkFuncCs(f1, args1, args2)){
 					this.rst_type=((T_Function)(f.getTypeT())).getRetType();
 					this.func_sig=f1.getFuncSig();
 				}						
-			}
-			for(R_Function f1:f.getMulti().values()){
-				if(codegen.checkFuncCs(f1, args1, args2)){
-					this.rst_type=((T_Function)(f.getTypeT())).getRetType();
-					this.func_sig=f1.getFuncSig();
-				}
 			}
 			if(this.rst_type==null)
 				return false;

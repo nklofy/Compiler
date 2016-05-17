@@ -15,8 +15,8 @@ public class CodeGenerator {
 	public LinkedList<String> labels_whlend=new LinkedList<String>();
 	public TypeSystem type_sys=new TypeSystem();
 	public LinkedList<String> ret_types=new LinkedList<String>();//check function return type and return statment's type
-	public LinkedList<HashMap<String,String>> gnrc_arg=new LinkedList<HashMap<String,String>>();
-	public LinkedList<HashMap<String,String>> func_arg=new LinkedList<HashMap<String,String>>();
+	public LinkedList<HashMap<String,String>> gnrc_arg=new LinkedList<HashMap<String,String>>();//records of types for generic arg
+	public LinkedList<HashMap<String,String>> func_arg=new LinkedList<HashMap<String,String>>();//records of name/vars for function arg 
 	
 	//a type system for store/search type/name
 	private LinkedList<AST> block_4symtb;
@@ -98,7 +98,7 @@ public class CodeGenerator {
 		ast.type_table.put(name, type);
 		return true;
 	}
-	public R_Variable getVarInSymTb(String name){//TODO
+	public R_Variable getVarInSymTb(String name){
 		R_Variable r=null;
 		String s=FindFuncArgTb(name);
 		if(s!=null)
