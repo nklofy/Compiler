@@ -186,8 +186,33 @@ public class CodeGenerator {
 		return true;
 	}
 	public boolean checkFuncEx(R_Function r, LinkedList<String>gnrc_args, LinkedList<String>args){
-		
-		return true;
+		T_Function t=r.getTypeT();
+		boolean eqA=false;
+		boolean eqG=false;
+		if(args==null){
+			if(t.getParTypes()==null)
+				eqA=true;
+		}else{
+			LinkedList<String> pars=t.getParTypes();
+			Iterator<String> it1=pars.iterator();
+			Iterator<String> it2=args.iterator();
+			while(it1.hasNext()&&it2.hasNext()){
+				String s1=it1.next();
+				String s2=it2.next();
+				if(!getTypeInSymTb(s1).isEqType(getTypeInSymTb(s2)))
+					return false;
+			}
+			eqA=true;
+		}		
+		if(gnrc_args==null){
+			if(!t.isGnrc())
+				eqG=true;
+		}else{
+			LinkedList<String> gpars=t.getGnrcPars();
+			if(gpars.size()==gnrc_args.size())
+				eqA=true;
+		}
+		return eqA&&eqG;
 	}
 	public boolean checkFuncCs(R_Function r, LinkedList<String>gnrc_args, LinkedList<String>args){
 		
