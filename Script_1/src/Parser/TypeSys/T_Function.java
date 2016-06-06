@@ -20,7 +20,7 @@ public class T_Function extends T_Type {
 	public void setParTypes(LinkedList<String> par_types) {
 		this.par_types = par_types;
 	}
-	public void genFuncSig(CodeGenerator codegen) {
+	public void genFuncSig(CodeGenerator codegen) {//TODO
 		String s="";
 		if(this.isGnrc()){
 			s+="<";
@@ -35,5 +35,13 @@ public class T_Function extends T_Type {
 		}
 		s+=")";		
 		this.setTypeSig(s);
+	}
+	public boolean isEqType(T_Function t){
+		if(this.getKType()!=t.getKType())
+			return false;
+		if(this.getTypeSig().equals(t.getTypeSig()))
+			return true;
+		else
+			return false;
 	}
 }

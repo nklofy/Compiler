@@ -20,4 +20,16 @@ public class T_Array extends T_Type {
 	public void incDims(){
 		this.dims++;
 	}
+	public void genTypeCode() {
+		String s=this.ele_type+"["+this.dims+"]";		
+		this.setTypeSig(s);
+	}
+	public boolean isEqType(T_Array t){
+		if(this.getKType()!=t.getKType())
+			return false;
+		if(this.getTypeSig().equals(t.getTypeSig()))
+			return true;
+		else
+			return false;
+	}
 }
