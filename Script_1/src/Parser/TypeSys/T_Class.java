@@ -42,15 +42,13 @@ public class T_Class extends T_Type {
 	public HashSet<String> getAllExtd() {
 		return all_extd;
 	}
-	public void genTypeCode() {
+	public void genTypeSig(CodeGenerator codegen) {
 		String s=this.getTypeName();
 		if(this.isGnrc())
 			s=s+"<"+this.getGnrcPars().size()+">";
 		this.setTypeSig(s);
 	}
 	public boolean isEqType(T_Class t){
-		if(this.getKType()!=t.getKType())
-			return false;
 		if(this.getTypeSig().equals(t.getTypeSig()))
 			return true;
 		else

@@ -2,6 +2,8 @@ package Parser.TypeSys;
 
 import java.util.*;
 
+import Parser.CodeGenerator;
+
 public class T_Type {
 	private KType k_type;//kind of type
 	private String type_name;
@@ -39,7 +41,7 @@ public class T_Type {
 	public void setTypeSig(String type_code) {
 		this.type_sig = type_code;
 	}
-	public void genTypeSig(){
+	public void genTypeSig(CodeGenerator codegen){
 		
 	}
 	public LinkedList<String> getGnrcPars() {

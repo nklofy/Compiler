@@ -6,7 +6,7 @@ import Parser.CodeGenerator;
 
 public class T_Generic extends T_Type {
 	private String core_type;	
-	HashMap<String,String> type_args=new HashMap<String,String>();
+	LinkedHashMap<String,String> type_args=new LinkedHashMap<String,String>();//why linkedhashmap, link for order of gen-sig, map for sym-tbl
 	
 	public String getCoreType() {
 		return core_type;
@@ -17,10 +17,10 @@ public class T_Generic extends T_Type {
 	public HashMap<String, String> getTypeArgTb() {
 		return type_args;
 	}
-	public void setTypeArgTb(HashMap<String, String> type_args) {
-		this.type_args = type_args;
-	}
-	public void genTypeCode(CodeGenerator codegen) {//TODO
+	//public void setTypeArgTb(LinkedHashMap<String, String> type_args) {
+	//	this.type_args = type_args;
+	//}
+	public void genTypeSig(CodeGenerator codegen) {
 		String s=codegen.getTypeInSymTb(this.core_type).getTypeSig()+"<";
 		for(String name:this.type_args.keySet()){
 			s+=codegen.getTypeInSymTb(name).getTypeSig()+":"+
@@ -30,8 +30,6 @@ public class T_Generic extends T_Type {
 		this.setTypeSig(s);
 	}
 	public boolean isEqType(T_Generic t){
-		if(this.getKType()!=t.getKType())
-			return false;
 		if(this.getTypeSig().equals(t.getTypeSig()))
 			return true;
 		else

@@ -1,5 +1,7 @@
 package Parser.TypeSys;
 
+import Parser.CodeGenerator;
+
 public class T_Array extends T_Type {
 	String ele_type;
 	int dims;
@@ -20,13 +22,11 @@ public class T_Array extends T_Type {
 	public void incDims(){
 		this.dims++;
 	}
-	public void genTypeCode() {
-		String s=this.ele_type+"["+this.dims+"]";		
+	public void genTypeSig(CodeGenerator codegen) {
+		String s=codegen.getTypeInSymTb(this.ele_type).getTypeSig()+"["+this.dims+"]";		
 		this.setTypeSig(s);
 	}
 	public boolean isEqType(T_Array t){
-		if(this.getKType()!=t.getKType())
-			return false;
 		if(this.getTypeSig().equals(t.getTypeSig()))
 			return true;
 		else

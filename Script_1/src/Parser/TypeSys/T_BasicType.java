@@ -9,8 +9,6 @@ public class T_BasicType extends T_Type {
 		this.btype = btype;
 	}
 	public boolean isEqType(T_BasicType t){
-		if(this.getKType()!=t.getKType())
-			return false;
 		if(this.btype==t.btype)
 			return true;
 		else

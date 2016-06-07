@@ -36,9 +36,7 @@ public class T_Function extends T_Type {
 		s+=")";		
 		this.setTypeSig(s);
 	}
-	public boolean isEqType(T_Function t){
-		if(this.getKType()!=t.getKType())
-			return false;
+	public boolean isEqType(T_Function t){//TODO
 		if(this.getTypeSig().equals(t.getTypeSig()))
 			return true;
 		else

@@ -26,15 +26,13 @@ public class T_Interface extends T_Type {
 	public HashSet<String> getAllExtd(){	
 		return all_extd;
 	}
-	public void genTypeCode() {
-		String s=this.getTypeName();
+	public void genTypeSig(CodeGenerator codegen) {
+		String s=codegen.getTypeInSymTb(this.getTypeName()).getTypeSig();
 		if(this.isGnrc())
 			s=s+"<"+this.getGnrcPars().size()+">";
 		this.setTypeSig(s);
 	}
 	public boolean isEqType(T_Interface t){
-		if(this.getKType()!=t.getKType())
-			return false;
 		if(this.getTypeSig().equals(t.getTypeSig()))
 			return true;
 		else
