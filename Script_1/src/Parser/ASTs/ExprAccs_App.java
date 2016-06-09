@@ -138,8 +138,8 @@ public class ExprAccs_App extends AST {
 		LinkedList<String> args1=this.gnrc_args==null?null:this.gnrc_args.types_name;
 		LinkedList<String> args2=this.arg_lst==null?null:this.arg_lst.arg_types;
 		if(!f.isMulti()){
-			if(codegen.checkFuncEx(f, args1, args2)
-					||codegen.checkFuncCs(f, args1, args2)){
+			if(f.isEqArgTypes(codegen, args1, args2)
+					||f.isCtArgTypes(codegen, args1, args2)){
 				this.rst_type=((T_Function)(f.getTypeT())).getRetType();
 				this.func_sig=f.getFuncSig();
 			}
@@ -147,8 +147,8 @@ public class ExprAccs_App extends AST {
 				return false;
 		}else{
 			for(R_Function f1:f.getMulti().values()){
-				if(codegen.checkFuncEx(f1, args1, args2)
-						||codegen.checkFuncCs(f1, args1, args2)){
+				if(f.isEqArgTypes(codegen, args1, args2)
+						||f.isCtArgTypes(codegen, args1, args2)){
 					this.rst_type=((T_Function)(f.getTypeT())).getRetType();
 					this.func_sig=f1.getFuncSig();
 				}						
@@ -161,7 +161,7 @@ public class ExprAccs_App extends AST {
 		r.setVarType(this.rst_type);
 		r.setTmpAddr(this.rst_val);
 		codegen.putVarInSymTb(this.rst_val, r);
-		if(!codegen.canAsn(codegen.getTypeInSymTb(this.ref_type), codegen.getTypeInSymTb(this.rst_type)))
+		if(!codegen.getTypeInSymTb(this.ref_type).canAsn(codegen, codegen.getTypeInSymTb(this.rst_type)))
 			return false;
 		if(this.inGType)
 			codegen.gnrc_arg.remove();

@@ -96,7 +96,7 @@ public class ExprCalc_Unary extends AST {
 			int position=-1;
 			if(this.opt.equals("++")||this.opt.equals("--"))
 				position=1;
-			if(!codegen.canOpt(codegen.getTypeInSymTb(this.accs.rst_type), this.opt, position))
+			if(!codegen.getTypeInSymTb(this.accs.rst_type).canOpt(codegen, this.opt, position))
 				return false;
 		}else if(this.accs!=null){
 			if(!this.accs.checkType(codegen))

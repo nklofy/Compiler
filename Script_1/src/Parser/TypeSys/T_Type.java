@@ -44,6 +44,19 @@ public class T_Type {
 	public void genTypeSig(CodeGenerator codegen){
 		
 	}
+	TODO
+	public boolean canOpt(CodeGenerator codegen, String opt, int position){//0 means return position, -1 means left, 1 means right
+		
+		return true;
+	}
+	public boolean canAsn(CodeGenerator codegen,T_Type type2){
+		
+		return true;
+	}
+	public boolean canCast(CodeGenerator codegen,T_Type type2){
+		
+		return true;
+	}
 	public LinkedList<String> getGnrcPars() {
 		return pars_Gnrc;
 	}

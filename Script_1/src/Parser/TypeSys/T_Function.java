@@ -7,6 +7,7 @@ import Parser.IR.*;
 public class T_Function extends T_Type {
 	private String ret_type;
 	private LinkedList<String> par_types;
+	private boolean isDynamic;
 	
 	public String getRetType() {
 		return ret_type;
@@ -21,6 +22,10 @@ public class T_Function extends T_Type {
 		this.par_types = par_types;
 	}
 	public void genFuncSig(CodeGenerator codegen) {//TODO
+		if(isDynamic){
+			this.setTypeSig("!dynamic");
+			return;
+		}
 		String s="";
 		if(this.isGnrc()){
 			s+="<";
@@ -37,6 +42,8 @@ public class T_Function extends T_Type {
 		this.setTypeSig(s);
 	}
 	public boolean isEqType(T_Function t){//TODO
+		if(this.getTypeSig().equals("!dynamic")||t.getTypeSig().equals("!dynamic"))
+			return true;
 		if(this.getTypeSig().equals(t.getTypeSig()))
 			return true;
 		else

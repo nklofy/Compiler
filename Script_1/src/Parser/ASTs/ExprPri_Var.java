@@ -28,7 +28,7 @@ public class ExprPri_Var extends AST {
 		R_Variable r=codegen.getVarInSymTb(name);
 		if(r!=null){
 			this.rst_type=r.getVarType();
-			if(!codegen.canAsn(codegen.getTypeInSymTb(this.ref_type), codegen.getTypeInSymTb(this.rst_type)))
+			if(!codegen.getTypeInSymTb(this.ref_type).canAsn(codegen, codegen.getTypeInSymTb(this.rst_type)))
 				return false;
 		}
 		return true;

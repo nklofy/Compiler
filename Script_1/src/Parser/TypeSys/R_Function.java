@@ -126,5 +126,62 @@ public class R_Function {
 		}
 		return false;
 	}
-	
+	public boolean isEqArgTypes(CodeGenerator codegen, LinkedList<String>gnrc_args, LinkedList<String>args){
+		T_Function t=this.t_type;
+		boolean eqA=false;
+		boolean eqG=false;
+		if(args==null){
+			if(t.getParTypes()==null)
+				eqA=true;
+		}else{
+			LinkedList<String> pars=t.getParTypes();
+			Iterator<String> it1=pars.iterator();
+			Iterator<String> it2=args.iterator();
+			while(it1.hasNext()&&it2.hasNext()){
+				String s1=it1.next();
+				String s2=it2.next();
+				if(!codegen.getTypeInSymTb(s1).isEqType(codegen.getTypeInSymTb(s2)))
+					return false;
+			}
+			eqA=true;
+		}		
+		if(gnrc_args==null){
+			if(!t.isGnrc())
+				eqG=true;
+		}else{
+			LinkedList<String> gpars=t.getGnrcPars();
+			if(gpars.size()==gnrc_args.size())
+				eqG=true;
+		}
+		return eqA&&eqG;
+	}
+	public boolean isCtArgTypes(CodeGenerator codegen, LinkedList<String>gnrc_args, LinkedList<String>args){
+		T_Function t=this.t_type;
+		boolean eqA=false;
+		boolean eqG=false;
+		if(args==null){
+			if(t.getParTypes()==null)
+				eqA=true;
+		}else{
+			LinkedList<String> pars=t.getParTypes();
+			Iterator<String> it1=pars.iterator();
+			Iterator<String> it2=args.iterator();
+			while(it1.hasNext()&&it2.hasNext()){
+				String s1=it1.next();
+				String s2=it2.next();
+				if(!codegen.getTypeInSymTb(s2).canCast(codegen,codegen.getTypeInSymTb(s1)))
+					return false;
+			}
+			eqA=true;
+		}		
+		if(gnrc_args==null){
+			if(!t.isGnrc())
+				eqG=true;
+		}else{
+			LinkedList<String> gpars=t.getGnrcPars();
+			if(gpars.size()==gnrc_args.size())
+				eqG=true;
+		}
+		return eqA&&eqG;
+	}
 }

@@ -173,51 +173,8 @@ public class CodeGenerator {
 	public void addtFuncInFile(T_Function func_file) {
 		this.func_file.add(func_file);
 	}
-	public boolean canOpt(T_Type type1, String opt, int position){//0 means return position, -1 means left, 1 means right
-		
-		return true;
-	}
-	public boolean canAsn(T_Type type1,T_Type type2){
-		
-		return true;
-	}
-	public boolean canCast(T_Type type1,T_Type type2){
-		
-		return true;
-	}
-	public boolean checkFuncEx(R_Function r, LinkedList<String>gnrc_args, LinkedList<String>args){
-		T_Function t=r.getTypeT();
-		boolean eqA=false;
-		boolean eqG=false;
-		if(args==null){
-			if(t.getParTypes()==null)
-				eqA=true;
-		}else{
-			LinkedList<String> pars=t.getParTypes();
-			Iterator<String> it1=pars.iterator();
-			Iterator<String> it2=args.iterator();
-			while(it1.hasNext()&&it2.hasNext()){
-				String s1=it1.next();
-				String s2=it2.next();
-				if(!getTypeInSymTb(s1).isEqType(getTypeInSymTb(s2)))
-					return false;
-			}
-			eqA=true;
-		}		
-		if(gnrc_args==null){
-			if(!t.isGnrc())
-				eqG=true;
-		}else{
-			LinkedList<String> gpars=t.getGnrcPars();
-			if(gpars.size()==gnrc_args.size())
-				eqA=true;
-		}
-		return eqA&&eqG;
-	}
-	public boolean checkFuncCs(R_Function r, LinkedList<String>gnrc_args, LinkedList<String>args){
-		
-		return true;
-	}
+	
+	
 	public String FindGnrcArgTb(String s){
 		for(HashMap<String,String> map:this.gnrc_arg){
 			if(map.containsKey(s))
