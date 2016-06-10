@@ -54,6 +54,12 @@ public class T_Class extends T_Type {
 		else
 			return false;
 	}
+	
+	public boolean canCast(CodeGenerator codegen,T_Type type2){
+		TODO
+		super type 
+		return true;
+	}
 	//for type checking
 	public boolean checkAllImpl(CodeGenerator codegen){//no ring inheriting in impl types 
 		for(String s:this.impl_types){

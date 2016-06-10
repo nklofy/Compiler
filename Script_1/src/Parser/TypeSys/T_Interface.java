@@ -38,6 +38,12 @@ public class T_Interface extends T_Type {
 		else
 			return false;
 	}
+	
+	public boolean canCast(CodeGenerator codegen,T_Type type2){
+		TODO
+		supertype
+		return true;
+	}
 	public boolean checkAllExtd(CodeGenerator codegen){
 		for(String s:this.extd_types){
 			T_Interface t = (T_Interface) codegen.getTypeInSymTb(s);

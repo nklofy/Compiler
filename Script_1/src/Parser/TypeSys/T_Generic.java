@@ -20,6 +20,12 @@ public class T_Generic extends T_Type {
 	//public void setTypeArgTb(LinkedHashMap<String, String> type_args) {
 	//	this.type_args = type_args;
 	//}
+	
+	public boolean canCast(CodeGenerator codegen,T_Type type2){
+		TODO
+		covariant contravariant
+		return true;
+	}
 	public void genTypeSig(CodeGenerator codegen) {
 		String s=codegen.getTypeInSymTb(this.core_type).getTypeSig()+"<";
 		for(String name:this.type_args.keySet()){

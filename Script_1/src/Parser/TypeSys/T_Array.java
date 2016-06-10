@@ -32,4 +32,9 @@ public class T_Array extends T_Type {
 		else
 			return false;
 	}
+	
+	public boolean canCast(CodeGenerator codegen,T_Type type2){
+		TODO covariant
+		return true;
+	}
 }
