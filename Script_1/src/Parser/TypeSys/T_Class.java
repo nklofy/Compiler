@@ -48,17 +48,16 @@ public class T_Class extends T_Type {
 			s=s+"<"+this.getGnrcPars().size()+">";
 		this.setTypeSig(s);
 	}
-	public boolean isEqType(T_Class t){
-		if(this.getTypeSig().equals(t.getTypeSig()))
-			return true;
-		else
-			return false;
-	}
+	
 	
 	public boolean canCast(CodeGenerator codegen,T_Type type2){
-		TODO
-		super type 
-		return true;
+		if(this.all_extd.contains(type2.getTypeName())||this.all_impl.contains(type2.getTypeName()))
+			return true;
+		else{
+			if(type2.canCast(codegen, this))
+				return true;
+		}
+		return false;
 	}
 	//for type checking
 	public boolean checkAllImpl(CodeGenerator codegen){//no ring inheriting in impl types 

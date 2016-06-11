@@ -26,12 +26,7 @@ public class T_Array extends T_Type {
 		String s=codegen.getTypeInSymTb(this.ele_type).getTypeSig()+"["+this.dims+"]";		
 		this.setTypeSig(s);
 	}
-	public boolean isEqType(T_Array t){
-		if(this.getTypeSig().equals(t.getTypeSig()))
-			return true;
-		else
-			return false;
-	}
+	
 	
 	public boolean canCast(CodeGenerator codegen,T_Type type2){
 		TODO covariant

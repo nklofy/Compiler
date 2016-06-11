@@ -35,10 +35,5 @@ public class T_Generic extends T_Type {
 		s+=">";		
 		this.setTypeSig(s);
 	}
-	public boolean isEqType(T_Generic t){
-		if(this.getTypeSig().equals(t.getTypeSig()))
-			return true;
-		else
-			return false;
-	}
+	
 }

@@ -10,12 +10,7 @@ public class T_BasicType extends T_Type {
 	public void setTypeB(en_BType btype) {
 		this.btype = btype;
 	}
-	public boolean isEqType(T_BasicType t){
-		if(this.btype==t.btype)
-			return true;
-		else
-			return false;
-	}
+	
 	public boolean canOpt(CodeGenerator codegen, String opt, int position){//0 means return position, -1 means left, 1 means right
 		switch(opt){
 			case "+":

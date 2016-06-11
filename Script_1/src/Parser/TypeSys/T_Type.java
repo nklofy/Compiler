@@ -18,7 +18,10 @@ public class T_Type {
 	public boolean isEqType(T_Type t){
 		if(!this.k_type.equals(t.k_type))
 			return false;
-		return true;
+		if(this.getTypeSig().equals(t.getTypeSig()))
+			return true;
+		else
+			return false;
 	}
 	
 	//sets and gets	

@@ -32,17 +32,16 @@ public class T_Interface extends T_Type {
 			s=s+"<"+this.getGnrcPars().size()+">";
 		this.setTypeSig(s);
 	}
-	public boolean isEqType(T_Interface t){
-		if(this.getTypeSig().equals(t.getTypeSig()))
-			return true;
-		else
-			return false;
-	}
+	
 	
 	public boolean canCast(CodeGenerator codegen,T_Type type2){
-		TODO
-		supertype
-		return true;
+		if(this.all_extd.contains(type2.getTypeName()))
+			return true;
+		else{
+			if(type2.canCast(codegen, this))
+				return true;
+		}
+		return false;
 	}
 	public boolean checkAllExtd(CodeGenerator codegen){
 		for(String s:this.extd_types){
