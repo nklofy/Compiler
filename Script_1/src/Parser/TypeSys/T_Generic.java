@@ -22,8 +22,20 @@ public class T_Generic extends T_Type {
 	//}
 	
 	public boolean canCast(CodeGenerator codegen,T_Type type2){
-		TODO
-		covariant contravariant
+		if(type2.getKType()!=KType.t_gnrc)
+			return false;
+		T_Type t1=codegen.getTypeInSymTb(this.core_type);
+		T_Type t2=codegen.getTypeInSymTb(((T_Generic)type2).getCoreType());
+		if(!t1.canCast(codegen, t2))
+			return false;
+		if(this.type_args.size()!=((T_Generic)type2).getTypeArgTb().size())
+			return false;
+		for(String s1:this.type_args.keySet()){
+			T_Type t3=codegen.getTypeInSymTb(this.type_args.get(s1));
+			T_Type t4=codegen.getTypeInSymTb(((T_Generic)type2).getTypeArgTb().get(s1));
+			if(!t3.canCast(codegen, t4))
+				return false;
+		}
 		return true;
 	}
 	public void genTypeSig(CodeGenerator codegen) {

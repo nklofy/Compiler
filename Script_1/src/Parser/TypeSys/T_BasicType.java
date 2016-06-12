@@ -9,6 +9,23 @@ public class T_BasicType extends T_Type {
 	}
 	public void setTypeB(en_BType btype) {
 		this.btype = btype;
+		switch(btype){
+		case t_int:
+			this.setTypeSig("int");
+			break;
+		case t_double:
+			this.setTypeSig("double");
+			break;
+		case t_char:
+			this.setTypeSig("char");
+			break;
+		case t_string:
+			this.setTypeSig("string");
+			break;
+		case t_bool:
+			this.setTypeSig("bool");
+			break;
+		}
 	}
 	
 	public boolean canOpt(CodeGenerator codegen, String opt, int position){//0 means return position, -1 means left, 1 means right
