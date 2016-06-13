@@ -28,6 +28,8 @@ public class Parser {
 	private LinkedList<ParseState> states_rlst=new LinkedList<ParseState>();	//TODO change to treeset?
 	private LinkedList<ParseState> states_slst=new LinkedList<ParseState>();	//TODO change to treeset?
 	private int sym_e;
+	private LinkedList<String> pck_names = new LinkedList<String>();
+	private LinkedList<LinkedList<String>> impt_pcks=new LinkedList<LinkedList<String>>();
 	public AST getAST(){
 		return ast_tree;
 	}
@@ -289,18 +291,70 @@ public class Parser {
 		tokenizer.setScanFile(filename);
 		return true;
 	}
-	private boolean getPckg(){//TODO
-		return true;
+	public LinkedList<String> getPckNames() {
+		return pck_names;
 	}
-	private boolean getImpt(){
-		return true;
+	public void setPckNames(LinkedList<String> pck_names) {
+		this.pck_names = pck_names;
+	}
+	public LinkedList<LinkedList<String>> getImptPcks() {
+		return impt_pcks;
+	}
+	public void setImptPcks(LinkedList<LinkedList<String>> impt_pcks) {
+		this.impt_pcks = impt_pcks;
+	}
+
+	private boolean getPckg(){
+		Token token=tokenizer.getToken();
+		if(token.getType().equals("var")){
+			this.pck_names.add(token.getResName());
+		}		
+		token=tokenizer.getToken();
+		if(token.getType().equals("opt")&&token.getOptName().equals(";")){
+			return true;
+		}
+		while(token.getType().equals("opt")&&token.getOptName().equals(".")){
+			token=tokenizer.getToken();
+			if(token.getType().equals("var")){
+				this.pck_names.add(token.getResName());
+			}else if(token.getType().equals("opt")&&token.getOptName().equals(";")){
+				return true;
+			}
+		}
+		return false;
+	}
+	private boolean getImpt(){//TODO
+		this.impt_pcks.add(new LinkedList<String>());
+		Token token=tokenizer.getToken();
+		if(token.getType().equals("var")){
+			this.impt_pcks.getLast().add(token.getResName());
+		}		
+		token=tokenizer.getToken();
+		if(token.getType().equals("opt")&&token.getOptName().equals(";")){
+			return true;
+		}
+		while(token.getType().equals("opt")&&token.getOptName().equals(".")){
+			token=tokenizer.getToken();
+			if(token.getType().equals("var")){
+				this.impt_pcks.getLast().add(token.getResName());
+			}else if(token.getType().equals("opt")&&token.getOptName().equals(";")){
+				return true;
+			}
+		}
+		return false;
 	}
 	public boolean parse(){
 		ParseState state_start=new ParseState();
 		sym_e=token_sn.get("e");
 		Token token=tokenizer.getToken();
-		getPckg();
-		getImpt();
+		if(token.getType().equals("res")&&token.getResName().equals("package")){
+			getPckg();
+			token=tokenizer.getToken();
+		}		
+		while(token.getType().equals("res")&&token.getResName().equals("import")){
+			getImpt();
+			token=tokenizer.getToken();
+		}
 		int crt_state=0;
 		state_start.state_sn=crt_state;
 		Symbol symbol=new Symbol();
