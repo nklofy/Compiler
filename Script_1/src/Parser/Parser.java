@@ -323,7 +323,7 @@ public class Parser {
 		}
 		return false;
 	}
-	private boolean getImpt(){//TODO
+	private boolean getImpt(){
 		this.impt_pcks.add(new LinkedList<String>());
 		Token token=tokenizer.getToken();
 		if(token.getType().equals("var")){
