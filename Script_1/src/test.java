@@ -13,6 +13,7 @@ public class test {
 		parser.output("out_parser.txt");
 		CodeGenerator codegen=new CodeGenerator();
 		AST tree=parser.getAST();
+		codegen.imptPcks(parser);
 		tree.genSymTb(codegen);
 		tree.checkType(codegen);
 		tree.genCode(codegen);

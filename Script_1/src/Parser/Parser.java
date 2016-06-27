@@ -28,8 +28,8 @@ public class Parser {
 	private LinkedList<ParseState> states_rlst=new LinkedList<ParseState>();	//TODO change to treeset?
 	private LinkedList<ParseState> states_slst=new LinkedList<ParseState>();	//TODO change to treeset?
 	private int sym_e;
-	private LinkedList<String> pck_names = new LinkedList<String>();
-	private LinkedList<LinkedList<String>> impt_pcks=new LinkedList<LinkedList<String>>();
+	private LinkedList<String> pck_names = new LinkedList<String>();//package A.B.C
+	private LinkedList<LinkedList<String>> impt_pcks=new LinkedList<LinkedList<String>>(); //all import packages
 	public AST getAST(){
 		return ast_tree;
 	}

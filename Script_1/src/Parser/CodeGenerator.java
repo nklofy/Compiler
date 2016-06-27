@@ -31,6 +31,8 @@ public class CodeGenerator {
 	private LinkedList<R_Variable> var_file=new LinkedList<R_Variable>();
 	
 	
+	private LinkedList<String> pck_names;//package A.B.C	
+	private LinkedList<LinkedList<String>> impt_pcks; //all import packages
 	
 	public int getLineNo() {
 		return crt_line;
@@ -173,7 +175,12 @@ public class CodeGenerator {
 	public void addtFuncInFile(T_Function func_file) {
 		this.func_file.add(func_file);
 	}
-	
+	public LinkedList<R_Variable> getVarInFile() {
+		return var_file;
+	}
+	public void setVarInFile(LinkedList<R_Variable> var_file) {
+		this.var_file = var_file;
+	}
 	
 	public String FindGnrcArgTb(String s){
 		for(HashMap<String,String> map:this.gnrc_arg){
@@ -188,5 +195,32 @@ public class CodeGenerator {
 				return map.get(s);
 		}
 		return null;
+	}
+	public boolean imptPcks(Parser parser){
+		this.setPckNames(parser.getPckNames());
+		this.setImptPcks(parser.getImptPcks());
+		//TODO import packages to typetable
+		//set this package
+		return true;
+	}
+	public LinkedList<String> getPckNames() {
+		return pck_names;
+	}
+	public void setPckNames(LinkedList<String> pck_names) {
+		this.pck_names = pck_names;
+	}
+	public LinkedList<LinkedList<String>> getImptPcks() {
+		return impt_pcks;
+	}
+	public void setImptPcks(LinkedList<LinkedList<String>> impt_pcks) {
+		this.impt_pcks = impt_pcks;
+	}
+	public boolean outputFile(String filename){
+		//TODO constant pool
+		//Class table
+		//fields table
+		//methods table
+		//scripts
+		return true;
 	}
 }
