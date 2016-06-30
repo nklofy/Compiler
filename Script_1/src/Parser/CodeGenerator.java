@@ -1,4 +1,5 @@
 package Parser;
+import java.io.*;
 import java.util.*;
 import Parser.IR.*;
 import Parser.TypeSys.*;
@@ -196,11 +197,43 @@ public class CodeGenerator {
 		}
 		return null;
 	}
-	public boolean imptPcks(Parser parser){
+	public boolean setPcks(Parser parser){
 		this.setPckNames(parser.getPckNames());
-		this.setImptPcks(parser.getImptPcks());
 		//TODO import packages to typetable
-		//set this package
+		//check dirs
+		String dir;
+		try {
+			dir = (new File(".")).getCanonicalPath();
+			String[] dirs=dir.split(File.separator);
+			int l=this.pck_names.size();
+			int l1=dirs.length;
+			if(l1<=l)
+				return false;
+			String dir1="";
+			for(int i=0;i<l;i++){			
+				if(!this.pck_names.get(l-i-1).equals(dirs[l1-i-1])){
+					return false;
+				}
+			}
+			1234
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}	
+		
+		//search in dirs for .yfc files in /bin
+		
+		//compiler .yfl if no .yfc file in /src
+		
+				
+		return true;
+	}
+	public boolean imptPcks(Parser parser){
+
+		this.setImptPcks(parser.getImptPcks());
+		return true;
+	}
+	public boolean imptYFC(){
 		return true;
 	}
 	public LinkedList<String> getPckNames() {

@@ -25,8 +25,8 @@ public class Parser {
 	private ArrayList<ArrayList<ArrayList<Integer>>> reduces_table=new ArrayList<ArrayList<ArrayList<Integer>>>();	
 	private AST ast_tree;
 	private HashMap<Integer,ParseState> states_active=new HashMap<Integer,ParseState>();
-	private LinkedList<ParseState> states_rlst=new LinkedList<ParseState>();	//TODO change to treeset?
-	private LinkedList<ParseState> states_slst=new LinkedList<ParseState>();	//TODO change to treeset?
+	private LinkedList<ParseState> states_rlst=new LinkedList<ParseState>();	//change to treeset?
+	private LinkedList<ParseState> states_slst=new LinkedList<ParseState>();	//change to treeset?
 	private int sym_e;
 	private LinkedList<String> pck_names = new LinkedList<String>();//package A.B.C
 	private LinkedList<LinkedList<String>> impt_pcks=new LinkedList<LinkedList<String>>(); //all import packages
