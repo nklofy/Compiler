@@ -203,11 +203,11 @@ public class CodeGenerator {
 		//check dirs
 		String dir;
 		try {
-			dir = (new File(".")).getCanonicalPath();
+			dir = (new File("")).getCanonicalPath();
 			String[] dirs=dir.split(File.separator);
 			int l=this.pck_names.size();
 			int l1=dirs.length;
-			if(l1<=l)
+			if(l1<l)
 				return false;
 			String dir1="";
 			for(int i=0;i<l;i++){			
@@ -215,7 +215,13 @@ public class CodeGenerator {
 					return false;
 				}
 			}
-			1234
+			if(l1==l){
+				//mkdir or find bin
+			}else if(dirs[l1-2-l].equals("src")){
+				//mkdir or find bin in ..
+			}else{
+				//mkdir or find bin in .
+			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
