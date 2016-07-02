@@ -12,6 +12,7 @@ public class test {
 		parser.parse();							System.out.println("finish parsing");
 		parser.output("out_parser.txt");
 		CodeGenerator codegen=new CodeGenerator();
+		PackageManager pkgmr=new PackageManager();
 		AST tree=parser.getAST();
 		
 		tree.genSymTb(codegen);

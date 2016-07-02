@@ -9,7 +9,7 @@ public class TypeExp_Idn extends AST {
 	TypeExp_Idn type_idn;
 	ExprPri_Var var;
 	String rst_type;
-	R_Package rst_pkg;
+	String rst_pkg;
 	T_Type t_type;
 	
 	public boolean setTypeIdn(TypeExp_Idn type_idn,ExprPri_Var var){
@@ -18,9 +18,11 @@ public class TypeExp_Idn extends AST {
 		return true;
 	}
 	public boolean genCode(CodeGenerator codegen){
-		IRCode code=new IRCode("PkgType",this.rst_type,this.var.name,this.rst_pkg.getPkgName());
-		codegen.addCode(code);
-		codegen.incLineNo();
+		if(this.type_idn!=null){
+			IRCode code=new IRCode("PkgType",this.rst_type,this.var.name,this.rst_pkg);
+			codegen.addCode(code);
+			codegen.incLineNo();
+		}
 		return true;
 	}
 	public boolean genSymTb(CodeGenerator codegen){
@@ -28,31 +30,30 @@ public class TypeExp_Idn extends AST {
 			if(!this.type_idn.genSymTb(codegen))
 				return false;
 			if(this.type_idn.rst_pkg==null)
-				return false;
-			if(this.type_idn.rst_pkg.getSubPkgs().containsKey(this.var.name)){
-				this.rst_pkg=this.type_idn.rst_pkg.getSubPkgs().get(var.name);
-			}
-			if(this.rst_pkg.getTypesInPkg().containsKey(var.name)){
-				this.rst_type="@"+codegen.getTmpSn();
-				codegen.putTypeInSymTb(this.rst_type, this.rst_pkg.getTypesInPkg().get(var.name));
-				//this.t_type=codegen.getTypeInSymTb(this.rst_type);
-			}
-			if(this.rst_pkg==null&&this.rst_type==null)
-				return false;			
+				return false;	
+			this.rst_pkg=this.type_idn.rst_pkg+"."+this.var.name;
 		}else{
-			if(codegen.getPackage(var.name)!=null){
-				this.rst_pkg=codegen.getPackage(var.name);				
-			}else
-				this.rst_type=var.name;
+			this.rst_type=var.name;
+			this.rst_pkg=var.name;
 		}
 		return true;
 	}
 	public boolean checkType(CodeGenerator codegen){
-		if(this.rst_type==null||codegen.getTypeInSymTb(this.rst_type)==null)
-			return false;
-		this.t_type=codegen.getTypeInSymTb(this.rst_type);
-		if(this.t_type==null)
-			return false;
+		if(this.type_idn==null){
+			if(this.rst_type==null||codegen.getTypeInSymTb(this.rst_type)==null)
+				return false;
+			this.t_type=codegen.getTypeInSymTb(this.rst_type);
+			if(this.t_type==null)
+				return false;
+		}else{
+			this.rst_type="@"+codegen.getTmpSn();
+			//check if package exists TODO
+			this.t_type=codegen.getTypeInSymTb(this.rst_type);
+			if(this.t_type==null)
+				return false;
+			codegen.putTypeInSymTb(this.rst_type, this.t_type);
+		}
+		
 		return true;
 	}
 }
