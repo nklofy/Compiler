@@ -32,8 +32,6 @@ public class CodeGenerator {
 	private LinkedList<R_Variable> var_file=new LinkedList<R_Variable>();
 	
 	
-	private LinkedList<String> pck_names;//package A.B.C	
-	private LinkedList<LinkedList<String>> impt_pcks; //all import packages
 	
 	public int getLineNo() {
 		return crt_line;
@@ -120,7 +118,7 @@ public class CodeGenerator {
 		ast.var_table.put(name, r);
 		return true;
 	}	
-	public R_Function getFuncInSymTb(String name){//return maybe polymorphic
+	public R_Function getFuncInSymTb(String name){
 		R_Function f=null;
 		for(AST ast:this.block_4symtb){
 			f=ast.func_table.get(name);
@@ -197,63 +195,7 @@ public class CodeGenerator {
 		}
 		return null;
 	}
-	public boolean setPcks(Parser parser){
-		this.setPckNames(parser.getPckNames());
-		//TODO import packages to typetable
-		//check dirs
-		String dir;
-		try {
-			dir = (new File("")).getCanonicalPath();
-			String[] dirs=dir.split(File.separator);
-			int l=this.pck_names.size();
-			int l1=dirs.length;
-			if(l1<l)
-				return false;
-			String dir1="";
-			for(int i=0;i<l;i++){			
-				if(!this.pck_names.get(l-i-1).equals(dirs[l1-i-1])){
-					return false;
-				}
-			}
-			if(l1==l){
-				//mkdir or find bin
-			}else if(dirs[l1-2-l].equals("src")){
-				//mkdir or find bin in ..
-			}else{
-				//mkdir or find bin in .
-			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}	
-		
-		//search in dirs for .yfc files in /bin
-		
-		//compiler .yfl if no .yfc file in /src
-		
-				
-		return true;
-	}
-	public boolean imptPcks(Parser parser){
-
-		this.setImptPcks(parser.getImptPcks());
-		return true;
-	}
-	public boolean imptYFC(){
-		return true;
-	}
-	public LinkedList<String> getPckNames() {
-		return pck_names;
-	}
-	public void setPckNames(LinkedList<String> pck_names) {
-		this.pck_names = pck_names;
-	}
-	public LinkedList<LinkedList<String>> getImptPcks() {
-		return impt_pcks;
-	}
-	public void setImptPcks(LinkedList<LinkedList<String>> impt_pcks) {
-		this.impt_pcks = impt_pcks;
-	}
+	
 	public boolean outputFile(String filename){
 		//TODO constant pool
 		//Class table
