@@ -7,24 +7,66 @@ import java.util.*;
 public class PackageManager {
 	//if not parsed, parse and add ast to ast_4_symtbl
 	//if already had YFC file, read YFC file and add new ast to ast_4_symtbl
-	private String file_name;
-	private LinkedList<String> pck_names;//package A.B.C	
-	private LinkedList<LinkedList<String>> impt_pcks; //all import packages
 	
-	public boolean setPcks(Parser parser){
-		this.setPckNames(parser.getPckNames());		//check dirs
-		this.setFileName(parser.getFileName());
+	
+	LinkedList<AST> asts_todo=new LinkedList<AST>();//asts in queue for gen YFC file
+	HashMap<AST,CodeGenerator> astgen_map=new HashMap<AST,CodeGenerator>();//ASTs and codegens for them
+	
+	public void compile(Parser parser, String file_name) {
+		// TODO Auto-generated method stub
+		parser.parse(file_name);
+		AST tree=parser.getAST();
+		asts_todo.add(tree);
+		CodeGenerator codegen;
+		astgen_map.put(tree, new CodeGenerator());
+		while(!asts_todo.isEmpty()){
+			AST ast=asts_todo.removeFirst();
+			codegen=astgen_map.get(ast);
+			//set package and filename
+			setPcks(parser,codegen);
+			//import packages
+			imptPcks(parser,codegen);
+			//parse package files, add into asts_todo 
+			//or import YFC files, 
+			//update ast symtable
+			
+			/*for all package in pcks
+			search for YFC files
+			add new ast to codegen's asts_4symtable
+			or search for YFL files
+			parse YFL files
+			add ast to asts_todo
+			add ast to codegen's asts_4symtable
+						
+			*/
+			
+			
+			ast.checkType(codegen);
+			ast.genCode(codegen);
+			codegen.outputFile();
+		}
+		
+	}
+	
+	
+	
+	public boolean setPcks(Parser parser, CodeGenerator codegen){
+		String file_name;
+		LinkedList<String> pck_names;//package A.B.C	
+		LinkedList<LinkedList<String>> impt_pcks; //all import packages
+		pck_names=parser.getPckNames();		//check dirs
+		file_name=parser.getFileName();
 		String dir;
 		try {
 			dir = (new File("")).getCanonicalPath();
 			String[] dirs=dir.split(File.separator);
-			int l=this.pck_names.size();
+			int l=pck_names.size();
 			int l1=dirs.length;
 			if(l1<=l)
 				return false;
 			int l_t=0;
 			for(int i=0;i<l;i++){			
-				if(!this.pck_names.get(l-i-1).equals(dirs[l1-i-1])){
+				if(!pck_names.get(l-i-1).equals(dirs[l1-i-1])){
 					return false;
 				}
 				l_t+=dirs[l1-i-1].length()+1;
@@ -37,9 +79,9 @@ public class PackageManager {
 				dir_b=dir.substring(0,l_t)+File.separator+"bin";
 			}
 			for(int i=0;i<l;i++){
-				dir_b+=File.separator+this.pck_names.get(i);
+				dir_b+=File.separator+pck_names.get(i);
 			}
-			File f_yfc=new File(dir_b+File.separator+this.file_name+".yfc");
+			File f_yfc=new File(dir_b+File.separator+file_name+".yfc");
 			if(f_yfc.exists()){
 				//check version TODO
 				//imptYFC(f_yfc); 
@@ -63,12 +105,11 @@ public class PackageManager {
 				
 		return true;
 	}
-	public boolean imptPcks(Parser parser){
-
-		this.setImptPcks(parser.getImptPcks());
+	
+	public boolean imptPcks(Parser parser, CodeGenerator codegen){		
 		return true;
 	}
-	public boolean imptYFL(String f_yfl){//TODO
+	public boolean imptYFL(String f_yfl){
 		return true;
 	}
 	public boolean imptYFC(File f_ylc){
@@ -77,22 +118,6 @@ public class PackageManager {
 	public boolean genYFC(String f_yfl){
 		return true;
 	}
-	public LinkedList<String> getPckNames() {
-		return pck_names;
-	}
-	public void setPckNames(LinkedList<String> pck_names) {
-		this.pck_names = pck_names;
-	}
-	public LinkedList<LinkedList<String>> getImptPcks() {
-		return impt_pcks;
-	}
-	public void setImptPcks(LinkedList<LinkedList<String>> impt_pcks) {
-		this.impt_pcks = impt_pcks;
-	}
-	public String getFileName() {
-		return file_name;
-	}
-	public void setFileName(String file_name) {
-		this.file_name = file_name;
-	}
+	
+	
 }

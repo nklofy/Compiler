@@ -25,12 +25,13 @@ public class CodeGenerator {
 	//HashMap<String,T_Type> type_tb=new HashMap<String,T_Type>();//table of type info in RT
 		
 	
-	private HashMap<String,R_Package> pkgs_impt=new HashMap<String,R_Package>();//deal with package/name-space
+	//private HashMap<String,R_Package> pkgs_impt=new HashMap<String,R_Package>();//deal with package/name-space
 	
 	private LinkedList<T_Type> type_file=new LinkedList<T_Type>();//used for generating symbol table in output file
 	private LinkedList<T_Function> func_file=new LinkedList<T_Function>();
 	private LinkedList<R_Variable> var_file=new LinkedList<R_Variable>();
 	
+	String file_name;
 	
 	
 	public int getLineNo() {
@@ -155,13 +156,13 @@ public class CodeGenerator {
 	public AST popBlock4Sym(){
 		return this.block_4symtb.remove();
 	}
-	public R_Package getPackage(String name){
-		return this.pkgs_impt.get(name);
-	}
-	public boolean addPackage(String name, R_Package pck){
-		this.pkgs_impt.put(name, pck);
-		return true;
-	}
+//	public R_Package getPackage(String name){
+//		return this.pkgs_impt.get(name);
+//	}
+//	public boolean addPackage(String name, R_Package pck){
+//		this.pkgs_impt.put(name, pck);
+//		return true;
+//	}
 	public LinkedList<T_Type> getTypeInFile() {
 		return type_file;
 	}
@@ -195,8 +196,13 @@ public class CodeGenerator {
 		}
 		return null;
 	}
-	
-	public boolean outputFile(String filename){
+	public String getFileName() {
+		return file_name;
+	}
+	public void setFileName(String file_name) {
+		this.file_name = file_name;
+	}
+	public boolean outputFile(){
 		//TODO constant pool
 		//Class table
 		//fields table

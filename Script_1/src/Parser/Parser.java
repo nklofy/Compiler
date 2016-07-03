@@ -40,8 +40,7 @@ public class Parser {
 		parser.analyzeGrm("out_grammar.txt"); 	System.out.println("analyzeGrm out_grammar.txt");
 		parser.analyzeAST("grammar_AST.txt");	System.out.println("analyzeAST grammar_AST.txt");
 		parser.analyzeLex("out_lexAnalyzer.txt");	System.out.println("analyzeLex out_lexAnalyzer.txt");
-		parser.input("script_test1.txt");	
-		parser.parse();							System.out.println("finish parsing");
+		parser.parse("script_test1.txt");							System.out.println("finish parsing");
 		parser.output("out_parser.txt");		
 		
 	}
@@ -351,7 +350,8 @@ public class Parser {
 	public void setFileName(String file_name) {
 		this.file_name = file_name;
 	}
-	public boolean parse(){
+	public boolean parse(String filename){
+		tokenizer.setScanFile(filename);
 		ParseState state_start=new ParseState();
 		sym_e=token_sn.get("e");
 		Token token=tokenizer.getToken();
