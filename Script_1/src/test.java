@@ -1,4 +1,6 @@
 import Parser.*;
+
+import java.io.IOException;
 import java.util.*;
 
 public class test {
@@ -18,7 +20,12 @@ public class test {
 		}
 		
 		PackageManager pkgman=new PackageManager();
-		pkgman.compile(parser, file_name);
+		try {
+			pkgman.compile(parser, file_name);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		System.out.println("finish compiling "+file_name);
 		//parser.input(file_name);	
 		//parser.parse();							System.out.println("finish parsing");

@@ -31,7 +31,7 @@ public class CodeGenerator {
 	private LinkedList<T_Function> func_file=new LinkedList<T_Function>();
 	private LinkedList<R_Variable> var_file=new LinkedList<R_Variable>();
 	
-	String file_name;
+	private String file_name;
 	
 	
 	public int getLineNo() {

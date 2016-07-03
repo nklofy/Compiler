@@ -30,7 +30,7 @@ public class Parser {
 	private int sym_e;
 	private LinkedList<String> pck_names = new LinkedList<String>();//package A.B.C
 	private LinkedList<LinkedList<String>> impt_pcks=new LinkedList<LinkedList<String>>(); //all import packages
-	private String file_name;
+	//private String file_name;
 	
 	public AST getAST(){
 		return ast_tree;
@@ -344,12 +344,12 @@ public class Parser {
 		}
 		return false;
 	}
-	public String getFileName() {
+/*	public String getFileName() {
 		return file_name;
 	}
 	public void setFileName(String file_name) {
 		this.file_name = file_name;
-	}
+	}*/
 	public boolean parse(String filename){
 		tokenizer.setScanFile(filename);
 		ParseState state_start=new ParseState();
