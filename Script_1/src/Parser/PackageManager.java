@@ -1,8 +1,9 @@
 package Parser;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.util.*;
+
+import javax.swing.filechooser.FileFilter;
 
 public class PackageManager {
 	//if not parsed, parse and add ast to ast_4_symtbl
@@ -79,42 +80,127 @@ public class PackageManager {
 	} 
 	public boolean setPck(Parser parser, CodeGenerator codegen, String dir_b){		
 		LinkedList<String> pck_names=parser.getPckNames();
-		
+		String file_name=codegen.getFileName();
 		//search YFC files
 		//check YFC files' version
 		//read YFC add new ast to codegen's symtable
 		
-		/*String fname_b=dir_bin+File.separator+file_name+".yfc";
+		String fname_b=dir_b+File.separator+file_name+".yfc";
+		codegen.setOutFile(fname_b);
 		File f_yfc=new File(fname_b);
 		if(f_yfc.exists()){
-			//check version 
-			//imptYFC(f_yfc); 
+			f_yfc.delete();
 		}else{
-			File dir_f=new File(dir_bin);
+			File dir_f=new File(dir_b);
 			if(!dir_f.exists()){
 				dir_f.mkdirs();					
-			}
-			//f_yfc.createNewFile();
-			//imptYFL(dir_b+File.separator+this.file_name+".yfl");
-		}*/
+			}			
+		}
 		return true;
 	}
 	public boolean imptPcks(Parser parser, CodeGenerator codegen, String dir_b, String dir_s){		
 		LinkedList<LinkedList<String>> impt_pcks=parser.getImptPcks();
-		//search YFC files
-		//check YFC files' version
-		//read YFC add new ast to codegen's symtable
+		
+		for(LinkedList<String>pck:impt_pcks){
+			//search YFC files in dir_src/dir_lib
+			//check YFC files' version
+			//read YFC add new ast to codegen's symtable
+			String dir_f="";
+			if(pck.getLast().equals("*")){//src code like import A.B.*
+				for(int i=0;i<pck.size()-1;i++){
+					dir_f+=File.separator+pck.get(i);
+				}
+				File f_b=new File(dir_b+dir_f);
+				File f_s=new File(dir_s+dir_f);
+				File f_l=new File(this.dir_lib+dir_f);
+				if(f_s.exists()){
+					if(f_b.exists()){
+						File[] files=f_s.listFiles();
+						for(File f1:files){
+							if(f1.isFile()){
+								String fn1=f1.getName();
+								if(!fn1.substring(fn1.indexOf(File.separator), fn1.length()).equals(".yfl"))
+									continue;
+								String s1=dir_b+dir_f+fn1.substring(0,fn1.indexOf(File.separator));
+								File f2=new File(s1+File.separator+"yfc");
+								if(f2.exists()&&f2.lastModified()<f1.lastModified()){//find yfc file and check version
+									continue;
+								}else{//parse or re-parse yfl files
+									try {
+										parser.parse(f1.getCanonicalPath());
+									} catch (IOException e) {
+										e.printStackTrace();
+									}
+									this.asts_todo.add(parser.getAST());
+									CodeGenerator codegen1=new CodeGenerator();
+									this.astgen_map.put(parser.getAST(), codegen1);
+								}
+							}
+						}
+					}else{//if(f_b.exists()){
+						File[] files=f_s.listFiles();
+						for(File f1:files){
+							if(f1.isFile()){//parse yfl files 
+								try {
+									parser.parse(f1.getCanonicalPath());
+								} catch (IOException e) {
+									e.printStackTrace();
+								}
+								this.asts_todo.add(parser.getAST());
+								CodeGenerator codegen1=new CodeGenerator();
+								this.astgen_map.put(parser.getAST(), codegen1);
+							}
+						}						
+					}
+				}else if(f_b.exists()){
+					File[] files=f_b.listFiles();
+					for(File f2:files){
+						if(f2.isFile()){
+							String fn2=f2.getName();
+							if(!fn2.substring(fn2.indexOf(File.separator), fn2.length()).equals(".yfc"))
+								continue;
+							this.imptYFC(f2);
+						}
+					}
+				}else if(f_l.exists()){
+					File[] files=f_l.listFiles();
+					for(File f2:files){
+						if(f2.isFile()){
+							String fn2=f2.getName();
+							if(!fn2.substring(fn2.indexOf(File.separator), fn2.length()).equals(".yfc"))
+								continue;
+							this.imptYFC(f2);
+						}
+					}
+				}
+			}else{//src code like import A.B.C
+				for(String s:pck){
+					dir_f+=File.separator+s;				
+				}
+				File f_b=new File(dir_b+dir_f+File.separator+"yfc");
+				File f_s=new File(dir_s+dir_f+File.separator+"yfl");
+				File f_l=new File(this.dir_lib+dir_f+File.separator+"yfc");
+				if(f_s.exists()){
+					if(f_b.exists()){
+						
+					}else{//if(f_b.exists()){
+												
+					}
+				}else if(f_b.exists()){
+					
+				}else if(f_l.exists()){
+					
+				}
+			}
+		}
+		return true;
+	}	
+	public boolean imptYFC(File f_ylc){
 		
 		return true;
 	}
-	
-	public boolean imptYFL(String f_yfl){
-		return true;
-	}
-	public boolean imptYFC(File f_ylc){
-		return true;
-	}
 	public boolean genYFC(String f_yfl){
+		
 		return true;
 	}
 	

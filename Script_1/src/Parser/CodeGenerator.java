@@ -32,6 +32,7 @@ public class CodeGenerator {
 	private LinkedList<R_Variable> var_file=new LinkedList<R_Variable>();
 	
 	private String file_name;
+	private String out_file;
 	
 	
 	public int getLineNo() {
@@ -201,6 +202,12 @@ public class CodeGenerator {
 	}
 	public void setFileName(String file_name) {
 		this.file_name = file_name;
+	}
+	public String getOutFile() {
+		return out_file;
+	}
+	public void setOutFile(String out_file) {
+		this.out_file = out_file;
 	}
 	public boolean outputFile(){
 		//TODO constant pool

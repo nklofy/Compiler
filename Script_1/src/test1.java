@@ -4,7 +4,7 @@ public class test1 {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		File dir=new File("/home/luyunfei/y/l/yc");
+		File dir=new File("/home/luyunfei");
 
 		//if(!dir.exists()){
 		//	System.out.println("no");
@@ -14,11 +14,10 @@ public class test1 {
 		try {
 			System.out.println(dir.getCanonicalPath());
 			System.out.println(dir.getAbsolutePath());
-			if(dir.mkdirs())
-				System.out.println("ok1");
-			File f=new File(dir.getCanonicalPath()+File.separator+"yf");
-			if(f.createNewFile())
-				System.out.println("ok2");
+			File[] ss=dir.listFiles();
+			for(File f:ss){
+				System.out.println(f.getCanonicalPath());
+			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
