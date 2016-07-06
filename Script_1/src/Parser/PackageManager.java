@@ -106,7 +106,7 @@ public class PackageManager {
 			//check YFC files' version
 			//read YFC add new ast to codegen's symtable
 			String dir_f="";
-			if(pck.getLast().equals("*")){//src code like import A.B.*
+			if(pck.getLast().equals("*")){//such as import A.B.*
 				for(int i=0;i<pck.size()-1;i++){
 					dir_f+=File.separator+pck.get(i);
 				}
@@ -123,7 +123,7 @@ public class PackageManager {
 									continue;
 								String s1=dir_b+dir_f+fn1.substring(0,fn1.indexOf(File.separator));
 								File f2=new File(s1+File.separator+"yfc");
-								if(f2.exists()&&f2.lastModified()<f1.lastModified()){//find yfc file and check version
+								if(f2.exists()&&f2.lastModified()>f1.lastModified()){//find yfc file and check version
 									continue;
 								}else{//parse or re-parse yfl files
 									try {
@@ -132,6 +132,7 @@ public class PackageManager {
 										e.printStackTrace();
 									}
 									this.asts_todo.add(parser.getAST());
+									//TODO add symtable
 									CodeGenerator codegen1=new CodeGenerator();
 									this.astgen_map.put(parser.getAST(), codegen1);
 								}
@@ -147,6 +148,8 @@ public class PackageManager {
 									e.printStackTrace();
 								}
 								this.asts_todo.add(parser.getAST());
+								//TODO add symtable
+								
 								CodeGenerator codegen1=new CodeGenerator();
 								this.astgen_map.put(parser.getAST(), codegen1);
 							}
@@ -157,7 +160,7 @@ public class PackageManager {
 					for(File f2:files){
 						if(f2.isFile()){
 							String fn2=f2.getName();
-							if(!fn2.substring(fn2.indexOf(File.separator), fn2.length()).equals(".yfc"))
+							if(!fn2.substring(fn2.indexOf(File.separator)+1, fn2.length()).equals("yfc"))
 								continue;
 							this.imptYFC(f2);
 						}
@@ -167,29 +170,50 @@ public class PackageManager {
 					for(File f2:files){
 						if(f2.isFile()){
 							String fn2=f2.getName();
-							if(!fn2.substring(fn2.indexOf(File.separator), fn2.length()).equals(".yfc"))
+							if(!fn2.substring(fn2.indexOf(File.separator)+1, fn2.length()).equals("yfc"))
 								continue;
 							this.imptYFC(f2);
 						}
 					}
 				}
-			}else{//src code like import A.B.C
+			}else{//such as import A.B.C
 				for(String s:pck){
 					dir_f+=File.separator+s;				
 				}
 				File f_b=new File(dir_b+dir_f+File.separator+"yfc");
 				File f_s=new File(dir_s+dir_f+File.separator+"yfl");
 				File f_l=new File(this.dir_lib+dir_f+File.separator+"yfc");
-				if(f_s.exists()){
-					if(f_b.exists()){
-						
-					}else{//if(f_b.exists()){
-												
+				if(f_s.exists()&&f_s.isFile()){
+					String fn1=f_s.getName();					
+					String s1=dir_b+dir_f+fn1;
+					File f2=new File(s1+File.separator+"yfc");
+					if(f2.exists()&&f2.isFile()&&f2.lastModified()<f_s.lastModified()){//find yfc file and check version
+						try {
+							parser.parse(f_s.getCanonicalPath());
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
+						this.asts_todo.add(parser.getAST());
+						//TODO add symtable
+						CodeGenerator codegen1=new CodeGenerator();
+						this.astgen_map.put(parser.getAST(), codegen1);
+					}else{//if(f2.exists()){
+						try {
+							parser.parse(f_s.getCanonicalPath());
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
+						this.asts_todo.add(parser.getAST());
+						//TODO add symtable
+						CodeGenerator codegen1=new CodeGenerator();
+						this.astgen_map.put(parser.getAST(), codegen1);
 					}
-				}else if(f_b.exists()){
-					
-				}else if(f_l.exists()){
-					
+				}else if(f_b.exists()&&f_b.isFile()){
+					String fn4=f_b.getName();
+					this.imptYFC(f_b);
+				}else if(f_l.exists()&&f_l.isFile()){
+					String fn5=f_l.getName();
+					this.imptYFC(f_l);
 				}
 			}
 		}
