@@ -27,17 +27,18 @@ public class PackageManager {
 		String dir_s=(getDir(parser.getPckNames(),dir))[1];//.../src
 		
 		while(!asts_todo.isEmpty()){
-			AST ast=asts_todo.removeFirst();
+			AST ast=asts_todo.getFirst();
 			codegen=astgen_map.get(ast);
 			
-			//TODO
+			
 			setPck(parser,codegen,dir_b);//set package for current YFL file, set output file path
 			imptPcks(parser,codegen,dir_s,dir_b);//deal with packages imported, parse them and update symtable
 			
 			
 			ast.checkType(codegen);
 			ast.genCode(codegen);
-			codegen.outputFile();
+			codegen.outputFile();//TODO
+			asts_todo.removeFirst();
 		}
 		
 	}
@@ -71,19 +72,15 @@ public class PackageManager {
 		dir_r[1]=dir_src;
 		return dir_r;
 	}
-	public String getDir_b(LinkedList<String> pck_names, String file_name, String dir){
+/*	public String getDir_b(LinkedList<String> pck_names, String file_name, String dir){
 		String dir_bin=dir;
 		for(int i=0;i<pck_names.size();i++){
 			dir_bin+=File.separator+pck_names.get(i);
 		}
 		return dir_bin;
-	} 
-	public boolean setPck(Parser parser, CodeGenerator codegen, String dir_b){		
-		LinkedList<String> pck_names=parser.getPckNames();
+	} */
+	public boolean setPck(Parser parser, CodeGenerator codegen, String dir_b){	
 		String file_name=codegen.getFileName();
-		//search YFC files
-		//check YFC files' version
-		//read YFC add new ast to codegen's symtable
 		
 		String fname_b=dir_b+File.separator+file_name+".yfc";
 		codegen.setOutFile(fname_b);
@@ -132,7 +129,7 @@ public class PackageManager {
 										e.printStackTrace();
 									}
 									this.asts_todo.add(parser.getAST());
-									//TODO add symtable
+									codegen.pushBlock4Sym(parser.getAST());  
 									CodeGenerator codegen1=new CodeGenerator();
 									this.astgen_map.put(parser.getAST(), codegen1);
 								}
@@ -148,8 +145,7 @@ public class PackageManager {
 									e.printStackTrace();
 								}
 								this.asts_todo.add(parser.getAST());
-								//TODO add symtable
-								
+								codegen.pushBlock4Sym(parser.getAST());  
 								CodeGenerator codegen1=new CodeGenerator();
 								this.astgen_map.put(parser.getAST(), codegen1);
 							}
@@ -194,7 +190,7 @@ public class PackageManager {
 							e.printStackTrace();
 						}
 						this.asts_todo.add(parser.getAST());
-						//TODO add symtable
+						codegen.pushBlock4Sym(parser.getAST());  
 						CodeGenerator codegen1=new CodeGenerator();
 						this.astgen_map.put(parser.getAST(), codegen1);
 					}else{//if(f2.exists()){
@@ -204,15 +200,13 @@ public class PackageManager {
 							e.printStackTrace();
 						}
 						this.asts_todo.add(parser.getAST());
-						//TODO add symtable
+						codegen.pushBlock4Sym(parser.getAST());  
 						CodeGenerator codegen1=new CodeGenerator();
 						this.astgen_map.put(parser.getAST(), codegen1);
 					}
-				}else if(f_b.exists()&&f_b.isFile()){
-					String fn4=f_b.getName();
+				}else if(f_b.exists()&&f_b.isFile()){//no yfl, but yfc file					
 					this.imptYFC(f_b);
 				}else if(f_l.exists()&&f_l.isFile()){
-					String fn5=f_l.getName();
 					this.imptYFC(f_l);
 				}
 			}

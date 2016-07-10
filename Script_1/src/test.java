@@ -23,7 +23,6 @@ public class test {
 		try {
 			pkgman.compile(parser, file_name);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		System.out.println("finish compiling "+file_name);

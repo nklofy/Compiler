@@ -215,6 +215,32 @@ public class CodeGenerator {
 		//fields table
 		//methods table
 		//scripts
+		
+		return true;
+	}
+	//TODO
+	public boolean outputClsTb(){//classes, including fields and methods
+		return true;
+	}
+	public boolean outputFldTb(){//fields
+		return true;
+	}
+	public boolean outputMthdTb(){//methods
+		return true;
+	}
+	public boolean outputFuncTb(){//function defined in script area
+		return true;
+	}
+	public boolean outputVarTb(){//static or global variable in script area
+		return true;
+	}
+	public boolean outputTypTb(){//types (alias, lambda p, lambda d) defined in script area 
+		return true;
+	}
+	public boolean outputScrpTb(){//script's codes
+		return true;
+	}
+	public boolean outputConsTb(){
 		return true;
 	}
 }
