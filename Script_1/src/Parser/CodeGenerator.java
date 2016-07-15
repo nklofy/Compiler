@@ -210,37 +210,58 @@ public class CodeGenerator {
 		this.out_file = out_file;
 	}
 	public boolean outputFile(){
-		//TODO constant pool
+		//constant pool
 		//Class table
 		//fields table
 		//methods table
 		//scripts
-		
+		PrintWriter out=null;
+		try {
+			out=new PrintWriter(new BufferedWriter(new FileWriter(out_file)));
+			out.println("89597046");
+			out.println("");
+		} catch (Exception e) {			
+			e.printStackTrace();
+		}finally{
+			out.close();
+		}
 		return true;
 	}
 	//TODO
-	public boolean outputClsTb(){//classes, including fields and methods
+	public boolean outputClsTb(PrintWriter out){//classes or interfaces, including fields and methods
+		for(T_Type t:this.type_file){
+			switch(t.getKType()){
+			case t_cls:
+				
+				break;
+			case t_intf:
+				
+				break;
+			default:
+				break;
+			}
+		}
 		return true;
 	}
-	public boolean outputFldTb(){//fields
+	public boolean outputFldTb(PrintWriter out){//fields
 		return true;
 	}
-	public boolean outputMthdTb(){//methods
+	public boolean outputMthdTb(PrintWriter out){//methods
 		return true;
 	}
-	public boolean outputFuncTb(){//function defined in script area
+	public boolean outputFuncTb(PrintWriter out){//function defined in script area
 		return true;
 	}
-	public boolean outputVarTb(){//static or global variable in script area
+	public boolean outputVarTb(PrintWriter out){//static or global variable in script area
 		return true;
 	}
-	public boolean outputTypTb(){//types (alias, lambda p, lambda d) defined in script area 
+	public boolean outputTypTb(PrintWriter out){//types (alias, lambda p, lambda d) defined in script area 
 		return true;
 	}
-	public boolean outputScrpTb(){//script's codes
+	public boolean outputScrpTb(PrintWriter out){//script's codes
 		return true;
 	}
-	public boolean outputConsTb(){
+	public boolean outputConsTb(PrintWriter out){//const pool
 		return true;
 	}
 }
