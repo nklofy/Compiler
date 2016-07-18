@@ -33,7 +33,8 @@ public class CodeGenerator {
 	
 	private String file_name;
 	private String out_file;
-	
+	private LinkedList<String> pck_name;
+	private LinkedList<LinkedList<String>> impt_pcks;
 	
 	public int getLineNo() {
 		return crt_line;
@@ -197,6 +198,18 @@ public class CodeGenerator {
 		}
 		return null;
 	}
+	public LinkedList<String> getPckName() {
+		return pck_name;
+	}
+	public void setPckName(LinkedList<String> linkedList) {
+		this.pck_name = linkedList;
+	}
+	public LinkedList<LinkedList<String>> getImptPcks() {
+		return impt_pcks;
+	}
+	public void setImptPcks(LinkedList<LinkedList<String>> impt_pcks) {
+		this.impt_pcks = impt_pcks;
+	}
 	public String getFileName() {
 		return file_name;
 	}
@@ -219,7 +232,12 @@ public class CodeGenerator {
 		try {
 			out=new PrintWriter(new BufferedWriter(new FileWriter(out_file)));
 			out.println("89597046");
-			out.println("");
+			if(!this.pck_name.isEmpty()){
+				
+			}
+			if(!this.impt_pcks.isEmpty()){
+				
+			}
 		} catch (Exception e) {			
 			e.printStackTrace();
 		}finally{
@@ -249,19 +267,24 @@ public class CodeGenerator {
 	public boolean outputMthdTb(PrintWriter out){//methods
 		return true;
 	}
-	public boolean outputFuncTb(PrintWriter out){//function defined in script area
+	public boolean outputVarTb(PrintWriter out){//static or global variable in script area
+		//no use right now. for static variable in future
 		return true;
 	}
-	public boolean outputVarTb(PrintWriter out){//static or global variable in script area
+	public boolean outputFuncTb(PrintWriter out){//function defined in script area
+		//no use right now. for static
 		return true;
 	}
 	public boolean outputTypTb(PrintWriter out){//types (alias, lambda p, lambda d) defined in script area 
+		//no use right now
 		return true;
 	}
 	public boolean outputScrpTb(PrintWriter out){//script's codes
+		
 		return true;
 	}
 	public boolean outputConsTb(PrintWriter out){//const pool
+		
 		return true;
 	}
 }

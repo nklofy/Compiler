@@ -22,7 +22,8 @@ public class PackageManager {
 		astgen_map.put(tree, codegen);
 		codegen.setFileName(file_name);
 		String dir=(new File("")).getCanonicalPath();
-		
+		codegen.setPckName(parser.getPckNames());
+		codegen.setImptPcks(parser.getImptPcks());
 		String dir_b=(getDir(parser.getPckNames(),dir))[0];//.../bin
 		String dir_s=(getDir(parser.getPckNames(),dir))[1];//.../src
 		
@@ -132,6 +133,8 @@ public class PackageManager {
 									codegen.pushBlock4Sym(parser.getAST());  
 									CodeGenerator codegen1=new CodeGenerator();
 									this.astgen_map.put(parser.getAST(), codegen1);
+									codegen1.setPckName(parser.getPckNames());
+									codegen1.setImptPcks(parser.getImptPcks());
 								}
 							}
 						}
