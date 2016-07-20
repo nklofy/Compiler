@@ -232,12 +232,30 @@ public class CodeGenerator {
 		try {
 			out=new PrintWriter(new BufferedWriter(new FileWriter(out_file)));
 			out.println("89597046");
+			out.println(this.file_name);
 			if(!this.pck_name.isEmpty()){
-				
+				out.println("pckg "+this.pck_name.size());
+				for(String s:this.pck_name){
+					out.print(s+".");
+				}
+				out.println();
+			}else{
+				out.println("pckg 0");
 			}
 			if(!this.impt_pcks.isEmpty()){
-				
+				out.println("impt "+this.impt_pcks.size());
+				for(LinkedList<String> im:this.impt_pcks){
+					for(String s:im){
+						out.print(s+".");
+					}
+					out.println();
+				}
+			}else{
+				out.println("impt 0");
 			}
+			outputClsTb(out);
+			outputFuncTb(out);
+			outputScript(out);
 		} catch (Exception e) {			
 			e.printStackTrace();
 		}finally{
@@ -267,23 +285,23 @@ public class CodeGenerator {
 	public boolean outputMthdTb(PrintWriter out){//methods
 		return true;
 	}
+	public boolean outputFuncTb(PrintWriter out){//function defined in script area. can define after use.
+		
+		return true;
+	}
 	public boolean outputVarTb(PrintWriter out){//static or global variable in script area
 		//no use right now. for static variable in future
 		return true;
-	}
-	public boolean outputFuncTb(PrintWriter out){//function defined in script area
-		//no use right now. for static
-		return true;
-	}
+	}	
 	public boolean outputTypTb(PrintWriter out){//types (alias, lambda p, lambda d) defined in script area 
 		//no use right now
 		return true;
 	}
-	public boolean outputScrpTb(PrintWriter out){//script's codes
+	public boolean outputScript(PrintWriter out){//script's codes
 		
 		return true;
 	}
-	public boolean outputConsTb(PrintWriter out){//const pool
+	public boolean outputCnstTb(PrintWriter out){//const pool. no, i dont really need a const pool. i use string name instead of ref_info.
 		
 		return true;
 	}
