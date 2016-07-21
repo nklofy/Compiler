@@ -32,13 +32,13 @@ public class T_Function extends T_Type {
 			for(String g:this.getGnrcPars()){
 				s+=codegen.getTypeInSymTb(g).getTypeSig()+",";
 			}
-			s+=">";
+			s=s.substring(0,s.length()-1)+">";
 		}
 		s=codegen.getTypeInSymTb(this.ret_type).getTypeSig()+"(";
 		for(String name:this.par_types){
 			s+=codegen.getTypeInSymTb(name).getTypeSig()+",";
 		}
-		s+=")";		
+		s=s.substring(0,s.length()-1)+")";		
 		this.setTypeSig(s);
 	}
 	public boolean isEqType(T_Function t){//TODO

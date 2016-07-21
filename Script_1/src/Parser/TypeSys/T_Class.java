@@ -45,7 +45,7 @@ public class T_Class extends T_Type {
 	public void genTypeSig(CodeGenerator codegen) {
 		String s=this.getTypeName();
 		if(this.isGnrc())
-			s=s+"<"+this.getGnrcPars().size()+">";
+			s=s+"<"+this.getGnrcPars().size()+">";1243
 		this.setTypeSig(s);
 	}
 	

@@ -234,24 +234,22 @@ public class CodeGenerator {
 			out.println("89597046");
 			out.println(this.file_name);
 			if(!this.pck_name.isEmpty()){
-				out.println("pckg "+this.pck_name.size());
+				out.println("package");
+				String s1=null;
 				for(String s:this.pck_name){
-					out.print(s+".");
+					s1+=s+".";
 				}
-				out.println();
-			}else{
-				out.println("pckg 0");
+				out.println(s1.substring(0, s1.length()-1));
 			}
 			if(!this.impt_pcks.isEmpty()){
-				out.println("impt "+this.impt_pcks.size());
+				out.println("import "+this.impt_pcks.size());
 				for(LinkedList<String> im:this.impt_pcks){
+					String s1=null;
 					for(String s:im){
-						out.print(s+".");
+						s1+=s+".";
 					}
-					out.println();
+					out.println(s1.substring(0,s1.length()-1));
 				}
-			}else{
-				out.println("impt 0");
 			}
 			outputClsTb(out);
 			outputFuncTb(out);
@@ -268,9 +266,36 @@ public class CodeGenerator {
 		for(T_Type t:this.type_file){
 			switch(t.getKType()){
 			case t_cls:
-				
+				T_Class t1=(T_Class)t;
+				//output t1's name, super_cls, impt_intfs, generic pars, fields, methods
+				out.println(t1.getTypeSig());
+				if(!t1.getExtdTypes().isEmpty()){
+					out.println("extends "+t1.getExtdTypes().size());	
+					String s1=null;
+					for(String s2:t1.getExtdTypes()){
+						s1+=s2+",";
+					}
+					out.println(s1.substring(0,s1.length()-1));
+				}
+				if(!t1.getImplTypes().isEmpty()){
+					out.println("impliments "+t1.getImplTypes().size());
+					String s1=null;
+					for(String s2:t1.getImplTypes()){						
+						s1+=s2+",";
+					}
+					out.println(s1.substring(0,s1.length()-1));					
+				}	
+				if(!t1.getFields().isEmpty()){
+					
+				}
+				if(!t1.getMethods().isEmpty()){
+					
+				}
 				break;
 			case t_intf:
+				T_Interface t2=(T_Interface)t;
+				//output t2's name, impt_intfs, generic pars, methods
+				out.println(t2.getTypeSig());
 				
 				break;
 			default:
@@ -279,12 +304,7 @@ public class CodeGenerator {
 		}
 		return true;
 	}
-	public boolean outputFldTb(PrintWriter out){//fields
-		return true;
-	}
-	public boolean outputMthdTb(PrintWriter out){//methods
-		return true;
-	}
+	
 	public boolean outputFuncTb(PrintWriter out){//function defined in script area. can define after use.
 		
 		return true;
