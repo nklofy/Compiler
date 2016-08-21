@@ -286,10 +286,32 @@ public class CodeGenerator {
 					out.println(s1.substring(0,s1.length()-1));					
 				}	
 				if(!t1.getFields().isEmpty()){
-					
+					out.println("fields "+t1.getFields().size());
+					for(String name:t1.getFields().keySet()){
+						out.println(name+":"+(t1.getFields().get(name).getVarType()));//TODO change typename in TypeExp files.
+					}
 				}
 				if(!t1.getMethods().isEmpty()){
-					
+					out.println("methods "+t1.getMethods().size());
+					for(String name:t1.getMethods().keySet()){
+						R_Function f=t1.getMethods().get(name);
+						if(f.isDummy()){
+							//TODO
+						}
+						if(f.isMulti()){
+							for(String s:f.getMulti().keySet()){
+								R_Function f1=f.getMulti().get(s);
+								//TODO
+							}
+						}else{
+							
+							ArrayList<IRCode> codes=f.getFuncBody();
+							for(IRCode code:codes){
+								out.println(code.getOpt()+" "+code.getOpd1()+" "+code.getOpd2()+" "+code.getOpd3());
+							}
+							out.println("ret");
+						}
+					}
 				}
 				break;
 			case t_intf:

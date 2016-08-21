@@ -23,7 +23,7 @@ public class MbrDef_Mthd extends AST {
 		return true;
 	}
 	public boolean genCode(CodeGenerator codegen){
-		
+		this.func_def.genCode(codegen);
 		return true;
 	}
 	public boolean genSymTb(CodeGenerator codegen){

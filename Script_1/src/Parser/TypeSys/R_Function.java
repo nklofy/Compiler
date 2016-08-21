@@ -87,7 +87,7 @@ public class R_Function {
 	public String getFuncSig() {
 		return this.func_sig;
 	}
-	public void setFuncSig(String type_code) {
+	public void setFuncSig(String type_code) {//TODO
 		this.func_sig = type_code;
 	}
 	public AST getFuncDef() {
