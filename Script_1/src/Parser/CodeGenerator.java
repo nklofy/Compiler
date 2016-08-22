@@ -28,7 +28,7 @@ public class CodeGenerator {
 	//private HashMap<String,R_Package> pkgs_impt=new HashMap<String,R_Package>();//deal with package/name-space
 	
 	private LinkedList<T_Type> type_file=new LinkedList<T_Type>();//used for generating symbol table in output file
-	private LinkedList<T_Function> func_file=new LinkedList<T_Function>();
+	private LinkedList<R_Function> func_file=new LinkedList<R_Function>();
 	private LinkedList<R_Variable> var_file=new LinkedList<R_Variable>();
 	
 	private String file_name;
@@ -171,10 +171,10 @@ public class CodeGenerator {
 	public void addTypeInFile(T_Type type_file) {
 		this.type_file.add(type_file);
 	}	
-	public LinkedList<T_Function> getFuncInFile() {
+	public LinkedList<R_Function> getFuncInFile() {
 		return func_file;
 	}
-	public void addtFuncInFile(T_Function func_file) {
+	public void addtFuncInFile(R_Function func_file) {
 		this.func_file.add(func_file);
 	}
 	public LinkedList<R_Variable> getVarInFile() {
@@ -296,15 +296,21 @@ public class CodeGenerator {
 					for(String name:t1.getMethods().keySet()){
 						R_Function f=t1.getMethods().get(name);
 						if(f.isDummy()){
-							//TODO
+							out.println(f.getFuncName()+" "+f.getFuncSig());
+							out.println("dummy");
 						}
-						if(f.isMulti()){
+						if(f.isMulti()){							
 							for(String s:f.getMulti().keySet()){
 								R_Function f1=f.getMulti().get(s);
-								//TODO
+								out.println(f1.getFuncName()+" "+f1.getFuncSig());
+								ArrayList<IRCode> codes=f.getFuncBody();
+								for(IRCode code:codes){
+									out.println(code.getOpt()+" "+code.getOpd1()+" "+code.getOpd2()+" "+code.getOpd3());
+								}
+								out.println("ret");
 							}
-						}else{
-							
+						}else{	
+							out.println(f.getFuncName()+" "+f.getFuncSig());
 							ArrayList<IRCode> codes=f.getFuncBody();
 							for(IRCode code:codes){
 								out.println(code.getOpt()+" "+code.getOpd1()+" "+code.getOpd2()+" "+code.getOpd3());
@@ -318,7 +324,31 @@ public class CodeGenerator {
 				T_Interface t2=(T_Interface)t;
 				//output t2's name, impt_intfs, generic pars, methods
 				out.println(t2.getTypeSig());
-				
+				if(!t2.getExtdTypes().isEmpty()){
+					out.println("extends "+t2.getExtdTypes().size());	
+					String s1=null;
+					for(String s2:t2.getExtdTypes()){
+						s1+=s2+",";
+					}
+					out.println(s1.substring(0,s1.length()-1));
+				}
+				if(!t2.getMethods().isEmpty()){
+					out.println("methods "+t2.getMethods().size());
+					for(String name:t2.getMethods().keySet()){
+						R_Function f=t2.getMethods().get(name);
+						if(f.isDummy()){
+							out.println(f.getFuncName()+" "+f.getFuncSig());
+							out.println("dummy");
+						}
+						if(f.isMulti()){							
+							for(String s:f.getMulti().keySet()){
+								R_Function f1=f.getMulti().get(s);
+								out.println(f1.getFuncName()+" "+f1.getFuncSig());
+								out.println("dummy");
+							}
+						}
+					}
+				}
 				break;
 			default:
 				break;
@@ -328,7 +358,30 @@ public class CodeGenerator {
 	}
 	
 	public boolean outputFuncTb(PrintWriter out){//function defined in script area. can define after use.
-		
+		for(R_Function f:this.func_file){
+			if(f.isDummy()){
+				out.println(f.getFuncName()+" "+f.getFuncSig());
+				out.println("dummy");
+			}
+			if(f.isMulti()){							
+				for(String s:f.getMulti().keySet()){
+					R_Function f1=f.getMulti().get(s);
+					out.println(f1.getFuncName()+" "+f1.getFuncSig());
+					ArrayList<IRCode> codes=f.getFuncBody();
+					for(IRCode code:codes){
+						out.println(code.getOpt()+" "+code.getOpd1()+" "+code.getOpd2()+" "+code.getOpd3());
+					}
+					out.println("ret");
+				}
+			}else{	
+				out.println(f.getFuncName()+" "+f.getFuncSig());
+				ArrayList<IRCode> codes=f.getFuncBody();
+				for(IRCode code:codes){
+					out.println(code.getOpt()+" "+code.getOpd1()+" "+code.getOpd2()+" "+code.getOpd3());
+				}
+				out.println("ret");
+			}
+		}
 		return true;
 	}
 	public boolean outputVarTb(PrintWriter out){//static or global variable in script area
