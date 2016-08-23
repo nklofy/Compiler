@@ -33,6 +33,18 @@ public class Stmt_DefFunc extends AST {
 		ArrayList<IRCode> old_ir=codegen.getCodeList();
 		codegen.setCodeList(new ArrayList<IRCode>());
 		codegen.setLineNo(-1);
+		
+		if(this.gnrc_pars!=null){
+			IRCode code=new IRCode("pushGPars",this.ptr_func,this.gnrc_pars.rst_val,null);
+			codegen.addCode(code);
+			codegen.incLineNo();
+		}
+		if(this.arg_lst!=null){
+			IRCode code=new IRCode("pushFPars",this.ptr_func,this.pars.rst_val,null);
+			codegen.addCode(code);
+			codegen.incLineNo();
+		}
+		
 		if(!this.stmt_list.genCode(codegen))
 			return false;
 		this.r_func.setFuncBody(codegen.getCodeList());

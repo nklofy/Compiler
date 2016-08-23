@@ -393,7 +393,9 @@ public class CodeGenerator {
 		return true;
 	}
 	public boolean outputScript(PrintWriter out){//script's codes
-		
+		for(IRCode code:this.code_list){
+			out.println(code.getOpt()+" "+code.getOpd1()+" "+code.getOpd2()+" "+code.getOpd3());
+		}		
 		return true;
 	}
 	public boolean outputCnstTb(PrintWriter out){//const pool. no, i dont really need a const pool. i use string name instead of ref_info.
