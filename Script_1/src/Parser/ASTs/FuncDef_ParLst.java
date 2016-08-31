@@ -8,6 +8,8 @@ public class FuncDef_ParLst extends AST {
 	LinkedList<FuncDef_Par> pars;
 	LinkedList<String> pars_type;
 	LinkedList<String> pars_name;
+	String rst_val;
+	
 	
 	public void addPar(FuncDef_Par par){
 		if(pars==null){
@@ -21,12 +23,20 @@ public class FuncDef_ParLst extends AST {
 	public void setE() {
 		this.isE = true;
 	}
+	public String getVal() {
+		return rst_val;
+	}
+	public void setVal(String val) {
+		this.rst_val = val;
+	}
 	public boolean genCode(CodeGenerator codegen){
 		if(isE)
 			return true;
 		for(FuncDef_Par par:pars){
 			par.genCode(codegen);
+			this.rst_val+=par.var.rst_val+",";
 		}
+		this.rst_val=this.rst_val.substring(0, rst_val.length()-1);
 		return true;
 	}
 	public boolean genSymTb(CodeGenerator codegen){

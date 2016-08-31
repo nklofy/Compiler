@@ -35,12 +35,12 @@ public class Stmt_DefFunc extends AST {
 		codegen.setLineNo(-1);
 		
 		if(this.gnrc_pars!=null){
-			IRCode code=new IRCode("pushGPars",this.ptr_func,this.gnrc_pars.rst_val,null);
+			IRCode code=new IRCode("defGPars",this.gnrc_pars.rst_val,null,null);
 			codegen.addCode(code);
 			codegen.incLineNo();
 		}
-		if(this.arg_lst!=null){
-			IRCode code=new IRCode("pushFPars",this.ptr_func,this.pars.rst_val,null);
+		if(this.pars!=null){
+			IRCode code=new IRCode("pushFPars",this.pars.rst_val,null,null);
 			codegen.addCode(code);
 			codegen.incLineNo();
 		}

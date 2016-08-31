@@ -8,6 +8,8 @@ public class Gnrc_ParLst extends AST {
 	boolean isE=false;
 	LinkedList<Gnrc_Par> g_pars;
 	LinkedList<String> types_name;
+	String rst_val;
+	
 	public void addPar(Gnrc_Par par){
 		if(g_pars==null){
 			this.g_pars=new LinkedList<Gnrc_Par>();			
@@ -20,8 +22,21 @@ public class Gnrc_ParLst extends AST {
 	public void setE() {
 		this.isE = true;
 	}
+	public String getVal() {
+		return rst_val;
+	}
+	public void setVal(String val) {
+		this.rst_val = val;
+	}
 	public boolean genCode(CodeGenerator codegen){
-		
+		//gen rst_val
+		if(isE)
+			return true;
+		for(Gnrc_Par par:this.g_pars){
+			par.genCode(codegen);
+			this.rst_val+=par.rst_val+",";
+		}
+		this.rst_val=this.rst_val.substring(0,this.rst_val.length()-1);
 		return true;
 	}
 	public boolean genSymTb(CodeGenerator codegen){
