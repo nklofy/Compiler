@@ -20,7 +20,7 @@ public class CodeGenerator {
 	public LinkedList<HashMap<String,String>> func_arg=new LinkedList<HashMap<String,String>>();//records of name/vars for function arg 
 	
 	//a type system for store/search type/name
-	private LinkedList<AST> block_4symtb;
+	private LinkedList<AST> block_4symtb=new LinkedList<AST>();
 	
 	//HashMap<String,T_Type> type_tb=new HashMap<String,T_Type>();//table of type info in RT
 		

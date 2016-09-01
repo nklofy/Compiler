@@ -15,7 +15,7 @@ public class PackageManager {
 	String dir_lib;//lib files, maybe setup by system path in future
 	
 	public void compile(Parser parser, String file_name) throws IOException {
-		parser.parse(file_name);
+		parser.parse(file_name+".yfl");
 		AST tree=parser.getAST();
 		asts_todo.add(tree);
 		CodeGenerator codegen=new CodeGenerator();

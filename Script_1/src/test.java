@@ -13,7 +13,7 @@ public class test {
 		parser.analyzeAST("grammar_AST.txt");		//System.out.println("import grammar_AST.txt");
 		parser.analyzeLex("out_lexAnalyzer.txt");	//System.out.println("import out_lexAnalyzer.txt");
 		System.out.println("parser ready");
-		String file_name="script_test1.txt";
+		String file_name="script1";
 		if(args.length>0){
 			if(args[0].equals("-c"))
 				file_name=args[1];
