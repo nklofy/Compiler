@@ -35,9 +35,18 @@ public class PackageManager {
 			setPck(parser,codegen,dir_b);//set package for current YFL file, set output file path
 			imptPcks(parser,codegen,dir_s,dir_b);//deal with packages imported, parse them and update symtable
 			
-			
-			ast.checkType(codegen);
-			ast.genCode(codegen);
+			if(!ast.genSymTb(codegen)){
+				System.out.println("generating symbol table failed");
+				return;
+			}
+			if(!ast.checkType(codegen)){
+				System.out.println("checking types failed");
+				return;
+			}			
+			if(!ast.genCode(codegen)){
+				System.out.println("generating codes failed");
+				return;
+			}
 			codegen.outputFile();//TODO
 			asts_todo.removeFirst();
 		}

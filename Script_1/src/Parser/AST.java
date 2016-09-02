@@ -10,9 +10,9 @@ public class AST {
 	private AST ast_deMrg;	//de-merge, choose correct one
 	HashSet<AST> merged_asts;
 	private boolean isMerged=false;
-	HashMap<String,R_Variable> var_table;
-	HashMap<String,T_Type> type_table;
-	HashMap<String,R_Function> func_table;
+	HashMap<String,R_Variable> var_table=new HashMap<String,R_Variable>();
+	HashMap<String,T_Type> type_table=new HashMap<String,T_Type>();
+	HashMap<String,R_Function> func_table = new HashMap<String,R_Function>();
 	
 	public String getASTType() {
 		return ast_type;

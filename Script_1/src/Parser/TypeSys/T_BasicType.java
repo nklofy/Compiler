@@ -4,6 +4,30 @@ import Parser.CodeGenerator;
 
 public class T_BasicType extends T_Type {
 	en_BType btype;
+	public T_BasicType(){
+		
+	}
+	public T_BasicType(String t){
+		switch(t){
+		case "int":
+			this.btype=en_BType.t_int;
+			break;
+		case "double":
+			this.btype=en_BType.t_double;
+			break;
+		case "char":
+			this.btype=en_BType.t_char;
+			break;
+		case "string":
+			this.btype=en_BType.t_string;
+			break;
+		case "bool":
+			this.btype=en_BType.t_bool;
+			break;
+			default:break;//modify in future
+		}
+		setTypeB(this.btype);
+	}
 	public en_BType getTypeB() {
 		return btype;
 	}

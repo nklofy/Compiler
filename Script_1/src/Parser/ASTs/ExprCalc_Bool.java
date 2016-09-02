@@ -161,7 +161,7 @@ public class ExprCalc_Bool extends AST {
 		return true;
 	}
 	public boolean checkType(CodeGenerator codegen){
-		if(this.ref_type!=null&&!this.ref_type.equals("bool"))
+		if(this.ref_type!=null&&!this.ref_type.equals("bool"))//something wrong
 			return false;
 		switch(this.t_exp){
 		case t_biBool:

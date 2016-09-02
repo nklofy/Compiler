@@ -22,8 +22,8 @@ public class CodeGenerator {
 	//a type system for store/search type/name
 	private LinkedList<AST> block_4symtb=new LinkedList<AST>();
 	
-	//HashMap<String,T_Type> type_tb=new HashMap<String,T_Type>();//table of type info in RT
-		
+	private HashMap<String,T_Type> types_init=new HashMap<String,T_Type>();//table of type info in RT
+	
 	
 	//private HashMap<String,R_Package> pkgs_impt=new HashMap<String,R_Package>();//deal with package/name-space
 	
@@ -36,6 +36,13 @@ public class CodeGenerator {
 	private LinkedList<String> pck_name;
 	private LinkedList<LinkedList<String>> impt_pcks;
 	
+	public CodeGenerator(){
+		this.types_init.put("int", new T_BasicType("int"));
+		this.types_init.put("double", new T_BasicType("double"));
+		this.types_init.put("char", new T_BasicType("char"));
+		this.types_init.put("string", new T_BasicType("string"));
+		this.types_init.put("bool", new T_BasicType("bool"));
+	}
 	public int getLineNo() {
 		return crt_line;
 	}
@@ -85,10 +92,13 @@ public class CodeGenerator {
 	}
 	public T_Type getTypeInSymTb(String name){
 		T_Type t=null;
+		if(this.types_init.containsKey(name))
+			return this.types_init.get(name);
 		String s=FindGnrcArgTb(name);
 		if(s!=null)
 			name=s;
 		for(AST ast:this.block_4symtb){
+			//if(ast.type_table==null) continue;
 			t=ast.type_table.get(name);
 			if(t!=null)
 				return t;
@@ -108,6 +118,7 @@ public class CodeGenerator {
 		if(s!=null)
 			name=s;
 		for(AST ast:this.block_4symtb){
+			//if(ast.var_table==null) continue;
 			r=ast.var_table.get(name);
 			if(r!=null)
 				return r;
@@ -124,6 +135,7 @@ public class CodeGenerator {
 	public R_Function getFuncInSymTb(String name){
 		R_Function f=null;
 		for(AST ast:this.block_4symtb){
+			//if(ast.func_table==null) continue;
 			f=ast.func_table.get(name);
 			if(f!=null)
 				return f;
