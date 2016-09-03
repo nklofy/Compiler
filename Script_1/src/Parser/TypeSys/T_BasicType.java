@@ -51,8 +51,8 @@ public class T_BasicType extends T_Type {
 			break;
 		}
 	}
-	
-	public boolean canOpt(CodeGenerator codegen, String opt, int position){//0 means return position, -1 means left, 1 means right
+	//TODO refactor to other place
+	public boolean canOpt(CodeGenerator codegen, String opt, int position){//0 means result position, -1 means left, 1 means right
 		switch(opt){
 			case "+":
 				if(this.btype==en_BType.t_int||this.btype==en_BType.t_double||
@@ -78,6 +78,20 @@ public class T_BasicType extends T_Type {
 			case "--":
 				if(this.btype==en_BType.t_int)
 					return true;
+				break;
+			case ">":
+				break;
+			case ">=":
+				break;
+			case "<":
+				break;
+			case "<=":
+				break;
+			case "==":
+				break;
+			case "!=":
+				break;
+			case "!":
 				break;
 			default:
 				break;

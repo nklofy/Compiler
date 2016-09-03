@@ -37,6 +37,9 @@ public class CodeGenerator {
 	private LinkedList<LinkedList<String>> impt_pcks;
 	
 	public CodeGenerator(){
+		initTypes();
+	}
+	public void initTypes(){
 		this.types_init.put("int", new T_BasicType("int"));
 		this.types_init.put("double", new T_BasicType("double"));
 		this.types_init.put("char", new T_BasicType("char"));

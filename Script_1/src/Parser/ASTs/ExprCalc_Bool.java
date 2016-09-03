@@ -54,6 +54,7 @@ public class ExprCalc_Bool extends AST {
 		return null;
 	}
 	public enum en_Bl{t_cnst,t_biCmp,t_biBool,t_un}
+	
 	public boolean genCode(CodeGenerator codegen){
 		switch(this.t_exp){
 		case t_biBool:
@@ -114,6 +115,7 @@ public class ExprCalc_Bool extends AST {
 		}
 		return true;
 	}
+	
 	public boolean genSymTb(CodeGenerator codegen){
 		if(this.t_exp!=en_Bl.t_cnst&&this.t_exp!=en_Bl.t_un||this.opt!=null){
 			R_Variable r=new R_Variable();
@@ -134,8 +136,8 @@ public class ExprCalc_Bool extends AST {
 		case t_biCmp:
 			if(!this.add_1.genSymTb(codegen)||!this.add_2.genSymTb(codegen))
 				return false;	
-			this.add_1.ref_type="bool";
-			this.add_2.ref_type="bool";		
+			//this.add_1.ref_type="bool";
+			//this.add_2.ref_type="bool";		
 			break;
 		case t_un:
 			if(!this.add_1.genSymTb(codegen))
@@ -160,27 +162,34 @@ public class ExprCalc_Bool extends AST {
 		}
 		return true;
 	}
-	public boolean checkType(CodeGenerator codegen){
-		if(this.ref_type!=null&&!this.ref_type.equals("bool"))//something wrong
-			return false;
+	
+	public boolean checkType(CodeGenerator codegen){//TODO
+		//if(this.ref_type!=null&&!this.ref_type.equals("bool"))//something wrong
+		//	return false;
 		switch(this.t_exp){
 		case t_biBool:
-			if(!this.bool_1.genSymTb(codegen)||!this.bool_2.genSymTb(codegen)
+			if(!this.bool_1.checkType(codegen)||!this.bool_2.checkType(codegen)
 					||!this.bool_1.rst_type.equals("bool")||!this.bool_2.rst_type.equals("bool"))
 				return false;
+			if(this.ref_type!=null&&!this.ref_type.equals("bool"))//this exp should has bool ref type if it has
+					return false;
 			break;
 		case t_biCmp:
-			if(!this.add_1.genSymTb(codegen)||!this.add_2.genSymTb(codegen)
-					||!this.add_1.rst_type.equals("bool")||!this.add_2.rst_type.equals("bool"))
+			if(!this.add_1.checkType(codegen)||!this.add_2.checkType(codegen)
+					//||!this.add_1.rst_type.equals("bool")||!this.add_2.rst_type.equals("bool")
+					)
+				return false;
+			if(this.ref_type!=null&&!this.ref_type.equals("bool"))//this exp should has bool ref type if it has
 				return false;
 			break;
 		case t_un:
-			if(!this.add_1.genSymTb(codegen)||!this.add_1.rst_type.equals("bool"))
+			if(!this.add_1.checkType(codegen)//||!this.add_1.rst_type.equals("bool")
+					)
 				return false;
 			
 			break;
 		case t_cnst:
-			if(!this.ref_type.equals("bool"))
+			if(this.ref_type!=null&&!this.ref_type.equals("bool"))
 				return false;
 			break;
 		default:
