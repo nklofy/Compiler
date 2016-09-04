@@ -4,56 +4,79 @@ package Parser.TypeSys;
 import java.util.*;
 import Interpreter.*;
 import Parser.*;
+import Parser.TypeSys.T_BasicType.en_BType;
 
-public class TypeSystem {//defining, producing, managing all kinds of Types, decide types' initiating order
-	private CodeGenerator codegen;
-
-	public TypeSystem(){
-		this.initTypes();
-		this.initFuncs();
-	}
+public class TypeSystem {//TODO
 	
-/*	T_BasicType t_int=new T_BasicType();
-	T_BasicType t_double=new T_BasicType();
-	T_BasicType t_bool=new T_BasicType();
-	T_BasicType t_string=new T_BasicType();
-	T_BasicType t_char=new T_BasicType();*/
-	public boolean initTypes(){
-	/*	this.t_int.setTypeB(T_BasicType.en_BType.t_int);
-		this.t_double.setTypeB(T_BasicType.en_BType.t_double);
-		this.t_bool.setTypeB(T_BasicType.en_BType.t_bool);
-		this.t_string.setTypeB(T_BasicType.en_BType.t_string);
-		this.t_char.setTypeB(T_BasicType.en_BType.t_char);*/
-		return true;
+	static public boolean canOpt(String opt, int position, T_Type type){//0 means result position, -1 means left, 1 means right
+		T_BasicType t_b=null;
+		if(type.getKType()==T_Type.KType.t_bsc){
+			t_b= (T_BasicType)type;
+		}
+		switch(opt){
+			case "+":
+				if(t_b.btype==en_BType.t_int||t_b.btype==en_BType.t_double||
+						t_b.btype==en_BType.t_char||t_b.btype==en_BType.t_string)
+					return true;
+				break;
+			case "-":
+				if(t_b.btype==en_BType.t_int||t_b.btype==en_BType.t_double)
+					return true;
+				break;
+			case "*":
+				if(t_b.btype==en_BType.t_int||t_b.btype==en_BType.t_double)
+					return true;
+				break;
+			case "/":
+				if(t_b.btype==en_BType.t_int||t_b.btype==en_BType.t_double)
+					return true;
+				break;
+			case "++":
+				if(t_b.btype==en_BType.t_int)
+					return true;
+				break;
+			case "--":
+				if(t_b.btype==en_BType.t_int)
+					return true;
+				break;
+			case ">":
+				if(t_b.btype==en_BType.t_int||t_b.btype==en_BType.t_double||
+				t_b.btype==en_BType.t_char||t_b.btype==en_BType.t_string)
+			return true;
+				break;
+			case ">=":
+				if(t_b.btype==en_BType.t_int||t_b.btype==en_BType.t_double||
+				t_b.btype==en_BType.t_char||t_b.btype==en_BType.t_string)
+			return true;
+				break;
+			case "<":
+				if(t_b.btype==en_BType.t_int||t_b.btype==en_BType.t_double||
+				t_b.btype==en_BType.t_char||t_b.btype==en_BType.t_string)
+			return true;
+				break;
+			case "<=":
+				if(t_b.btype==en_BType.t_int||t_b.btype==en_BType.t_double||
+				t_b.btype==en_BType.t_char||t_b.btype==en_BType.t_string)
+			return true;
+				break;
+/*			case "==":
+				if(t_b.btype==en_BType.t_int||t_b.btype==en_BType.t_double||
+				t_b.btype==en_BType.t_char||t_b.btype==en_BType.t_string)
+			return true;
+				break;
+			case "!=":
+				if(t_b.btype==en_BType.t_int||t_b.btype==en_BType.t_double||
+				t_b.btype==en_BType.t_char||t_b.btype==en_BType.t_string)
+			return true;
+				break;*/
+			case "!":
+				if(t_b.btype==en_BType.t_bool)
+					return true;
+				break;
+			default:
+				break;
+		}
+		return false;
 	}
-	public T_Type getBType(String s){
-	/*	switch(s){
-		case "int":
-			return this.t_int;
-		case "double":
-			return this.t_double;
-		case "bool":
-			return this.t_bool;
-		case "string":
-			return this.t_string;
-		case "char":
-			return this.t_char;
-		default:
-			break;
-		}*/
-		return null;
-	}
-	public boolean initFuncs(){
-		
-		return true;
-	}
-	public CodeGenerator getCodegen() {
-		return codegen;
-	}
-
-	public void setCodegen(CodeGenerator codegen) {
-		this.codegen = codegen;
-	}
-	
 	
 }

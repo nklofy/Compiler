@@ -145,8 +145,8 @@ public class ExprCalc_Add extends AST {
 			T_Type t0=codegen.getTypeInSymTb(this.ref_type);
 			T_Type t1=codegen.getTypeInSymTb(this.add_1.rst_type);
 			T_Type t2=codegen.getTypeInSymTb(this.add_2.rst_type);
-			if(!t0.canOpt(codegen, this.opt, 0)||!t1.canOpt(codegen, this.opt, -1)
-					||!t2.canOpt(codegen, this.opt, 1))
+			if(!TypeSystem.canOpt(this.opt, 0, t0)||!TypeSystem.canOpt(this.opt, -1, t1)
+					||!TypeSystem.canOpt(this.opt, 1, t2))
 				return false;
 			break;
 		case t_biMul:
@@ -155,8 +155,8 @@ public class ExprCalc_Add extends AST {
 			t0=codegen.getTypeInSymTb(this.ref_type);
 			t1=codegen.getTypeInSymTb(this.add_1.rst_type);
 			t2=codegen.getTypeInSymTb(this.accs.rst_type);
-			if(!t0.canOpt(codegen, this.opt, 0)||!t1.canOpt(codegen, this.opt, -1)
-					||!t2.canOpt(codegen, this.opt, 1))
+			if(!TypeSystem.canOpt(this.opt, 0, t0)||!TypeSystem.canOpt(this.opt, -1, t1)
+					||!TypeSystem.canOpt(this.opt, 1, t2))
 				return false;
 			break;
 		case t_un:
@@ -168,7 +168,7 @@ public class ExprCalc_Add extends AST {
 					return false;
 				t0=codegen.getTypeInSymTb(this.ref_type);
 				t1=codegen.getTypeInSymTb(this.add_1.rst_type);
-				if(!t0.canOpt(codegen, this.opt, 0)||!t1.canOpt(codegen, this.opt, 1))
+				if(!TypeSystem.canOpt(this.opt, 0, t0)||!TypeSystem.canOpt(this.opt, 1, t1))
 					return false;
 			}
 			break;

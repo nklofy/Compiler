@@ -50,54 +50,7 @@ public class T_BasicType extends T_Type {
 			this.setTypeSig("bool");
 			break;
 		}
-	}
-	//TODO refactor to other place
-	public boolean canOpt(CodeGenerator codegen, String opt, int position){//0 means result position, -1 means left, 1 means right
-		switch(opt){
-			case "+":
-				if(this.btype==en_BType.t_int||this.btype==en_BType.t_double||
-						this.btype==en_BType.t_char||this.btype==en_BType.t_string)
-					return true;
-				break;
-			case "-":
-				if(this.btype==en_BType.t_int||this.btype==en_BType.t_double)
-					return true;
-				break;
-			case "*":
-				if(this.btype==en_BType.t_int||this.btype==en_BType.t_double)
-					return true;
-				break;
-			case "/":
-				if(this.btype==en_BType.t_int||this.btype==en_BType.t_double)
-					return true;
-				break;
-			case "++":
-				if(this.btype==en_BType.t_int)
-					return true;
-				break;
-			case "--":
-				if(this.btype==en_BType.t_int)
-					return true;
-				break;
-			case ">":
-				break;
-			case ">=":
-				break;
-			case "<":
-				break;
-			case "<=":
-				break;
-			case "==":
-				break;
-			case "!=":
-				break;
-			case "!":
-				break;
-			default:
-				break;
-		}
-		return false;
-	}
+	}	
 
 	public boolean canCast(CodeGenerator codegen,T_BasicType type2){
 		if(this.btype==en_BType.t_int){
