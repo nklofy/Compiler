@@ -4,7 +4,7 @@ public class test1 {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		File dir=new File("/home/luyunfei");
+	/*	File dir=new File("/home/luyunfei");
 
 		//if(!dir.exists()){
 		//	System.out.println("no");
@@ -21,7 +21,7 @@ public class test1 {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}*/
 		
 		
 	}

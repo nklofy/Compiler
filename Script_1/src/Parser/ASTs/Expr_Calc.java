@@ -45,21 +45,21 @@ public class Expr_Calc extends AST {
 	public boolean genSymTb(CodeGenerator codegen){
 		switch(this.getASTType()){
 		case "ExprCalc_Cond":
-			if(!this.cond.checkType(codegen))
+			if(!this.cond.genSymTb(codegen))
 				return false;
 			this.rst_type=this.cond.rst_type;
 			this.cond.ref_type=this.ref_type;
 			this.rst_val=this.cond.rst_val;
 			break;
 		case "ExprCalc_NewCls":
-			if(!this.newCls.checkType(codegen))
+			if(!this.newCls.genSymTb(codegen))
 				return false;
 			this.rst_type=this.newCls.rst_type;
 			this.newCls.ref_type=this.ref_type;
 			this.rst_val=this.newCls.rst_val;
 			break;
 		case "ExprCalc_NewArr":
-			if(!this.newArr.checkType(codegen))
+			if(!this.newArr.genSymTb(codegen))
 				return false;
 			this.rst_type=this.newArr.rst_type;
 			this.newArr.ref_type=this.ref_type;

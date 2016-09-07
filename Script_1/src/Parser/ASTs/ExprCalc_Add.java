@@ -44,12 +44,14 @@ public class ExprCalc_Add extends AST {
 	public boolean genCode(CodeGenerator codegen){
 		String s=null;
 		IRCode code=null;
-		if(this.ref_type.equals("int")){
-			s="i";
-		}else if(this.ref_type.equals("double")){
-			s="d";
-		}else
-			s=this.ref_type;
+		if(this.ref_type!=null){
+			if(this.ref_type.equals("int")){
+				s="i";
+			}else if(this.ref_type.equals("double")){
+				s="d";
+			}else
+				s=this.ref_type;
+		}
 		switch(this.t_Add){
 		case t_biAdd:
 			this.add_1.genCode(codegen);
