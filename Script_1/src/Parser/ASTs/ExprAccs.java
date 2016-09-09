@@ -38,12 +38,15 @@ public class ExprAccs extends AST {
 			break;
 		case "ExprAccs_Pri":
 			this.pri.genCode(codegen);
+			this.rst_val=this.pri.rst_val;
 			break;
 		case "ExprAccs_Arr":
 			this.arr.genCode(codegen);
+			this.rst_val=this.arr.rst_val;
 			break;
 		case "ExprAccs_App":
 			this.app.genCode(codegen);
+			this.rst_val=this.app.rst_val;
 			break;
 			default:
 				break;
@@ -62,21 +65,18 @@ public class ExprAccs extends AST {
 				return false;
 			this.rst_type=this.pri.rst_type;
 			this.pri.ref_type=this.ref_type;
-			this.rst_val=this.pri.rst_val;
 			break;
 		case "ExprAccs_Arr":
 			if(!this.arr.genSymTb(codegen))
 				return false;
 			this.rst_type=this.arr.rst_type;
 			this.arr.ref_type=this.ref_type;
-			this.rst_val=this.arr.rst_val;
 			break;
 		case "ExprAccs_App":
 			if(!this.app.genSymTb(codegen))
 				return false;
 			this.rst_type=this.app.rst_type;
 			this.app.ref_type=this.ref_type;
-			this.rst_val=this.app.rst_val;
 			break;
 		default:
 			break;

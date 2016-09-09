@@ -80,13 +80,16 @@ public class ExprCalc_Add extends AST {
 		case t_un:
 			if(this.opt==null){
 				this.unary.genCode(codegen);
+				this.rst_val=this.unary.rst_val;
 			}else{
 				this.add_1.genCode(codegen);
 				if(this.opt.equals("-")){
 					code=new IRCode("minus"+s,this.rst_val,this.add_1.rst_val,null);
 					codegen.addCode(code);
 					codegen.incLineNo();
-				}
+				}else
+
+					this.rst_val=this.add_1.rst_val;
 			}
 			break;
 		default:
@@ -123,12 +126,10 @@ public class ExprCalc_Add extends AST {
 					return false;
 				this.unary.ref_type=this.ref_type;
 				this.rst_type=this.unary.rst_type;
-				this.rst_val=this.unary.rst_val;
 			}else{
 				if(!this.add_1.genSymTb(codegen))
 					return false;
 				if(this.opt.equals("+")){
-					this.rst_val=this.add_1.rst_val;
 					this.rst_type=this.add_1.rst_type;
 				}
 				this.add_1.ref_type=this.ref_type;
@@ -142,7 +143,7 @@ public class ExprCalc_Add extends AST {
 	public boolean checkType(CodeGenerator codegen){
 		switch(this.t_Add){
 		case t_biAdd:
-			if(!this.add_1.genCode(codegen)||!this.add_2.genCode(codegen))
+			if(!this.add_1.checkType(codegen)||!this.add_2.checkType(codegen))
 				return false;	
 			T_Type t0=codegen.getTypeInSymTb(this.ref_type);
 			T_Type t1=codegen.getTypeInSymTb(this.add_1.rst_type);
@@ -152,7 +153,7 @@ public class ExprCalc_Add extends AST {
 				return false;
 			break;
 		case t_biMul:
-			if(!this.add_1.genCode(codegen)||!this.accs.genCode(codegen))
+			if(!this.add_1.checkType(codegen)||!this.accs.checkType(codegen))
 				return false;
 			t0=codegen.getTypeInSymTb(this.ref_type);
 			t1=codegen.getTypeInSymTb(this.add_1.rst_type);
@@ -163,10 +164,10 @@ public class ExprCalc_Add extends AST {
 			break;
 		case t_un:
 			if(this.opt==null){
-				if(!this.unary.genCode(codegen))
+				if(!this.unary.checkType(codegen))
 					return false;			
 			}else{
-				if(!this.add_1.genCode(codegen))
+				if(!this.add_1.checkType(codegen))
 					return false;
 				t0=codegen.getTypeInSymTb(this.ref_type);
 				t1=codegen.getTypeInSymTb(this.add_1.rst_type);

@@ -15,6 +15,7 @@ public class ExprCalc_Cond extends AST {
 	
 	public boolean genCode(CodeGenerator codegen){
 		this.bool_exp.genCode(codegen);
+		this.rst_val=this.bool_exp.rst_val;
 		return true;
 	}
 	public boolean genSymTb(CodeGenerator codegen){
@@ -22,7 +23,6 @@ public class ExprCalc_Cond extends AST {
 			return false;
 		this.bool_exp.ref_type=this.ref_type;
 		this.rst_type=this.bool_exp.rst_type;
-		this.rst_val=this.bool_exp.rst_val;
 		return true;
 	}
 	public boolean checkType(CodeGenerator codegen){

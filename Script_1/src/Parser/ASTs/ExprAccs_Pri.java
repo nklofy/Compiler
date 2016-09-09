@@ -33,15 +33,19 @@ public class ExprAccs_Pri extends AST {
 		switch(this.getASTType()){
 		case "ExprPri_Chr":
 			this.chr.genCode(codegen);
+			this.rst_val=this.chr.rst_val;
 			break;
 		case "ExprPri_Str":
 			this.str.genCode(codegen);
+			this.rst_val=this.str.rst_val;
 			break;
 		case "ExprPri_Num":
 			this.num.genCode(codegen);
+			this.rst_val=this.num.rst_val;
 			break;
 		case "ExprCalc_Cond":
 			this.cond.genCode(codegen);
+			this.rst_val=this.cond.rst_val;
 		default:
 			break;
 		}
@@ -53,25 +57,21 @@ public class ExprAccs_Pri extends AST {
 			if(!this.chr.genSymTb(codegen))
 				return false;
 			this.rst_type=this.chr.rst_type;
-			this.rst_val=this.chr.rst_val;
 			break;
 		case "ExprPri_Str":
 			if(!this.str.genSymTb(codegen))
 				return false;
 			this.rst_type=this.str.rst_type;
-			this.rst_val=this.str.rst_val;
 			break;
 		case "ExprPri_Num":
 			if(!this.num.genSymTb(codegen))
 				return false;
 			this.rst_type=this.num.rst_type;
-			this.rst_val=this.num.rst_val;
 			break;
 		case "ExprCalc_Cond":
 			if(!this.cond.genSymTb(codegen))
 				return false;
 			this.rst_type=this.cond.rst_type;
-			this.rst_val=this.cond.rst_val;
 		default:
 			break;
 		}

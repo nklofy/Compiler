@@ -30,9 +30,11 @@ public class Expr extends AST {
 		switch(this.getASTType()){
 		case "Expr_Lmbd":
 			this.lmbd.genCode(codegen);
+			this.rst_val=this.lmbd.rst_val;
 			break;
 		case "Expr_Calc":
 			this.calc.genCode(codegen);
+			this.rst_val=this.calc.rst_val;
 			break;
 		default:
 			return false;
@@ -46,14 +48,12 @@ public class Expr extends AST {
 				return false;
 			this.lmbd.ref_type=this.ref_type;
 			this.rst_type=this.lmbd.rst_type;
-			this.rst_val=this.lmbd.rst_val;
 			break;
 		case "Expr_Calc":
 			if(!this.calc.genSymTb(codegen))
 				return false;
 			this.calc.ref_type=this.ref_type;
 			this.rst_type=this.calc.rst_type;
-			this.rst_val=this.calc.rst_val;
 		default:
 			return false;
 		}

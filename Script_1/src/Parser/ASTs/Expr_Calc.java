@@ -31,12 +31,15 @@ public class Expr_Calc extends AST {
 		switch(this.getASTType()){
 		case "ExprCalc_Cond":
 			this.cond.genCode(codegen);
+			this.rst_val=this.cond.rst_val;
 			break;
 		case "ExprCalc_NewCls":
 			this.newCls.genCode(codegen);
+			this.rst_val=this.newCls.rst_val;
 			break;
 		case "ExprCalc_NewArr":
 			this.newArr.genCode(codegen);
+			this.rst_val=this.newArr.rst_val;
 			break;
 		default:return false;
 		}
@@ -49,21 +52,18 @@ public class Expr_Calc extends AST {
 				return false;
 			this.rst_type=this.cond.rst_type;
 			this.cond.ref_type=this.ref_type;
-			this.rst_val=this.cond.rst_val;
 			break;
 		case "ExprCalc_NewCls":
 			if(!this.newCls.genSymTb(codegen))
 				return false;
 			this.rst_type=this.newCls.rst_type;
 			this.newCls.ref_type=this.ref_type;
-			this.rst_val=this.newCls.rst_val;
 			break;
 		case "ExprCalc_NewArr":
 			if(!this.newArr.genSymTb(codegen))
 				return false;
 			this.rst_type=this.newArr.rst_type;
 			this.newArr.ref_type=this.ref_type;
-			this.rst_val=this.newArr.rst_val;
 			break;
 		default:
 			return false;
