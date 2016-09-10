@@ -28,11 +28,9 @@ public class ExprCalc_Unary extends AST {
 			switch(this.opt){
 			case "++":
 				code=new IRCode("inc_1",this.accs.rst_val,null,null);
-				this.rst_val=this.accs.rst_val;
 				break;
 			case "--":
 				code=new IRCode("dec_1",this.accs.rst_val,null,null);
-				this.rst_val=this.accs.rst_val;
 				break;
 			case "++p":
 				IRCode code1=new IRCode("mov",this.ref_type,this.rst_val,this.accs.rst_val);
@@ -53,11 +51,9 @@ public class ExprCalc_Unary extends AST {
 			codegen.incLineNo();
 		}else if(this.accs!=null){
 			this.accs.genCode(codegen);
-			this.rst_val=this.accs.rst_val;
 		}
 		if(this.cast!=null){
 			this.cast.genCode(codegen);
-			this.rst_val=this.cast.rst_val;
 		}
 		return true;
 	}
@@ -66,6 +62,7 @@ public class ExprCalc_Unary extends AST {
 			if(!this.accs.genSymTb(codegen))
 				return false;
 			if(this.opt.equals("++")||this.opt.equals("--")){
+				//
 			}
 			if(this.opt.equals("++p")||this.opt.equals("--p")){			
 				this.rst_val="%"+codegen.getTmpSn();
@@ -95,17 +92,21 @@ public class ExprCalc_Unary extends AST {
 			if(!this.accs.checkType(codegen))
 				return false;
 			int position=-1;
-			if(this.opt.equals("++")||this.opt.equals("--"))
+			if(this.opt.equals("++")||this.opt.equals("--")){
 				position=1;
+				this.rst_val=this.accs.rst_val;
+			}
 			if(!TypeSystem.canOpt(this.opt, position, codegen.getTypeInSymTb(this.accs.rst_type)))
 				return false;
 		}else if(this.accs!=null){
 			if(!this.accs.checkType(codegen))
 				return false;
+			this.rst_val=this.accs.rst_val;
 		}
 		if(this.cast!=null){
 			if(!this.cast.checkType(codegen))
 				return false;
+			this.rst_val=this.cast.rst_val;
 		}
 		return true;
 	}

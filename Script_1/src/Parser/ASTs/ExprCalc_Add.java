@@ -80,16 +80,15 @@ public class ExprCalc_Add extends AST {
 		case t_un:
 			if(this.opt==null){
 				this.unary.genCode(codegen);
-				this.rst_val=this.unary.rst_val;
 			}else{
 				this.add_1.genCode(codegen);
 				if(this.opt.equals("-")){
 					code=new IRCode("minus"+s,this.rst_val,this.add_1.rst_val,null);
 					codegen.addCode(code);
 					codegen.incLineNo();
-				}else
+				}else{
 
-					this.rst_val=this.add_1.rst_val;
+				}
 			}
 			break;
 		default:
@@ -104,7 +103,7 @@ public class ExprCalc_Add extends AST {
 			r.setVarName(this.rst_val);
 			r.setTmpAddr(this.rst_val);
 			r.setVarType(this.ref_type);
-			this.rst_type=this.ref_type;
+			this.rst_type=this.ref_type;//TODO
 			codegen.putVarInSymTb(this.rst_val, r);
 		}
 		switch(this.t_Add){
@@ -165,10 +164,13 @@ public class ExprCalc_Add extends AST {
 		case t_un:
 			if(this.opt==null){
 				if(!this.unary.checkType(codegen))
-					return false;			
+					return false;	
+				this.rst_val=this.unary.rst_val;
 			}else{
 				if(!this.add_1.checkType(codegen))
 					return false;
+				if(this.opt.equals("+"))
+						this.rst_val=this.add_1.rst_val;
 				t0=codegen.getTypeInSymTb(this.ref_type);
 				t1=codegen.getTypeInSymTb(this.add_1.rst_type);
 				if(!TypeSystem.canOpt(this.opt, 0, t0)||!TypeSystem.canOpt(this.opt, 1, t1))

@@ -100,7 +100,6 @@ public class ExprCalc_Bool extends AST {
 			break;
 		case t_un:
 			this.add_1.genCode(codegen);
-			this.rst_val=this.add_1.rst_val;
 			code=null;
 			if(this.opt!=null&&this.opt.equals("!")){
 				code=new IRCode("NOT",this.rst_val,this.add_1.rst_val,null);
@@ -187,7 +186,7 @@ public class ExprCalc_Bool extends AST {
 			if(!this.add_1.checkType(codegen)//||!this.add_1.rst_type.equals("bool")
 					)
 				return false;
-			
+			this.rst_val=this.add_1.rst_val;
 			break;
 		case t_cnst:
 			if(this.ref_type!=null&&!this.ref_type.equals("bool"))
