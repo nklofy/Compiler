@@ -25,7 +25,9 @@ public class ExprPri_Num extends AST {
 		return true;
 	}
 	public boolean checkType(CodeGenerator codegen){
-		if(this.ref_type.equals("int")){
+		if(this.ref_type==null){
+			return true;
+		}else if(this.ref_type.equals("int")){
 			if(this.rst_type.equals("double")){
 				this.i_v=(long)this.d_v;
 				this.rst_val=String.valueOf(this.i_v);

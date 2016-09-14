@@ -121,17 +121,19 @@ public class ExprCalc_Add extends AST {
 			break;
 		case t_un:
 			if(this.opt==null){
+				this.unary.ref_type=this.ref_type;
 				if(!this.unary.genSymTb(codegen))
 					return false;
-				this.unary.ref_type=this.ref_type;
 				this.rst_type=this.unary.rst_type;
+				this.rst_val=this.unary.rst_val;
 			}else{
+				this.add_1.ref_type=this.ref_type;
 				if(!this.add_1.genSymTb(codegen))
 					return false;
 				if(this.opt.equals("+")){
 					this.rst_type=this.add_1.rst_type;
-				}
-				this.add_1.ref_type=this.ref_type;
+					this.rst_val=this.add_1.rst_val;
+				}				
 			}
 			break;
 		default:
@@ -165,12 +167,10 @@ public class ExprCalc_Add extends AST {
 			if(this.opt==null){
 				if(!this.unary.checkType(codegen))
 					return false;	
-				this.rst_val=this.unary.rst_val;
 			}else{
 				if(!this.add_1.checkType(codegen))
 					return false;
-				if(this.opt.equals("+"))
-						this.rst_val=this.add_1.rst_val;
+				
 				t0=codegen.getTypeInSymTb(this.ref_type);
 				t1=codegen.getTypeInSymTb(this.add_1.rst_type);
 				if(!TypeSystem.canOpt(this.opt, 0, t0)||!TypeSystem.canOpt(this.opt, 1, t1))

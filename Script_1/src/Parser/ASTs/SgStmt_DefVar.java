@@ -58,8 +58,11 @@ public class SgStmt_DefVar extends AST {
 		codegen.putVarInSymTb(this.var.name, r);
 		this.r_vars.add(r);
 		this.var.ref_type=this.type_exp.rst_type;
-		if(this.expr!=null&&!this.expr.genSymTb(codegen))
+		if(this.expr!=null){
 			this.expr.ref_type=this.var.ref_type;
+			if(!this.expr.genSymTb(codegen))
+				return false;
+		}
 		return true;
 	}
 	public boolean checkType(CodeGenerator codegen){	//set var's type and expr's asgn_type 
