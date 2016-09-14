@@ -1,3 +1,4 @@
 89597046
 script1
-mov int a null
+load_i %1 1 null
+mov int a %1

@@ -59,10 +59,11 @@ public class ExprCalc_Unary extends AST {
 	}
 	public boolean genSymTb(CodeGenerator codegen){
 		if(this.opt!=null){
+			this.accs.ref_type=this.ref_type;
 			if(!this.accs.genSymTb(codegen))
 				return false;
 			if(this.opt.equals("++")||this.opt.equals("--")){
-				//
+				this.rst_val=this.accs.rst_val;
 			}
 			if(this.opt.equals("++p")||this.opt.equals("--p")){			
 				this.rst_val="%"+codegen.getTmpSn();
@@ -72,18 +73,19 @@ public class ExprCalc_Unary extends AST {
 				codegen.putVarInSymTb(this.rst_val, r);
 			}				
 			this.rst_type=this.accs.rst_type;
-			this.accs.ref_type=this.ref_type;
 		}else if(this.accs!=null){
+			this.accs.ref_type=this.ref_type;
 			if(!this.accs.genSymTb(codegen))
 				return false;
 			this.rst_type=this.accs.rst_type;
-			this.accs.ref_type=this.ref_type;
+			this.rst_val=this.accs.rst_val;
 		}
 		if(this.cast!=null){
+			this.cast.ref_type=this.ref_type;
 			if(!this.cast.genSymTb(codegen))
 				return false;
 			this.rst_type=this.cast.rst_type;
-			this.cast.ref_type=this.ref_type;
+			this.rst_val=this.cast.rst_val;
 		}
 		return true;
 	}
@@ -94,19 +96,16 @@ public class ExprCalc_Unary extends AST {
 			int position=-1;
 			if(this.opt.equals("++")||this.opt.equals("--")){
 				position=1;
-				this.rst_val=this.accs.rst_val;
 			}
 			if(!TypeSystem.canOpt(this.opt, position, codegen.getTypeInSymTb(this.accs.rst_type)))
 				return false;
 		}else if(this.accs!=null){
 			if(!this.accs.checkType(codegen))
 				return false;
-			this.rst_val=this.accs.rst_val;
 		}
 		if(this.cast!=null){
 			if(!this.cast.checkType(codegen))
 				return false;
-			this.rst_val=this.cast.rst_val;
 		}
 		return true;
 	}
