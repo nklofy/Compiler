@@ -52,21 +52,26 @@ public class T_BasicType extends T_Type {
 		}
 	}	
 
-	public boolean canCast(CodeGenerator codegen,T_BasicType type2){
+	public boolean canCast(CodeGenerator codegen,T_Type type2){
+		if(!(type2 instanceof T_BasicType))
+			return false;
+		T_BasicType type3=(T_BasicType)type2;
+		if(this.btype==type3.btype)
+			return true;
 		if(this.btype==en_BType.t_int){
-			if(type2.btype==en_BType.t_double||type2.btype==en_BType.t_string){
+			if(type3.btype==en_BType.t_int||type3.btype==en_BType.t_double||type3.btype==en_BType.t_string){
 				return true;
 			}
 		}else if(this.btype==en_BType.t_double){
-			if(type2.btype==en_BType.t_int||type2.btype==en_BType.t_string){
+			if(type3.btype==en_BType.t_double||type3.btype==en_BType.t_int||type3.btype==en_BType.t_string){
 				return true;
 			}
 		}else if(this.btype==en_BType.t_char){
-			if(type2.btype==en_BType.t_int||type2.btype==en_BType.t_string){
+			if(type3.btype==en_BType.t_char||type3.btype==en_BType.t_int||type3.btype==en_BType.t_string){
 				return true;
 			}
 		}else if(this.btype==en_BType.t_bool){
-			if(type2.btype==en_BType.t_int||type2.btype==en_BType.t_string){
+			if(type3.btype==en_BType.t_bool||type3.btype==en_BType.t_int||type3.btype==en_BType.t_string){
 				return true;
 			}
 		}

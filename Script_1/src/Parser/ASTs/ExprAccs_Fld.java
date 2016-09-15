@@ -131,6 +131,7 @@ public class ExprAccs_Fld extends AST {
 			if(!this.var.checkType(codegen)){				
 				return false;
 			}
+			this.rst_type=this.var.rst_type;
 			if(!codegen.getTypeInSymTb(this.ref_type).canAsn(codegen, codegen.getTypeInSymTb(this.rst_type)))
 				return false;
 		}else if(sign.equals("super")){	//super...
