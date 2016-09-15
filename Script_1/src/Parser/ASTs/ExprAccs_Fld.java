@@ -27,9 +27,11 @@ public class ExprAccs_Fld extends AST {
 			}else if(sign.equals("class")){
 				code=new IRCode("getClass",this.rst_val,this.pre_fld.rst_val,null);
 			}
+			codegen.addCode(code);
+			codegen.incLineNo();
 		}else{
 			if(this.var!=null){
-				
+				this.var.genCode(codegen);
 			}else if(sign.equals("super")){
 				
 			}else if(sign.equals("this")){
@@ -44,14 +46,14 @@ public class ExprAccs_Fld extends AST {
 				return false;
 			}
 		}
-		if(this.var!=null){
-			if(!this.var.genSymTb(codegen)){
-				return false;
-			}
+		if(this.var!=null){			
 			if(this.pre_fld==null){
+				this.var.ref_type=this.ref_type;
+				if(!this.var.genSymTb(codegen)){
+					return false;
+				}
 				this.rst_val=this.var.rst_val;
 				this.rst_type=this.var.rst_type;
-				this.var.ref_type=this.ref_type;
 				return true;
 			}
 		}

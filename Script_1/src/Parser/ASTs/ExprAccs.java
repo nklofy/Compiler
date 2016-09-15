@@ -53,9 +53,11 @@ public class ExprAccs extends AST {
 	public boolean genSymTb(CodeGenerator codegen){
 		switch(this.getASTType()){
 		case "ExprAccs_Fld":
+			this.fld.ref_type=this.ref_type;
 			if(!this.fld.genSymTb(codegen))
 				return false;
-			//TODO
+			this.rst_val=this.fld.rst_val;
+			this.rst_type=this.fld.rst_type;
 			break;
 		case "ExprAccs_Pri":
 			this.pri.ref_type=this.ref_type;
