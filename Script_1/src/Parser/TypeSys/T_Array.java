@@ -5,8 +5,10 @@ import Parser.CodeGenerator;
 public class T_Array extends T_Type {
 	String ele_type;
 	int dims;
-	
-
+	{this.setKType(KType.t_arr);}
+	//public T_Array(){
+	//	
+	//}
 	public String getEleType() {
 		return ele_type;
 	}

@@ -8,6 +8,7 @@ public class T_Generic extends T_Type {
 	private String core_type;	
 	LinkedHashMap<String,String> type_args=new LinkedHashMap<String,String>();//why linkedhashmap, link for order of gen-sig, map for sym-tbl
 	
+	{this.setKType(KType.t_gnrc);}
 	public String getCoreType() {
 		return core_type;
 	}

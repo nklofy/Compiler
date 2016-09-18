@@ -2,4 +2,6 @@
 script1
 load_i %1 1 null
 mov int a %1
-mov int b a
+load_i %3 1 null
+add_i %2 a %3
+mov int b %2

@@ -90,6 +90,7 @@ public class ExprAccs extends AST {
 		case "ExprAccs_Fld":
 			if(!this.fld.checkType(codegen))
 				return false;
+			this.rst_type=this.fld.rst_type;
 			break;
 		case "ExprAccs_Pri":
 			if(!this.pri.checkType(codegen))
@@ -98,10 +99,12 @@ public class ExprAccs extends AST {
 		case "ExprAccs_Arr":
 			if(!this.arr.checkType(codegen))
 				return false;
+			this.rst_type=this.arr.rst_type;
 			break;			
 		case "ExprAccs_App":
 			if(!this.app.checkType(codegen))
 				return false;
+			this.rst_type=this.app.rst_type;
 			break;
 			default:
 				break;

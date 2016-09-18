@@ -10,8 +10,12 @@ public class T_Class extends T_Type {
 	private HashMap<String,R_Variable> fields=new HashMap<String,R_Variable>();
 	private HashSet<String> all_impl=new HashSet<String>();	
 	private HashSet<String> all_extd=new HashSet<String>();
-	
-	
+	{
+		this.setKType(KType.t_cls);
+	}
+	//public T_Class(){
+	//	this.setKType(KType.t_cls);
+	//}
 	public HashMap<String,R_Variable> getFields() {
 		return fields;
 	}

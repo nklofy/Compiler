@@ -4,10 +4,12 @@ import Parser.CodeGenerator;
 
 public class T_BasicType extends T_Type {
 	en_BType btype;
-	public T_BasicType(){
-		
-	}
+	{this.setKType(KType.t_bsc);}
+	//public T_BasicType(){
+	//	this.setKType(KType.t_bsc);
+	//}
 	public T_BasicType(String t){
+		//this.setKType(KType.t_bsc);
 		switch(t){
 		case "int":
 			this.btype=en_BType.t_int;

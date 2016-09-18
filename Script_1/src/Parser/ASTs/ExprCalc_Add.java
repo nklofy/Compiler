@@ -167,10 +167,11 @@ public class ExprCalc_Add extends AST {
 			if(this.opt==null){
 				if(!this.unary.checkType(codegen))
 					return false;	
+				this.rst_type=this.unary.rst_type;
 			}else{
 				if(!this.add_1.checkType(codegen))
 					return false;
-				
+				this.rst_type=this.add_1.rst_type;
 				t0=codegen.getTypeInSymTb(this.ref_type);
 				t1=codegen.getTypeInSymTb(this.add_1.rst_type);
 				if(!TypeSystem.canOpt(this.opt, 0, t0)||!TypeSystem.canOpt(this.opt, 1, t1))

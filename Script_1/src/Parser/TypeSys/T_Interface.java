@@ -9,7 +9,7 @@ public class T_Interface extends T_Type {
 	private HashMap<String,R_Function> methods=new HashMap<String,R_Function>();
 	private HashSet<String> all_extd=new HashSet<String>();
 	
-	
+	{this.setKType(KType.t_intf);}
 	public HashMap<String,R_Function> getMethods() {
 		return methods;
 	}

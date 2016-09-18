@@ -8,7 +8,7 @@ public class T_Function extends T_Type {
 	private String ret_type;
 	private LinkedList<String> par_types;
 	private boolean isDynamic;
-	
+	{this.setKType(KType.t_func);}
 	public String getRetType() {
 		return ret_type;
 	}

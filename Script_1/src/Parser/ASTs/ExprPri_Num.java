@@ -18,27 +18,52 @@ public class ExprPri_Num extends AST {
 	}
 	public boolean genCode(CodeGenerator codegen){
 		IRCode code =null;
-		switch(this.ref_type){
-		case "int":
-			code = new IRCode("load_i",this.rst_val,String.valueOf(this.i_v),null);
-			codegen.addCode(code);
-			codegen.incLineNo();
-			break;
-		case "double":
-			code = new IRCode("load_d",this.rst_val,String.valueOf(this.d_v),null);
-			codegen.addCode(code);
-			codegen.incLineNo();
-			break;
-		case "string":
-			code = new IRCode("load_s",this.rst_val,null,null);
-			codegen.addCode(code);
-			codegen.incLineNo();
-			code = new IRCode(this.tmp_val,null,null,null);
-			codegen.addCode(code);
-			codegen.incLineNo();
-			break;
-			default:break;
+		if(this.ref_type!=null){
+			switch(this.ref_type){
+			case "int":
+				code = new IRCode("load_i",this.rst_val,String.valueOf(this.i_v),null);
+				codegen.addCode(code);
+				codegen.incLineNo();
+				break;
+			case "double":
+				code = new IRCode("load_d",this.rst_val,String.valueOf(this.d_v),null);
+				codegen.addCode(code);
+				codegen.incLineNo();
+				break;
+			case "string":
+				code = new IRCode("load_s",this.rst_val,null,null);
+				codegen.addCode(code);
+				codegen.incLineNo();
+				code = new IRCode(this.tmp_val,null,null,null);
+				codegen.addCode(code);
+				codegen.incLineNo();
+				break;
+				default:break;
+			}
+		}else{
+			switch(this.rst_type){
+			case "int":
+				code = new IRCode("load_i",this.rst_val,String.valueOf(this.i_v),null);
+				codegen.addCode(code);
+				codegen.incLineNo();
+				break;
+			case "double":
+				code = new IRCode("load_d",this.rst_val,String.valueOf(this.d_v),null);
+				codegen.addCode(code);
+				codegen.incLineNo();
+				break;
+			case "string":
+				code = new IRCode("load_s",this.rst_val,null,null);
+				codegen.addCode(code);
+				codegen.incLineNo();
+				code = new IRCode(this.tmp_val,null,null,null);
+				codegen.addCode(code);
+				codegen.incLineNo();
+				break;
+				default:break;
+			}
 		}
+		
 		return true;
 	}
 	public boolean genSymTb(CodeGenerator codegen){
