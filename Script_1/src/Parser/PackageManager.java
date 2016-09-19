@@ -20,12 +20,16 @@ public class PackageManager {
 		asts_todo.add(tree);
 		CodeGenerator codegen=new CodeGenerator();
 		astgen_map.put(tree, codegen);
-		codegen.setFileName(file_name);
 		String dir=(new File("")).getCanonicalPath();
+		int p1=file_name.lastIndexOf(File.separator);
+		dir+=File.separator+file_name.substring(0,p1);
+		file_name=file_name.substring(p1+1,file_name.length());
+		codegen.setFileName(file_name);
 		codegen.setPckName(parser.getPckNames());
 		codegen.setImptPcks(parser.getImptPcks());
-		String dir_b=(getDir(parser.getPckNames(),dir))[0];//.../bin
-		String dir_s=(getDir(parser.getPckNames(),dir))[1];//.../src
+		String[] dirs=getDir(parser.getPckNames(),dir);
+		String dir_b=dirs[0];//.../bin
+		String dir_s=dirs[1];//.../src
 		
 		while(!asts_todo.isEmpty()){
 			AST ast=asts_todo.getFirst();

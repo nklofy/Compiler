@@ -308,7 +308,7 @@ public class Parser {
 	private boolean getPckg(){
 		Token token=tokenizer.getToken();
 		if(token.getType().equals("var")){
-			this.pck_names.add(token.getResName());
+			this.pck_names.add(token.getIdnName());
 		}		
 		token=tokenizer.getToken();
 		if(token.getType().equals("opt")&&token.getOptName().equals(";")){
