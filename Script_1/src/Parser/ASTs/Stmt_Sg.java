@@ -11,7 +11,7 @@ public class Stmt_Sg extends AST {
 	
 	public boolean setSg(AST ast){
 		switch(this.getASTType()){
-		case "SgStmt_AsnVar":
+		case "SgStmt_AsgnVar":
 			this.asn_var=(SgStmt_AsgnVar)ast;			
 			break;
 		case "SgStmt_DefVar":
@@ -29,7 +29,7 @@ public class Stmt_Sg extends AST {
 	}
 	public boolean genCode(CodeGenerator codegen){
 		switch(this.getASTType()){
-		case "SgStmt_AsnVar":
+		case "SgStmt_AsgnVar":
 			this.asn_var.genCode(codegen);			
 			break;
 		case "SgStmt_DefVar":
@@ -47,7 +47,7 @@ public class Stmt_Sg extends AST {
 	}
 	public boolean genSymTb(CodeGenerator codegen){
 		switch(this.getASTType()){
-		case "SgStmt_AsnVar":
+		case "SgStmt_AsgnVar":
 			return this.asn_var.genSymTb(codegen);
 		case "SgStmt_DefVar":
 			return this.def_var.genSymTb(codegen);
@@ -60,7 +60,7 @@ public class Stmt_Sg extends AST {
 	}
 	public boolean checkType(CodeGenerator codegen){
 		switch(this.getASTType()){
-		case "SgStmt_AsnVar":
+		case "SgStmt_AsgnVar":
 			return this.asn_var.checkType(codegen);
 		case "SgStmt_DefVar":
 			return this.def_var.checkType(codegen);
