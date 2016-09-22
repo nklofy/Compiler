@@ -19,7 +19,7 @@ public class Expr_Lmbd extends AST {
 		this.par_lst=par_lst;
 		this.stmt_list=stmt_list;
 	}
-	public boolean genCode(CodeGenerator codegen){
+	public boolean genCode(CodeGenerator codegen)throws GenCodeException{
 		codegen.pushBlock4Sym(this);
 		int in=codegen.getLineNo();
 		ArrayList<IRCode> old_ir=codegen.getCodeList();
@@ -33,7 +33,7 @@ public class Expr_Lmbd extends AST {
 		codegen.popBlock4Sym();
 		return true;
 	}
-	public boolean genSymTb(CodeGenerator codegen){
+	public boolean genSymTb(CodeGenerator codegen)throws GenSymTblException{
 		codegen.pushBlock4Sym(this);
 		this.r_func=new R_Function();
 		this.t_type=new T_Function();
@@ -57,7 +57,7 @@ public class Expr_Lmbd extends AST {
 		codegen.popBlock4Sym();
 		return true;
 	}
-	public boolean checkType(CodeGenerator codegen){
+	public boolean checkType(CodeGenerator codegen)throws TypeCheckException{
 		codegen.pushBlock4Sym(this);		
 		if(!this.par_lst.isE()&&this.par_lst.checkType(codegen)){
 			return false;

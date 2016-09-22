@@ -141,7 +141,7 @@ public class ExprCalc_Add extends AST {
 		}
 		return true;
 	}
-	public boolean checkType(CodeGenerator codegen){
+	public boolean checkType (CodeGenerator codegen) {
 		switch(this.t_Add){
 		case t_biAdd:
 			if(!this.add_1.checkType(codegen)||!this.add_2.checkType(codegen))

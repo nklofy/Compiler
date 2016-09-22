@@ -21,13 +21,13 @@ public class AST {
 		String[] ss=type.split("\\.");
 		this.ast_type = ss[ss.length-1];
 	}
-	public boolean genCode(CodeGenerator codegen){
+	public boolean genCode(CodeGenerator codegen) throws GenCodeException{
 		return true;
 	}
-	public boolean genSymTb(CodeGenerator codegen){
+	public boolean genSymTb(CodeGenerator codegen) throws GenSymTblException{
 		return true;
 	}
-	public boolean checkType(CodeGenerator codegen){
+	public boolean checkType(CodeGenerator codegen) throws TypeCheckException{
 		return true;
 	}
 	HashMap<String, R_Variable> getVarTb() {

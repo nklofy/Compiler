@@ -80,12 +80,12 @@ public class TypeSystem {//TODO
 	}*/
 	
 	//TODO check type cast
-	static public boolean checkOpt(){
+	static public boolean checkOpt() throws TypeCheckException{
 		return true;
 	}
 	
 	//TODO check opt calc
-	static public boolean checkCast(){
+	static public boolean checkCast() throws TypeCheckException{
 		return true;
 	}
 }

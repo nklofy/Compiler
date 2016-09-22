@@ -22,7 +22,7 @@ public class test {
 		PackageManager pkgman=new PackageManager();
 		try {
 			pkgman.compile(parser, file_name);
-		} catch (IOException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		System.out.println("finish compiling "+file_name);

@@ -14,7 +14,7 @@ public class PackageManager {
 	HashMap<AST,CodeGenerator> astgen_map=new HashMap<AST,CodeGenerator>();//ASTs and codegens for them
 	String dir_lib;//lib files, maybe setup by system path in future
 	
-	public void compile(Parser parser, String file_name) throws IOException {
+	public void compile(Parser parser, String file_name)  throws Exception {
 		parser.parse(file_name+".yfl");
 		AST tree=parser.getAST();
 		asts_todo.add(tree);
