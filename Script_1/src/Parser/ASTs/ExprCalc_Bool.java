@@ -55,7 +55,7 @@ public class ExprCalc_Bool extends AST {
 	}
 	public enum en_Bl{t_cnst,t_biCmp,t_biBool,t_un}
 	
-	public boolean genCode(CodeGenerator codegen){
+	public boolean genCode(CodeGenerator codegen)throws GenCodeException{
 		switch(this.t_exp){
 		case t_biBool:
 			this.bool_1.genCode(codegen);
@@ -116,7 +116,7 @@ public class ExprCalc_Bool extends AST {
 		return true;
 	}
 	
-	public boolean genSymTb(CodeGenerator codegen){
+	public boolean genSymTb(CodeGenerator codegen)throws GenSymTblException{
 		if(this.t_exp!=en_Bl.t_cnst&&this.t_exp!=en_Bl.t_un||this.opt!=null){
 			R_Variable r=new R_Variable();
 			this.rst_val="%"+codegen.getTmpSn();
@@ -166,7 +166,7 @@ public class ExprCalc_Bool extends AST {
 		return true;
 	}
 	
-	public boolean checkType(CodeGenerator codegen){//TODO
+	public boolean checkType(CodeGenerator codegen)throws TypeCheckException{//TODO
 		//if(this.ref_type!=null&&!this.ref_type.equals("bool"))//something wrong
 		//	return false;
 		switch(this.t_exp){

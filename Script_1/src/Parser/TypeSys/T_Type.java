@@ -47,9 +47,6 @@ public class T_Type {
 	public void genTypeSig(CodeGenerator codegen){
 		
 	}
-//	public boolean canOpt(CodeGenerator codegen, String opt, int position){//0 means return position, -1 means left, 1 means right
-//		return false;
-//	}
 	public boolean canAsn(CodeGenerator codegen,T_Type type2){
 		if(type2.canCast(codegen, this))
 			return true;

@@ -4,6 +4,9 @@ import java.util.*;
 
 import Parser.*;
 import Parser.IR.*;
+import Parser.TypeSys.GenCodeException;
+import Parser.TypeSys.GenSymTblException;
+import Parser.TypeSys.TypeCheckException;
 
 public class StmtIf_IfBd extends AST {
 	ExprCalc_Bool bool_exp;
@@ -16,7 +19,7 @@ public class StmtIf_IfBd extends AST {
 		this.sg_stmt=sg_stmt;
 		return true;
 	}
-	public boolean genCode(CodeGenerator codegen){
+	public boolean genCode(CodeGenerator codegen)throws GenCodeException{
 		codegen.incLineNo();
 		this.bool_exp.genCode(codegen);
 		IRCode code=new IRCode("if",this.bool_exp.getVal(),null,null);
@@ -32,7 +35,10 @@ public class StmtIf_IfBd extends AST {
 		}	
 		return true;
 	}
-	public boolean checkType(CodeGenerator codegen){
+	public boolean genSymTb(CodeGenerator codegen)throws GenSymTblException{
+		return true;
+	}
+	public boolean checkType(CodeGenerator codegen)throws TypeCheckException{
 		if(!this.bool_exp.checkType(codegen)){
 			return false;
 		}

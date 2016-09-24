@@ -2,6 +2,9 @@ package Parser.ASTs;
 
 import Parser.AST;
 import Parser.CodeGenerator;
+import Parser.TypeSys.GenCodeException;
+import Parser.TypeSys.GenSymTblException;
+import Parser.TypeSys.TypeCheckException;
 
 public class ExprCalc_Cond extends AST {
 	ExprCalc_Bool bool_exp;
@@ -13,11 +16,11 @@ public class ExprCalc_Cond extends AST {
 		this.bool_exp = bool_exp;
 	}
 	
-	public boolean genCode(CodeGenerator codegen){
+	public boolean genCode(CodeGenerator codegen)throws GenCodeException{
 		this.bool_exp.genCode(codegen);
 		return true;
 	}
-	public boolean genSymTb(CodeGenerator codegen){
+	public boolean genSymTb(CodeGenerator codegen)throws GenSymTblException{
 		this.bool_exp.ref_type=this.ref_type;
 		if(!this.bool_exp.genSymTb(codegen))
 			return false;
@@ -25,7 +28,7 @@ public class ExprCalc_Cond extends AST {
 		this.rst_val=this.bool_exp.rst_val;
 		return true;
 	}
-	public boolean checkType(CodeGenerator codegen){
+	public boolean checkType(CodeGenerator codegen)throws TypeCheckException{
 		if(!this.bool_exp.checkType(codegen))
 			return false;
 		return true;

@@ -2,6 +2,9 @@ package Parser.ASTs;
 
 import Parser.AST;
 import Parser.CodeGenerator;
+import Parser.TypeSys.GenCodeException;
+import Parser.TypeSys.GenSymTblException;
+import Parser.TypeSys.TypeCheckException;
 
 public class Stmt_Sg extends AST {
 	SgStmt_AsgnVar asn_var; 
@@ -27,7 +30,7 @@ public class Stmt_Sg extends AST {
 		}
 		return true;
 	}
-	public boolean genCode(CodeGenerator codegen){
+	public boolean genCode(CodeGenerator codegen)throws GenCodeException{
 		switch(this.getASTType()){
 		case "SgStmt_AsgnVar":
 			this.asn_var.genCode(codegen);			
@@ -45,7 +48,7 @@ public class Stmt_Sg extends AST {
 		}
 		return true;
 	}
-	public boolean genSymTb(CodeGenerator codegen){
+	public boolean genSymTb(CodeGenerator codegen)throws GenSymTblException{
 		switch(this.getASTType()){
 		case "SgStmt_AsgnVar":
 			return this.asn_var.genSymTb(codegen);
@@ -58,7 +61,7 @@ public class Stmt_Sg extends AST {
 		default:return false;
 		}
 	}
-	public boolean checkType(CodeGenerator codegen){
+	public boolean checkType(CodeGenerator codegen)throws TypeCheckException{
 		switch(this.getASTType()){
 		case "SgStmt_AsgnVar":
 			return this.asn_var.checkType(codegen);

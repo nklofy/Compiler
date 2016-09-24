@@ -20,7 +20,7 @@ public class ExprCalc_NewCls extends AST {
 		return true;
 	}
 	
-	public boolean genCode(CodeGenerator codegen){
+	public boolean genCode(CodeGenerator codegen)throws GenCodeException{
 		if(this.idn_type!=null){
 			this.idn_type.genCode(codegen);
 		}
@@ -36,7 +36,7 @@ public class ExprCalc_NewCls extends AST {
 		codegen.incLineNo();
 		return true;
 	}
-	public boolean genSymTb(CodeGenerator codegen){
+	public boolean genSymTb(CodeGenerator codegen)throws GenSymTblException{
 		//new type, new var, new function, put in table
 		if(this.idn_type!=null){
 			this.idn_type.genSymTb(codegen);
@@ -57,7 +57,7 @@ public class ExprCalc_NewCls extends AST {
 		codegen.putVarInSymTb(this.rst_val, r);
 		return true;
 	}
-	public boolean checkType(CodeGenerator codegen){
+	public boolean checkType(CodeGenerator codegen)throws TypeCheckException{
 		if(this.idn_type!=null&&!this.idn_type.checkType(codegen)){
 			return false;
 		}
@@ -69,7 +69,7 @@ public class ExprCalc_NewCls extends AST {
 		}
 		if(codegen.getTypeInSymTb(this.rst_type).getKType()!=T_Type.KType.t_cls)
 			return false;
-		if(!codegen.getTypeInSymTb(this.ref_type).canAsn(codegen, 
+		if(!codegen.getTypeInSymTb(this.ref_type).canAsn(codegen, 1
 				codegen.getTypeInSymTb(this.rst_type)))
 			return false;
 		return true;

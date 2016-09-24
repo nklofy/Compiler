@@ -1,6 +1,9 @@
 package Parser.ASTs;
 
 import Parser.*;
+import Parser.TypeSys.GenCodeException;
+import Parser.TypeSys.GenSymTblException;
+import Parser.TypeSys.TypeCheckException;
 
 public class ExprAccs extends AST {
 	ExprAccs_Fld fld;
@@ -31,7 +34,7 @@ public class ExprAccs extends AST {
 		return true;
 	}
 	
-	public boolean genCode(CodeGenerator codegen){
+	public boolean genCode(CodeGenerator codegen)throws GenCodeException{
 		switch(this.getASTType()){
 		case "ExprAccs_Fld":
 			this.fld.genCode(codegen);
@@ -50,7 +53,7 @@ public class ExprAccs extends AST {
 		}
 		return true;
 	}
-	public boolean genSymTb(CodeGenerator codegen){
+	public boolean genSymTb(CodeGenerator codegen)throws GenSymTblException{
 		switch(this.getASTType()){
 		case "ExprAccs_Fld":
 			this.fld.ref_type=this.ref_type;
@@ -85,7 +88,7 @@ public class ExprAccs extends AST {
 		}
 		return true;
 	}
-	public boolean checkType(CodeGenerator codegen){
+	public boolean checkType(CodeGenerator codegen)throws TypeCheckException{
 		switch(this.getASTType()){
 		case "ExprAccs_Fld":
 			if(!this.fld.checkType(codegen))

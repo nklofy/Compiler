@@ -3,6 +3,9 @@ package Parser.ASTs;
 import java.util.*;
 
 import Parser.*;
+import Parser.TypeSys.GenCodeException;
+import Parser.TypeSys.GenSymTblException;
+import Parser.TypeSys.TypeCheckException;
 
 public class FuncApp_ArgLst extends AST {
 	LinkedList<Expr_Calc> args;
@@ -23,11 +26,11 @@ public class FuncApp_ArgLst extends AST {
 		}
 		this.args.add(ast);
 	}
-	public boolean genCode(CodeGenerator codegen){
+	public boolean genCode(CodeGenerator codegen)throws GenCodeException{
 		
 		return true;
 	}
-	public boolean genSymTb(CodeGenerator codegen){		
+	public boolean genSymTb(CodeGenerator codegen)throws GenSymTblException{		
 		if(this.isE)
 			return true;
 		for(Expr_Calc exp:this.args){
@@ -38,7 +41,7 @@ public class FuncApp_ArgLst extends AST {
 		}
 		return true;
 	}
-	public boolean checkType(CodeGenerator codegen){
+	public boolean checkType(CodeGenerator codegen)throws TypeCheckException{
 		if(this.isE)
 		return true;
 		for(Expr_Calc exp:this.args){

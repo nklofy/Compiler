@@ -2,6 +2,9 @@ package Parser.ASTs;
 
 import java.util.*;
 import Parser.*;
+import Parser.TypeSys.GenCodeException;
+import Parser.TypeSys.GenSymTblException;
+import Parser.TypeSys.TypeCheckException;
 
 public class FuncDef_ParLst extends AST {
 	boolean isE=false;
@@ -29,7 +32,7 @@ public class FuncDef_ParLst extends AST {
 	public void setVal(String val) {
 		this.rst_val = val;
 	}
-	public boolean genCode(CodeGenerator codegen){
+	public boolean genCode(CodeGenerator codegen)throws GenCodeException{
 		if(isE)
 			return true;
 		for(FuncDef_Par par:pars){
@@ -39,7 +42,7 @@ public class FuncDef_ParLst extends AST {
 		this.rst_val=this.rst_val.substring(0, rst_val.length()-1);
 		return true;
 	}
-	public boolean genSymTb(CodeGenerator codegen){
+	public boolean genSymTb(CodeGenerator codegen)throws GenSymTblException{
 		if(isE)
 			return true;
 		HashSet<String> names=new HashSet<String>();
@@ -54,7 +57,7 @@ public class FuncDef_ParLst extends AST {
 		}
 		return true;
 	}
-	public boolean checkType(CodeGenerator codegen){
+	public boolean checkType(CodeGenerator codegen)throws TypeCheckException{
 		if(isE)
 			return true;
 		for(FuncDef_Par par:pars){

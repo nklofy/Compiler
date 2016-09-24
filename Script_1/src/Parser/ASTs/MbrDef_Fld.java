@@ -4,6 +4,9 @@ package Parser.ASTs;
 import java.util.*;
 
 import Parser.*;
+import Parser.TypeSys.GenCodeException;
+import Parser.TypeSys.GenSymTblException;
+import Parser.TypeSys.TypeCheckException;
 
 public class MbrDef_Fld extends AST {
 	Scp_InfoLst scps;
@@ -17,11 +20,11 @@ public class MbrDef_Fld extends AST {
 		}
 		return true;
 	}
-	public boolean genCode(CodeGenerator codegen){
+	public boolean genCode(CodeGenerator codegen)throws GenCodeException{
 		
 		return true;
 	}
-	public boolean genSymTb(CodeGenerator codegen){
+	public boolean genSymTb(CodeGenerator codegen)throws GenSymTblException{
 		if(this.scps!=null){
 			if(!this.scps.genSymTb(codegen))
 				return false;
@@ -32,7 +35,7 @@ public class MbrDef_Fld extends AST {
 		}
 		return true;
 	}
-	public boolean checkType(CodeGenerator codegen){
+	public boolean checkType(CodeGenerator codegen)throws TypeCheckException{
 		if(this.scps!=null){
 			if(!this.scps.checkType(codegen))
 				return false;

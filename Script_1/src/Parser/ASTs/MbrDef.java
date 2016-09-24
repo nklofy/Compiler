@@ -30,11 +30,11 @@ public class MbrDef extends AST {
 		}
 		return true;
 	}
-	public boolean genCode(CodeGenerator codegen){
+	public boolean genCode(CodeGenerator codegen)throws GenCodeException{
 		
 		return true;
 	}
-	public boolean genSymTb(CodeGenerator codegen){
+	public boolean genSymTb(CodeGenerator codegen)throws GenSymTblException{
 		switch(this.getASTType()){
 		case "MbrDef_Fld":
 			if(!this.fld.genSymTb(codegen))
@@ -50,7 +50,7 @@ public class MbrDef extends AST {
 		}
 		return true;
 	}
-	public boolean checkType(CodeGenerator codegen){
+	public boolean checkType(CodeGenerator codegen)throws TypeCheckException{
 		switch(this.getASTType()){
 		case "MbrDef_Fld":
 			return this.fld.checkType(codegen);

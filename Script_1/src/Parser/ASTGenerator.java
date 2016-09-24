@@ -5,8 +5,8 @@ import Parser.ASTs.*;
 import Parser.TypeSys.*;
 
 public class ASTGenerator {
-	TypeSystem type_sys = new TypeSystem();
-	public TypeSystem getTypeSys() {
+	TypeChecker type_sys = new TypeChecker();
+	public TypeChecker getTypeSys() {
 		return type_sys;
 	}
 	public AST crtAST(String method, ParseState crt_state, List<Symbol> symbs){		

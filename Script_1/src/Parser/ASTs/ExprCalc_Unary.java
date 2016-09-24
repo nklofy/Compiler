@@ -21,7 +21,7 @@ public class ExprCalc_Unary extends AST {
 		this.cast=cast;
 		return true;
 	}
-	public boolean genCode(CodeGenerator codegen){
+	public boolean genCode(CodeGenerator codegen)throws GenCodeException{
 		IRCode code=null;
 		if(this.opt!=null){
 			this.accs.genCode(codegen);
@@ -57,7 +57,7 @@ public class ExprCalc_Unary extends AST {
 		}
 		return true;
 	}
-	public boolean genSymTb(CodeGenerator codegen){
+	public boolean genSymTb(CodeGenerator codegen)throws GenSymTblException{
 		if(this.opt!=null){
 			this.accs.ref_type=this.ref_type;
 			if(!this.accs.genSymTb(codegen))
@@ -89,7 +89,7 @@ public class ExprCalc_Unary extends AST {
 		}
 		return true;
 	}
-	public boolean checkType(CodeGenerator codegen){
+	public boolean checkType(CodeGenerator codegen)throws TypeCheckException{
 		if(this.opt!=null){
 			if(!this.accs.checkType(codegen))
 				return false;
@@ -98,7 +98,7 @@ public class ExprCalc_Unary extends AST {
 			if(this.opt.equals("++")||this.opt.equals("--")){
 				position=1;
 			}
-			if(!TypeSystem.canOpt(this.opt, position, codegen.getTypeInSymTb(this.accs.rst_type)))
+			if(!TypeChecker.canOpt(this.opt, position, codegen.getTypeInSymTb(this.accs.rst_type)))1
 				return false;
 		}else if(this.accs!=null){
 			if(!this.accs.checkType(codegen))

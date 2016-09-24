@@ -3,10 +3,13 @@ package Parser.ASTs;
 import java.util.*;
 
 import Parser.*;
+import Parser.TypeSys.GenCodeException;
+import Parser.TypeSys.GenSymTblException;
 import Parser.TypeSys.R_Function;
 import Parser.TypeSys.T_Class;
 import Parser.TypeSys.T_Interface;
 import Parser.TypeSys.T_Type;
+import Parser.TypeSys.TypeCheckException;
 
 public class Cls_Impl_Lst extends AST {
 	boolean isE=false;
@@ -25,11 +28,11 @@ public class Cls_Impl_Lst extends AST {
 	public void setE() {
 		this.isE = true;
 	}
-	public boolean genCode(CodeGenerator codegen){
+	public boolean genCode(CodeGenerator codegen)throws GenCodeException{
 		
 		return true;
 	}
-	public boolean genSymTb(CodeGenerator codegen){
+	public boolean genSymTb(CodeGenerator codegen)throws GenSymTblException{
 		if(isE){
 			return true;
 		}
@@ -44,7 +47,7 @@ public class Cls_Impl_Lst extends AST {
 		}
 		return true;
 	}
-	public boolean checkType(CodeGenerator codegen){
+	public boolean checkType(CodeGenerator codegen)throws TypeCheckException{
 		if(isE){
 			return true;
 		}

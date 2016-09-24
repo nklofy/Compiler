@@ -3,6 +3,9 @@ package Parser.ASTs;
 import java.util.*;
 import Parser.*;
 import Parser.ASTs.Scp_Info.en_Scp;
+import Parser.TypeSys.GenCodeException;
+import Parser.TypeSys.GenSymTblException;
+import Parser.TypeSys.TypeCheckException;
 
 public class Scp_InfoLst extends AST {
 	boolean isE=false;
@@ -19,15 +22,15 @@ public class Scp_InfoLst extends AST {
 		}
 		this.scp_infos.add(scp);
 	}
-	public boolean genCode(CodeGenerator codegen){
+	public boolean genCode(CodeGenerator codegen)throws GenCodeException{
 		
 		return true;
 	}
-	public boolean genSymTb(CodeGenerator codegen){
+	public boolean genSymTb(CodeGenerator codegen)throws GenSymTblException{
 		
 		return true;
 	}
-	public boolean checkType(CodeGenerator codegen){
+	public boolean checkType(CodeGenerator codegen)throws TypeCheckException{
 		
 		return true;
 	}

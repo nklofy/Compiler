@@ -41,7 +41,7 @@ public class ExprCalc_Add extends AST {
 	}
 	public enum en_Add{t_biAdd,t_biMul,t_un}
 	
-	public boolean genCode(CodeGenerator codegen){
+	public boolean genCode(CodeGenerator codegen)throws GenCodeException{
 		String s=null;
 		IRCode code=null;
 		if(this.ref_type!=null){
@@ -96,7 +96,7 @@ public class ExprCalc_Add extends AST {
 		}
 		return true;
 	}
-	public boolean genSymTb(CodeGenerator codegen){
+	public boolean genSymTb(CodeGenerator codegen)throws GenSymTblException{
 		if(this.t_Add!=en_Add.t_un||this.opt!=null){
 			R_Variable r=new R_Variable();
 			this.rst_val="%"+codegen.getTmpSn();
@@ -141,7 +141,7 @@ public class ExprCalc_Add extends AST {
 		}
 		return true;
 	}
-	public boolean checkType (CodeGenerator codegen) {
+	public boolean checkType (CodeGenerator codegen) throws TypeCheckException{
 		switch(this.t_Add){
 		case t_biAdd:
 			if(!this.add_1.checkType(codegen)||!this.add_2.checkType(codegen))
@@ -149,8 +149,8 @@ public class ExprCalc_Add extends AST {
 			T_Type t0=codegen.getTypeInSymTb(this.ref_type);
 			T_Type t1=codegen.getTypeInSymTb(this.add_1.rst_type);
 			T_Type t2=codegen.getTypeInSymTb(this.add_2.rst_type);
-			if(!TypeSystem.canOpt(this.opt, 0, t0)||!TypeSystem.canOpt(this.opt, -1, t1)
-					||!TypeSystem.canOpt(this.opt, 1, t2))
+			if(!TypeChecker.canOpt(this.opt, 0, t0)||!TypeChecker.canOpt(this.opt, -1, t1)1
+					||!TypeChecker.canOpt(this.opt, 1, t2))1
 				return false;
 			break;
 		case t_biMul:
@@ -159,8 +159,8 @@ public class ExprCalc_Add extends AST {
 			t0=codegen.getTypeInSymTb(this.ref_type);
 			t1=codegen.getTypeInSymTb(this.add_1.rst_type);
 			t2=codegen.getTypeInSymTb(this.accs.rst_type);
-			if(!TypeSystem.canOpt(this.opt, 0, t0)||!TypeSystem.canOpt(this.opt, -1, t1)
-					||!TypeSystem.canOpt(this.opt, 1, t2))
+			if(!TypeChecker.canOpt(this.opt, 0, t0)||!TypeChecker.canOpt(this.opt, -1, t1)
+					||!TypeChecker.canOpt(this.opt, 1, t2))1
 				return false;
 			break;
 		case t_un:
@@ -174,7 +174,7 @@ public class ExprCalc_Add extends AST {
 				this.rst_type=this.add_1.rst_type;
 				t0=codegen.getTypeInSymTb(this.ref_type);
 				t1=codegen.getTypeInSymTb(this.add_1.rst_type);
-				if(!TypeSystem.canOpt(this.opt, 0, t0)||!TypeSystem.canOpt(this.opt, 1, t1))
+				if(!TypeChecker.canOpt(this.opt, 0, t0)||!TypeChecker.canOpt(this.opt, 1, t1))
 					return false;
 			}
 			break;

@@ -16,17 +16,17 @@ public class ExprUnr_Cast extends AST {
 		this.accs=accs;
 		return true;
 	}
-	public boolean genCode(CodeGenerator codegen){
+	public boolean genCode(CodeGenerator codegen)throws GenCodeException{
 		
 		IRCode code=new IRCode("cast",this.accs.rst_type+"->"+this.ref_type,this.rst_val,this.accs.rst_val);
 		codegen.addCode(code);
 		codegen.incLineNo();
 		return true;
 	}
-	public boolean genSymTb(CodeGenerator codegen){
+	public boolean genSymTb(CodeGenerator codegen)throws GenSymTblException{
 		if(!this.type_exp.genSymTb(codegen))
 			return false;
-		if(!this.accs.genCode(codegen))
+		if(!this.accs.genSymTb(codegen))
 			return false;
 		this.rst_val="%"+codegen.getTmpSn();
 		R_Variable r=new R_Variable();
@@ -37,12 +37,12 @@ public class ExprUnr_Cast extends AST {
 		codegen.putVarInSymTb(this.rst_val, r);
 		return true;
 	}
-	public boolean checkType(CodeGenerator codegen){
+	public boolean checkType(CodeGenerator codegen)throws TypeCheckException{
 		if(!this.type_exp.checkType(codegen))
 			return false;
 		if(!this.accs.checkType(codegen))
 			return false;
-		if(!codegen.getTypeInSymTb(this.ref_type).canCast(codegen, codegen.getTypeInSymTb(this.rst_type)))
+		if(!codegen.getTypeInSymTb(this.ref_type).canCast(codegen, codegen.getTypeInSymTb(this.rst_type)))1
 			return false;
 		return true;
 	}

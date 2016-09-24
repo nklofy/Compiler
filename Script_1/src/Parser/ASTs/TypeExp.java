@@ -34,7 +34,7 @@ public class TypeExp extends AST {
 		}
 		return true;
 	}
-	public boolean genCode(CodeGenerator codegen){
+	public boolean genCode(CodeGenerator codegen)throws GenCodeException{
 		switch(this.getASTType()){
 		case "TypeExp_Arr":
 			this.type_array.genCode(codegen);
@@ -56,7 +56,7 @@ public class TypeExp extends AST {
 		}
 		return true;
 	}
-	public boolean genSymTb(CodeGenerator codegen){
+	public boolean genSymTb(CodeGenerator codegen)throws GenSymTblException{
 		boolean b;
 		switch(this.getASTType()){
 		case "TypeExp_Arr":
@@ -84,7 +84,7 @@ public class TypeExp extends AST {
 		}
 		return b;
 	}
-	public boolean checkType(CodeGenerator codegen){
+	public boolean checkType(CodeGenerator codegen)throws TypeCheckException{
 		switch(this.getASTType()){
 		case "TypeExp_Arr":
 			return this.type_array.checkType(codegen);

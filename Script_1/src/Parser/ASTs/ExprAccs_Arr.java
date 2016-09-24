@@ -15,7 +15,7 @@ public class ExprAccs_Arr extends AST {
 		this.pre_fld=pre_fld;
 		this.dim_lst=dim_lst;
 	}
-	public boolean genCode(CodeGenerator codegen){
+	public boolean genCode(CodeGenerator codegen)throws GenCodeException{
 		this.pre_fld.genCode(codegen);
 		this.dim_lst.genCode(codegen);
 		IRCode code =new IRCode("getArray",this.rst_val,this.pre_fld.rst_val,this.dim_lst.rst_val);
@@ -23,7 +23,7 @@ public class ExprAccs_Arr extends AST {
 		codegen.incLineNo();
 		return true;
 	}
-	public boolean genSymTb(CodeGenerator codegen){
+	public boolean genSymTb(CodeGenerator codegen)throws GenSymTblException{
 		if(!this.pre_fld.genSymTb(codegen))
 			return false;
 		if(!this.dim_lst.genSymTb(codegen))
@@ -40,7 +40,7 @@ public class ExprAccs_Arr extends AST {
 		codegen.putTypeInSymTb(this.rst_type, t);
 		return true;
 	}
-	public boolean checkType(CodeGenerator codegen){
+	public boolean checkType(CodeGenerator codegen)throws TypeCheckException{
 		if(!this.pre_fld.checkType(codegen))
 			return false;
 		if(!this.dim_lst.checkType(codegen))
@@ -56,7 +56,7 @@ public class ExprAccs_Arr extends AST {
 		t2.setDims(d2);
 		t2.setEleType(((T_Array)t1).getEleType());
 		t2.genTypeSig(codegen);
-		if(!codegen.getTypeInSymTb(this.ref_type).canAsn(codegen,t2))
+		if(!codegen.getTypeInSymTb(this.ref_type).canAsn(codegen,t2))1
 			return false;
 		return true;
 	}

@@ -2,6 +2,9 @@ package Parser.ASTs;
 
 import Parser.*;
 import Parser.IR.*;
+import Parser.TypeSys.GenCodeException;
+import Parser.TypeSys.GenSymTblException;
+import Parser.TypeSys.TypeCheckException;
 
 public class SgStmt_AsgnVar extends AST {
 	Expr_Left left_hand;
@@ -19,7 +22,7 @@ public class SgStmt_AsgnVar extends AST {
 	public void setExpr(Expr expr) {
 		this.expr = expr;
 	}
-	public boolean genCode(CodeGenerator codegen){
+	public boolean genCode(CodeGenerator codegen)throws GenCodeException{
 		this.left_hand.genCode(codegen);
 		this.expr.genCode(codegen);
 		IRCode code;
@@ -28,13 +31,13 @@ public class SgStmt_AsgnVar extends AST {
 		codegen.incLineNo();
 		return true;
 	}
-	public boolean genSymTb(CodeGenerator codegen){
+	public boolean genSymTb(CodeGenerator codegen)throws GenSymTblException{
 		if(!this.left_hand.genSymTb(codegen))
 			return false;
 		this.expr.ref_type=this.left_hand.ref_type;
 		return this.expr.genSymTb(codegen);
 	}
-	public boolean checkType(CodeGenerator codegen){
+	public boolean checkType(CodeGenerator codegen)throws TypeCheckException{
 		return this.left_hand.checkType(codegen)&&this.expr.checkType(codegen);
 	}
 }

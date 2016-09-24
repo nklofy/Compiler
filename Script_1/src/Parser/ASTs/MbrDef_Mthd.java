@@ -1,6 +1,9 @@
 package Parser.ASTs;
 
 import Parser.*;
+import Parser.TypeSys.GenCodeException;
+import Parser.TypeSys.GenSymTblException;
+import Parser.TypeSys.TypeCheckException;
 
 public class MbrDef_Mthd extends AST {
 	Scp_InfoLst scps;
@@ -22,18 +25,18 @@ public class MbrDef_Mthd extends AST {
 		}*/
 		return true;
 	}
-	public boolean genCode(CodeGenerator codegen){
+	public boolean genCode(CodeGenerator codegen)throws GenCodeException{
 		this.func_def.genCode(codegen);
 		return true;
 	}
-	public boolean genSymTb(CodeGenerator codegen){
+	public boolean genSymTb(CodeGenerator codegen)throws GenSymTblException{
 		if(this.scps!=null&&!this.scps.genSymTb(codegen))
 			return false;
 		if(this.func_def!=null&&!this.func_def.genSymTb(codegen))
 			return false;
 		return true;
 	}
-	public boolean checkType(CodeGenerator codegen){
+	public boolean checkType(CodeGenerator codegen)throws TypeCheckException{
 		if(this.scps!=null&&!this.scps.checkType(codegen))
 			return false;
 		if(this.func_def!=null&&!this.func_def.checkType(codegen))

@@ -28,7 +28,7 @@ public class Gnrc_ParLst extends AST {
 	public void setVal(String val) {
 		this.rst_val = val;
 	}
-	public boolean genCode(CodeGenerator codegen){
+	public boolean genCode(CodeGenerator codegen)throws GenCodeException{
 		//gen rst_val
 		if(isE)
 			return true;
@@ -39,7 +39,7 @@ public class Gnrc_ParLst extends AST {
 		this.rst_val=this.rst_val.substring(0,this.rst_val.length()-1);
 		return true;
 	}
-	public boolean genSymTb(CodeGenerator codegen){
+	public boolean genSymTb(CodeGenerator codegen)throws GenSymTblException{
 		if(isE)
 			return true;
 		this.types_name=new LinkedList<String>();
@@ -54,7 +54,7 @@ public class Gnrc_ParLst extends AST {
 		}
 		return true;
 	}
-	public boolean checkType(CodeGenerator codegen){
+	public boolean checkType(CodeGenerator codegen)throws TypeCheckException{
 		
 		return true;
 	}

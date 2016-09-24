@@ -2,6 +2,9 @@ package Parser.ASTs;
 
 import Parser.*;
 import Parser.IR.*;
+import Parser.TypeSys.GenCodeException;
+import Parser.TypeSys.GenSymTblException;
+import Parser.TypeSys.TypeCheckException;
 
 public class SgStmt_CtrFlw extends AST {
 	en_Ctrflw t_ctrflw;
@@ -22,7 +25,7 @@ public class SgStmt_CtrFlw extends AST {
 	public void setRtExp(Expr_Calc return_exp) {
 		this.return_exp = return_exp;
 	}
-	public boolean genCode(CodeGenerator codegen){
+	public boolean genCode(CodeGenerator codegen)throws GenCodeException{
 		switch(this.t_ctrflw){
 		case t_break:
 			String lb_end=codegen.labels_whlend.peek();
@@ -46,10 +49,10 @@ public class SgStmt_CtrFlw extends AST {
 		}
 		return true;
 	}
-	public boolean genSymTb(CodeGenerator codegen){		
+	public boolean genSymTb(CodeGenerator codegen)throws GenSymTblException{		
 		return true;
 	}
-	public boolean checkType(CodeGenerator codegen){
+	public boolean checkType(CodeGenerator codegen)throws TypeCheckException{
 		switch(this.t_ctrflw){
 		case t_break:
 			if(!codegen.labels_whlbd.isEmpty())

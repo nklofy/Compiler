@@ -30,7 +30,7 @@ public class ExprAccs_App extends AST {
 		this.arg_lst=arg_lst;
 		this.gnrc_args=g_lst;
 	}
-	public boolean genCode(CodeGenerator codegen){
+	public boolean genCode(CodeGenerator codegen)throws GenCodeException{
 		if(this.pre_accs!=null)
 			this.pre_accs.genCode(codegen);
 		if(this.gnrc_args!=null)
@@ -63,8 +63,8 @@ public class ExprAccs_App extends AST {
 		codegen.incLineNo();
 		return true;
 	}
-	public boolean genSymTb(CodeGenerator codegen){
-		if(this.pre_accs!=null&&!this.pre_accs.genCode(codegen))
+	public boolean genSymTb(CodeGenerator codegen)throws GenSymTblException{
+		if(this.pre_accs!=null&&!this.pre_accs.genSymTb(codegen))
 			return false;
 		if(this.gnrc_args!=null&&!this.gnrc_args.genSymTb(codegen))
 			return false;
@@ -72,7 +72,7 @@ public class ExprAccs_App extends AST {
 			return false;
 		return true;
 	}
-	public boolean checkType(CodeGenerator codegen){
+	public boolean checkType(CodeGenerator codegen)throws TypeCheckException{
 		if(this.pre_accs!=null&&!this.pre_accs.checkType(codegen))
 			return false;
 		if(this.gnrc_args!=null&&!this.gnrc_args.checkType(codegen))
@@ -161,7 +161,7 @@ public class ExprAccs_App extends AST {
 		r.setVarType(this.rst_type);
 		r.setTmpAddr(this.rst_val);
 		codegen.putVarInSymTb(this.rst_val, r);
-		if(!codegen.getTypeInSymTb(this.ref_type).canAsn(codegen, codegen.getTypeInSymTb(this.rst_type)))
+		if(!codegen.getTypeInSymTb(this.ref_type).canAsn(codegen, codegen.getTypeInSymTb(this.rst_type)))1
 			return false;
 		if(this.inGType)
 			codegen.gnrc_arg.remove();

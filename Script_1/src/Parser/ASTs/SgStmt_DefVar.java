@@ -26,7 +26,7 @@ public class SgStmt_DefVar extends AST {
 	public void setExpr(Expr expression) {
 		this.expr = expression;
 	}
-	public boolean genCode(CodeGenerator codegen){ //if only def var without assignment, just register on RT
+	public boolean genCode(CodeGenerator codegen)throws GenCodeException{ //if only def var without assignment, just register on RT
 		if(this.pre_def!=null){
 			this.pre_def.genCode(codegen);			
 		}
@@ -38,7 +38,7 @@ public class SgStmt_DefVar extends AST {
 		}
 		return true;
 	}
-	public boolean genSymTb(CodeGenerator codegen){
+	public boolean genSymTb(CodeGenerator codegen)throws GenSymTblException{
 		if(this.pre_def!=null){
 			if(!this.pre_def.genSymTb(codegen))
 			return false;
@@ -65,7 +65,7 @@ public class SgStmt_DefVar extends AST {
 		}
 		return true;
 	}
-	public boolean checkType(CodeGenerator codegen){	//set var's type and expr's asgn_type 
+	public boolean checkType(CodeGenerator codegen)throws TypeCheckException{	//set var's type and expr's asgn_type 
 		if(this.pre_def!=null){
 			if(!this.pre_def.checkType(codegen))
 				return false;

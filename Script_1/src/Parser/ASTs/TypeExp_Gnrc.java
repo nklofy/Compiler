@@ -17,13 +17,13 @@ public class TypeExp_Gnrc extends AST {
 		this.idn_type=idn_type;	
 		return true;
 	}
-	public boolean genCode(CodeGenerator codegen){		
+	public boolean genCode(CodeGenerator codegen)throws GenCodeException{		
 		IRCode code=new IRCode("GnrcType",this.rst_type,this.idn_type.rst_type,this.args.rst_val);
 		codegen.addCode(code);
 		codegen.incLineNo();
 		return true;
 	}
-	public boolean genSymTb(CodeGenerator codegen){
+	public boolean genSymTb(CodeGenerator codegen)throws GenSymTblException{
 		if(!this.idn_type.genSymTb(codegen))
 			return false;
 		if(!this.args.genSymTb(codegen))
@@ -31,7 +31,7 @@ public class TypeExp_Gnrc extends AST {
 		this.rst_type="<"+codegen.getTmpSn();		
 		return true;
 	}
-	public boolean checkType(CodeGenerator codegen){		
+	public boolean checkType(CodeGenerator codegen)throws TypeCheckException{		
 		if(!this.idn_type.checkType(codegen))
 			return false;
 		if(!this.args.checkType(codegen))

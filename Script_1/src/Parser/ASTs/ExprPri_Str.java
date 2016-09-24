@@ -13,7 +13,7 @@ public class ExprPri_Str extends AST {
 	public void setStr(String value) {
 		this.str=value;		
 	}
-	public boolean genCode(CodeGenerator codegen){
+	public boolean genCode(CodeGenerator codegen)throws GenCodeException{
 		IRCode code=new IRCode("load_s",this.rst_val,null,null);
 		codegen.addCode(code);
 		codegen.incLineNo();
@@ -22,7 +22,7 @@ public class ExprPri_Str extends AST {
 		codegen.incLineNo();
 		return true;
 	}
-	public boolean genSymTb(CodeGenerator codegen){
+	public boolean genSymTb(CodeGenerator codegen)throws GenSymTblException{
 		this.rst_type="string";
 		this.rst_val="%"+codegen.getTmpSn();
 		R_Variable r=new R_Variable();
@@ -32,7 +32,7 @@ public class ExprPri_Str extends AST {
 		codegen.putVarInSymTb(this.rst_val, r);
 		return true;
 	}
-	public boolean checkType(CodeGenerator codegen){
+	public boolean checkType(CodeGenerator codegen)throws TypeCheckException{
 		if(!this.ref_type.equals("string")){
 			return false;
 		}

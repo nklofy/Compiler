@@ -22,10 +22,10 @@ public class Cls_Extd_Lst extends AST {
 	public void setE() {
 		this.isE = true;
 	}
-	public boolean genCode(CodeGenerator codegen){		
+	public boolean genCode(CodeGenerator codegen)throws GenCodeException{		
 		return true;
 	}
-	public boolean genSymTb(CodeGenerator codegen){
+	public boolean genSymTb(CodeGenerator codegen)throws GenSymTblException{
 		if(isE){
 			return true;
 		}
@@ -40,7 +40,7 @@ public class Cls_Extd_Lst extends AST {
 		}
 		return true;
 	}
-	public boolean checkType(CodeGenerator codegen){
+	public boolean checkType(CodeGenerator codegen)throws TypeCheckException{
 		if(isE){
 			return true;
 		}

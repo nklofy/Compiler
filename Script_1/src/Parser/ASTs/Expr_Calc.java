@@ -1,6 +1,9 @@
 package Parser.ASTs;
 
 import Parser.*;
+import Parser.TypeSys.GenCodeException;
+import Parser.TypeSys.GenSymTblException;
+import Parser.TypeSys.TypeCheckException;
 
 public class Expr_Calc extends AST {
 	//cond_exp new_class_exp new_array_exp
@@ -27,7 +30,7 @@ public class Expr_Calc extends AST {
 		}
 		return true;
 	}
-	public boolean genCode(CodeGenerator codegen){
+	public boolean genCode(CodeGenerator codegen)throws GenCodeException{
 		switch(this.getASTType()){
 		case "ExprCalc_Cond":
 			this.cond.genCode(codegen);
@@ -42,7 +45,7 @@ public class Expr_Calc extends AST {
 		}
 		return true;
 	}
-	public boolean genSymTb(CodeGenerator codegen){
+	public boolean genSymTb(CodeGenerator codegen)throws GenSymTblException{
 		switch(this.getASTType()){
 		case "ExprCalc_Cond":
 			this.cond.ref_type=this.ref_type;
@@ -70,7 +73,7 @@ public class Expr_Calc extends AST {
 		}
 		return true;
 	}
-	public boolean checkType(CodeGenerator codegen){
+	public boolean checkType(CodeGenerator codegen)throws TypeCheckException{
 		switch(this.getASTType()){
 		case "ExprCalc_Cond":
 			if(!this.cond.checkType(codegen))

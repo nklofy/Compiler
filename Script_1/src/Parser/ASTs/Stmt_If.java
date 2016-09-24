@@ -1,6 +1,9 @@
 package Parser.ASTs;
 
 import Parser.*;
+import Parser.TypeSys.GenCodeException;
+import Parser.TypeSys.GenSymTblException;
+import Parser.TypeSys.TypeCheckException;
 
 public class Stmt_If extends AST {
 	StmtIf_IfBd if_body;
@@ -11,7 +14,7 @@ public class Stmt_If extends AST {
 		this.else_body=else_body;
 		return true;
 	}
-	public boolean genCode(CodeGenerator codegen){
+	public boolean genCode(CodeGenerator codegen)throws GenCodeException{
 		String lb_ifbd=":"+String.valueOf(codegen.getTmpSn());
 		codegen.labels_ifbd.addFirst(lb_ifbd);
 		String lb_elsbd=":"+String.valueOf(codegen.getTmpSn());
@@ -30,7 +33,10 @@ public class Stmt_If extends AST {
 		codegen.rps_code_list.remove(lb_ifbd);
 		return true;
 	}
-	public boolean checkType(CodeGenerator codegen){
+	public boolean genSymTb(CodeGenerator codegen)throws GenSymTblException{
+		return true;
+	}
+	public boolean checkType(CodeGenerator codegen)throws TypeCheckException{
 		if(this.else_body==null){
 			return this.if_body.checkType(codegen);
 		}

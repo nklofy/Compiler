@@ -22,7 +22,7 @@ public class Expr_Left extends AST {
 		}
 		return true;
 	}
-	public boolean genCode(CodeGenerator codegen){
+	public boolean genCode(CodeGenerator codegen)throws GenCodeException{
 		switch(this.getASTType()){
 		case "ExprAccs_Fld":
 			this.acces_field.genCode(codegen);
@@ -37,7 +37,7 @@ public class Expr_Left extends AST {
 		}
 		return true;
 	}
-	public boolean genSymTb(CodeGenerator codegen){
+	public boolean genSymTb(CodeGenerator codegen)throws GenSymTblException{
 		switch(this.getASTType()){
 		case "ExprAccs_Fld":
 			if(!this.acces_field.genSymTb(codegen))
@@ -54,7 +54,7 @@ public class Expr_Left extends AST {
 		}
 		return true;
 	}
-	public boolean checkType(CodeGenerator codegen){
+	public boolean checkType(CodeGenerator codegen)throws TypeCheckException{
 		switch(this.getASTType()){
 		case "ExprAccs_Fld":
 			return this.acces_field.checkType(codegen);

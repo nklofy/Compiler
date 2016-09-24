@@ -19,7 +19,7 @@ public class ExprCalc_NewArr extends AST {
 		return true;
 	}
 	
-	public boolean genCode(CodeGenerator codegen){
+	public boolean genCode(CodeGenerator codegen)throws GenCodeException{
 		if(this.type_exp!=null&&this.dim_lst!=null){
 			this.type_exp.genCode(codegen);	
 			this.dim_lst.genCode(codegen);
@@ -35,7 +35,7 @@ public class ExprCalc_NewArr extends AST {
 		}
 		return false;
 	}
-	public boolean genSymTb(CodeGenerator codegen){
+	public boolean genSymTb(CodeGenerator codegen)throws GenSymTblException{
 		if(this.type_exp!=null&&this.dim_lst!=null){
 			if(!this.type_exp.genSymTb(codegen))
 				return false;
@@ -54,7 +54,7 @@ public class ExprCalc_NewArr extends AST {
 		}
 		return true;
 	}
-	public boolean checkType(CodeGenerator codegen){
+	public boolean checkType(CodeGenerator codegen)throws TypeCheckException{
 		if(this.type_exp!=null&&this.dim_lst!=null){
 			if(!this.type_exp.checkType(codegen))
 				return false;

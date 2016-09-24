@@ -2,6 +2,9 @@ package Parser.ASTs;
 
 import Parser.*;
 import Parser.IR.*;
+import Parser.TypeSys.GenCodeException;
+import Parser.TypeSys.GenSymTblException;
+import Parser.TypeSys.TypeCheckException;
 
 public class Stmt_Whl extends AST {
 	ExprCalc_Bool bool_exp;
@@ -13,7 +16,7 @@ public class Stmt_Whl extends AST {
 		this.stmt_list=stmt_list;
 		return true;
 	}
-	public boolean genCode(CodeGenerator codegen){
+	public boolean genCode(CodeGenerator codegen) throws GenCodeException {
 		this.bool_exp.genCode(codegen);
 		String lb_whlbd=":"+codegen.getTmpSn();
 		String lb_whlend=":"+codegen.getTmpSn();
@@ -36,7 +39,10 @@ public class Stmt_Whl extends AST {
 		codegen.rps_code_list.remove(lb_whlbd);
 		return true;
 	}
-	public boolean checkType(CodeGenerator codegen){
+	public boolean genSymTb(CodeGenerator codegen)throws GenSymTblException{
+		return true;
+	}
+	public boolean checkType(CodeGenerator codegen)throws TypeCheckException{
 		return this.bool_exp.checkType(codegen)&&this.stmt_list.checkType(codegen);
 	}
 }

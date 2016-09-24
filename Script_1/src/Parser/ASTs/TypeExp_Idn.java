@@ -17,7 +17,7 @@ public class TypeExp_Idn extends AST {
 		this.type_idn=type_idn;
 		return true;
 	}
-	public boolean genCode(CodeGenerator codegen){
+	public boolean genCode(CodeGenerator codegen)throws GenCodeException{
 		if(this.type_idn!=null){
 			IRCode code=new IRCode("PkgType",this.rst_type,this.var.name,this.rst_pkg);
 			codegen.addCode(code);
@@ -25,7 +25,7 @@ public class TypeExp_Idn extends AST {
 		}
 		return true;
 	}
-	public boolean genSymTb(CodeGenerator codegen){
+	public boolean genSymTb(CodeGenerator codegen)throws GenSymTblException{
 		if(this.type_idn!=null){
 			if(!this.type_idn.genSymTb(codegen))
 				return false;
@@ -38,7 +38,7 @@ public class TypeExp_Idn extends AST {
 		}
 		return true;
 	}
-	public boolean checkType(CodeGenerator codegen){
+	public boolean checkType(CodeGenerator codegen)throws TypeCheckException{
 		if(this.type_idn==null){
 			if(this.rst_type==null||codegen.getTypeInSymTb(this.rst_type)==null)
 				return false;

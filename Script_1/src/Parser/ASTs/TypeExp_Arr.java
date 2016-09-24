@@ -17,13 +17,13 @@ public class TypeExp_Arr extends AST {
 	public void setPreType(TypeExp type_pre) {
 		this.type_pre = type_pre;
 	}
-	public boolean genCode(CodeGenerator codegen){		
+	public boolean genCode(CodeGenerator codegen)throws GenCodeException{		
 		IRCode code=new IRCode("ArrType",this.rst_type,this.ele_type,String.valueOf(this.dim));
 		codegen.addCode(code);
 		codegen.incLineNo();
 		return true;
 	}
-	public boolean genSymTb(CodeGenerator codegen){
+	public boolean genSymTb(CodeGenerator codegen)throws GenSymTblException{
 		if(!this.type_pre.genSymTb(codegen))return false;
 		T_Type t=codegen.getTypeInSymTb(this.type_pre.rst_type);
 		T_Array t1=null;
@@ -44,7 +44,7 @@ public class TypeExp_Arr extends AST {
 		this.t_type=t1;
 		return true;
 	}
-	public boolean checkType(CodeGenerator codegen){
+	public boolean checkType(CodeGenerator codegen)throws TypeCheckException{
 		return this.type_pre.checkType(codegen);
 	}
 	

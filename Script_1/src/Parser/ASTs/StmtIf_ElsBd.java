@@ -1,6 +1,9 @@
 package Parser.ASTs;
 
 import Parser.*;
+import Parser.TypeSys.GenCodeException;
+import Parser.TypeSys.GenSymTblException;
+import Parser.TypeSys.TypeCheckException;
 
 public class StmtIf_ElsBd extends AST {
 	Stmt_If if_stmt;
@@ -13,7 +16,7 @@ public class StmtIf_ElsBd extends AST {
 		this.sg_stmt=sg_stmt;
 		return true;
 	}
-	public boolean genCode(CodeGenerator codegen){
+	public boolean genCode(CodeGenerator codegen)throws GenCodeException{
 		if(this.if_stmt!=null){
 			this.if_stmt.genCode(codegen);
 		}
@@ -25,7 +28,10 @@ public class StmtIf_ElsBd extends AST {
 		}
 		return true;
 	}
-	public boolean checkType(CodeGenerator codegen){
+	public boolean genSymTb(CodeGenerator codegen)throws GenSymTblException{
+		return true;
+	}
+	public boolean checkType(CodeGenerator codegen)throws TypeCheckException{
 		if(this.if_stmt!=null)
 			return this.if_stmt.checkType(codegen);
 		if(this.stmt_list!=null)

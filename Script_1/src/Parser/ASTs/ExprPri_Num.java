@@ -2,6 +2,9 @@ package Parser.ASTs;
 
 import Parser.*;
 import Parser.IR.*;
+import Parser.TypeSys.GenCodeException;
+import Parser.TypeSys.GenSymTblException;
+import Parser.TypeSys.TypeCheckException;
 
 public class ExprPri_Num extends AST {
 	String rst_val;
@@ -16,7 +19,7 @@ public class ExprPri_Num extends AST {
 		this.tmp_val=value;
 		this.rst_type=s;
 	}
-	public boolean genCode(CodeGenerator codegen){
+	public boolean genCode(CodeGenerator codegen)throws GenCodeException{
 		IRCode code =null;
 		if(this.ref_type!=null){
 			switch(this.ref_type){
@@ -66,7 +69,7 @@ public class ExprPri_Num extends AST {
 		
 		return true;
 	}
-	public boolean genSymTb(CodeGenerator codegen){
+	public boolean genSymTb(CodeGenerator codegen)throws GenSymTblException{
 		if(this.rst_type.equals("int")){
 			this.i_v=Long.parseLong(this.tmp_val);
 		}else if(this.rst_type.equals("double")){
@@ -75,7 +78,7 @@ public class ExprPri_Num extends AST {
 		this.rst_val="%"+codegen.getTmpSn();
 		return true;
 	}
-	public boolean checkType(CodeGenerator codegen){
+	public boolean checkType(CodeGenerator codegen)throws TypeCheckException{
 		if(this.ref_type==null){
 			return true;
 		}else if(this.ref_type.equals("int")){

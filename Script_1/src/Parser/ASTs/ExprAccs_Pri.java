@@ -1,6 +1,9 @@
 package Parser.ASTs;
 
 import Parser.*;
+import Parser.TypeSys.GenCodeException;
+import Parser.TypeSys.GenSymTblException;
+import Parser.TypeSys.TypeCheckException;
 
 public class ExprAccs_Pri extends AST {
 	ExprPri_Chr chr;
@@ -29,7 +32,7 @@ public class ExprAccs_Pri extends AST {
 		}
 	}
 	
-	public boolean genCode(CodeGenerator codegen){
+	public boolean genCode(CodeGenerator codegen)throws GenCodeException{
 		switch(this.getASTType()){
 		case "ExprPri_Chr":
 			this.chr.genCode(codegen);
@@ -47,7 +50,7 @@ public class ExprAccs_Pri extends AST {
 		}
 		return true;
 	}
-	public boolean genSymTb(CodeGenerator codegen){
+	public boolean genSymTb(CodeGenerator codegen)throws GenSymTblException{
 		switch(this.getASTType()){
 		case "ExprPri_Chr":
 			this.chr.ref_type=this.ref_type;
@@ -81,7 +84,7 @@ public class ExprAccs_Pri extends AST {
 		}
 		return true;
 	}
-	public boolean checkType(CodeGenerator codegen){
+	public boolean checkType(CodeGenerator codegen)throws TypeCheckException{
 		switch(this.getASTType()){
 		case "ExprPri_Chr":
 			if(!this.chr.checkType(codegen))

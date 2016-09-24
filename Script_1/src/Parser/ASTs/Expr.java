@@ -26,7 +26,7 @@ public class Expr extends AST {
 	public String getRst(){
 		return this.rst_val;
 	}
-	public boolean genCode(CodeGenerator codegen){
+	public boolean genCode(CodeGenerator codegen)throws GenCodeException{
 		switch(this.getASTType()){
 		case "Expr_Lmbd":
 			this.lmbd.genCode(codegen);
@@ -39,7 +39,7 @@ public class Expr extends AST {
 		}
 		return true;
 	}
-	public boolean genSymTb(CodeGenerator codegen){
+	public boolean genSymTb(CodeGenerator codegen)throws GenSymTblException{
 		switch(this.getASTType()){
 		case "Expr_Lmbd":
 			this.lmbd.ref_type=this.ref_type;
@@ -59,7 +59,7 @@ public class Expr extends AST {
 		}
 		return true;
 	}
-	public boolean checkType(CodeGenerator codegen){
+	public boolean checkType(CodeGenerator codegen)throws TypeCheckException{
 		switch(this.getASTType()){
 		case "Expr_Lmbd":
 			if(!this.lmbd.checkType(codegen))

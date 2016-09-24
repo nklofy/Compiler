@@ -2,6 +2,9 @@ package Parser.ASTs;
 
 import Parser.AST;
 import Parser.CodeGenerator;
+import Parser.TypeSys.GenCodeException;
+import Parser.TypeSys.GenSymTblException;
+import Parser.TypeSys.TypeCheckException;
 
 public class Gnrc_Par extends AST {
 	ExprPri_Var var;
@@ -14,16 +17,16 @@ public class Gnrc_Par extends AST {
 		this.var=var;
 		this.idn=idn;
 	}
-	public boolean genCode(CodeGenerator codegen){
+	public boolean genCode(CodeGenerator codegen)throws GenCodeException{
 		this.rst_val=this.var.rst_val;
 		return true;
 	}
-	public boolean genSymTb(CodeGenerator codegen){
+	public boolean genSymTb(CodeGenerator codegen)throws GenSymTblException{
 		if(!this.var.genSymTb(codegen))
 			return false;	
 		return true;
 	}
-	public boolean checkType(CodeGenerator codegen){
+	public boolean checkType(CodeGenerator codegen)throws TypeCheckException{
 		
 		return true;
 	}

@@ -33,11 +33,11 @@ public class Gnrc_ArgLst extends AST {
 		this.rst_val = arg_types;
 	}
 */
-	public boolean genCode(CodeGenerator codegen){
+	public boolean genCode(CodeGenerator codegen)throws GenCodeException{
 		
 		return true;
 	}
-	public boolean genSymTb(CodeGenerator codegen){
+	public boolean genSymTb(CodeGenerator codegen)throws GenSymTblException{
 		if(!this.pre_args.genSymTb(codegen))return false;
 		if(this.pre_args!=null){
 			this.types_name=this.pre_args.types_name;
@@ -48,7 +48,7 @@ public class Gnrc_ArgLst extends AST {
 		}
 		return true;
 	}
-	public boolean checkType(CodeGenerator codegen){
+	public boolean checkType(CodeGenerator codegen)throws TypeCheckException{
 		if(!this.pre_args.checkType(codegen))
 			return false;
 		if(!this.var.checkType(codegen))

@@ -28,7 +28,7 @@ public class Stmt_DefCls extends AST {
 		this.mbrdef_lst=mbrdef_lst;
 		return true;
 	}
-	public boolean genCode(CodeGenerator codegen){
+	public boolean genCode(CodeGenerator codegen)throws GenCodeException{
 		codegen.pushBlock4Sym(this);		
 		for(MbrDef f:this.mbrdef_lst.mbrs){
 			if(f.mthd!=null){				
@@ -38,7 +38,7 @@ public class Stmt_DefCls extends AST {
 		codegen.popBlock4Sym();
 		return true;
 	}
-	public boolean genSymTb(CodeGenerator codegen){
+	public boolean genSymTb(CodeGenerator codegen)throws GenSymTblException{
 		if(codegen.getTypeInSymTb(this.name)!=null)
 			return false;
 		this.t_type=new T_Class();
@@ -97,7 +97,7 @@ public class Stmt_DefCls extends AST {
 		this.t_type.setTypeSig(s);
 		return true;
 	}
-	public boolean checkType(CodeGenerator codegen){
+	public boolean checkType(CodeGenerator codegen)throws TypeCheckException{
 		codegen.pushBlock4Sym(this);
 		if(!this.gnrc_parlst.checkType(codegen))
 			return false;
