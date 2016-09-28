@@ -30,13 +30,13 @@ public class T_Array extends T_Type {
 	}
 	
 	
-	public boolean canCast(CodeGenerator codegen,T_Type type2){
+	public boolean canCastFrom(CodeGenerator codegen,T_Type type2){
 		if(type2.getKType()!=this.getKType())
 			return false;
 		if(((T_Array)type2).getDims()!=this.dims)
 			return false;
 		T_Type t1=codegen.getTypeInSymTb(this.ele_type);
 		T_Type t2=codegen.getTypeInSymTb(((T_Array)type2).getEleType());
-		return t1.canCast(codegen, t2);	
+		return t1.canCastFrom(codegen, t2);	
 	}
 }

@@ -161,7 +161,7 @@ public class ExprAccs_App extends AST {
 		r.setVarType(this.rst_type);
 		r.setTmpAddr(this.rst_val);
 		codegen.putVarInSymTb(this.rst_val, r);
-		if(!codegen.getTypeInSymTb(this.ref_type).canAsn(codegen, codegen.getTypeInSymTb(this.rst_type)))1
+		if(!codegen.getTypeInSymTb(this.ref_type).canAsnFrom(codegen, codegen.getTypeInSymTb(this.rst_type)))
 			return false;
 		if(this.inGType)
 			codegen.gnrc_arg.remove();

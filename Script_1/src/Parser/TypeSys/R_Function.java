@@ -169,7 +169,7 @@ public class R_Function {
 			while(it1.hasNext()&&it2.hasNext()){
 				String s1=it1.next();
 				String s2=it2.next();
-				if(!codegen.getTypeInSymTb(s2).canCast(codegen,codegen.getTypeInSymTb(s1)))1
+				if(!codegen.getTypeInSymTb(s2).canCastFrom(codegen,codegen.getTypeInSymTb(s1)))
 					return false;
 			}
 			eqA=true;

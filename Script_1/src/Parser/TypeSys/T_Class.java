@@ -54,11 +54,11 @@ public class T_Class extends T_Type {
 	}
 	
 	
-	public boolean canCast(CodeGenerator codegen,T_Type type2){
+	public boolean canCastFrom(CodeGenerator codegen,T_Type type2){
 		if(this.all_extd.contains(type2.getTypeName())||this.all_impl.contains(type2.getTypeName()))
 			return true;
 		else{
-			if(type2.canCast(codegen, this))
+			if(type2.canCastFrom(codegen, this))
 				return true;
 		}
 		return false;

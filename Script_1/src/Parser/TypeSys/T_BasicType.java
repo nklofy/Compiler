@@ -54,7 +54,7 @@ public class T_BasicType extends T_Type {
 		}
 	}	
 
-	public boolean canCast(CodeGenerator codegen,T_Type type2){
+	public boolean canCastFrom(CodeGenerator codegen,T_Type type2){
 		if(!(type2 instanceof T_BasicType))
 			return false;
 		T_BasicType type3=(T_BasicType)type2;

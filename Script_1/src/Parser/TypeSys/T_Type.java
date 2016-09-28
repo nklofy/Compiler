@@ -47,12 +47,12 @@ public class T_Type {
 	public void genTypeSig(CodeGenerator codegen){
 		
 	}
-	public boolean canAsn(CodeGenerator codegen,T_Type type2){
-		if(type2.canCast(codegen, this))
+	public boolean canAsnFrom(CodeGenerator codegen,T_Type type2){ //xx =type2 xx
+		if(this.canCastFrom(codegen, type2))
 			return true;
 		return false;
 	}
-	public boolean canCast(CodeGenerator codegen,T_Type type2){
+	public boolean canCastFrom(CodeGenerator codegen,T_Type type2){ //(type1) type2
 		return false;
 	}
 	public LinkedList<String> getGnrcPars() {

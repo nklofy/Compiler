@@ -116,7 +116,7 @@ public class ExprAccs_Fld extends AST {
 			if(r1==null)return false;
 			this.rst_type=r1.getVarType();
 			T_Type t1=codegen.getTypeInSymTb(r1.getVarType());
-			if(this.ref_type!=null&&!codegen.getTypeInSymTb(this.ref_type).canAsn(codegen, t1))1
+			if(this.ref_type!=null&&!codegen.getTypeInSymTb(this.ref_type).canAsnFrom(codegen, t1))
 				return false;
 			this.rst_val="%"+codegen.getTmpSn();
 			R_Variable r0=new R_Variable();
@@ -132,7 +132,7 @@ public class ExprAccs_Fld extends AST {
 				return false;
 			}
 			this.rst_type=this.var.rst_type;
-			if(this.ref_type!=null&&!codegen.getTypeInSymTb(this.ref_type).canAsn(codegen, codegen.getTypeInSymTb(this.rst_type)))1
+			if(this.ref_type!=null&&!codegen.getTypeInSymTb(this.ref_type).canAsnFrom(codegen, codegen.getTypeInSymTb(this.rst_type)))
 				return false;
 		}else if(sign.equals("super")){	//super...
 			
