@@ -50,16 +50,13 @@ public class SgStmt_DefVar extends AST {
 			this.r_vars=new LinkedList<R_Variable>();
 		}
 		if(codegen.getVarInSymTb(this.var.name)!=null)
-			return false;
+			throw new GenSymTblException("Error: var existed "+this.var.name);
 		R_Variable r=new R_Variable();
-		r.setVarType(this.type_exp.rst_type);
 		r.setVarName(this.var.name);
 		r.setTmpAddr(this.var.rst_val);
 		codegen.putVarInSymTb(this.var.name, r);
 		this.r_vars.add(r);
-		this.var.ref_type=this.type_exp.rst_type;
 		if(this.expr!=null){
-			this.expr.ref_type=this.var.ref_type;
 			if(!this.expr.genSymTb(codegen))
 				return false;
 		}
@@ -73,11 +70,17 @@ public class SgStmt_DefVar extends AST {
 		else{
 			if(!this.type_exp.checkType(codegen))
 				return false;
+			R_Variable r=codegen.getVarInSymTb(this.var.name);
+			r.setVarType(this.type_exp.rst_type);
+			this.var.ref_type=this.type_exp.rst_type;
 		}
+		
 		if(this.expr!=null){
+			this.expr.ref_type=this.var.ref_type;
 			if(!this.expr.checkType(codegen))
 				return false;
 		}
+		
 		return true;
 	}
 }

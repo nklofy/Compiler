@@ -34,10 +34,12 @@ public class SgStmt_AsgnVar extends AST {
 	public boolean genSymTb(CodeGenerator codegen)throws GenSymTblException{
 		if(!this.left_hand.genSymTb(codegen))
 			return false;
-		this.expr.ref_type=this.left_hand.ref_type;
 		return this.expr.genSymTb(codegen);
 	}
 	public boolean checkType(CodeGenerator codegen)throws TypeCheckException{
-		return this.left_hand.checkType(codegen)&&this.expr.checkType(codegen);
+		if(!this.left_hand.checkType(codegen))
+			return false;
+		this.expr.ref_type=this.left_hand.ref_type;		
+		return this.expr.checkType(codegen);
 	}
 }

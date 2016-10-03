@@ -21,7 +21,7 @@ public class ExprCalc_Cond extends AST {
 		return true;
 	}
 	public boolean genSymTb(CodeGenerator codegen)throws GenSymTblException{
-		this.bool_exp.ref_type=this.ref_type;
+		
 		if(!this.bool_exp.genSymTb(codegen))
 			return false;
 		this.rst_type=this.bool_exp.rst_type;
@@ -29,6 +29,7 @@ public class ExprCalc_Cond extends AST {
 		return true;
 	}
 	public boolean checkType(CodeGenerator codegen)throws TypeCheckException{
+		this.bool_exp.ref_type=this.ref_type;
 		if(!this.bool_exp.checkType(codegen))
 			return false;
 		return true;

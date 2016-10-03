@@ -26,7 +26,7 @@ public class TypeChecker {
 		//maybe opt reload in future
 		//search in codegen if registered reloaded operator for type1 
 		else
-			throw new TypeCheckException(type1.getTypeSig()+" "+type2.getTypeSig()+" failed type checking of opt four");
+			throw new TypeCheckException( "failed type checking: "+type1.getTypeSig()+" "+type2.getTypeSig()+" opt four");
 	}
 	
 	static public T_Type checkBscFour(CodeGenerator codegen, T_BasicType type1, T_BasicType type2)throws TypeCheckException{//arithmetic int double
@@ -35,7 +35,7 @@ public class TypeChecker {
 		}else if(type1.getTypeB()==en_BType.t_double||type2.getTypeB()==en_BType.t_double){
 			return codegen.getTypeInSymTb("double");
 		}
-		throw new TypeCheckException(type1.getTypeSig()+" "+type2.getTypeSig()+" failed basic type checking of opt plus");
+		throw new TypeCheckException("failed type checking: "+type1.getTypeSig()+" "+type2.getTypeSig()+" opt plus");
 	}
 	
 	static public T_Type checkOptCmp(CodeGenerator codegen, T_Type type1, T_Type type2) throws TypeCheckException{
@@ -45,7 +45,7 @@ public class TypeChecker {
 			return checkBscCmp(codegen,t1,t2);
 		}
 		//check if reload compare operator for type1 and type2
-		throw new TypeCheckException(type1.getTypeSig()+" "+type2.getTypeSig()+" failed type checking of opt cmp");
+		throw new TypeCheckException("failed type checking: "+type1.getTypeSig()+" "+type2.getTypeSig()+" opt cmp");
 	}
 	
 	static public T_Type checkBscCmp(CodeGenerator codegen, T_BasicType t1, T_BasicType t2)throws TypeCheckException{//a>b >= < <=
@@ -56,7 +56,7 @@ public class TypeChecker {
 				&&(t2.getTypeB()==en_BType.t_char||t2.getTypeB()==en_BType.t_int)){
 			return codegen.getTypeInSymTb("bool");
 		}
-		throw new TypeCheckException(t1.getTypeSig()+" "+t2.getTypeSig()+" failed basic type checking of opt plus");
+		throw new TypeCheckException("failed type checking: "+t1.getTypeSig()+" "+t2.getTypeSig()+" opt plus");
 		
 	}
 	
@@ -69,7 +69,7 @@ public class TypeChecker {
 			if(type1.isEqType(type2))
 				return true;
 		}
-		throw new TypeCheckException(type1.getTypeSig()+" "+type2.getTypeSig()+" failed type checking of opt equality");
+		throw new TypeCheckException("failed type checking: "+type1.getTypeSig()+" "+type2.getTypeSig()+" opt equality");
 	}
 	
 	static public boolean checkBscEq(CodeGenerator codegen, T_BasicType t1, T_BasicType t2)throws TypeCheckException{// a==b !=
@@ -82,7 +82,7 @@ public class TypeChecker {
 		}else if(t1.getTypeSig().equals(t2.getTypeSig())){
 			return true;
 		}
-		throw new TypeCheckException(t1.getTypeSig()+" "+t2.getTypeSig()+" failed basic type checking of opt equality");
+		throw new TypeCheckException("failed type checking: "+t1.getTypeSig()+" "+t2.getTypeSig()+" opt equality");
 	}
 	
 	static public boolean checkOptInc(CodeGenerator codegen, T_Type type1)throws TypeCheckException{//a++ ++a 
@@ -94,7 +94,7 @@ public class TypeChecker {
 		}else{
 			//check for opt reload
 		}
-		throw new TypeCheckException(type1.getTypeSig()+" failed type checking of opt increment");
+		throw new TypeCheckException("failed type checking: "+type1.getTypeSig()+" opt increment");
 	}
 	
 	static public boolean checkOptMinus(CodeGenerator codegen, T_Type type1)throws TypeCheckException{//a++ ++a 
@@ -106,11 +106,11 @@ public class TypeChecker {
 		}else{
 			//check for opt reload
 		}
-		throw new TypeCheckException(type1.getTypeSig()+" failed type checking of opt +/-");
+		throw new TypeCheckException("failed type checking: "+type1.getTypeSig()+" opt +/-");
 	}
 	
 	static public boolean checkCast(CodeGenerator codegen, T_Type type1, T_Type type2) throws TypeCheckException{//type1 xx=type2 xx
 		if(type1.canCastFrom(codegen, type2)) return true;
-		throw new TypeCheckException(type1.getTypeSig()+" failed type checking of type cast");
+		throw new TypeCheckException("failed type checking: "+type1.getTypeSig()+" type cast");
 	}	
 }

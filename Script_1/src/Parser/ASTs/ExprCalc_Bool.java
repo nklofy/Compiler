@@ -146,7 +146,6 @@ public class ExprCalc_Bool extends AST {
 				if(!this.add_1.genSymTb(codegen))
 					return false;
 			}else{
-				this.add_1.ref_type=this.ref_type;
 				if(!this.add_1.genSymTb(codegen))
 					return false;
 				this.rst_val=this.add_1.rst_val;
@@ -186,6 +185,10 @@ public class ExprCalc_Bool extends AST {
 				return false;
 			break;
 		case t_un:
+			if(this.opt!=null&&this.opt.equals("!"))
+				this.add_1.ref_type="bool";
+			else
+				this.add_1.ref_type=this.ref_type;
 			if(!this.add_1.checkType(codegen)//||!this.add_1.rst_type.equals("bool")
 					)
 				return false;

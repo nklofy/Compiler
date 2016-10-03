@@ -1,10 +1,7 @@
 89597046
 script1
-load_i %1 1 null
+load_d %1 1.1 null
 mov int a %1
-load_i %3 1 null
+load_i %3 2 null
 add_i %2 a %3
 mov int b %2
-load_i %5 2 null
-add_null %4 a %5
-mov null b %4

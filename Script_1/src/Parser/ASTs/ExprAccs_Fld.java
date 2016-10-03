@@ -48,12 +48,11 @@ public class ExprAccs_Fld extends AST {
 		}
 		if(this.var!=null){			
 			if(this.pre_fld==null){
-				this.var.ref_type=this.ref_type;
-				if(!this.var.genSymTb(codegen)){
-					return false;
-				}
+				//this.var.ref_type=this.ref_type;
+				if(codegen.getVarInSymTb(this.var.name)==null)
+					throw new GenSymTblException("Error: var not defined "+this.var.name);
 				this.rst_val=this.var.rst_val;
-				this.rst_type=this.var.rst_type;
+				//this.rst_type=this.var.rst_type;
 				return true;
 			}
 		}
@@ -75,7 +74,7 @@ public class ExprAccs_Fld extends AST {
 			}
 			T_Type t=null;
 			if(this.var!=null){	// A.b a.b
-				if(codegen.getVarInSymTb(this.pre_fld.rst_val)!=null){
+				if(codegen.getVarInSymTb(this.pre_fld.rst_val)!=null){//a
 					R_Variable r=codegen.getVarInSymTb(this.pre_fld.rst_val);
 					t=codegen.getTypeInSymTb(r.getVarType());
 					if(t.getKType()==T_Type.KType.t_cls){
@@ -85,10 +84,10 @@ public class ExprAccs_Fld extends AST {
 						codegen.gnrc_arg.addFirst(t1.getTypeArgTb());
 						t=codegen.getTypeInSymTb(t1.getCoreType());
 						this.inGType=true;
-						if(t.getKType()!=T_Type.KType.t_cls)return false;
+						if(t.getKType()!=T_Type.KType.t_cls)throw new TypeCheckException("TypeCheck Error: ");
 					}else
-						return false;
-				}else if(codegen.getTypeInSymTb(this.pre_fld.rst_val)!=null){
+						throw new TypeCheckException("TypeCheck Error: ");
+				}else if(codegen.getTypeInSymTb(this.pre_fld.rst_val)!=null){//A
 					t=codegen.getTypeInSymTb(this.pre_fld.rst_val);
 					if(t.getKType()==T_Type.KType.t_cls){
 						//
@@ -97,11 +96,11 @@ public class ExprAccs_Fld extends AST {
 						codegen.gnrc_arg.addFirst(t1.getTypeArgTb());
 						this.inGType=true;
 					}else
-						return false;
+						throw new TypeCheckException("TypeCheck Error: ");
 				}
 			}else if(this.sign.equals("class")){ 	//A.class
 				if(!this.ref_type.equals("class")){
-					return false;
+					throw new TypeCheckException("TypeCheck Error: ");
 				}
 				T_Type t1 =codegen.getTypeInSymTb(this.pre_fld.rst_val);
 				if(t1.getKType()==T_Type.KType.t_cls){
@@ -110,14 +109,14 @@ public class ExprAccs_Fld extends AST {
 					if(codegen.getTypeInSymTb(((T_Generic)t1).getCoreType()).getKType()==T_Type.KType.t_gnrc)
 						return true;
 				}else
-					return false;				
+					throw new TypeCheckException("TypeCheck Error: ");		
 			}
 			R_Variable r1=((T_Class)t).getFields().get(var.name);
 			if(r1==null)return false;
 			this.rst_type=r1.getVarType();
 			T_Type t1=codegen.getTypeInSymTb(r1.getVarType());
 			if(this.ref_type!=null&&!codegen.getTypeInSymTb(this.ref_type).canAsnFrom(codegen, t1))
-				return false;
+				throw new TypeCheckException("TypeCheck Error: ");
 			this.rst_val="%"+codegen.getTmpSn();
 			R_Variable r0=new R_Variable();
 			r0.setVarName(this.rst_val);
@@ -133,13 +132,13 @@ public class ExprAccs_Fld extends AST {
 			}
 			this.rst_type=this.var.rst_type;
 			if(this.ref_type!=null&&!codegen.getTypeInSymTb(this.ref_type).canAsnFrom(codegen, codegen.getTypeInSymTb(this.rst_type)))
-				return false;
+				throw new TypeCheckException("TypeCheck Error: ");
 		}else if(sign.equals("super")){	//super...
 			
 		}else if(sign.equals("this")){	//this....
 			
 		}else
-			return false;
+			throw new TypeCheckException("TypeCheck Error: ");
 		return true;
 	}
 }

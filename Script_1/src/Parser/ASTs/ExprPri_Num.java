@@ -92,7 +92,7 @@ public class ExprPri_Num extends AST {
 		}else if(this.ref_type.equals("string")){
 			this.s_v=this.tmp_val;
 		}else 
-			return false;
+			throw new TypeCheckException("fail type checking: number cast to "+ codegen.getTypeInSymTb(this.ref_type).getTypeSig());
 		this.rst_type=this.ref_type;
 		return true;
 	}

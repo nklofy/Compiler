@@ -42,18 +42,18 @@ public class Expr extends AST {
 	public boolean genSymTb(CodeGenerator codegen)throws GenSymTblException{
 		switch(this.getASTType()){
 		case "Expr_Lmbd":
-			this.lmbd.ref_type=this.ref_type;
 			if(!this.lmbd.genSymTb(codegen))
 				return false;
 			this.rst_type=this.lmbd.rst_type;
 			this.rst_val=this.lmbd.rst_val;
 			break;
 		case "Expr_Calc":
-			this.calc.ref_type=this.ref_type;
+			//this.calc.ref_type=this.ref_type;
 			if(!this.calc.genSymTb(codegen))
 				return false;
 			this.rst_type=this.calc.rst_type;
 			this.rst_val=this.calc.rst_val;
+			break;
 		default:
 			return false;
 		}
@@ -62,10 +62,12 @@ public class Expr extends AST {
 	public boolean checkType(CodeGenerator codegen)throws TypeCheckException{
 		switch(this.getASTType()){
 		case "Expr_Lmbd":
+			this.lmbd.ref_type=this.ref_type;
 			if(!this.lmbd.checkType(codegen))
 				return false;
 			break;
 		case "Expr_Calc":
+			this.calc.ref_type=this.ref_type;
 			if(!this.calc.checkType(codegen))
 				return false;
 			break;

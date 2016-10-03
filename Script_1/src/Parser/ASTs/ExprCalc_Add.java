@@ -110,24 +110,18 @@ public class ExprCalc_Add extends AST {
 		case t_biAdd:
 			if(!this.add_1.genSymTb(codegen)||!this.add_2.genSymTb(codegen))
 				return false;
-			this.add_1.ref_type=this.ref_type;
-			this.add_2.ref_type=this.ref_type;
 			break;
 		case t_biMul:
 			if(!this.add_1.genSymTb(codegen)||!this.accs.genSymTb(codegen))
 				return false;
-			this.add_1.ref_type=this.ref_type;
-			this.accs.ref_type=this.ref_type;
 			break;
 		case t_un:
 			if(this.opt==null){
-				this.unary.ref_type=this.ref_type;
 				if(!this.unary.genSymTb(codegen))
 					return false;
 				this.rst_type=this.unary.rst_type;
 				this.rst_val=this.unary.rst_val;
 			}else{
-				this.add_1.ref_type=this.ref_type;
 				if(!this.add_1.genSymTb(codegen))
 					return false;
 				if(this.opt.equals("+")){
@@ -144,36 +138,42 @@ public class ExprCalc_Add extends AST {
 	public boolean checkType (CodeGenerator codegen) throws TypeCheckException{
 		switch(this.t_Add){
 		case t_biAdd:
+			this.add_1.ref_type=this.ref_type;
+			this.add_2.ref_type=this.ref_type;
 			if(!this.add_1.checkType(codegen)||!this.add_2.checkType(codegen))
 				return false;	
 			T_Type t0=codegen.getTypeInSymTb(this.ref_type);
 			T_Type t1=codegen.getTypeInSymTb(this.add_1.rst_type);
 			T_Type t2=codegen.getTypeInSymTb(this.add_2.rst_type);
 			if(t0!=null&&!TypeChecker.checkCast(codegen, t0, TypeChecker.checkOptFour(codegen, this.opt, t1, t2)))
-				return false;
+				throw new TypeCheckException("TypeCheck Error: ");
 			break;
 		case t_biMul:
+			this.add_1.ref_type=this.ref_type;
+			this.accs.ref_type=this.ref_type;
 			if(!this.add_1.checkType(codegen)||!this.accs.checkType(codegen))
 				return false;
 			t0=codegen.getTypeInSymTb(this.ref_type);
 			t1=codegen.getTypeInSymTb(this.add_1.rst_type);
 			t2=codegen.getTypeInSymTb(this.accs.rst_type);
 			if(t0!=null&&!TypeChecker.checkCast(codegen, t0, TypeChecker.checkOptFour(codegen, this.opt, t1, t2)))
-				return false;
+				throw new TypeCheckException("TypeCheck Error: ");
 			break;
 		case t_un:
 			if(this.opt==null){
+				this.unary.ref_type=this.ref_type;
 				if(!this.unary.checkType(codegen))
 					return false;	
 				this.rst_type=this.unary.rst_type;
 			}else{
+				this.add_1.ref_type=this.ref_type;
 				if(!this.add_1.checkType(codegen))
 					return false;
 				this.rst_type=this.add_1.rst_type;
 				t0=codegen.getTypeInSymTb(this.ref_type);
 				t1=codegen.getTypeInSymTb(this.add_1.rst_type);
 				if(t0!=null&&!TypeChecker.checkCast(codegen, t0,t1)&&!TypeChecker.checkOptMinus(codegen, t1))
-					return false;
+					throw new TypeCheckException("TypeCheck Error: ");
 			}
 			break;
 		default:
