@@ -46,7 +46,8 @@ public class ExprAccs_Fld extends AST {
 				return false;
 			}
 		}
-		if(this.var!=null){			
+		if(this.var!=null){
+			if(!this.var.genSymTb(codegen)) return false;
 			if(this.pre_fld==null){
 				//this.var.ref_type=this.ref_type;
 				if(codegen.getVarInSymTb(this.var.name)==null)
@@ -125,7 +126,7 @@ public class ExprAccs_Fld extends AST {
 			if(this.inGType)
 				codegen.gnrc_arg.remove();
 			return true;
-		}				//if(this.pre_fld!=null)
+		}	//if(this.pre_fld!=null)
 		else if(this.var!=null){	//a...
 			if(!this.var.checkType(codegen)){				
 				return false;

@@ -22,7 +22,7 @@ public class StmtIf_IfBd extends AST {
 	public boolean genCode(CodeGenerator codegen)throws GenCodeException{
 		codegen.incLineNo();
 		this.bool_exp.genCode(codegen);
-		IRCode code=new IRCode("if",this.bool_exp.getVal(),null,null);
+		IRCode code=new IRCode("if",this.bool_exp.getVal(),codegen.labels_ifbd.peek(),codegen.labels_elsbd.peek());
 		codegen.incLineNo();
 		codegen.addCode(code);
 		int ln_ifbd=codegen.getLineNo()+1;
@@ -36,6 +36,15 @@ public class StmtIf_IfBd extends AST {
 		return true;
 	}
 	public boolean genSymTb(CodeGenerator codegen)throws GenSymTblException{
+		if(!this.bool_exp.genSymTb(codegen)){
+			return false;
+		}
+		if(this.sg_stmt!=null){
+			return this.sg_stmt.genSymTb(codegen);
+		}
+		else if(this.stmt_list!=null){
+			return this.stmt_list.genSymTb(codegen);
+		}
 		return true;
 	}
 	public boolean checkType(CodeGenerator codegen)throws TypeCheckException{

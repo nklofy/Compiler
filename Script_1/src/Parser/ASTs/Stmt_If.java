@@ -34,7 +34,12 @@ public class Stmt_If extends AST {
 		return true;
 	}
 	public boolean genSymTb(CodeGenerator codegen)throws GenSymTblException{
-		return true;
+		if(this.else_body==null){
+			return this.if_body.genSymTb(codegen);
+		}
+		else{ 
+			return this.if_body.genSymTb(codegen)&&this.else_body.genSymTb(codegen);
+		}
 	}
 	public boolean checkType(CodeGenerator codegen)throws TypeCheckException{
 		if(this.else_body==null){
