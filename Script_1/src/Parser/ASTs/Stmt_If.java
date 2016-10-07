@@ -21,16 +21,19 @@ public class Stmt_If extends AST {
 		codegen.labels_elsbd.addFirst(lb_elsbd);
 		this.if_body.genCode(codegen);
 		int ln_elsbd=codegen.getLineNo()+1;
-		codegen.mp_label2line.put(lb_elsbd, ln_elsbd);
-		if(this.else_body!=null){
-			this.else_body.genCode(codegen);		
-		}
+		if(this.else_body!=null){		
+			ln_elsbd++;
+			this.else_body.genCode(codegen);	
+		}	
+		codegen.mp_label2line.put(lb_elsbd, ln_elsbd);	
 		codegen.replaceLb(lb_ifbd);
+		//codegen.replaceLb(lb_elsbd);
 		codegen.labels_ifbd.remove();
 		codegen.labels_elsbd.remove();
 		codegen.mp_label2line.remove(lb_ifbd);
 		codegen.mp_label2line.remove(lb_elsbd);
 		codegen.rps_code_list.remove(lb_ifbd);
+		codegen.rps_code_list.remove(lb_elsbd);
 		return true;
 	}
 	public boolean genSymTb(CodeGenerator codegen)throws GenSymTblException{

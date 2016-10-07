@@ -421,7 +421,7 @@ public class Parser {
 			System.out.println("get token "+token_name+" at line "+smb.line);
 			doAllReduce(token_name);	//all reduce, but keep states active
 			if(token_name.equals("eof")&&states_active.containsKey(0)  ){//end of parsing
-				System.out.println("eof, "+"finished parsing");
+				System.out.println();System.out.println("eof, "+"finished parsing");
 				ast_tree=states_active.get(0).symbol.ast;
 				break;	
 			}

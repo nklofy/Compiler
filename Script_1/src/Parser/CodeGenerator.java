@@ -12,6 +12,7 @@ public class CodeGenerator {
 	public HashMap<String, Integer> mp_label2line=new HashMap<String,Integer>();//for label and line No.
 	public LinkedList<String> labels_ifbd=new LinkedList<String>();
 	public LinkedList<String> labels_elsbd=new LinkedList<String>();
+	//public LinkedList<String> labels_ifend=new LinkedList<String>();
 	public LinkedList<String> labels_whlbd=new LinkedList<String>();
 	public LinkedList<String> labels_whlend=new LinkedList<String>();
 	public TypeChecker type_sys=new TypeChecker();
@@ -79,17 +80,23 @@ public class CodeGenerator {
 			return this.rps_code_list.get(lb);
 		}
 	}
-	public boolean replaceLb(String lable){
+	public boolean replaceLb(String lable)throws GenCodeException{
 		LinkedList<IRCode> rps_codes=this.rps_code_list.get(lable);
 		for(IRCode code:rps_codes){
+			String lb1=code.getOpd1();
 			String lb2=code.getOpd2();
 			String lb3=code.getOpd3();
+			if(this.mp_label2line.containsKey(lb1)){
+				code.setOpd1(this.mp_label2line.get(lb1).toString());
+			}
 			if(this.mp_label2line.containsKey(lb2)){
 				code.setOpd2(this.mp_label2line.get(lb2).toString());
 			}
 			if(this.mp_label2line.containsKey(lb3)){
 				code.setOpd3(this.mp_label2line.get(lb3).toString());
-			}						
+			}
+			if(!this.mp_label2line.containsKey(lb1)&&!this.mp_label2line.containsKey(lb2)&&!this.mp_label2line.containsKey(lb3))
+				throw new GenCodeException("GenCode error: not find replace label and line number");
 		}
 		return true;
 	}

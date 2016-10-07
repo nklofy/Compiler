@@ -28,6 +28,7 @@ public class StmtIf_IfBd extends AST {
 		int ln_ifbd=codegen.getLineNo()+1;
 		codegen.mp_label2line.put(codegen.labels_ifbd.peek(), ln_ifbd);
 		codegen.getRpsLst(codegen.labels_ifbd.peek()).add(code);
+		codegen.getRpsLst(codegen.labels_elsbd.peek()).add(code);
 		if(this.sg_stmt!=null){
 			this.sg_stmt.genCode(codegen);
 		}else if(this.stmt_list!=null){

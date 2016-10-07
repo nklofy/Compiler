@@ -51,7 +51,7 @@ public class ExprCalc_Bool extends AST {
 		return true;
 	}
 	public String getVal(){
-		return null;
+		return this.rst_val;
 	}
 	public enum en_Bl{t_cnst,t_biCmp,t_biBool,t_un}
 	
