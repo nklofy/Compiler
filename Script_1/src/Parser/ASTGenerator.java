@@ -963,14 +963,14 @@ public class ASTGenerator {
 		break;
 //		128	crtUnrIncP 0
 	case "crtUnrIncP":
-		ast0=symbs.get(0).ast;
+		ast0=symbs.get(1).ast;
 		ExprCalc_Unary ast_t128=new ExprCalc_Unary();
 		ast_t128.setUnary((ExprAccs) ast0, "++p");
 		ast=ast_t128;
 		break;
 //		129	crtUnrDecP 0
 	case "crtUnrDecP":
-		ast0=symbs.get(0).ast;
+		ast0=symbs.get(1).ast;
 		ExprCalc_Unary ast_t129=new ExprCalc_Unary();
 		ast_t129.setUnary((ExprAccs) ast0, "--p");
 		ast=ast_t129;

@@ -12,6 +12,8 @@ public class StmtIf_IfBd extends AST {
 	ExprCalc_Bool bool_exp;
 	AST_StmtList stmt_list;
 	Stmt_Sg sg_stmt;	
+	String labels_ifbd;
+	String labels_elsbd;
 	
 	public boolean setIfBd(ExprCalc_Bool bool_exp,AST_StmtList stmt_list,Stmt_Sg sg_stmt){
 		this.bool_exp=bool_exp;
@@ -20,15 +22,14 @@ public class StmtIf_IfBd extends AST {
 		return true;
 	}
 	public boolean genCode(CodeGenerator codegen)throws GenCodeException{
-		codegen.incLineNo();
 		this.bool_exp.genCode(codegen);
-		IRCode code=new IRCode("if",this.bool_exp.getVal(),codegen.labels_ifbd.peek(),codegen.labels_elsbd.peek());
+		IRCode code=new IRCode("if",this.bool_exp.getVal(),this.labels_ifbd,this.labels_elsbd);
 		codegen.incLineNo();
 		codegen.addCode(code);
 		int ln_ifbd=codegen.getLineNo()+1;
-		codegen.mp_label2line.put(codegen.labels_ifbd.peek(), ln_ifbd);
-		codegen.getRpsLst(codegen.labels_ifbd.peek()).add(code);
-		codegen.getRpsLst(codegen.labels_elsbd.peek()).add(code);
+		codegen.mp_label2line.put(this.labels_ifbd, ln_ifbd);
+		codegen.getRpsLst(this.labels_ifbd).add(code);
+		//codegen.getRpsLst(codegen.labels_elsbd.peek()).add(code);
 		if(this.sg_stmt!=null){
 			this.sg_stmt.genCode(codegen);
 		}else if(this.stmt_list!=null){

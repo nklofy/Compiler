@@ -34,16 +34,20 @@ public class SgStmt_CtrFlw extends AST {
 			codegen.incLineNo();
 			break;
 		case t_continue:
-			String lb_st=codegen.labels_whlbd.peek();
+			String lb_st=codegen.labels_whlbg.peek();
 			code=new IRCode("goto",codegen.mp_label2line.get(lb_st).toString(),null,null);
 			codegen.addCode(code);
 			codegen.incLineNo();
 			break;			
 		case t_return:
 			code =new IRCode("ret",null,null,null);
+			codegen.addCode(code);
+			codegen.incLineNo();
 			break;			
 		case t_returnExp:
 			code =new IRCode("retExp",this.return_exp.rst_type,this.return_exp.rst_val,null);
+			codegen.addCode(code);
+			codegen.incLineNo();
 			break;
 		default:return false;		
 		}
@@ -55,11 +59,11 @@ public class SgStmt_CtrFlw extends AST {
 	public boolean checkType(CodeGenerator codegen)throws TypeCheckException{
 		switch(this.t_ctrflw){
 		case t_break:
-			if(!codegen.labels_whlbd.isEmpty())
+			if(!codegen.labels_whlbg.isEmpty())
 				return true;
 			break;
 		case t_continue:
-			if(!codegen.labels_whlbd.isEmpty())
+			if(!codegen.labels_whlbg.isEmpty())
 				return true;
 			break;
 		case t_return:

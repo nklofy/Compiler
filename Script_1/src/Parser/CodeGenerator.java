@@ -5,15 +5,15 @@ import Parser.IR.*;
 import Parser.TypeSys.*;
 
 public class CodeGenerator {
-	private int crt_line=-1;//the last row's number of codes
+	private int crt_line=0;//the last row's number of codes
 	private int tmp_sn=1;//naming temp vars and labels
 	private ArrayList<IRCode> code_list=new ArrayList<IRCode> ();
 	public HashMap<String, LinkedList<IRCode>> rps_code_list=new HashMap<String,LinkedList<IRCode>>();
 	public HashMap<String, Integer> mp_label2line=new HashMap<String,Integer>();//for label and line No.
-	public LinkedList<String> labels_ifbd=new LinkedList<String>();
-	public LinkedList<String> labels_elsbd=new LinkedList<String>();
+	//public LinkedList<String> labels_ifbd=new LinkedList<String>();
+	//public LinkedList<String> labels_elsbd=new LinkedList<String>();
 	//public LinkedList<String> labels_ifend=new LinkedList<String>();
-	public LinkedList<String> labels_whlbd=new LinkedList<String>();
+	public LinkedList<String> labels_whlbg=new LinkedList<String>();
 	public LinkedList<String> labels_whlend=new LinkedList<String>();
 	public TypeChecker type_sys=new TypeChecker();
 	public LinkedList<String> ret_types=new LinkedList<String>();//check function return type and return statment's type
