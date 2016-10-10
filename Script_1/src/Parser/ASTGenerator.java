@@ -583,6 +583,7 @@ public class ASTGenerator {
 //		76	crtParLstE 0
 	case "crtParLstE":
 		FuncDef_ParLst ast_t76=new FuncDef_ParLst();
+		ast_t76.setE();
 		ast=ast_t76;
 		break;
 //		77	lnkParVar 3 1 0

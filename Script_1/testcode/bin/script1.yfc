@@ -1,9 +1,4 @@
 89597046
 script1
-load_d %1 1.1 null
+load_i %1 1 null
 mov int a %1
-load_i %3 0 null
-GT %2 a %3
-while %2 6 8
-dec_1 a null null
-goto 3 null null

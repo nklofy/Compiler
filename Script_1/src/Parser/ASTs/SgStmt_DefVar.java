@@ -12,6 +12,7 @@ public class SgStmt_DefVar extends AST {
 	ExprPri_Var var;
 	Expr expr;
 	LinkedList<R_Variable> r_vars;
+	String ref_type;
 	
 	public void setPredef(SgStmt_DefVar var_def) {
 		this.pre_def = var_def;
@@ -32,7 +33,7 @@ public class SgStmt_DefVar extends AST {
 		}
 		if(this.var!=null&&this.expr!=null){
 			this.expr.genCode(codegen);
-			IRCode code=new IRCode("mov",this.var.ref_type,this.var.rst_val,this.expr.rst_val);
+			IRCode code=new IRCode("mov",this.ref_type,this.var.rst_val,this.expr.rst_val);
 			codegen.addCode(code);
 			codegen.incLineNo();
 		}
@@ -66,17 +67,22 @@ public class SgStmt_DefVar extends AST {
 		if(this.pre_def!=null){
 			if(!this.pre_def.checkType(codegen))
 				return false;
+			this.ref_type=this.pre_def.ref_type;
+			R_Variable r=codegen.getVarInSymTb(this.var.name);
+			r.setVarType(this.ref_type);
+			this.var.ref_type=this.ref_type;
 		}
 		else{
 			if(!this.type_exp.checkType(codegen))
 				return false;
+			this.ref_type=this.type_exp.rst_type;
+			this.var.ref_type=this.ref_type;
 			R_Variable r=codegen.getVarInSymTb(this.var.name);
-			r.setVarType(this.type_exp.rst_type);
-			this.var.ref_type=this.type_exp.rst_type;
+			r.setVarType(this.ref_type);
 		}
 		
 		if(this.expr!=null){
-			this.expr.ref_type=this.var.ref_type;
+			this.expr.ref_type=this.ref_type;
 			if(!this.expr.checkType(codegen))
 				return false;
 		}
