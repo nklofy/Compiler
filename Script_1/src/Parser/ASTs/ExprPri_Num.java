@@ -26,20 +26,16 @@ public class ExprPri_Num extends AST {
 			case "int":
 				code = new IRCode("load_i",this.rst_val,String.valueOf(this.i_v),null);
 				codegen.addCode(code);
-				codegen.incLineNo();
 				break;
 			case "double":
 				code = new IRCode("load_d",this.rst_val,String.valueOf(this.d_v),null);
 				codegen.addCode(code);
-				codegen.incLineNo();
 				break;
 			case "string":
 				code = new IRCode("load_s",this.rst_val,null,null);
 				codegen.addCode(code);
-				codegen.incLineNo();
 				code = new IRCode(this.tmp_val,null,null,null);
 				codegen.addCode(code);
-				codegen.incLineNo();
 				break;
 				default:break;
 			}
@@ -48,20 +44,16 @@ public class ExprPri_Num extends AST {
 			case "int":
 				code = new IRCode("load_i",this.rst_val,String.valueOf(this.i_v),null);
 				codegen.addCode(code);
-				codegen.incLineNo();
 				break;
 			case "double":
 				code = new IRCode("load_d",this.rst_val,String.valueOf(this.d_v),null);
 				codegen.addCode(code);
-				codegen.incLineNo();
 				break;
 			case "string":
 				code = new IRCode("load_s",this.rst_val,null,null);
 				codegen.addCode(code);
-				codegen.incLineNo();
 				code = new IRCode(this.tmp_val,null,null,null);
 				codegen.addCode(code);
-				codegen.incLineNo();
 				break;
 				default:break;
 			}

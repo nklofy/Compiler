@@ -24,7 +24,6 @@ public class StmtIf_IfBd extends AST {
 	public boolean genCode(CodeGenerator codegen)throws GenCodeException{
 		this.bool_exp.genCode(codegen);
 		IRCode code=new IRCode("if",this.bool_exp.getVal(),this.labels_ifbd,this.labels_elsbd);
-		codegen.incLineNo();
 		codegen.addCode(code);
 		int ln_ifbd=codegen.getLineNo()+1;
 		codegen.mp_label2line.put(this.labels_ifbd, ln_ifbd);

@@ -1,4 +1,8 @@
 89597046
 script1
+defFunction fact int() null
+load_i %2 1 null
+retExp int %2 null
+ret
 load_i %1 1 null
 mov int a %1

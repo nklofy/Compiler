@@ -25,13 +25,11 @@ public class ExprCalc_NewArr extends AST {
 			this.dim_lst.genCode(codegen);
 			IRCode code=new IRCode("newArr",this.type_exp.rst_type,this.rst_val,this.dim_lst.rst_val);
 			codegen.addCode(code);
-			codegen.incLineNo();
 		}
 		if(this.init_lst!=null){
 			this.init_lst.genCode(codegen);
 			IRCode code=new IRCode("newArrInit",this.rst_val,this.init_lst.rst_val,null);
 			codegen.addCode(code);
-			codegen.incLineNo();
 		}
 		return false;
 	}

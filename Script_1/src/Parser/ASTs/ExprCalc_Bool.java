@@ -67,7 +67,6 @@ public class ExprCalc_Bool extends AST {
 				code=new IRCode("OR",this.rst_val,this.bool_1.rst_val,this.bool_2.rst_val);
 			}
 			codegen.addCode(code);
-			codegen.incLineNo();
 			break;
 		case t_biCmp:
 			this.add_1.genCode(codegen);
@@ -96,7 +95,6 @@ public class ExprCalc_Bool extends AST {
 				break;
 			}
 			codegen.addCode(code);
-			codegen.incLineNo();
 			break;
 		case t_un:
 			this.add_1.genCode(codegen);
@@ -104,7 +102,6 @@ public class ExprCalc_Bool extends AST {
 			if(this.opt!=null&&this.opt.equals("!")){
 				code=new IRCode("NOT",this.rst_val,this.add_1.rst_val,null);
 				codegen.addCode(code);
-				codegen.incLineNo();
 			}
 			break;
 		case t_cnst:

@@ -50,9 +50,9 @@ public class CodeGenerator {
 	public int getLineNo() {
 		return crt_line;
 	}
-	public void incLineNo() {
+/*	public void incLineNo() {
 		this.crt_line ++;
-	}
+	}*/
 	public void setLineNo(int i){
 		this.crt_line=i;
 	}
@@ -68,6 +68,7 @@ public class CodeGenerator {
 	}
 	public void addCode(IRCode code){
 		this.code_list.add(code);
+		this.crt_line ++;
 	}
 	public ArrayList<IRCode> getCodeList(){
 		return this.code_list;
@@ -382,21 +383,18 @@ public class CodeGenerator {
 	public boolean outputFuncTb(PrintWriter out){//function defined in script area. can define after use.
 		for(R_Function f:this.func_file){
 			if(f.isDummy()){
-				out.println(f.getFuncName()+" "+f.getFuncSig());
-				out.println("dummy");
+				out.println("defFunction_dummy "+f.getFuncName()+" "+f.getFuncSig());
 			}
 			if(f.isMulti()){							
 				for(String s:f.getMulti().keySet()){
 					R_Function f1=f.getMulti().get(s);
-					out.println(f1.getFuncName()+" "+f1.getFuncSig());
 					ArrayList<IRCode> codes=f.getFuncBody();
 					for(IRCode code:codes){
 						out.println(code.getOpt()+" "+code.getOpd1()+" "+code.getOpd2()+" "+code.getOpd3());
 					}
 					out.println("ret");
 				}
-			}else{	
-				out.println(f.getFuncName()+" "+f.getFuncSig());
+			}else{
 				ArrayList<IRCode> codes=f.getFuncBody();
 				for(IRCode code:codes){
 					out.println(code.getOpt()+" "+code.getOpd1()+" "+code.getOpd2()+" "+code.getOpd3());

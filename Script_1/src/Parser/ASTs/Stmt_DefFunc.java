@@ -33,16 +33,16 @@ public class Stmt_DefFunc extends AST {
 		ArrayList<IRCode> old_ir=codegen.getCodeList();
 		codegen.setCodeList(new ArrayList<IRCode>());
 		codegen.setLineNo(-1);
-		
-		if(this.gnrc_pars!=null){
-			IRCode code=new IRCode("defGPars",this.gnrc_pars.rst_val,null,null);
+		this.type_exp.genCode(codegen);
+		IRCode code=new IRCode("defFunction",this.name,this.r_func.getFuncSig(),null);
+		codegen.addCode(code);
+		if(!this.gnrc_pars.isE){
+			code=new IRCode("defGPars",this.gnrc_pars.rst_val,null,null);
 			codegen.addCode(code);
-			codegen.incLineNo();
 		}
-		if(this.pars!=null){
-			IRCode code=new IRCode("pushFPars",this.pars.rst_val,null,null);
+		if(!this.pars.isE){
+			code=new IRCode("pushFPars",this.pars.rst_val,null,null);
 			codegen.addCode(code);
-			codegen.incLineNo();
 		}
 		
 		if(!this.stmt_list.genCode(codegen))
@@ -55,9 +55,11 @@ public class Stmt_DefFunc extends AST {
 	}
 	public boolean genSymTb(CodeGenerator codegen)throws GenSymTblException{
 		codegen.pushBlock4Sym(this);
+		if(!this.type_exp.genSymTb(codegen))return false;
 		this.r_func=new R_Function();
 		this.t_type=new T_Function();
 		this.r_func.setTypeT(this.t_type);
+		this.r_func.setFuncName(this.name);
 		if(!this.gnrc_pars.isE()){
 			if(!this.gnrc_pars.genSymTb(codegen))
 				return false;
@@ -83,12 +85,16 @@ public class Stmt_DefFunc extends AST {
 			}
 		}		
 		codegen.putFuncInSymTb(this.name, this.r_func);
+		codegen.addtFuncInFile(r_func);
 		this.stmt_list.genSymTb(codegen);
 		codegen.popBlock4Sym();
 		return true;
 	}
 	public boolean checkType(CodeGenerator codegen)throws TypeCheckException{
 		codegen.pushBlock4Sym(this);
+		if(!this.type_exp.checkType(codegen))return false;
+		this.t_type.setRetType(this.type_exp.rst_type);
+		codegen.ret_types.addFirst(this.type_exp.rst_type);
 		if(!this.gnrc_pars.isE()&&!this.gnrc_pars.checkType(codegen)){
 			return false;
 		}
@@ -98,6 +104,7 @@ public class Stmt_DefFunc extends AST {
 		if(!this.stmt_list.checkType(codegen)){
 			return false;
 		}
+		this.r_func.setFuncSig(this.t_type.genFuncSig(codegen));
 		codegen.popBlock4Sym();
 		return true;
 	}

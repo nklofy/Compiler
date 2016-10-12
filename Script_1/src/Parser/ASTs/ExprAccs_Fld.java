@@ -28,7 +28,6 @@ public class ExprAccs_Fld extends AST {
 				code=new IRCode("getClass",this.rst_val,this.pre_fld.rst_val,null);
 			}
 			codegen.addCode(code);
-			codegen.incLineNo();
 		}else{
 			if(this.var!=null){
 				this.var.genCode(codegen);

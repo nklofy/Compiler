@@ -20,7 +20,6 @@ public class ExprUnr_Cast extends AST {
 		
 		IRCode code=new IRCode("cast",this.accs.rst_type+"->"+this.ref_type,this.rst_val,this.accs.rst_val);
 		codegen.addCode(code);
-		codegen.incLineNo();
 		return true;
 	}
 	public boolean genSymTb(CodeGenerator codegen)throws GenSymTblException{

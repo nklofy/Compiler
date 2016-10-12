@@ -16,10 +16,8 @@ public class ExprPri_Str extends AST {
 	public boolean genCode(CodeGenerator codegen)throws GenCodeException{
 		IRCode code=new IRCode("load_s",this.rst_val,null,null);
 		codegen.addCode(code);
-		codegen.incLineNo();
 		code=new IRCode(this.str,null,null,null);
 		codegen.addCode(code);
-		codegen.incLineNo();
 		return true;
 	}
 	public boolean genSymTb(CodeGenerator codegen)throws GenSymTblException{

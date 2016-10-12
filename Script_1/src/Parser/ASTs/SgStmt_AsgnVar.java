@@ -28,7 +28,6 @@ public class SgStmt_AsgnVar extends AST {
 		IRCode code;
 		code=new IRCode("mov",this.left_hand.ref_type,this.left_hand.rst_addr,this.expr.getRst());		
 		codegen.addCode(code);
-		codegen.incLineNo();
 		return true;
 	}
 	public boolean genSymTb(CodeGenerator codegen)throws GenSymTblException{

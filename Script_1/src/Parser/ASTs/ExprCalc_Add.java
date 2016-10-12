@@ -62,7 +62,6 @@ public class ExprCalc_Add extends AST {
 				code=new IRCode("sub_"+s,this.rst_val,this.add_1.rst_val,this.add_2.rst_val);
 			}
 			codegen.addCode(code);
-			codegen.incLineNo();
 			break;
 		case t_biMul:
 			this.add_1.genCode(codegen);
@@ -70,11 +69,9 @@ public class ExprCalc_Add extends AST {
 			if(this.opt.equals("*")){
 				code=new IRCode("mul_"+s,this.rst_val,this.add_1.rst_val,this.accs.rst_val);
 				codegen.addCode(code);
-				codegen.incLineNo();
 			}else if(this.opt.equals("/")){
 				code=new IRCode("div_"+s,this.rst_val,this.add_1.rst_val,this.accs.rst_val);
 				codegen.addCode(code);
-				codegen.incLineNo();
 			}
 			break;
 		case t_un:
@@ -85,7 +82,6 @@ public class ExprCalc_Add extends AST {
 				if(this.opt.equals("-")){
 					code=new IRCode("minus"+s,this.rst_val,this.add_1.rst_val,null);
 					codegen.addCode(code);
-					codegen.incLineNo();
 				}else{
 
 				}

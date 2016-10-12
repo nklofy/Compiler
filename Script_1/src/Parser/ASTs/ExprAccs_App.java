@@ -41,26 +41,21 @@ public class ExprAccs_App extends AST {
 		if(this.ptr_scp!=null){
 			code=new IRCode("getFunc",this.ptr_func,this.ptr_scp,this.func_name+":"+this.func_sig);
 			codegen.addCode(code);
-			codegen.incLineNo();
 		}
 		if(this.gnrc_args!=null){
 			code=new IRCode("pushGArgs",this.ptr_func,this.gnrc_args.rst_val,null);
 			codegen.addCode(code);
-			codegen.incLineNo();
 		}
 		if(this.arg_lst!=null){
 			code=new IRCode("pushFArgs",this.ptr_func,this.arg_lst.rst_val,null);
 			codegen.addCode(code);
-			codegen.incLineNo();
 		}
 		if(this.ptr_scp.equals("this")){
 			code=new IRCode("pushThis",this.ptr_func,this.ptr_scp,null);
 			codegen.addCode(code);
-			codegen.incLineNo();
 		}
 		code=new IRCode("invoke",this.ptr_func,this.rst_val,this.rst_type);
 		codegen.addCode(code);
-		codegen.incLineNo();
 		return true;
 	}
 	public boolean genSymTb(CodeGenerator codegen)throws GenSymTblException{

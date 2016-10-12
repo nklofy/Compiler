@@ -84,10 +84,11 @@ public class R_Function {
 	public void setTypeT(T_Function type) {
 		this.t_type = type;		
 	}
+	
 	public String getFuncSig() {
 		return this.func_sig;
 	}
-	public void setFuncSig(String type_code) {//TODO
+	public void setFuncSig(String type_code) {
 		this.func_sig = type_code;
 	}
 	public AST getFuncDef() {

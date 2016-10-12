@@ -21,10 +21,10 @@ public class T_Function extends T_Type {
 	public void setParTypes(LinkedList<String> par_types) {
 		this.par_types = par_types;
 	}
-	public void genFuncSig(CodeGenerator codegen) {//TODO
+	public String genFuncSig(CodeGenerator codegen) {//TODO
 		if(isDynamic){
 			this.setTypeSig("!dynamic");
-			return;
+			return this.getTypeSig();
 		}
 		String s="";
 		if(this.isGnrc()){
@@ -35,11 +35,15 @@ public class T_Function extends T_Type {
 			s=s.substring(0,s.length()-1)+">";
 		}
 		s=codegen.getTypeInSymTb(this.ret_type).getTypeSig()+"(";
-		for(String name:this.par_types){
-			s+=codegen.getTypeInSymTb(name).getTypeSig()+",";
+		if(this.par_types!=null){
+			for(String name:this.par_types){
+				s+=codegen.getTypeInSymTb(name).getTypeSig()+",";
+			}
+			s=s.substring(0,s.length()-1);
 		}
-		s=s.substring(0,s.length()-1)+")";		
+		s=s+")";		
 		this.setTypeSig(s);
+		return this.getTypeSig();
 	}
 	public boolean isEqType(T_Function t){//TODO
 		if(this.getTypeSig().equals("!dynamic")||t.getTypeSig().equals("!dynamic"))

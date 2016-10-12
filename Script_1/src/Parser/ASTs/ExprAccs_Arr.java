@@ -20,7 +20,6 @@ public class ExprAccs_Arr extends AST {
 		this.dim_lst.genCode(codegen);
 		IRCode code =new IRCode("getArray",this.rst_val,this.pre_fld.rst_val,this.dim_lst.rst_val);
 		codegen.addCode(code);
-		codegen.incLineNo();
 		return true;
 	}
 	public boolean genSymTb(CodeGenerator codegen)throws GenSymTblException{

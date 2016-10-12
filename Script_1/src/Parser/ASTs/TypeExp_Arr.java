@@ -20,21 +20,28 @@ public class TypeExp_Arr extends AST {
 	public boolean genCode(CodeGenerator codegen)throws GenCodeException{		
 		IRCode code=new IRCode("ArrType",this.rst_type,this.ele_type,String.valueOf(this.dim));
 		codegen.addCode(code);
-		codegen.incLineNo();
 		return true;
 	}
 	public boolean genSymTb(CodeGenerator codegen)throws GenSymTblException{
-		if(!this.type_pre.genSymTb(codegen))return false;
+		if(!this.type_pre.genSymTb(codegen))return false;		
+		return true;
+	}
+	public boolean checkType(CodeGenerator codegen)throws TypeCheckException{
+		if(!this.type_pre.checkType(codegen))return false;
+		if(this.type_pre==null){
+			this.ele_type=this.type_pre.rst_type;
+			this.rst_type=this.ele_type;
+		}
 		T_Type t=codegen.getTypeInSymTb(this.type_pre.rst_type);
 		T_Array t1=null;
 		if(t.getKType()==T_Type.KType.t_arr){
 			t1=((T_Array)t);
 			t1.incDims();
-			this.ele_type=codegen.getTypeInSymTb(t1.getEleType()).getTypeName();
+			this.ele_type=t1.getEleType();
 		}else{
 			t1=new T_Array();
 			t1.setDims(1);
-			this.ele_type=t1.getTypeName();
+			this.ele_type=t1.getTypeSig();
 		}
 		this.rst_type="["+codegen.getTmpSn();			
 		codegen.putTypeInSymTb(this.rst_type, t1);
@@ -43,9 +50,6 @@ public class TypeExp_Arr extends AST {
 		t1.setTypeSig(this.ele_type+"["+this.dim+"]");
 		this.t_type=t1;
 		return true;
-	}
-	public boolean checkType(CodeGenerator codegen)throws TypeCheckException{
-		return this.type_pre.checkType(codegen);
 	}
 	
 	

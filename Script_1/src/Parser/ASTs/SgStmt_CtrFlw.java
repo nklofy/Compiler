@@ -32,7 +32,6 @@ public class SgStmt_CtrFlw extends AST {
 			if(lb_end==null)throw new GenCodeException("GenCode Error: not in while range");
 			IRCode code=new IRCode("goto",lb_end,null,null);
 			codegen.addCode(code);
-			codegen.incLineNo();
 			codegen.getRpsLst(lb_st).add(code);
 			break;
 		case t_continue:
@@ -40,26 +39,26 @@ public class SgStmt_CtrFlw extends AST {
 			if(lb_st==null)throw new GenCodeException("GenCode Error: not in while range");
 			code=new IRCode("goto",lb_st,null,null);
 			codegen.addCode(code);
-			codegen.incLineNo();
 			codegen.getRpsLst(lb_st).add(code);
 			
 			break;			
 		case t_return:
 			code =new IRCode("ret",null,null,null);
 			codegen.addCode(code);
-			codegen.incLineNo();
 			break;			
 		case t_returnExp:
+			this.return_exp.genCode(codegen);
 			code =new IRCode("retExp",this.return_exp.rst_type,this.return_exp.rst_val,null);
 			codegen.addCode(code);
-			codegen.incLineNo();
 			break;
 		default:return false;		
 		}
 		return true;
 	}
 	public boolean genSymTb(CodeGenerator codegen)throws GenSymTblException{		
-		
+		if(this.t_ctrflw==en_Ctrflw.t_returnExp){
+			if(!this.return_exp.genSymTb(codegen)) return false;
+		}
 		return true;
 	}
 	public boolean checkType(CodeGenerator codegen)throws TypeCheckException{
@@ -77,6 +76,7 @@ public class SgStmt_CtrFlw extends AST {
 				return true;
 			else throw new TypeCheckException("Check Type Error: return type is not void");
 		case t_returnExp:
+			if(!this.return_exp.checkType(codegen)) return false;
 			if(codegen.getTypeInSymTb(codegen.ret_types.peek())==codegen.getTypeInSymTb(this.return_exp.rst_type))
 				return true;
 			else throw new TypeCheckException("Check Type Error: return type mismatch");

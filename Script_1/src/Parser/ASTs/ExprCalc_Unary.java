@@ -35,20 +35,17 @@ public class ExprCalc_Unary extends AST {
 			case "++p":
 				IRCode code1=new IRCode("mov",this.ref_type,this.rst_val,this.accs.rst_val);
 				codegen.addCode(code1);
-				codegen.incLineNo();
 				code=new IRCode("inc_1",this.accs.rst_val,null,null);
 				break;
 			case "--p":
 				code1=new IRCode("mov",this.ref_type,this.rst_val,this.accs.rst_val);
 				codegen.addCode(code1);
-				codegen.incLineNo();
 				code=new IRCode("dec_1",this.accs.rst_val,null,null);
 				break;
 			default:
 				break;
 			}
 			codegen.addCode(code);
-			codegen.incLineNo();
 		}else if(this.accs!=null){
 			this.accs.genCode(codegen);
 		}

@@ -33,7 +33,6 @@ public class ExprCalc_NewCls extends AST {
 			this.args.rst_val="null";
 		IRCode code =new IRCode("newObj",this.rst_type,this.rst_val,this.args.rst_val);
 		codegen.addCode(code);
-		codegen.incLineNo();
 		return true;
 	}
 	public boolean genSymTb(CodeGenerator codegen)throws GenSymTblException{

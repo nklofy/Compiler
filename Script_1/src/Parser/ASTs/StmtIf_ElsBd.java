@@ -19,7 +19,6 @@ public class StmtIf_ElsBd extends AST {
 		String lb_ifend=":"+String.valueOf(codegen.getTmpSn());
 		IRCode code=new IRCode("goto",lb_ifend,null,null);
 		codegen.getRpsLst(lb_ifend).add(code);
-		codegen.incLineNo();
 		codegen.addCode(code);
 		if(this.if_stmt!=null){
 			this.if_stmt.genCode(codegen);

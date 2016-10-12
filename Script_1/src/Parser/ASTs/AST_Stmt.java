@@ -49,7 +49,7 @@ public class AST_Stmt extends AST {
 			this.stmt_intf.genCode(codegen);
 			break;
 		case "Stmt_DefFunc":
-			this.stmt_func.genCode(codegen);					
+			this.stmt_func.genCode(codegen);
 			break;
 		case "Stmt_If":
 			this.stmt_if.genCode(codegen);

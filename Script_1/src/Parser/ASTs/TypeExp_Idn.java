@@ -21,7 +21,6 @@ public class TypeExp_Idn extends AST {
 		if(this.type_idn!=null){
 			IRCode code=new IRCode("PkgType",this.rst_type,this.var.name,this.rst_pkg);
 			codegen.addCode(code);
-			codegen.incLineNo();
 		}
 		return true;
 	}
