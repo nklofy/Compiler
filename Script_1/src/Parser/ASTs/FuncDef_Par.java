@@ -1,10 +1,8 @@
 package Parser.ASTs;
 
-import Parser.AST;
-import Parser.CodeGenerator;
-import Parser.TypeSys.GenCodeException;
-import Parser.TypeSys.GenSymTblException;
-import Parser.TypeSys.TypeCheckException;
+import Parser.*;
+import Parser.IR.*;
+import Parser.TypeSys.*;
 
 public class FuncDef_Par extends AST {
 	TypeExp type;
@@ -14,8 +12,8 @@ public class FuncDef_Par extends AST {
 		this.var=var;
 	}
 	public boolean genCode(CodeGenerator codegen)throws GenCodeException{
-		this.type.genCode(codegen);
-		this.var.genCode(codegen);
+		IRCode code=new IRCode("getFuncPar", this.type.rst_type, this.var.rst_val, null);
+		codegen.addCode(code);
 		return true;
 	}
 	public boolean genSymTb(CodeGenerator codegen)throws GenSymTblException{

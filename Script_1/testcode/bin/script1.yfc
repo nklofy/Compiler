@@ -1,6 +1,8 @@
 89597046
 script1
-defFunction fact int() null
+defFunction fact int (int,int)
+getFuncPar int a null
+getFuncPar int b null
 load_i %2 1 null
 retExp int %2 null
 ret

@@ -34,15 +34,17 @@ public class Stmt_DefFunc extends AST {
 		codegen.setCodeList(new ArrayList<IRCode>());
 		codegen.setLineNo(-1);
 		this.type_exp.genCode(codegen);
-		IRCode code=new IRCode("defFunction",this.name,this.r_func.getFuncSig(),null);
+		IRCode code=new IRCode("defFunction",this.name,this.type_exp.rst_type,this.r_func.getFuncSig());
 		codegen.addCode(code);
 		if(!this.gnrc_pars.isE){
-			code=new IRCode("defGPars",this.gnrc_pars.rst_val,null,null);
-			codegen.addCode(code);
+			//code=new IRCode("defGPars",this.gnrc_pars.rst_val,null,null);
+			//codegen.addCode(code);
+			this.gnrc_pars.genCode(codegen);
 		}
 		if(!this.pars.isE){
-			code=new IRCode("pushFPars",this.pars.rst_val,null,null);
-			codegen.addCode(code);
+			//code=new IRCode("pushFPars",this.pars.rst_val,null,null);
+			//codegen.addCode(code);
+			this.pars.genCode(codegen);
 		}
 		
 		if(!this.stmt_list.genCode(codegen))

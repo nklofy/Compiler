@@ -34,7 +34,8 @@ public class T_Function extends T_Type {
 			}
 			s=s.substring(0,s.length()-1)+">";
 		}
-		s=codegen.getTypeInSymTb(this.ret_type).getTypeSig()+"(";
+		//s=codegen.getTypeInSymTb(this.ret_type).getTypeSig()+"(";
+		s="(";
 		if(this.par_types!=null){
 			for(String name:this.par_types){
 				s+=codegen.getTypeInSymTb(name).getTypeSig()+",";
