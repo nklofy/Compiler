@@ -12,7 +12,7 @@ public class FuncDef_Par extends AST {
 		this.var=var;
 	}
 	public boolean genCode(CodeGenerator codegen)throws GenCodeException{
-		IRCode code=new IRCode("getFuncPar", this.type.rst_type, this.var.rst_val, null);
+		IRCode code=new IRCode("defFuncPar", this.type.rst_type, this.var.rst_val, null);
 		codegen.addCode(code);
 		return true;
 	}

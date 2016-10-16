@@ -24,7 +24,6 @@ public class ExprCalc_Cond extends AST {
 		
 		if(!this.bool_exp.genSymTb(codegen))
 			return false;
-		this.rst_type=this.bool_exp.rst_type;
 		this.rst_val=this.bool_exp.rst_val;
 		return true;
 	}
@@ -32,6 +31,7 @@ public class ExprCalc_Cond extends AST {
 		this.bool_exp.ref_type=this.ref_type;
 		if(!this.bool_exp.checkType(codegen))
 			return false;
+		this.rst_type=this.bool_exp.rst_type;
 		return true;
 	}
 }

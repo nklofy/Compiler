@@ -1,4 +1,6 @@
 int a = 1;
-int fact(int a, int b){
-	return 1;
+int fact(int a){
+	if(a==1) return 1;
+	else
+	return a*fact(a-1);
 }

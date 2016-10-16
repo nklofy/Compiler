@@ -141,9 +141,15 @@ public class ExprCalc_Add extends AST {
 			T_Type t0=codegen.getTypeInSymTb(this.ref_type);
 			T_Type t1=codegen.getTypeInSymTb(this.add_1.rst_type);
 			T_Type t2=codegen.getTypeInSymTb(this.add_2.rst_type);
-			if(t0!=null&&!TypeChecker.checkCast(codegen, t0, TypeChecker.checkOptFour(codegen, this.opt, t1, t2)))
+			T_Type t3=TypeChecker.checkOptFour(codegen, this.opt, t1, t2);
+			if(t0!=null&&!TypeChecker.checkCast(codegen, t0, t3))
 				throw new TypeCheckException("TypeCheck Error: ");
+			else{
+				this.rst_type=t3.getTypeSig();					
+				this.ref_type=this.rst_type;
+			}
 			break;
+			
 		case t_biMul:
 			this.add_1.ref_type=this.ref_type;
 			this.accs.ref_type=this.ref_type;
@@ -152,8 +158,13 @@ public class ExprCalc_Add extends AST {
 			t0=codegen.getTypeInSymTb(this.ref_type);
 			t1=codegen.getTypeInSymTb(this.add_1.rst_type);
 			t2=codegen.getTypeInSymTb(this.accs.rst_type);
-			if(t0!=null&&!TypeChecker.checkCast(codegen, t0, TypeChecker.checkOptFour(codegen, this.opt, t1, t2)))
+			t3=TypeChecker.checkOptFour(codegen, this.opt, t1, t2);
+			if(t0!=null&&!TypeChecker.checkCast(codegen, t0, t3))
 				throw new TypeCheckException("TypeCheck Error: ");
+			else{
+				this.rst_type=t3.getTypeSig();	
+				this.ref_type=this.rst_type;
+			}
 			break;
 		case t_un:
 			if(this.opt==null){

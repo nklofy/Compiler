@@ -130,8 +130,8 @@ public class ExprAccs_App extends AST {
 			}else
 				return false;
 		}
-		LinkedList<String> args1=this.gnrc_args==null?null:this.gnrc_args.types_name;
-		LinkedList<String> args2=this.arg_lst==null?null:this.arg_lst.arg_types;
+		LinkedList<String> args1=(this.gnrc_args==null?null:this.gnrc_args.types_name);
+		LinkedList<String> args2=(this.arg_lst==null?null:this.arg_lst.arg_types);
 		if(!f.isMulti()){
 			if(f.isEqArgTypes(codegen, args1, args2)
 					||f.isCtArgTypes(codegen, args1, args2)){

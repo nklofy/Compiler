@@ -392,14 +392,14 @@ public class CodeGenerator {
 					for(IRCode code:codes){
 						out.println(code.getOpt()+" "+code.getOpd1()+" "+code.getOpd2()+" "+code.getOpd3());
 					}
-					out.println("ret");
+					out.println("end");
 				}
 			}else{
 				ArrayList<IRCode> codes=f.getFuncBody();
 				for(IRCode code:codes){
 					out.println(code.getOpt()+" "+code.getOpd1()+" "+code.getOpd2()+" "+code.getOpd3());
 				}
-				out.println("ret");
+				out.println("end");
 			}
 		}
 		return true;

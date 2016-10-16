@@ -2,6 +2,7 @@ package Parser.ASTs;
 
 import Parser.AST;
 import Parser.CodeGenerator;
+import Parser.IR.IRCode;
 import Parser.TypeSys.GenCodeException;
 import Parser.TypeSys.GenSymTblException;
 import Parser.TypeSys.TypeCheckException;
@@ -18,7 +19,8 @@ public class Gnrc_Par extends AST {
 		this.idn=idn;
 	}
 	public boolean genCode(CodeGenerator codegen)throws GenCodeException{
-		this.rst_val=this.var.rst_val;
+		IRCode code=new IRCode("defGnrcPar", this.var.rst_val, null, null);
+		codegen.addCode(code);
 		return true;
 	}
 	public boolean genSymTb(CodeGenerator codegen)throws GenSymTblException{
