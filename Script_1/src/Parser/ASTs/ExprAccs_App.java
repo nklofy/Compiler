@@ -33,10 +33,10 @@ public class ExprAccs_App extends AST {
 	public boolean genCode(CodeGenerator codegen)throws GenCodeException{
 		if(this.pre_accs!=null)
 			this.pre_accs.genCode(codegen);
-		if(this.gnrc_args!=null)
-			this.gnrc_args.genCode(codegen);
-		if(this.arg_lst!=null)
-			this.arg_lst.genCode(codegen);
+		//if(this.gnrc_args!=null)
+		//	this.gnrc_args.genCode(codegen);
+		//if(this.arg_lst!=null)
+		//	this.arg_lst.genCode(codegen);
 		IRCode code=null;
 		if(this.ptr_scp!=null){
 			code=new IRCode("getFunc",this.func_name, this.func_sig,this.ptr_scp);

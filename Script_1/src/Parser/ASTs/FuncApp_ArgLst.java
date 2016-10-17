@@ -30,6 +30,11 @@ public class FuncApp_ArgLst extends AST {
 	public boolean genCode(CodeGenerator codegen)throws GenCodeException{
 		//code=new IRCode("pushFArgs",this.arg_lst.rst_val,null,null);
 		//codegen.addCode(code);
+		IRCode code=null;
+		for(Expr_Calc exp :this.args){
+			code=new IRCode("pushArg", exp.rst_val,null,null);
+			codegen.addCode(code);
+		}
 		return true;
 	}
 	public boolean genSymTb(CodeGenerator codegen)throws GenSymTblException{		

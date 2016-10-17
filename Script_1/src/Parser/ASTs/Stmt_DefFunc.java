@@ -103,10 +103,10 @@ public class Stmt_DefFunc extends AST {
 		if(!this.pars.isE()&&this.pars.checkType(codegen)){
 			return false;
 		}
+		this.r_func.setFuncSig(this.t_type.genFuncSig(codegen));
 		if(!this.stmt_list.checkType(codegen)){
 			return false;
 		}
-		this.r_func.setFuncSig(this.t_type.genFuncSig(codegen));
 		codegen.popBlock4Sym();
 		return true;
 	}
