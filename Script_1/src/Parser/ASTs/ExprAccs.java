@@ -98,6 +98,7 @@ public class ExprAccs extends AST {
 		case "ExprAccs_Pri":
 			if(!this.pri.checkType(codegen))
 				return false;
+			this.rst_type=this.pri.rst_type;
 			break;
 		case "ExprAccs_Arr":
 			if(!this.arr.checkType(codegen))

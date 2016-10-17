@@ -70,7 +70,7 @@ public class ExprAccs_Pri extends AST {
 			this.num.ref_type=this.ref_type;
 			if(!this.num.genSymTb(codegen))
 				return false;
-			this.rst_type=this.num.rst_type;
+			//this.rst_type=this.num.rst_type;
 			this.rst_val=this.num.rst_val;
 			break;
 		case "ExprCalc_Cond":
@@ -89,18 +89,22 @@ public class ExprAccs_Pri extends AST {
 		case "ExprPri_Chr":
 			if(!this.chr.checkType(codegen))
 				return false;
+			this.rst_type=this.chr.rst_type;
 			break;
 		case "ExprPri_Str":
 			if(!this.str.checkType(codegen))
 				return false;
+			this.rst_type=this.str.rst_type;
 			break;
 		case "ExprPri_Num":
 			if(!this.num.checkType(codegen))
 				return false;
+			this.rst_type=this.num.rst_type;
 			break;
 		case "ExprCalc_Cond":
 			if(!this.cond.checkType(codegen))
 				return false;
+			this.rst_type=this.cond.rst_type;
 		default:
 			break;
 		}

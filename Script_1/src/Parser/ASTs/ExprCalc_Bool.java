@@ -168,9 +168,9 @@ public class ExprCalc_Bool extends AST {
 		case t_biBool:
 			if(!this.bool_1.checkType(codegen)||!this.bool_2.checkType(codegen)
 					||!this.bool_1.rst_type.equals("bool")||!this.bool_2.rst_type.equals("bool"))
-				return false;
+				throw new TypeCheckException("TypeCheck Error: ");
 			if(this.ref_type!=null&&!this.ref_type.equals("bool"))//this exp should has bool ref type if it has
-					return false;
+				throw new TypeCheckException("TypeCheck Error: ");
 			break;
 		case t_biCmp:
 			if(!this.add_1.checkType(codegen)||!this.add_2.checkType(codegen)
@@ -178,7 +178,7 @@ public class ExprCalc_Bool extends AST {
 					)
 				return false;
 			if(this.ref_type!=null&&!this.ref_type.equals("bool"))//this exp should has bool ref type if it has
-				return false;
+				throw new TypeCheckException("TypeCheck Error: ");
 			break;
 		case t_un:
 			if(this.opt!=null&&this.opt.equals("!"))
@@ -192,7 +192,7 @@ public class ExprCalc_Bool extends AST {
 			break;
 		case t_cnst:
 			if(this.ref_type!=null&&!this.ref_type.equals("bool"))
-				return false;
+				throw new TypeCheckException("TypeCheck Error: ");
 			break;
 		default:
 			break;

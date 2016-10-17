@@ -13,7 +13,7 @@ public class ExprAccs_App extends AST {
 	String rst_val;
 	String ref_type;
 	String rst_type;
-	String ptr_func;//pointer to function
+	//String ptr_func;//pointer to function
 	String ptr_scp;//search scope for function
 	String func_name;
 	String func_sig;
@@ -39,22 +39,20 @@ public class ExprAccs_App extends AST {
 			this.arg_lst.genCode(codegen);
 		IRCode code=null;
 		if(this.ptr_scp!=null){
-			code=new IRCode("getFunc",this.ptr_func,this.ptr_scp,this.func_name+":"+this.func_sig);
+			code=new IRCode("getFunc",this.func_name, this.func_sig,this.ptr_scp);
 			codegen.addCode(code);
 		}
 		if(this.gnrc_args!=null){
-			code=new IRCode("pushGArgs",this.ptr_func,this.gnrc_args.rst_val,null);
-			codegen.addCode(code);
+			this.gnrc_args.genCode(codegen);
 		}
 		if(this.arg_lst!=null){
-			code=new IRCode("pushFArgs",this.ptr_func,this.arg_lst.rst_val,null);
-			codegen.addCode(code);
+			this.arg_lst.genCode(codegen);
 		}
 		if(this.ptr_scp.equals("this")){
-			code=new IRCode("pushThis",this.ptr_func,this.ptr_scp,null);
+			code=new IRCode("pushThis",null,null,null);
 			codegen.addCode(code);
 		}
-		code=new IRCode("invoke",this.ptr_func,this.rst_val,this.rst_type);
+		code=new IRCode("invoke",this.rst_val,this.rst_type,null);
 		codegen.addCode(code);
 		return true;
 	}
@@ -63,8 +61,10 @@ public class ExprAccs_App extends AST {
 			return false;
 		if(this.gnrc_args!=null&&!this.gnrc_args.genSymTb(codegen))
 			return false;
-		if(this.arg_lst!=null&&this.arg_lst.genSymTb(codegen))
+		if(this.arg_lst!=null&&!this.arg_lst.genSymTb(codegen))
 			return false;
+		this.rst_val="%"+codegen.getTmpSn();
+		this.func_name=this.var.rst_val;
 		return true;
 	}
 	public boolean checkType(CodeGenerator codegen)throws TypeCheckException{
@@ -76,9 +76,7 @@ public class ExprAccs_App extends AST {
 			return false;
 		R_Function f=null;
 		R_Variable r=new R_Variable();
-		this.ptr_func="*"+codegen.getTmpSn();
-		this.rst_val="%"+codegen.getTmpSn();
-		this.func_name=this.var.rst_val;
+		//this.ptr_func="*"+codegen.getTmpSn();
 		//this.rst_type
 		//R_Variable		
 		//this.ptr_func
@@ -130,7 +128,7 @@ public class ExprAccs_App extends AST {
 			}else
 				return false;
 		}
-		LinkedList<String> args1=(this.gnrc_args==null?null:this.gnrc_args.types_name);
+		LinkedList<String> args1=(this.gnrc_args==null?null:this.gnrc_args.getTypesName());
 		LinkedList<String> args2=(this.arg_lst==null?null:this.arg_lst.arg_types);
 		if(!f.isMulti()){
 			if(f.isEqArgTypes(codegen, args1, args2)
@@ -156,7 +154,7 @@ public class ExprAccs_App extends AST {
 		r.setVarType(this.rst_type);
 		r.setTmpAddr(this.rst_val);
 		codegen.putVarInSymTb(this.rst_val, r);
-		if(!codegen.getTypeInSymTb(this.ref_type).canAsnFrom(codegen, codegen.getTypeInSymTb(this.rst_type)))
+		if(this.ref_type!=null&&!codegen.getTypeInSymTb(this.ref_type).canAsnFrom(codegen, codegen.getTypeInSymTb(this.rst_type)))
 			return false;
 		if(this.inGType)
 			codegen.gnrc_arg.remove();

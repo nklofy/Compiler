@@ -1,10 +1,15 @@
 89597046
 script1
-defFunction fact int (int,int)
-getFuncPar int a null
-getFuncPar int b null
+defFunction fact int (int)
+defFuncPar int a null
 load_i %2 1 null
-retExp int %2 null
-ret
-load_i %1 1 null
-mov int a %1
+EQ %1 a %2
+if %1 5 8
+load_i %3 1 null
+retExp int %3 null
+goto 12 null null
+getFunc fact null global
+invoke %7 int null
+mul_i %4 a %7
+retExp int %4 null
+end
