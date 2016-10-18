@@ -1,5 +1,8 @@
 89597046
 script1
+class T
+fields 1
+t:null
 defFunction fact int (int)
 defFuncPar int a null
 load_i %2 1 null
@@ -14,3 +17,26 @@ invoke %7 int null
 mul_i %4 a %7
 retExp int %4 null
 end
+defFunction fib int (int)
+defFuncPar int a null
+load_i %9 3 null
+LT %8 a %9
+if %8 5 8
+load_i %10 1 null
+retExp int %10 null
+goto 16 null null
+getFunc fib (int) global
+pushArg %12 null null
+invoke %14 int null
+getFunc fib (int) global
+pushArg %15 null null
+invoke %17 int null
+add_i %11 %14 %17
+retExp int %11 null
+end
+load_i %18 1 null
+mov int a %18
+getFunc fib (int) global
+pushArg a null null
+invoke %19 int null
+mov int b %19

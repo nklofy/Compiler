@@ -56,9 +56,10 @@ public class Stmt_DefFunc extends AST {
 		return true;
 	}
 	public boolean genSymTb(CodeGenerator codegen)throws GenSymTblException{
+		this.r_func=new R_Function();
+		codegen.putFuncInSymTb(this.name, this.r_func);
 		codegen.pushBlock4Sym(this);
 		if(!this.type_exp.genSymTb(codegen))return false;
-		this.r_func=new R_Function();
 		this.t_type=new T_Function();
 		this.r_func.setTypeT(this.t_type);
 		this.r_func.setFuncName(this.name);
@@ -86,8 +87,7 @@ public class Stmt_DefFunc extends AST {
 				codegen.putVarInSymTb(s, r);
 			}
 		}		
-		codegen.putFuncInSymTb(this.name, this.r_func);
-		codegen.addtFuncInFile(r_func);
+		codegen.addtFuncInFile(this.r_func);
 		this.stmt_list.genSymTb(codegen);
 		codegen.popBlock4Sym();
 		return true;

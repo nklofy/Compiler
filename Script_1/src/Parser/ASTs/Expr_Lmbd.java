@@ -34,7 +34,9 @@ public class Expr_Lmbd extends AST {
 		return true;
 	}
 	public boolean genSymTb(CodeGenerator codegen)throws GenSymTblException{
+		this.name="*"+codegen.getTmpSn();
 		codegen.pushBlock4Sym(this);
+		codegen.putFuncInSymTb(this.name, this.r_func);
 		this.r_func=new R_Function();
 		this.t_type=new T_Function();
 		this.r_func.setTypeT(this.t_type);		
@@ -51,8 +53,6 @@ public class Expr_Lmbd extends AST {
 				codegen.putVarInSymTb(s, r);
 			}
 		}	
-		this.name="*"+codegen.getTmpSn();
-		codegen.putFuncInSymTb(this.name, this.r_func);
 		this.stmt_list.genSymTb(codegen);
 		codegen.popBlock4Sym();
 		return true;

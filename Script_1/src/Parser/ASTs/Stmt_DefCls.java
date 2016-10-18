@@ -29,31 +29,32 @@ public class Stmt_DefCls extends AST {
 		return true;
 	}
 	public boolean genCode(CodeGenerator codegen)throws GenCodeException{
-		codegen.pushBlock4Sym(this);		
+		/*codegen.pushBlock4Sym(this);		
 		for(MbrDef f:this.mbrdef_lst.mbrs){
 			if(f.mthd!=null){				
 				f.mthd.func_def.genCode(codegen);
 			}
 		}			
-		codegen.popBlock4Sym();
+		codegen.popBlock4Sym();*/
 		return true;
 	}
 	public boolean genSymTb(CodeGenerator codegen)throws GenSymTblException{
 		if(codegen.getTypeInSymTb(this.name)!=null)
-			return false;
+				throw new GenSymTblException("gen sym table error: "+this.var.name);
 		this.t_type=new T_Class();
 		this.t_type.setKType(T_Type.KType.t_cls);
 		codegen.putTypeInSymTb(this.name, this.t_type);
-		codegen.pushBlock4Sym(this);		
-		if(!this.gnrc_parlst.genSymTb(codegen))
-			return false;
-		if(!this.extd_lst.genSymTb(codegen))
-			return false;
-		if(!this.impl_lst.genSymTb(codegen))
-			return false;
-		if(!this.mbrdef_lst.genSymTb(codegen))
-			return false;
 		codegen.addTypeInFile(this.t_type);
+		codegen.pushBlock4Sym(this);		
+		if(this.gnrc_parlst!=null&&!this.gnrc_parlst.genSymTb(codegen))
+			return false;
+		if(this.extd_lst!=null&&!this.extd_lst.genSymTb(codegen))
+			return false;
+		if(this.impl_lst!=null&&!this.impl_lst.genSymTb(codegen))
+			return false;
+		if(this.mbrdef_lst!=null&&!this.mbrdef_lst.genSymTb(codegen))
+			return false;
+		//codegen.addTypeInFile(this.t_type);
 		if(!this.gnrc_parlst.isE()){
 			this.t_type.setGnrc(true);
 			this.t_type.setGnrcPars(this.gnrc_parlst.types_name);			
@@ -70,7 +71,7 @@ public class Stmt_DefCls extends AST {
 				if(ms.containsKey(f.getFuncName())){
 					R_Function r=ms.get(f.getFuncName());
 					if(r.isCntnNameType(f)){
-						return false;
+						throw new GenSymTblException("gen sym table error: "+this.var.name);
 					}else{
 						r.addFuncR(f);
 					}					
@@ -82,7 +83,7 @@ public class Stmt_DefCls extends AST {
 				for(R_Variable v:this.mbrdef_lst.fields){
 					HashMap<String,R_Variable> vs=this.t_type.getFields();
 					if(vs.containsKey(v.getVarName())){
-						return false;
+						throw new GenSymTblException("gen sym table error: "+this.var.name);
 					}else{
 						vs.put(v.getVarName(),v);
 					}
@@ -91,7 +92,7 @@ public class Stmt_DefCls extends AST {
 		}
 		codegen.popBlock4Sym();
 		String s=this.name;
-		if(this.gnrc_parlst!=null){
+		if(!this.gnrc_parlst.isE){
 			s+="<"+this.gnrc_parlst.types_name.size()+">";
 		}
 		this.t_type.setTypeSig(s);
@@ -99,36 +100,51 @@ public class Stmt_DefCls extends AST {
 	}
 	public boolean checkType(CodeGenerator codegen)throws TypeCheckException{
 		codegen.pushBlock4Sym(this);
-		if(!this.gnrc_parlst.checkType(codegen))
+		if(this.gnrc_parlst!=null&&!this.gnrc_parlst.checkType(codegen))
 			return false;
-		if(!this.extd_lst.checkType(codegen))
+		if(this.extd_lst!=null&&!this.extd_lst.checkType(codegen))
 			return false;
-		for(String name:this.extd_lst.extd_types){
-			T_Type t=codegen.getTypeInSymTb(name);
-			if(t==null)
-				return false;
-			if(t.getKType()!=T_Type.KType.t_cls)
-				return false;
+		if(!this.extd_lst.isE){
+			for(String name:this.extd_lst.extd_types){
+				T_Type t=codegen.getTypeInSymTb(name);
+				if(t==null)
+					throw new TypeCheckException("type check error: "+this.var.name);
+				if(t.getKType()!=T_Type.KType.t_cls)
+					throw new TypeCheckException("type check error: "+this.var.name);
+			}
 		}
-		if(!this.impl_lst.checkType(codegen))
+		if(this.impl_lst!=null&&!this.impl_lst.checkType(codegen))
 			return false;
-		for(String name:this.impl_lst.extd_types){
-			T_Type t=codegen.getTypeInSymTb(name);
-			if(t==null)
-				return false;
-			if(t.getKType()!=T_Type.KType.t_intf)
-				return false;
+		if(!this.impl_lst.isE){
+			for(String name:this.impl_lst.extd_types){
+				T_Type t=codegen.getTypeInSymTb(name);
+				if(t==null)
+					throw new TypeCheckException("type check error: "+this.var.name);
+				if(t.getKType()!=T_Type.KType.t_intf)
+					throw new TypeCheckException("type check error: "+this.var.name);
+			}
 		}
-		if(!this.mbrdef_lst.checkType(codegen))
+		if(this.mbrdef_lst!=null&&!this.mbrdef_lst.checkType(codegen))
 			return false;
 		if(!this.t_type.checkAllImpl(codegen))
 			return false;
 		if(!this.t_type.checkAllExtd(codegen))
 			return false;
+		
+		if(!this.mbrdef_lst.isE()){
+			for(R_Function f:this.mbrdef_lst.methods){
+				
+			}
+			for(R_Variable f:this.mbrdef_lst.fields){
+				
+			}
+		}
+		
 		if(!this.t_type.checkAllField(codegen))
 			return false;
 		if(!this.t_type.checkAllMthd(codegen))
 			return false;
+		
 		codegen.popBlock4Sym();
 		return true;
 	}

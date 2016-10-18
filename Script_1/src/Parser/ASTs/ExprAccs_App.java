@@ -85,13 +85,13 @@ public class ExprAccs_App extends AST {
 		if(this.pre_accs==null||this.pre_accs.rst_val.equals("this")){// f()/this.f()
 			f=codegen.getFuncInSymTb(this.var.name);
 			if(f==null)
-				return false;
+				throw new TypeCheckException("Type Check Error: not defined function "+this.var.name);
 			if(f.isMethod()){
 				this.ptr_scp="this";
 			}else if(this.pre_accs==null){
 				this.ptr_scp="global";
 			}else if(this.pre_accs.rst_val.equals("this")){
-				return false;
+				throw new TypeCheckException("Type Check Error: not defined function "+this.var.name);
 			}
 		}else{//if(this.pre_accs==null)
 			if(this.pre_accs.rst_type.equals("class")){//A.class.f()
@@ -124,9 +124,11 @@ public class ExprAccs_App extends AST {
 					codegen.gnrc_arg.addFirst(((T_Generic)t).getTypeArgTb());
 					this.inGType=true;
 				}else
-					return false;
+
+					throw new TypeCheckException("Type Check Error:  "+this.var.name);
 			}else
-				return false;
+
+				throw new TypeCheckException("Type Check Error:  "+this.var.name);
 		}
 		LinkedList<String> args1=(this.gnrc_args==null?null:this.gnrc_args.getTypesName());
 		LinkedList<String> args2=(this.arg_lst==null?null:this.arg_lst.arg_types);
@@ -137,7 +139,7 @@ public class ExprAccs_App extends AST {
 				this.func_sig=f.getFuncSig();
 			}
 			else
-				return false;
+				throw new TypeCheckException("Type Check Error:  "+this.var.name);
 		}else{
 			for(R_Function f1:f.getMulti().values()){
 				if(f.isEqArgTypes(codegen, args1, args2)
@@ -147,7 +149,7 @@ public class ExprAccs_App extends AST {
 				}						
 			}
 			if(this.rst_type==null)
-				return false;
+				throw new TypeCheckException("Type Check Error:  "+this.var.name);
 		}
 		r=new R_Variable();
 		r.setVarName(this.rst_val);
@@ -155,7 +157,7 @@ public class ExprAccs_App extends AST {
 		r.setTmpAddr(this.rst_val);
 		codegen.putVarInSymTb(this.rst_val, r);
 		if(this.ref_type!=null&&!codegen.getTypeInSymTb(this.ref_type).canAsnFrom(codegen, codegen.getTypeInSymTb(this.rst_type)))
-			return false;
+			throw new TypeCheckException("Type Check Error:  "+this.var.name);
 		if(this.inGType)
 			codegen.gnrc_arg.remove();
 		return true;		

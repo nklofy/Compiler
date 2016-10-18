@@ -4,3 +4,13 @@ int fact(int a){
 	else
 	return a*fact(a-1);
 }
+int fib(int a){
+	if(a<3) return 1;
+	else
+	return fib(a-1)+fib(a-2);
+}
+int a=1;
+int b=fib(a);
+class T{
+int t;
+}

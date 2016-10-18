@@ -418,7 +418,7 @@ public class Parser {
 				System.out.println("error wrong token type");
 				return false;
 			}
-			System.out.println("get token "+token_name+" at line "+smb.line);
+			//System.out.println("get token "+token_name+" at line "+smb.line);
 			doAllReduce(token_name);	//all reduce, but keep states active
 			if(token_name.equals("eof")&&states_active.containsKey(0)  ){//end of parsing
 				System.out.println();System.out.println("eof, "+"finished parsing");
@@ -494,7 +494,7 @@ public class Parser {
 		String method=rule.method;
 		Symbol smb_e=new Symbol(); 
 		smb_e.ast=ast_gen.crtAST(method, pst, null);//build new AST
-		System.out.println("create e-ast: "+ smb_e.ast.getClass().getName());
+		//System.out.println("create e-ast: "+ smb_e.ast.getClass().getName());
 		ParseState pst_a;
 		if(states_active.containsKey(nss)){		//goto state in active
 			pst_a=states_active.get(nss);			
@@ -502,7 +502,7 @@ public class Parser {
 			pst_a.addLink(pst,smb_e);
 			pst_a.det_depth=0;			//refresh count and depth;
 			pst_a.out_count++;
-			System.out.println("e-reduce and merge "+reduce_head+" "+pst.state_sn+" goto "+nss);
+			//System.out.println("e-reduce and merge "+reduce_head+" "+pst.state_sn+" goto "+nss);
 		}else{								//goto a new state and add it to active
 			pst_a=new ParseState();
 			pst_a.state_sn=nss;
@@ -511,7 +511,7 @@ public class Parser {
 			pst_a.det_depth=pst.det_depth+1;
 			pst_a.out_count++;
 			states_active.put(pst_a.state_sn, pst_a);
-			System.out.println("e-reduce "+reduce_head+" "+pst.state_sn+" goto "+nss);
+			//System.out.println("e-reduce "+reduce_head+" "+pst.state_sn+" goto "+nss);
 			states_rlst.add(pst_a);		//add to rlist for another reduce	
 		}
 		return true;
@@ -528,7 +528,7 @@ public class Parser {
 			new_pst.addLink(pst, smb);
 			new_pst.det_depth=0;			//refresh count and depth;
 			new_pst.out_count++;
-			System.out.println("shift and merge "+token_n2s.get(crt_token_sn)+" "+pst.state_sn+" goto "+new_pst.state_sn);
+			//System.out.println("shift and merge "+token_n2s.get(crt_token_sn)+" "+pst.state_sn+" goto "+new_pst.state_sn);
 		}else{					//new state insert in active
 			new_pst=new ParseState();
 			new_pst.state_sn=shift_s;
@@ -536,7 +536,7 @@ public class Parser {
 			new_pst.det_depth=pst.det_depth+1;
 			new_pst.out_count++;
 			states_active.put(shift_s, new_pst);
-			System.out.println("shift "+token_n2s.get(crt_token_sn)+" "+pst.state_sn+" goto "+new_pst.state_sn);
+			//System.out.println("shift "+token_n2s.get(crt_token_sn)+" "+pst.state_sn+" goto "+new_pst.state_sn);
 		}
 		
 		return true;
@@ -561,7 +561,7 @@ public class Parser {
 			new_smb.path.path_end=pst_pre;
 			new_smb.path.path_count=ct;
 			new_smb.ast=ast_gen.crtAST(method, pst_crt, new_smb.path.getPath());		//build new ast
-			System.out.println("create ast: "+ new_smb.ast.getClass().getName());			
+			//System.out.println("create ast: "+ new_smb.ast.getClass().getName());			
 			int nss=goto_table.get(pst_pre.state_sn).get(symbol_sn.get(reduce_head));
 			if(nss==-1){
 				return false;		//no reduce, maybe another shift
@@ -572,7 +572,7 @@ public class Parser {
 				nps.addLink(pst_pre, new_smb);
 				nps.det_depth=0;							//refresh count and depth;
 				nps.out_count++;				
-				System.out.println("reduce and merge "+reduce_head+" "+pst_crt.state_sn+" to "+pst_pre.state_sn+" goto "+nss);
+				//System.out.println("reduce and merge "+reduce_head+" "+pst_crt.state_sn+" to "+pst_pre.state_sn+" goto "+nss);
 			}else{
 				nps=new ParseState();
 				nps.state_sn=nss;
@@ -580,7 +580,7 @@ public class Parser {
 				nps.det_depth=pst_pre.det_depth+1;
 				nps.out_count++;
 				states_active.put(nss, nps);
-				System.out.println("reduce "+reduce_head+" "+pst_crt.state_sn+" to "+pst_pre.state_sn+" goto "+nss);	
+				//System.out.println("reduce "+reduce_head+" "+pst_crt.state_sn+" to "+pst_pre.state_sn+" goto "+nss);	
 				states_rlst.add(nps);
 			}
 			return true;
@@ -659,7 +659,7 @@ public class Parser {
 					AST ast=ast_gen.crtAST(method,pst_crt, sym.path.getPath());
 					symb_t=new Symbol(sym);
 					symb_t.addAST(ast);		//build new ast 
-					System.out.println("create ast: "+ ast.getClass().getName());
+					//System.out.println("create ast: "+ ast.getClass().getName());
 				}
 			}
 			if(symb_t==null){				
@@ -671,7 +671,7 @@ public class Parser {
 				nps.addLink(pre_mr, symb_t);
 				nps.det_depth=0;							//refresh count and depth;
 				nps.out_count++;					
-				System.out.println("g-reduce and merge "+reduce_head+" "+pst_crt.state_sn+" to "+pre_mr.state_sn+" goto "+nss);
+				//System.out.println("g-reduce and merge "+reduce_head+" "+pst_crt.state_sn+" to "+pre_mr.state_sn+" goto "+nss);
 			}else{
 				nps=new ParseState();
 				nps.state_sn=nss;
@@ -679,7 +679,7 @@ public class Parser {
 				nps.det_depth=pre_mr.det_depth+1;
 				nps.out_count++;
 				states_active.put(nss, nps);
-				System.out.println("g-reduce "+reduce_head+" "+pst_crt.state_sn+" to "+pre_mr.state_sn+" goto "+nss);
+				//System.out.println("g-reduce "+reduce_head+" "+pst_crt.state_sn+" to "+pre_mr.state_sn+" goto "+nss);
 				states_rlst.add(nps);
 			}
 		}

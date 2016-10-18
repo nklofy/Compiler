@@ -291,7 +291,7 @@ public class CodeGenerator {
 			case t_cls:
 				T_Class t1=(T_Class)t;
 				//output t1's name, super_cls, impt_intfs, generic pars, fields, methods
-				out.println(t1.getTypeSig());
+				out.println("class "+t1.getTypeSig());
 				if(!t1.getExtdTypes().isEmpty()){
 					out.println("extends "+t1.getExtdTypes().size());	
 					String s1=null;

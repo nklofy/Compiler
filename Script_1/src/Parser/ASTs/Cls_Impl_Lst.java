@@ -12,13 +12,14 @@ import Parser.TypeSys.T_Type;
 import Parser.TypeSys.TypeCheckException;
 
 public class Cls_Impl_Lst extends AST {
-	boolean isE=false;
+	boolean isE=true;
 	LinkedList<TypeExp_Idn> imps;
 	LinkedList<String> extd_types;
 	
 	public void addImp(TypeExp_Idn par){
 		if(this.imps==null){
 			this.imps=new LinkedList<TypeExp_Idn>();			
+			this.isE=false;
 		}
 		this.imps.add(par);
 	}
