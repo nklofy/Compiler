@@ -10,6 +10,7 @@ public class MbrDef extends AST {
 	MbrDef_Mthd mthd;
 	LinkedList<R_Variable> r_vars;
 	R_Function r_func;
+	
 	public MbrDef(){}
 	public MbrDef(MbrDef_Fld fld){
 		this.fld=fld;
@@ -31,7 +32,18 @@ public class MbrDef extends AST {
 		return true;
 	}
 	public boolean genCode(CodeGenerator codegen)throws GenCodeException{
-		
+		switch(this.getASTType()){
+		case "MbrDef_Fld":
+			if(!this.fld.genCode(codegen))
+				return false;
+			break;
+		case "MbrDef_Mthd":
+			this.mthd.setScope(this.scope);
+			if(!this.mthd.genCode(codegen))
+				return false;
+			break;
+		default:return false;
+		}
 		return true;
 	}
 	public boolean genSymTb(CodeGenerator codegen)throws GenSymTblException{
@@ -39,12 +51,11 @@ public class MbrDef extends AST {
 		case "MbrDef_Fld":
 			if(!this.fld.genSymTb(codegen))
 				return false;
-			this.r_vars=this.fld.var_def.r_vars;
 			break;
 		case "MbrDef_Mthd":
+			this.mthd.setScope(this.scope);
 			if(!this.mthd.genSymTb(codegen))
 				return false;
-			this.r_func=this.mthd.func_def.r_func;
 			break;
 		default:return false;
 		}
@@ -53,10 +64,15 @@ public class MbrDef extends AST {
 	public boolean checkType(CodeGenerator codegen)throws TypeCheckException{
 		switch(this.getASTType()){
 		case "MbrDef_Fld":
-			return this.fld.checkType(codegen);
+			if(!this.fld.checkType(codegen)) return false;
+			this.r_vars=this.fld.var_def.r_vars;
+			break;
 		case "MbrDef_Mthd":
-			return this.mthd.checkType(codegen);			
+			if(!this.mthd.checkType(codegen)) return false;	
+			this.r_func=this.mthd.func_def.r_func;	
+			break;
 		default:return false;
 		}
+		return true;
 	}
 }

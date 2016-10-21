@@ -16,6 +16,7 @@ public class Stmt_DefCls extends AST {
 	String name;
 	String rst_type;//for IR code
 	T_Class t_type;//for type checking
+	String scope="global";
 	
 	public boolean setClsDef(Scp_InfoLst scp_infolst,ExprPri_Var var,Gnrc_ParLst gnrc_parlst,
 			Cls_Extd_Lst extd_lst,Cls_Impl_Lst impl_lst,MbrDef_Lst mbrdef_lst){
@@ -29,12 +30,27 @@ public class Stmt_DefCls extends AST {
 		return true;
 	}
 	public boolean genCode(CodeGenerator codegen)throws GenCodeException{
-		/*codegen.pushBlock4Sym(this);		
+		codegen.pushBlock4Sym(this);
+		
+		int in=codegen.getLineNo();
+		ArrayList<IRCode> old_ir=codegen.getCodeList();
+		codegen.setCodeList(new ArrayList<IRCode>());
+		codegen.setLineNo(0);
+		
+		//this.t_type.set.setFuncBody(codegen.getCodeList());
+		codegen.setCodeList(old_ir);
+		codegen.setLineNo(in);
+		codegen.popBlock4Sym();
+		
+		
 		for(MbrDef f:this.mbrdef_lst.mbrs){
 			if(f.mthd!=null){				
 				f.mthd.func_def.genCode(codegen);
 			}
-		}			
+		}
+		/*
+		
+		
 		codegen.popBlock4Sym();*/
 		return true;
 	}
@@ -42,6 +58,7 @@ public class Stmt_DefCls extends AST {
 		if(codegen.getTypeInSymTb(this.name)!=null)
 				throw new GenSymTblException("gen sym table error: "+this.var.name);
 		this.t_type=new T_Class();
+		this.t_type.setTypeName(name);
 		this.t_type.setKType(T_Type.KType.t_cls);
 		codegen.putTypeInSymTb(this.name, this.t_type);
 		codegen.addTypeInFile(this.t_type);
@@ -52,8 +69,10 @@ public class Stmt_DefCls extends AST {
 			return false;
 		if(this.impl_lst!=null&&!this.impl_lst.genSymTb(codegen))
 			return false;
-		if(this.mbrdef_lst!=null&&!this.mbrdef_lst.genSymTb(codegen))
-			return false;
+		if(this.mbrdef_lst!=null){
+			this.mbrdef_lst.setScope(this.scope+"::"+"class "+this.name);
+			if(!this.mbrdef_lst.genSymTb(codegen))	return false;
+		}
 		//codegen.addTypeInFile(this.t_type);
 		if(!this.gnrc_parlst.isE()){
 			this.t_type.setGnrc(true);
@@ -65,31 +84,7 @@ public class Stmt_DefCls extends AST {
 		if(!this.impl_lst.isE()){
 			this.t_type.setImplTypes(this.impl_lst.extd_types);			
 		}
-		if(!this.mbrdef_lst.isE()){
-			for(R_Function f:this.mbrdef_lst.methods){
-				HashMap<String,R_Function> ms=this.t_type.getMethods();
-				if(ms.containsKey(f.getFuncName())){
-					R_Function r=ms.get(f.getFuncName());
-					if(r.isCntnNameType(f)){
-						throw new GenSymTblException("gen sym table error: "+this.var.name);
-					}else{
-						r.addFuncR(f);
-					}					
-				}else{
-					ms.put(f.getFuncName(), f);
-				}
-			}
-			for(R_Variable f:this.mbrdef_lst.fields){
-				for(R_Variable v:this.mbrdef_lst.fields){
-					HashMap<String,R_Variable> vs=this.t_type.getFields();
-					if(vs.containsKey(v.getVarName())){
-						throw new GenSymTblException("gen sym table error: "+this.var.name);
-					}else{
-						vs.put(v.getVarName(),v);
-					}
-				}
-			}
-		}
+		
 		codegen.popBlock4Sym();
 		String s=this.name;
 		if(!this.gnrc_parlst.isE){
@@ -132,19 +127,34 @@ public class Stmt_DefCls extends AST {
 			return false;
 		
 		if(!this.mbrdef_lst.isE()){
+			HashMap<String,R_Function> ms=this.t_type.getMethods();
+			HashMap<String,R_Variable> vs=this.t_type.getFields();
 			for(R_Function f:this.mbrdef_lst.methods){
 				
+				if(ms.containsKey(f.getFuncName())){
+					R_Function r=ms.get(f.getFuncName());
+					if(r.isCntnNameType(f)){
+						throw new TypeCheckException("type error: repetitive method"+f.getFuncName());
+					}else{
+						r.addFuncR(f);
+					}					
+				}else{
+					ms.put(f.getFuncName(), f);
+				}
+			}			
+			for(R_Variable v:this.mbrdef_lst.fields){
+				if(vs.containsKey(v.getVarName())){
+					throw new TypeCheckException("type error: repetitive field"+v.getVarName());
+				}else{
+					vs.put(v.getVarName(),v);
+				}
 			}
-			for(R_Variable f:this.mbrdef_lst.fields){
-				
-			}
-		}
-		
+		}		
 		if(!this.t_type.checkAllField(codegen))
 			return false;
 		if(!this.t_type.checkAllMthd(codegen))
 			return false;
-		
+		this.t_type.genTypeSig(codegen);
 		codegen.popBlock4Sym();
 		return true;
 	}

@@ -8,6 +8,8 @@ public class T_Interface extends T_Type {
 	private LinkedList<String> extd_types=new LinkedList<String>();
 	private HashMap<String,R_Function> methods=new HashMap<String,R_Function>();
 	private HashSet<String> all_extd=new HashSet<String>();
+	private String scope="global";
+	
 	
 	{this.setKType(KType.t_intf);}
 	public HashMap<String,R_Function> getMethods() {
@@ -21,10 +23,15 @@ public class T_Interface extends T_Type {
 	}
 	public void setExtdTypes(LinkedList<String> extd_types) {
 		this.extd_types = extd_types;		
-	}
-	
+	}	
 	public HashSet<String> getAllExtd(){	
 		return all_extd;
+	}
+	public String getScope() {
+		return scope;
+	}
+	public void setScope(String scope) {
+		this.scope = scope;
 	}
 	public void genTypeSig(CodeGenerator codegen) {
 		String s=codegen.getTypeInSymTb(this.getTypeName()).getTypeSig();
@@ -32,7 +39,6 @@ public class T_Interface extends T_Type {
 			s=s+"<"+this.getGnrcPars().size()+">";
 		this.setTypeSig(s);
 	}
-	
 	
 	public boolean canCastFrom(CodeGenerator codegen,T_Type type2){
 		if(this.all_extd.contains(type2.getTypeName()))

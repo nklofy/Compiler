@@ -13,7 +13,13 @@ public class AST {
 	HashMap<String,R_Variable> var_table=new HashMap<String,R_Variable>();
 	HashMap<String,T_Type> type_table=new HashMap<String,T_Type>();
 	HashMap<String,R_Function> func_table = new HashMap<String,R_Function>();
-	
+	protected String scope="global";
+	public String getScope() {
+		return scope;
+	}
+	public void setScope(String scope) {
+		this.scope = scope;
+	}
 	public String getASTType() {
 		return ast_type;
 	}

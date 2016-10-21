@@ -32,10 +32,10 @@ public class Stmt_DefFunc extends AST {
 		int in=codegen.getLineNo();
 		ArrayList<IRCode> old_ir=codegen.getCodeList();
 		codegen.setCodeList(new ArrayList<IRCode>());
-		codegen.setLineNo(-1);
-		this.type_exp.genCode(codegen);
-		IRCode code=new IRCode("defFunction",this.name,this.type_exp.rst_type,this.r_func.getFuncSig());
-		codegen.addCode(code);
+		codegen.setLineNo(0);
+		//this.type_exp.genCode(codegen);
+		//IRCode code=new IRCode("defFunction",this.name,this.r_func.getFuncSig(),this.scope);
+		//codegen.addCode(code);
 		if(!this.gnrc_pars.isE){
 			//code=new IRCode("defGPars",this.gnrc_pars.rst_val,null,null);
 			//codegen.addCode(code);
@@ -63,6 +63,7 @@ public class Stmt_DefFunc extends AST {
 		this.t_type=new T_Function();
 		this.r_func.setTypeT(this.t_type);
 		this.r_func.setFuncName(this.name);
+		this.r_func.setScope(this.scope);
 		if(!this.gnrc_pars.isE()){
 			if(!this.gnrc_pars.genSymTb(codegen))
 				return false;
@@ -86,9 +87,10 @@ public class Stmt_DefFunc extends AST {
 				r.setVarType(this.pars.pars_type.get(i));
 				codegen.putVarInSymTb(s, r);
 			}
-		}		
-		codegen.addtFuncInFile(this.r_func);
-		this.stmt_list.genSymTb(codegen);
+		}
+		if(this.scope.equals("global"))
+			codegen.addtFuncInFile(this.r_func);
+		if(!this.stmt_list.genSymTb(codegen)) return false;
 		codegen.popBlock4Sym();
 		return true;
 	}

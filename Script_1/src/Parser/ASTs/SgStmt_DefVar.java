@@ -71,7 +71,7 @@ public class SgStmt_DefVar extends AST {
 			r.setVarType(this.ref_type);
 			this.var.ref_type=this.ref_type;
 		}
-		else{
+		else{//this.pre_def!=null
 			if(!this.type_exp.checkType(codegen))
 				return false;
 			this.ref_type=this.type_exp.rst_type;

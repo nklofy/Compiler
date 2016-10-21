@@ -291,7 +291,7 @@ public class CodeGenerator {
 			case t_cls:
 				T_Class t1=(T_Class)t;
 				//output t1's name, super_cls, impt_intfs, generic pars, fields, methods
-				out.println("class "+t1.getTypeSig());
+				out.println("defClass "+t1.getTypeSig()+" "+t1.getScope());
 				if(!t1.getExtdTypes().isEmpty()){
 					out.println("extends "+t1.getExtdTypes().size());	
 					String s1=null;
@@ -330,7 +330,7 @@ public class CodeGenerator {
 								for(IRCode code:codes){
 									out.println(code.getOpt()+" "+code.getOpd1()+" "+code.getOpd2()+" "+code.getOpd3());
 								}
-								out.println("ret");
+								out.println("end");
 							}
 						}else{	
 							out.println(f.getFuncName()+" "+f.getFuncSig());
@@ -338,7 +338,7 @@ public class CodeGenerator {
 							for(IRCode code:codes){
 								out.println(code.getOpt()+" "+code.getOpd1()+" "+code.getOpd2()+" "+code.getOpd3());
 							}
-							out.println("ret");
+							out.println("end");
 						}
 					}
 				}
@@ -346,7 +346,7 @@ public class CodeGenerator {
 			case t_intf:
 				T_Interface t2=(T_Interface)t;
 				//output t2's name, impt_intfs, generic pars, methods
-				out.println(t2.getTypeSig());
+				out.println("defInterface "+t2.getTypeSig()+" "+t2.getScope());
 				if(!t2.getExtdTypes().isEmpty()){
 					out.println("extends "+t2.getExtdTypes().size());	
 					String s1=null;
@@ -360,14 +360,14 @@ public class CodeGenerator {
 					for(String name:t2.getMethods().keySet()){
 						R_Function f=t2.getMethods().get(name);
 						if(f.isDummy()){
-							out.println(f.getFuncName()+" "+f.getFuncSig());
-							out.println("dummy");
+							out.println(f.getFuncName()+" "+f.getFuncSig()+" abstruct");
+							//out.println("dummy");
 						}
 						if(f.isMulti()){							
 							for(String s:f.getMulti().keySet()){
 								R_Function f1=f.getMulti().get(s);
-								out.println(f1.getFuncName()+" "+f1.getFuncSig());
-								out.println("dummy");
+								out.println(f1.getFuncName()+" "+f1.getFuncSig()+" abstruct");
+								//out.println("dummy");
 							}
 						}
 					}
@@ -388,13 +388,15 @@ public class CodeGenerator {
 			if(f.isMulti()){							
 				for(String s:f.getMulti().keySet()){
 					R_Function f1=f.getMulti().get(s);
-					ArrayList<IRCode> codes=f.getFuncBody();
+					out.println("defFunction "+f1.getFuncName()+" "+f1.getFuncSig()+" "+f1.getScope());
+					ArrayList<IRCode> codes=f1.getFuncBody();
 					for(IRCode code:codes){
 						out.println(code.getOpt()+" "+code.getOpd1()+" "+code.getOpd2()+" "+code.getOpd3());
 					}
 					out.println("end");
 				}
 			}else{
+				out.println("defFunction "+f.getFuncName()+" "+f.getFuncSig()+" "+f.getScope());
 				ArrayList<IRCode> codes=f.getFuncBody();
 				for(IRCode code:codes){
 					out.println(code.getOpt()+" "+code.getOpd1()+" "+code.getOpd2()+" "+code.getOpd3());

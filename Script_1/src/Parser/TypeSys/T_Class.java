@@ -10,6 +10,9 @@ public class T_Class extends T_Type {
 	private HashMap<String,R_Variable> fields=new HashMap<String,R_Variable>();
 	private HashSet<String> all_impl=new HashSet<String>();	
 	private HashSet<String> all_extd=new HashSet<String>();
+	private String scope="global";
+	
+	
 	{
 		this.setKType(KType.t_cls);
 	}
@@ -40,6 +43,12 @@ public class T_Class extends T_Type {
 	public void setExtdTypes(LinkedList<String> extd_types) {
 		this.extd_types = extd_types;
 	}
+	public String getScope() {
+		return scope;
+	}
+	public void setScope(String scope) {
+		this.scope = scope;
+	}
 	public HashSet<String> getAllImpl() {
 		return all_impl;
 	}
@@ -47,9 +56,15 @@ public class T_Class extends T_Type {
 		return all_extd;
 	}
 	public void genTypeSig(CodeGenerator codegen) {
-		String s=this.getTypeName();
-		if(this.isGnrc())
-			s=s+"<"+this.getGnrcPars().size()+">";//TODO
+		String s="";
+		if(this.isGnrc()){
+			s+="<";
+			for(String g:this.getGnrcPars()){
+				s+=codegen.getTypeInSymTb(g).getTypeSig()+",";
+			}
+			s=s.substring(0,s.length()-1)+">";
+		}
+		s+=this.getTypeName();
 		this.setTypeSig(s);
 	}
 	

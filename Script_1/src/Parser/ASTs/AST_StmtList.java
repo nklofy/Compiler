@@ -26,7 +26,7 @@ public class AST_StmtList extends AST {
 		codegen.pushBlock4Sym(this);
 		for(int i=0;i<this.stmt_list.size();i++){
 			AST stmt=this.stmt_list.get(i);
-			stmt.genSymTb(codegen);
+			if(!stmt.genSymTb(codegen)) return false;
 		}
 		codegen.popBlock4Sym();
 		return true;

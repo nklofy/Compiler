@@ -85,19 +85,31 @@ public class TypeExp extends AST {
 		return b;
 	}
 	public boolean checkType(CodeGenerator codegen)throws TypeCheckException{
+		boolean b;
 		switch(this.getASTType()){
 		case "TypeExp_Arr":
-			return this.type_array.checkType(codegen);
+			b=this.type_array.checkType(codegen);
+			this.rst_type=this.type_array.rst_type;
+			break;
 		case "TypeExp_Bsc":
-			return this.type_basic.checkType(codegen);
+			b=this.type_basic.checkType(codegen);
+			this.rst_type=this.type_basic.rst_type;
+			break;
 		case "TypeExp_Func":
-			return this.type_func.checkType(codegen);
+			b=this.type_func.checkType(codegen);
+			this.rst_type=this.type_array.rst_type;
+			break;
 		case "TypeExp_Idn":
-			return this.type_idn.checkType(codegen);
+			b=this.type_idn.checkType(codegen);
+			this.rst_type=this.type_idn.rst_type;
+			break;
 		case "TypeExp_Gnrc":
-			return this.type_gnrc.checkType(codegen);
+			b=this.type_gnrc.checkType(codegen);
+			this.rst_type=this.type_gnrc.rst_type;
+			break;
 		default:
 			return false;
 		}
+		return b;
 	}
 }

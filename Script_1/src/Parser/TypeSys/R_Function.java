@@ -16,8 +16,14 @@ public class R_Function {
 	LinkedList<String> pars_name;
 	ArrayList<IRCode> func_body;
 	AST func_def;
+	String scope;
 	
-	
+	public String getScope() {
+		return scope;
+	}
+	public void setScope(String scope) {
+		this.scope = scope;
+	}
 	public String getFuncName() {
 		return func_name;
 	}
