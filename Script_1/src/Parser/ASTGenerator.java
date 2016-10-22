@@ -510,6 +510,7 @@ public class ASTGenerator {
 //		67	crtMmbDefE 0
 	case "crtMmbDefE":
 		MbrDef_Lst ast_t67=new MbrDef_Lst();
+		ast_t67.setE();
 		ast=ast_t67;
 		break;
 //		68	lnkMmbFld 1 0
@@ -1049,7 +1050,7 @@ public class ASTGenerator {
 	case "crtFldAccVar":
 		ast0=symbs.get(0).ast;
 		ExprAccs_Fld ast_t139=new ExprAccs_Fld();
-		ast_t139.setAccs(null, (ExprPri_Var)ast0, "class");
+		ast_t139.setAccs(null, (ExprPri_Var)ast0, null);
 		ast=ast_t139;
 		break;
 //		140	crtFldAccThs 0

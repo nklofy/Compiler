@@ -41,11 +41,12 @@ public class Stmt_DefCls extends AST {
 		codegen.setCodeList(old_ir);
 		codegen.setLineNo(in);
 		codegen.popBlock4Sym();
-		
-		
-		for(MbrDef f:this.mbrdef_lst.mbrs){
-			if(f.mthd!=null){				
-				f.mthd.func_def.genCode(codegen);
+
+		if(!this.mbrdef_lst.isE()){
+			for(MbrDef f:this.mbrdef_lst.mbrs){
+				if(f.mthd!=null){				
+					f.mthd.func_def.genCode(codegen);
+				}
 			}
 		}
 		/*
@@ -69,7 +70,7 @@ public class Stmt_DefCls extends AST {
 			return false;
 		if(this.impl_lst!=null&&!this.impl_lst.genSymTb(codegen))
 			return false;
-		if(this.mbrdef_lst!=null){
+		if(!this.mbrdef_lst.isE()){
 			this.mbrdef_lst.setScope(this.scope+"::"+"class "+this.name);
 			if(!this.mbrdef_lst.genSymTb(codegen))	return false;
 		}
@@ -119,7 +120,7 @@ public class Stmt_DefCls extends AST {
 					throw new TypeCheckException("type check error: "+this.var.name);
 			}
 		}
-		if(this.mbrdef_lst!=null&&!this.mbrdef_lst.checkType(codegen))
+		if(this.mbrdef_lst!=null&&!this.mbrdef_lst.isE()&&!this.mbrdef_lst.checkType(codegen))
 			return false;
 		if(!this.t_type.checkAllImpl(codegen))
 			return false;

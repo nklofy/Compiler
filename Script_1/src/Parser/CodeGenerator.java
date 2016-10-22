@@ -101,6 +101,21 @@ public class CodeGenerator {
 		}
 		return true;
 	}
+	public T_Type getTypeInSymTbT(String name){
+		T_Type t=null;
+		if(this.types_init.containsKey(name))
+			return this.types_init.get(name);
+		String s=FindGnrcArgTb(name);
+		if(s!=null)
+			name=s;
+		AST ast=this.block_4symtb.peek();
+		//if(ast.type_table==null) continue;
+		t=ast.type_table.get(name);
+		if(t!=null)
+			return t;
+
+		return null;
+	}
 	public T_Type getTypeInSymTb(String name){
 		T_Type t=null;
 		if(this.types_init.containsKey(name))
@@ -123,6 +138,19 @@ public class CodeGenerator {
 		ast.type_table.put(name, type);
 		return true;
 	}
+	public R_Variable getVarInSymTbT(String name){
+		R_Variable r=null;
+		String s=FindFuncArgTb(name);
+		if(s!=null)
+			name=s;
+		AST ast=this.block_4symtb.peek();
+		//if(ast.var_table==null) continue;
+		r=ast.var_table.get(name);
+		if(r!=null)
+			return r;
+
+		return null;
+	}
 	public R_Variable getVarInSymTb(String name){
 		R_Variable r=null;
 		String s=FindFuncArgTb(name);
@@ -143,6 +171,16 @@ public class CodeGenerator {
 		ast.var_table.put(name, r);
 		return true;
 	}	
+	public R_Function getFuncInSymTbT(String name){
+		R_Function f=null;
+		AST ast=this.block_4symtb.peek();
+		//if(ast.func_table==null) continue;
+		f=ast.func_table.get(name);
+		if(f!=null)
+			return f;
+
+		return null;
+	}		
 	public R_Function getFuncInSymTb(String name){
 		R_Function f=null;
 		for(AST ast:this.block_4symtb){

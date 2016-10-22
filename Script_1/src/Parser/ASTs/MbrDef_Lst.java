@@ -26,6 +26,7 @@ public class MbrDef_Lst extends AST {
 		this.isE = true;
 	}
 	public boolean genCode(CodeGenerator codegen)throws GenCodeException{
+		if(isE)return true;
 		for(MbrDef mbr:mbrs){
 			if(!mbr.genCode(codegen))
 				return false;
@@ -33,6 +34,7 @@ public class MbrDef_Lst extends AST {
 		return true;
 	}
 	public boolean genSymTb(CodeGenerator codegen)throws GenSymTblException{
+		if(isE)return true;
 		for(MbrDef mbr:mbrs){
 			mbr.setScope(this.scope);
 			if(!mbr.genSymTb(codegen))
@@ -47,6 +49,7 @@ public class MbrDef_Lst extends AST {
 		return true;
 	}
 	public boolean checkType(CodeGenerator codegen)throws TypeCheckException{
+		if(isE)return true;
 		for(MbrDef mbr:mbrs){
 			if(!mbr.checkType(codegen))
 				return false;

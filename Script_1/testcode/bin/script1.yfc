@@ -2,27 +2,41 @@
 script1
 defClass T global
 fields 1
-t:int
-methods 3
-f int()
-load_i %1 1 null
-retExp int %1 null
-end
-g int()
-load_i %2 2 null
-retExp int %2 null
-end
-h int(int)
+b:int
+defFunction fact int(int) global
 defFuncPar int a null
-load_i %4 1 null
-EQ %3 a %4
-if %3 5 8
-load_i %5 1 null
-retExp int %5 null
+load_i %2 1 null
+EQ %1 a %2
+if %1 5 8
+load_i %3 1 null
+retExp int %3 null
 goto 13 null null
-getFunc h int(int) global
-pushArg %7 null null
-invoke %9 int null
-mul_i %6 a %9
-retExp int %6 null
+getFunc fact int(int) global
+pushArg %5 null null
+invoke %7 int null
+mul_i %4 a %7
+retExp int %4 null
 end
+defFunction fib int(int) global
+defFuncPar int a null
+load_i %9 3 null
+LT %8 a %9
+if %8 5 8
+load_i %10 1 null
+retExp int %10 null
+goto 16 null null
+getFunc fib int(int) global
+pushArg %12 null null
+invoke %14 int null
+getFunc fib int(int) global
+pushArg %15 null null
+invoke %17 int null
+add_i %11 %14 %17
+retExp int %11 null
+end
+load_i %18 1 null
+mov int a %18
+getFunc fib int(int) global
+pushArg a null null
+invoke %19 int null
+mov int b %19

@@ -56,7 +56,7 @@ public class ExprAccs_Fld extends AST {
 				return true;
 			}
 		}
-		if(sign.equals("super")){
+		else if(sign.equals("super")){
 			this.rst_val="super";
 		}else if(sign.equals("this")){
 			this.rst_val="this";
@@ -110,7 +110,7 @@ public class ExprAccs_Fld extends AST {
 						return true;
 				}else
 					throw new TypeCheckException("TypeCheck Error: ");		
-			}
+			}//this.a ...
 			R_Variable r1=((T_Class)t).getFields().get(var.name);
 			if(r1==null)return false;
 			this.rst_type=r1.getVarType();
