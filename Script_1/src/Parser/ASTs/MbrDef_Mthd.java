@@ -32,7 +32,6 @@ public class MbrDef_Mthd extends AST {
 		if(this.scps!=null&&!this.scps.genSymTb(codegen))
 			return false;
 		if(this.func_def!=null){
-			this.func_def.setScope(this.scope);
 			if(!this.func_def.genSymTb(codegen))
 				return false;
 		}

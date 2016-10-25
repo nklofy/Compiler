@@ -38,7 +38,6 @@ public class MbrDef extends AST {
 				return false;
 			break;
 		case "MbrDef_Mthd":
-			this.mthd.setScope(this.scope);
 			if(!this.mthd.genCode(codegen))
 				return false;
 			break;
@@ -53,7 +52,6 @@ public class MbrDef extends AST {
 				return false;
 			break;
 		case "MbrDef_Mthd":
-			this.mthd.setScope(this.scope);
 			if(!this.mthd.genSymTb(codegen))
 				return false;
 			break;

@@ -16,5 +16,5 @@ int b=fib(a);
 
 class T{
 int b;
-//int b(){return b;}
+int fact(int b){return b;}
 }

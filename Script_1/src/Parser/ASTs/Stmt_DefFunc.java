@@ -63,7 +63,7 @@ public class Stmt_DefFunc extends AST {
 		this.t_type=new T_Function();
 		this.r_func.setTypeT(this.t_type);
 		this.r_func.setFuncName(this.name);
-		this.r_func.setScope(this.scope);
+		this.r_func.setScope(codegen.getScope());
 		if(!this.gnrc_pars.isE()){
 			if(!this.gnrc_pars.genSymTb(codegen))
 				return false;

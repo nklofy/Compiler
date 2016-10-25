@@ -37,6 +37,35 @@ public class CodeGenerator {
 	private LinkedList<String> pck_name;
 	private LinkedList<LinkedList<String>> impt_pcks;
 	
+	private String scope="global";//external is imported packages, global is script scope, class is in class and method scope, local is in lambda scope
+	boolean in_cls=false;//make sure encapsulation and isolation in class or interface scope
+	String this_cls=null;
+	
+	public String getScope() {
+		return scope;
+	}
+	public void setScope(String scope) {
+		this.scope = scope;
+	}
+	public boolean isInCls() {
+		return in_cls;
+	}
+	public void setInCls(boolean in_func) {
+		this.in_cls = in_func;
+	}
+	public String getThisCls() {
+		return this_cls;
+	}
+	public void setThisCls(String this_cls) {
+		this.this_cls = this_cls;
+	}
+	public boolean outOfScope(String scope){
+		if(scope.equals("global")&&this.isInCls()) return true;
+		if(scope.equals("class")&&!this.scope.equals("class")) return true;
+		if(scope.equals("local")&&this.scope.equals("local")) return true;
+		
+		return false;
+	}
 	public CodeGenerator(){
 		initTypes();
 	}
@@ -101,7 +130,7 @@ public class CodeGenerator {
 		}
 		return true;
 	}
-	public T_Type getTypeInSymTbT(String name){
+	public T_Type getTypeInTpSmTb(String name){
 		T_Type t=null;
 		if(this.types_init.containsKey(name))
 			return this.types_init.get(name);
@@ -109,7 +138,6 @@ public class CodeGenerator {
 		if(s!=null)
 			name=s;
 		AST ast=this.block_4symtb.peek();
-		//if(ast.type_table==null) continue;
 		t=ast.type_table.get(name);
 		if(t!=null)
 			return t;
@@ -124,7 +152,6 @@ public class CodeGenerator {
 		if(s!=null)
 			name=s;
 		for(AST ast:this.block_4symtb){
-			//if(ast.type_table==null) continue;
 			t=ast.type_table.get(name);
 			if(t!=null)
 				return t;
@@ -138,7 +165,7 @@ public class CodeGenerator {
 		ast.type_table.put(name, type);
 		return true;
 	}
-	public R_Variable getVarInSymTbT(String name){
+	public R_Variable getVarInTpSmTb(String name){
 		R_Variable r=null;
 		String s=FindFuncArgTb(name);
 		if(s!=null)
@@ -157,7 +184,8 @@ public class CodeGenerator {
 		if(s!=null)
 			name=s;
 		for(AST ast:this.block_4symtb){
-			//if(ast.var_table==null) continue;
+			if(this.outOfScope(ast.getScope()))
+				break;
 			r=ast.var_table.get(name);
 			if(r!=null)
 				return r;
@@ -171,7 +199,7 @@ public class CodeGenerator {
 		ast.var_table.put(name, r);
 		return true;
 	}	
-	public R_Function getFuncInSymTbT(String name){
+	public R_Function getFuncInTpSmTb(String name){
 		R_Function f=null;
 		AST ast=this.block_4symtb.peek();
 		//if(ast.func_table==null) continue;
@@ -184,13 +212,14 @@ public class CodeGenerator {
 	public R_Function getFuncInSymTb(String name){
 		R_Function f=null;
 		for(AST ast:this.block_4symtb){
-			//if(ast.func_table==null) continue;
+			if(this.outOfScope(ast.getScope()))
+				break;
 			f=ast.func_table.get(name);
 			if(f!=null)
 				return f;
 		}
 		return null;
-	}	
+	}
 	public boolean putFuncInSymTb(String name, R_Function f){//f can be polymorphic
 		AST ast=this.block_4symtb.getFirst();
 		if(ast.func_table.containsKey(name)){
@@ -322,7 +351,7 @@ public class CodeGenerator {
 		}
 		return true;
 	}
-	//TODO
+	
 	public boolean outputClsTb(PrintWriter out){//classes or interfaces, including fields and methods
 		for(T_Type t:this.type_file){
 			switch(t.getKType()){
@@ -349,7 +378,7 @@ public class CodeGenerator {
 				if(!t1.getFields().isEmpty()){
 					out.println("fields "+t1.getFields().size());
 					for(String name:t1.getFields().keySet()){
-						out.println(name+":"+(t1.getFields().get(name).getVarType()));//TODO change typename in TypeExp files.
+						out.println(name+":"+(t1.getFields().get(name).getVarType()));
 					}
 				}
 				if(!t1.getMethods().isEmpty()){
@@ -437,7 +466,20 @@ public class CodeGenerator {
 				out.println("defFunction "+f.getFuncName()+" "+f.getFuncSig()+" "+f.getScope());
 				ArrayList<IRCode> codes=f.getFuncBody();
 				for(IRCode code:codes){
-					out.println(code.getOpt()+" "+code.getOpd1()+" "+code.getOpd2()+" "+code.getOpd3());
+					StringBuilder sb=new StringBuilder(code.getOpt());
+					if(code.getOpd1()!=null){
+						sb.append(" ");
+						sb.append(code.getOpd1());
+					}
+					if(code.getOpd2()!=null){
+						sb.append(" ");
+						sb.append(code.getOpd2());
+					}
+					if(code.getOpd3()!=null){
+						sb.append(" ");
+						sb.append(code.getOpd3());
+					}
+					out.println(sb);
 				}
 				out.println("end");
 			}
@@ -454,8 +496,22 @@ public class CodeGenerator {
 	}
 	public boolean outputScript(PrintWriter out){//script's codes
 		for(IRCode code:this.code_list){
-			out.println(code.getOpt()+" "+code.getOpd1()+" "+code.getOpd2()+" "+code.getOpd3());
-		}		
+			StringBuilder sb=new StringBuilder(code.getOpt());
+			if(code.getOpd1()!=null){
+				sb.append(" ");
+				sb.append(code.getOpd1());
+			}
+			if(code.getOpd2()!=null){
+				sb.append(" ");
+				sb.append(code.getOpd2());
+			}
+			if(code.getOpd3()!=null){
+				sb.append(" ");
+				sb.append(code.getOpd3());
+			}
+			out.println(sb);
+		}	
+		out.println("end");
 		return true;
 	}
 	public boolean outputCnstTb(PrintWriter out){//const pool. no, i dont really need a const pool. i use string name instead of ref_info.

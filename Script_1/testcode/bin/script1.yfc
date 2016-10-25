@@ -3,6 +3,11 @@ script1
 defClass T global
 fields 1
 b:int
+methods 1
+fact int(int)
+defFuncPar int b null
+retExp int b null
+end
 defFunction fact int(int) global
 defFuncPar int a null
 load_i %2 1 null

@@ -143,6 +143,7 @@ public class PackageManager {
 										e.printStackTrace();
 									}
 									this.asts_todo.add(parser.getAST());
+									parser.getAST().setScope("extern");
 									codegen.pushBlock4Sym(parser.getAST());  
 									CodeGenerator codegen1=new CodeGenerator();
 									this.astgen_map.put(parser.getAST(), codegen1);
@@ -161,6 +162,7 @@ public class PackageManager {
 									e.printStackTrace();
 								}
 								this.asts_todo.add(parser.getAST());
+								parser.getAST().setScope("extern");
 								codegen.pushBlock4Sym(parser.getAST());  
 								CodeGenerator codegen1=new CodeGenerator();
 								this.astgen_map.put(parser.getAST(), codegen1);
@@ -206,6 +208,7 @@ public class PackageManager {
 							e.printStackTrace();
 						}
 						this.asts_todo.add(parser.getAST());
+						parser.getAST().setScope("extern");
 						codegen.pushBlock4Sym(parser.getAST());  
 						CodeGenerator codegen1=new CodeGenerator();
 						this.astgen_map.put(parser.getAST(), codegen1);
@@ -216,6 +219,7 @@ public class PackageManager {
 							e.printStackTrace();
 						}
 						this.asts_todo.add(parser.getAST());
+						parser.getAST().setScope("extern");
 						codegen.pushBlock4Sym(parser.getAST());  
 						CodeGenerator codegen1=new CodeGenerator();
 						this.astgen_map.put(parser.getAST(), codegen1);

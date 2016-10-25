@@ -49,7 +49,7 @@ public class SgStmt_DefVar extends AST {
 				return false;
 			this.r_vars=new LinkedList<R_Variable>();
 		}
-		if(codegen.getVarInSymTbT(this.var.name)!=null)
+		if(codegen.getVarInTpSmTb(this.var.name)!=null)
 			throw new GenSymTblException("Error: var existed "+this.var.name);
 		R_Variable r=new R_Variable();
 		r.setVarName(this.var.name);

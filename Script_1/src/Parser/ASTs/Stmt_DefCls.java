@@ -71,7 +71,6 @@ public class Stmt_DefCls extends AST {
 		if(this.impl_lst!=null&&!this.impl_lst.genSymTb(codegen))
 			return false;
 		if(!this.mbrdef_lst.isE()){
-			this.mbrdef_lst.setScope(this.scope+"::"+"class "+this.name);
 			if(!this.mbrdef_lst.genSymTb(codegen))	return false;
 		}
 		//codegen.addTypeInFile(this.t_type);
