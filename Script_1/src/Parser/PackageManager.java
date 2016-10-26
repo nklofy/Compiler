@@ -5,6 +5,8 @@ import java.util.*;
 
 import javax.swing.filechooser.FileFilter;
 
+import Parser.TypeSys.T_Type;
+
 public class PackageManager {
 	//if not parsed, parse and add ast to ast_4_symtbl
 	//if already had YFC file, read YFC file and add new ast to ast_4_symtbl
@@ -13,6 +15,7 @@ public class PackageManager {
 	LinkedList<AST> asts_todo=new LinkedList<AST>();//asts in queue for gen YFC file
 	HashMap<AST,CodeGenerator> astgen_map=new HashMap<AST,CodeGenerator>();//ASTs and codegens for them
 	String dir_lib;//lib files, maybe setup by system path in future
+	HashMap<String,T_Type> typeTb_allFile=new HashMap<String,T_Type>();
 	
 	public void compile(Parser parser, String file_name)  throws Exception {
 		parser.parse(file_name+".yfl");
@@ -34,7 +37,7 @@ public class PackageManager {
 		while(!asts_todo.isEmpty()){
 			AST ast=asts_todo.getFirst();
 			codegen=astgen_map.get(ast);
-			
+			codegen.typeTb_allFile=this.typeTb_allFile;
 			
 			setPck(parser,codegen,dir_b);//set package for current YFL file, set output file path
 			imptPcks(parser,codegen,dir_s,dir_b);//deal with packages imported, parse them and update symtable
@@ -143,7 +146,6 @@ public class PackageManager {
 										e.printStackTrace();
 									}
 									this.asts_todo.add(parser.getAST());
-									parser.getAST().setScope("extern");
 									codegen.pushBlock4Sym(parser.getAST());  
 									CodeGenerator codegen1=new CodeGenerator();
 									this.astgen_map.put(parser.getAST(), codegen1);
@@ -162,7 +164,6 @@ public class PackageManager {
 									e.printStackTrace();
 								}
 								this.asts_todo.add(parser.getAST());
-								parser.getAST().setScope("extern");
 								codegen.pushBlock4Sym(parser.getAST());  
 								CodeGenerator codegen1=new CodeGenerator();
 								this.astgen_map.put(parser.getAST(), codegen1);
@@ -208,7 +209,6 @@ public class PackageManager {
 							e.printStackTrace();
 						}
 						this.asts_todo.add(parser.getAST());
-						parser.getAST().setScope("extern");
 						codegen.pushBlock4Sym(parser.getAST());  
 						CodeGenerator codegen1=new CodeGenerator();
 						this.astgen_map.put(parser.getAST(), codegen1);
@@ -219,7 +219,6 @@ public class PackageManager {
 							e.printStackTrace();
 						}
 						this.asts_todo.add(parser.getAST());
-						parser.getAST().setScope("extern");
 						codegen.pushBlock4Sym(parser.getAST());  
 						CodeGenerator codegen1=new CodeGenerator();
 						this.astgen_map.put(parser.getAST(), codegen1);

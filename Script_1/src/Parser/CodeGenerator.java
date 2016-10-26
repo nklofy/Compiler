@@ -31,38 +31,96 @@ public class CodeGenerator {
 	private LinkedList<T_Type> type_file=new LinkedList<T_Type>();//used for generating symbol table in output file
 	private LinkedList<R_Function> func_file=new LinkedList<R_Function>();
 	private LinkedList<R_Variable> var_file=new LinkedList<R_Variable>();
+	HashMap<String,T_Type> typeTb_allFile;
 	
 	private String file_name;
 	private String out_file;
 	private LinkedList<String> pck_name;
 	private LinkedList<LinkedList<String>> impt_pcks;
 	
-	private String scope="global";//external is imported packages, global is script scope, class is in class and method scope, local is in lambda scope
-	boolean in_cls=false;//make sure encapsulation and isolation in class or interface scope
-	String this_cls=null;
+	//private String scope="global";//not used currently, for class access authority such as friend, package, protected
+	//global is script scope, class is in class and method scope, local is in lambda scope
+	//make sure encapsulation and isolation in class or interface scope
+	//private boolean in_func=false;
+	//private boolean in_local=false;	
 	
-	public String getScope() {
-		return scope;
-	}
-	public void setScope(String scope) {
-		this.scope = scope;
-	}
-	public boolean isInCls() {
-		return in_cls;
-	}
-	public void setInCls(boolean in_func) {
-		this.in_cls = in_func;
-	}
+	private int scope=1;	//scope, 1 global, 10B class, 100B function, 1000B local 
+	String this_cls=null;
+
 	public String getThisCls() {
 		return this_cls;
 	}
 	public void setThisCls(String this_cls) {
 		this.this_cls = this_cls;
 	}
-	public boolean outOfScope(String scope){
-		if(scope.equals("global")&&this.isInCls()) return true;
-		if(scope.equals("class")&&!this.scope.equals("class")) return true;
-		if(scope.equals("local")&&this.scope.equals("local")) return true;
+	public int getScope(){
+		return this.scope;
+	}
+	public String getScopeStr(){
+		if((this.scope&8)==8)
+			return "local";
+		if((this.scope&4)==4)
+		return "function";
+		if((this.scope&2)==2)
+			return "class";
+		if((this.scope&1)==1)
+			return "global";
+		return null;
+	}
+	public int addScope(String name){
+		switch(name){
+		case "global":
+			this.scope=this.scope|1;
+			break;
+		case "class":
+			this.scope=this.scope|2;
+			break;
+		case "function":
+			this.scope=this.scope|4;
+			break;
+		case "local":
+			this.scope=this.scope|8;
+			break;
+		default:
+			return 0;
+		}
+		return this.scope;
+	}
+	public void setScope(int scope){
+		this.scope=scope;
+	}
+	
+/*	public boolean isInCls() {
+		return in_cls;
+	}
+	public void setInCls(boolean in_func) {
+		this.in_cls = in_func;
+	}
+	public boolean isInFunc() {
+		return in_func;
+	}
+	public void setInFunc(boolean in_func) {
+		this.in_func = in_func;
+	}
+	public boolean isInLocal() {
+		return in_local;
+	}
+	public void setInLocal(boolean in_local) {
+		this.in_local = in_local;
+	}
+	public String getScope() {
+		return scope;
+	}
+	public void setScope(String scope) {
+		this.scope = scope;
+	}*/
+	public boolean outOfScope(int scope){
+		if((this.scope&8)==8&&(scope&8)!=8){//both in local
+			return true;
+		}
+		if((this.scope&2)==2&&(scope&2)!=2){//both in class
+			return true;
+		}
 		
 		return false;
 	}
@@ -130,7 +188,7 @@ public class CodeGenerator {
 		}
 		return true;
 	}
-	public T_Type getTypeInTpSmTb(String name){
+	public T_Type getTypeTopSymTb(String name){
 		T_Type t=null;
 		if(this.types_init.containsKey(name))
 			return this.types_init.get(name);
@@ -156,6 +214,8 @@ public class CodeGenerator {
 			if(t!=null)
 				return t;
 		}
+		if(this.typeTb_allFile.containsKey(name))
+			return this.typeTb_allFile.get(name);
 		return null;
 	}
 	public boolean putTypeInSymTb(String name,T_Type type){
@@ -165,7 +225,13 @@ public class CodeGenerator {
 		ast.type_table.put(name, type);
 		return true;
 	}
-	public R_Variable getVarInTpSmTb(String name){
+	public boolean putTypeInAllFileTb(String name,T_Type type){
+		if(this.typeTb_allFile.containsKey(name))
+			return false;
+		this.typeTb_allFile.put(name, type);
+		return true;
+	}
+	public R_Variable getVarTopSymTb(String name){
 		R_Variable r=null;
 		String s=FindFuncArgTb(name);
 		if(s!=null)
@@ -189,7 +255,7 @@ public class CodeGenerator {
 			r=ast.var_table.get(name);
 			if(r!=null)
 				return r;
-		}
+		}		
 		return null;
 	}
 	public boolean putVarInSymTb(String name, R_Variable r){
@@ -199,7 +265,7 @@ public class CodeGenerator {
 		ast.var_table.put(name, r);
 		return true;
 	}	
-	public R_Function getFuncInTpSmTb(String name){
+	public R_Function getFuncTopSymTb(String name){
 		R_Function f=null;
 		AST ast=this.block_4symtb.peek();
 		//if(ast.func_table==null) continue;

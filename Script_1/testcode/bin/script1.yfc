@@ -9,39 +9,44 @@ defFuncPar int b null
 retExp int b null
 end
 defFunction fact int(int) global
-defFuncPar int a null
-load_i %2 1 null
+defFuncPar int a
+load_i %2 1
 EQ %1 a %2
 if %1 5 8
-load_i %3 1 null
-retExp int %3 null
-goto 13 null null
+load_i %3 1
+retExp int %3
+goto 13
 getFunc fact int(int) global
-pushArg %5 null null
-invoke %7 int null
+pushArg %5
+invoke %7 int
 mul_i %4 a %7
-retExp int %4 null
+retExp int %4
 end
 defFunction fib int(int) global
-defFuncPar int a null
-load_i %9 3 null
+defFuncPar int a
+load_i %9 3
 LT %8 a %9
 if %8 5 8
-load_i %10 1 null
-retExp int %10 null
-goto 16 null null
+load_i %10 1
+retExp int %10
+goto 16
 getFunc fib int(int) global
-pushArg %12 null null
-invoke %14 int null
+pushArg %12
+invoke %14 int
 getFunc fib int(int) global
-pushArg %15 null null
-invoke %17 int null
+pushArg %15
+invoke %17 int
 add_i %11 %14 %17
-retExp int %11 null
+retExp int %11
 end
-load_i %18 1 null
+defFunction fact int(int) global
+defFuncPar int b
+retExp int b
+end
+load_i %18 1
 mov int a %18
 getFunc fib int(int) global
-pushArg a null null
-invoke %19 int null
+pushArg a
+invoke %19 int
 mov int b %19
+end

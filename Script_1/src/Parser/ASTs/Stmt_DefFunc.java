@@ -56,14 +56,17 @@ public class Stmt_DefFunc extends AST {
 		return true;
 	}
 	public boolean genSymTb(CodeGenerator codegen)throws GenSymTblException{
+		this.scope=codegen.getScope();
 		this.r_func=new R_Function();
 		codegen.putFuncInSymTb(this.name, this.r_func);
+		if(codegen.getScopeStr().equals("global"))
+			codegen.addtFuncInFile(this.r_func);
 		codegen.pushBlock4Sym(this);
 		if(!this.type_exp.genSymTb(codegen))return false;
 		this.t_type=new T_Function();
 		this.r_func.setTypeT(this.t_type);
 		this.r_func.setFuncName(this.name);
-		this.r_func.setScope(codegen.getScope());
+		this.r_func.setScope(codegen.getScopeStr());
 		if(!this.gnrc_pars.isE()){
 			if(!this.gnrc_pars.genSymTb(codegen))
 				return false;
@@ -88,8 +91,6 @@ public class Stmt_DefFunc extends AST {
 				codegen.putVarInSymTb(s, r);
 			}
 		}
-		if(this.scope.equals("global"))
-			codegen.addtFuncInFile(this.r_func);
 		if(!this.stmt_list.genSymTb(codegen)) return false;
 		codegen.popBlock4Sym();
 		return true;
