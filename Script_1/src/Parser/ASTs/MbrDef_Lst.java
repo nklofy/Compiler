@@ -34,6 +34,7 @@ public class MbrDef_Lst extends AST {
 		return true;
 	}
 	public boolean genSymTb(CodeGenerator codegen)throws GenSymTblException{
+		this.setScope(codegen.getScope());
 		if(isE)return true;
 		for(MbrDef mbr:mbrs){
 			if(!mbr.genSymTb(codegen))

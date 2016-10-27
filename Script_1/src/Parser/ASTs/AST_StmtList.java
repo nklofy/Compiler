@@ -24,6 +24,7 @@ public class AST_StmtList extends AST {
 	}
 	public boolean genSymTb(CodeGenerator codegen)throws GenSymTblException{
 		codegen.pushBlock4Sym(this);
+		this.setScope(codegen.getScope());
 		for(int i=0;i<this.stmt_list.size();i++){
 			AST stmt=this.stmt_list.get(i);
 			if(!stmt.genSymTb(codegen)) return false;

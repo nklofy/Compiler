@@ -39,6 +39,7 @@ public class SgStmt_DefVar extends AST {
 		return true;
 	}
 	public boolean genSymTb(CodeGenerator codegen)throws GenSymTblException{
+		this.setScope(codegen.getScope());
 		if(this.pre_def!=null){
 			if(!this.pre_def.genSymTb(codegen))
 			return false;

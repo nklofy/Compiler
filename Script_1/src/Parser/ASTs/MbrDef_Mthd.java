@@ -29,6 +29,7 @@ public class MbrDef_Mthd extends AST {
 		return true;
 	}
 	public boolean genSymTb(CodeGenerator codegen)throws GenSymTblException{
+		this.setScope(codegen.getScope());
 		if(this.scps!=null&&!this.scps.genSymTb(codegen))
 			return false;
 		if(this.func_def!=null){

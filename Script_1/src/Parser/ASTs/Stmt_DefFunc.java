@@ -29,6 +29,8 @@ public class Stmt_DefFunc extends AST {
 	}
 	public boolean genCode(CodeGenerator codegen)throws GenCodeException{
 		codegen.pushBlock4Sym(this);
+		int old_scp=codegen.getScope();
+		this.setScope(codegen.addScope("function"));
 		int in=codegen.getLineNo();
 		ArrayList<IRCode> old_ir=codegen.getCodeList();
 		codegen.setCodeList(new ArrayList<IRCode>());
@@ -52,21 +54,25 @@ public class Stmt_DefFunc extends AST {
 		this.r_func.setFuncBody(codegen.getCodeList());
 		codegen.setCodeList(old_ir);
 		codegen.setLineNo(in);
+		codegen.setScope(old_scp);
 		codegen.popBlock4Sym();
 		return true;
 	}
 	public boolean genSymTb(CodeGenerator codegen)throws GenSymTblException{
-		this.scope=codegen.getScope();
 		this.r_func=new R_Function();
 		codegen.putFuncInSymTb(this.name, this.r_func);
-		if(codegen.getScopeStr().equals("global"))
+		if(codegen.getScopeStr().equals("global")){
 			codegen.addtFuncInFile(this.r_func);
+			this.r_func.setScope("global");
+		}
 		codegen.pushBlock4Sym(this);
+		int old_scp=codegen.getScope();
+		this.setScope(codegen.addScope("function"));
 		if(!this.type_exp.genSymTb(codegen))return false;
 		this.t_type=new T_Function();
 		this.r_func.setTypeT(this.t_type);
 		this.r_func.setFuncName(this.name);
-		this.r_func.setScope(codegen.getScopeStr());
+		//this.r_func.setScope(codegen.getScopeStr());
 		if(!this.gnrc_pars.isE()){
 			if(!this.gnrc_pars.genSymTb(codegen))
 				return false;
@@ -92,11 +98,14 @@ public class Stmt_DefFunc extends AST {
 			}
 		}
 		if(!this.stmt_list.genSymTb(codegen)) return false;
+		codegen.setScope(old_scp);
 		codegen.popBlock4Sym();
 		return true;
 	}
 	public boolean checkType(CodeGenerator codegen)throws TypeCheckException{
 		codegen.pushBlock4Sym(this);
+		int old_scp=codegen.getScope();
+		this.setScope(codegen.addScope("function"));
 		if(!this.type_exp.checkType(codegen))return false;
 		this.t_type.setRetType(this.type_exp.rst_type);
 		codegen.ret_types.addFirst(this.type_exp.rst_type);
@@ -110,6 +119,7 @@ public class Stmt_DefFunc extends AST {
 		if(!this.stmt_list.checkType(codegen)){
 			return false;
 		}
+		codegen.setScope(old_scp);
 		codegen.popBlock4Sym();
 		return true;
 	}

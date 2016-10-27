@@ -49,8 +49,6 @@ public class ExprAccs_Fld extends AST {
 			if(!this.var.genSymTb(codegen)) return false;
 			if(this.pre_fld==null){
 				//this.var.ref_type=this.ref_type;
-				if(codegen.getVarInSymTb(this.var.name)==null)
-					throw new GenSymTblException("Error: var not defined "+this.var.name);
 				this.rst_val=this.var.rst_val;
 				//this.rst_type=this.var.rst_type;
 				return true;
@@ -73,8 +71,8 @@ public class ExprAccs_Fld extends AST {
 				return false;
 			}
 			T_Type t=null;
-			if(this.var!=null){	// A.b a.b
-				if(codegen.getVarInSymTb(this.pre_fld.rst_val)!=null){//a
+			if(!this.pre_fld.rst_val.equals("this")&&this.var!=null){	// A.b a.b
+				if(codegen.getVarInSymTb(this.pre_fld.rst_val)!=null){//a later a.b
 					R_Variable r=codegen.getVarInSymTb(this.pre_fld.rst_val);
 					t=codegen.getTypeInSymTb(r.getVarType());
 					if(t.getKType()==T_Type.KType.t_cls){
@@ -87,7 +85,7 @@ public class ExprAccs_Fld extends AST {
 						if(t.getKType()!=T_Type.KType.t_cls)throw new TypeCheckException("TypeCheck Error: ");
 					}else
 						throw new TypeCheckException("TypeCheck Error: ");
-				}else if(codegen.getTypeInSymTb(this.pre_fld.rst_val)!=null){//A
+				}else if(codegen.getTypeInSymTb(this.pre_fld.rst_val)!=null){//A later A.b
 					t=codegen.getTypeInSymTb(this.pre_fld.rst_val);
 					if(t.getKType()==T_Type.KType.t_cls){
 						//
@@ -111,8 +109,9 @@ public class ExprAccs_Fld extends AST {
 				}else
 					throw new TypeCheckException("TypeCheck Error: ");		
 			}//this.a ...
+			t=codegen.getTypeInSymTb(codegen.getThisCls());
 			R_Variable r1=((T_Class)t).getFields().get(var.name);
-			if(r1==null)return false;
+			if(r1==null)throw new TypeCheckException("Type error: not defined field in class "+codegen.getThisCls()+" "+var.name);
 			this.rst_type=r1.getVarType();
 			T_Type t1=codegen.getTypeInSymTb(r1.getVarType());
 			if(this.ref_type!=null&&!codegen.getTypeInSymTb(this.ref_type).canAsnFrom(codegen, t1))
@@ -127,11 +126,19 @@ public class ExprAccs_Fld extends AST {
 			return true;
 		}	//if(this.pre_fld!=null)
 		else if(this.var!=null){	//a...
-			if(!this.var.checkType(codegen)){				
-				return false;
+			if(codegen.getThisCls()!=null){
+				T_Type t=codegen.getTypeInSymTb(codegen.getThisCls());
+				R_Variable r1=((T_Class)t).getFields().get(var.name);
+				if(r1==null)throw new TypeCheckException("Type error: not defined field "+var.name+"in class "+codegen.getThisCls()+" ");
+				this.rst_type=r1.getVarType();
 			}
-			this.rst_type=this.var.rst_type;
-			if(this.ref_type!=null&&!codegen.getTypeInSymTb(this.ref_type).canAsnFrom(codegen, codegen.getTypeInSymTb(this.rst_type)))
+			else{
+				if(!this.var.checkType(codegen))	
+						return false;
+				this.rst_type=this.var.rst_type;
+			}
+			T_Type t1=codegen.getTypeInSymTb(this.rst_type);
+			if(this.ref_type!=null&&!codegen.getTypeInSymTb(this.ref_type).canAsnFrom(codegen, t1))
 				throw new TypeCheckException("TypeCheck Error: ");
 		}else if(sign.equals("super")){	//super...
 			

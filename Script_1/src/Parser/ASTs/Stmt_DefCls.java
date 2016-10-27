@@ -16,7 +16,7 @@ public class Stmt_DefCls extends AST {
 	String name;
 	String rst_type;//for IR code
 	T_Class t_type;//for type checking
-	String scope="global";
+	//String scope="global";
 	
 	public boolean setClsDef(Scp_InfoLst scp_infolst,ExprPri_Var var,Gnrc_ParLst gnrc_parlst,
 			Cls_Extd_Lst extd_lst,Cls_Impl_Lst impl_lst,MbrDef_Lst mbrdef_lst){
@@ -31,7 +31,9 @@ public class Stmt_DefCls extends AST {
 	}
 	public boolean genCode(CodeGenerator codegen)throws GenCodeException{
 		codegen.pushBlock4Sym(this);
-		
+		int old_scp=codegen.getScope();
+		this.setScope(codegen.addScope("class"));
+		codegen.setThisCls(this.name);
 		int in=codegen.getLineNo();
 		ArrayList<IRCode> old_ir=codegen.getCodeList();
 		codegen.setCodeList(new ArrayList<IRCode>());
@@ -40,7 +42,7 @@ public class Stmt_DefCls extends AST {
 		//this.t_type.set.setFuncBody(codegen.getCodeList());
 		codegen.setCodeList(old_ir);
 		codegen.setLineNo(in);
-		codegen.popBlock4Sym();
+		//codegen.popBlock4Sym();
 
 		if(!this.mbrdef_lst.isE()){
 			for(MbrDef f:this.mbrdef_lst.mbrs){
@@ -49,10 +51,10 @@ public class Stmt_DefCls extends AST {
 				}
 			}
 		}
-		/*
-		
-		
-		codegen.popBlock4Sym();*/
+				
+		codegen.setScope(old_scp);
+		codegen.setThisCls(null);
+		codegen.popBlock4Sym();
 		return true;
 	}
 	public boolean genSymTb(CodeGenerator codegen)throws GenSymTblException{
@@ -63,7 +65,10 @@ public class Stmt_DefCls extends AST {
 		this.t_type.setKType(T_Type.KType.t_cls);
 		codegen.putTypeInSymTb(this.name, this.t_type);
 		codegen.addTypeInFile(this.t_type);
-		codegen.pushBlock4Sym(this);		
+		codegen.pushBlock4Sym(this);	
+		int old_scp=codegen.getScope();
+		this.setScope(codegen.addScope("class"));
+		codegen.setThisCls(this.name);
 		if(this.gnrc_parlst!=null&&!this.gnrc_parlst.genSymTb(codegen))
 			return false;
 		if(this.extd_lst!=null&&!this.extd_lst.genSymTb(codegen))
@@ -85,16 +90,21 @@ public class Stmt_DefCls extends AST {
 			this.t_type.setImplTypes(this.impl_lst.extd_types);			
 		}
 		
-		codegen.popBlock4Sym();
 		String s=this.name;
 		if(!this.gnrc_parlst.isE){
 			s+="<"+this.gnrc_parlst.types_name.size()+">";
 		}
 		this.t_type.setTypeSig(s);
+		codegen.setThisCls(null);
+		codegen.setScope(old_scp);
+		codegen.popBlock4Sym();
 		return true;
 	}
 	public boolean checkType(CodeGenerator codegen)throws TypeCheckException{
 		codegen.pushBlock4Sym(this);
+		int old_scp=codegen.getScope();
+		this.setScope(codegen.addScope("class"));
+		codegen.setThisCls(this.name);
 		if(this.gnrc_parlst!=null&&!this.gnrc_parlst.checkType(codegen))
 			return false;
 		if(this.extd_lst!=null&&!this.extd_lst.checkType(codegen))
@@ -155,6 +165,8 @@ public class Stmt_DefCls extends AST {
 		if(!this.t_type.checkAllMthd(codegen))
 			return false;
 		this.t_type.genTypeSig(codegen);
+		codegen.setScope(old_scp);
+		codegen.setThisCls(null);
 		codegen.popBlock4Sym();
 		return true;
 	}

@@ -25,7 +25,7 @@ public class ExprPri_Var extends AST {
 		return true;
 	}
 	public boolean checkType(CodeGenerator codegen)throws TypeCheckException{
-		R_Variable r=codegen.getVarInSymTb(name);
+		R_Variable r=codegen.getVarInSymTb(name);		
 		if(r!=null){
 			this.rst_type=r.getVarType();
 			if(this.ref_type!=null&&!codegen.getTypeInSymTb(this.ref_type).canAsnFrom(codegen, codegen.getTypeInSymTb(this.rst_type)))

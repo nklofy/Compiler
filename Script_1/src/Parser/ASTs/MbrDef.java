@@ -32,6 +32,7 @@ public class MbrDef extends AST {
 		return true;
 	}
 	public boolean genCode(CodeGenerator codegen)throws GenCodeException{
+		this.setScope(codegen.getScope());
 		switch(this.getASTType()){
 		case "MbrDef_Fld":
 			if(!this.fld.genCode(codegen))

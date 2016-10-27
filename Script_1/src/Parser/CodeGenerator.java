@@ -115,9 +115,7 @@ public class CodeGenerator {
 		this.scope = scope;
 	}*/
 	public boolean outOfScope(int scope){
-		if((this.scope&8)==8&&(scope&8)!=8){//both in local
-			return true;
-		}
+		
 		if((this.scope&2)==2&&(scope&2)!=2){//both in class
 			return true;
 		}
@@ -250,10 +248,8 @@ public class CodeGenerator {
 		if(s!=null)
 			name=s;
 		for(AST ast:this.block_4symtb){
-			if(this.outOfScope(ast.getScope()))
-				break;
 			r=ast.var_table.get(name);
-			if(r!=null)
+			if(r!=null&&!this.outOfScope(ast.getScope()))
 				return r;
 		}		
 		return null;
@@ -278,10 +274,8 @@ public class CodeGenerator {
 	public R_Function getFuncInSymTb(String name){
 		R_Function f=null;
 		for(AST ast:this.block_4symtb){
-			if(this.outOfScope(ast.getScope()))
-				break;
 			f=ast.func_table.get(name);
-			if(f!=null)
+			if(f!=null&&!this.outOfScope(ast.getScope()))
 				return f;
 		}
 		return null;
@@ -461,7 +455,20 @@ public class CodeGenerator {
 								out.println(f1.getFuncName()+" "+f1.getFuncSig());
 								ArrayList<IRCode> codes=f.getFuncBody();
 								for(IRCode code:codes){
-									out.println(code.getOpt()+" "+code.getOpd1()+" "+code.getOpd2()+" "+code.getOpd3());
+									StringBuilder sb=new StringBuilder(code.getOpt());
+									if(code.getOpd1()!=null){
+										sb.append(" ");
+										sb.append(code.getOpd1());
+									}
+									if(code.getOpd2()!=null){
+										sb.append(" ");
+										sb.append(code.getOpd2());
+									}
+									if(code.getOpd3()!=null){
+										sb.append(" ");
+										sb.append(code.getOpd3());
+									}
+									out.println(sb);
 								}
 								out.println("end");
 							}
@@ -469,7 +476,20 @@ public class CodeGenerator {
 							out.println(f.getFuncName()+" "+f.getFuncSig());
 							ArrayList<IRCode> codes=f.getFuncBody();
 							for(IRCode code:codes){
-								out.println(code.getOpt()+" "+code.getOpd1()+" "+code.getOpd2()+" "+code.getOpd3());
+								StringBuilder sb=new StringBuilder(code.getOpt());
+								if(code.getOpd1()!=null){
+									sb.append(" ");
+									sb.append(code.getOpd1());
+								}
+								if(code.getOpd2()!=null){
+									sb.append(" ");
+									sb.append(code.getOpd2());
+								}
+								if(code.getOpd3()!=null){
+									sb.append(" ");
+									sb.append(code.getOpd3());
+								}
+								out.println(sb);
 							}
 							out.println("end");
 						}
