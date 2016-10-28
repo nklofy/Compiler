@@ -39,12 +39,12 @@ public class MbrDef_Lst extends AST {
 		for(MbrDef mbr:mbrs){
 			if(!mbr.genSymTb(codegen))
 				return false;
-		//	if(mbr.getASTType().equals("MbrDef_Fld")){
-		//		this.fields.addAll(mbr.r_vars);
-		//	}else if(mbr.getASTType().equals("MbrDef_Mthd")){
-		//		this.methods.add(mbr.r_func);
-		//	}else
-		//		return false;
+			if(mbr.getASTType().equals("MbrDef_Fld")){
+				this.fields.addAll(mbr.r_vars);
+			}else if(mbr.getASTType().equals("MbrDef_Mthd")){
+				this.methods.add(mbr.r_func);
+			}else
+				return false;
 		}
 		return true;
 	}
@@ -53,12 +53,12 @@ public class MbrDef_Lst extends AST {
 		for(MbrDef mbr:mbrs){
 			if(!mbr.checkType(codegen))
 				return false;
-			if(mbr.getASTType().equals("MbrDef_Fld")){
-				this.fields.addAll(mbr.r_vars);
-			}else if(mbr.getASTType().equals("MbrDef_Mthd")){
-				this.methods.add(mbr.r_func);
-			}else
-				return false;
+		//	if(mbr.getASTType().equals("MbrDef_Fld")){
+		//		this.fields.addAll(mbr.r_vars);
+		//	}else if(mbr.getASTType().equals("MbrDef_Mthd")){
+		//		this.methods.add(mbr.r_func);
+		//	}else
+		//		return false;
 		}
 		return true;
 	}

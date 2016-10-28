@@ -71,25 +71,23 @@ public class Stmt_DefCls extends AST {
 		codegen.setThisCls(this.name);
 		if(this.gnrc_parlst!=null&&!this.gnrc_parlst.genSymTb(codegen))
 			return false;
-		if(this.extd_lst!=null&&!this.extd_lst.genSymTb(codegen))
-			return false;
-		if(this.impl_lst!=null&&!this.impl_lst.genSymTb(codegen))
-			return false;
-		if(!this.mbrdef_lst.isE()){
-			if(!this.mbrdef_lst.genSymTb(codegen))	return false;
-		}
-		//codegen.addTypeInFile(this.t_type);
 		if(!this.gnrc_parlst.isE()){
 			this.t_type.setGnrc(true);
 			this.t_type.setGnrcPars(this.gnrc_parlst.types_name);			
 		}
+		if(this.extd_lst!=null&&!this.extd_lst.genSymTb(codegen))
+			return false;
 		if(!this.extd_lst.isE()){
 			this.t_type.setExtdTypes(this.extd_lst.extd_types);
 		}
+		if(this.impl_lst!=null&&!this.impl_lst.genSymTb(codegen))
+			return false;
 		if(!this.impl_lst.isE()){
-			this.t_type.setImplTypes(this.impl_lst.extd_types);			
+				this.t_type.setImplTypes(this.impl_lst.extd_types);			
+			}
+		if(!this.mbrdef_lst.isE()){
+			if(!this.mbrdef_lst.genSymTb(codegen))	return false;
 		}
-		
 		String s=this.name;
 		if(!this.gnrc_parlst.isE){
 			s+="<"+this.gnrc_parlst.types_name.size()+">";
@@ -105,6 +103,10 @@ public class Stmt_DefCls extends AST {
 		int old_scp=codegen.getScope();
 		this.setScope(codegen.addScope("class"));
 		codegen.setThisCls(this.name);
+		if(!this.t_type.checkAllField(codegen))
+			return false;
+		if(!this.t_type.checkAllMthd(codegen))
+			return false;
 		if(this.gnrc_parlst!=null&&!this.gnrc_parlst.checkType(codegen))
 			return false;
 		if(this.extd_lst!=null&&!this.extd_lst.checkType(codegen))
@@ -129,8 +131,7 @@ public class Stmt_DefCls extends AST {
 					throw new TypeCheckException("type check error: "+this.var.name);
 			}
 		}
-		if(this.mbrdef_lst!=null&&!this.mbrdef_lst.isE()&&!this.mbrdef_lst.checkType(codegen))
-			return false;
+		
 		if(!this.t_type.checkAllImpl(codegen))
 			return false;
 		if(!this.t_type.checkAllExtd(codegen))
@@ -160,11 +161,12 @@ public class Stmt_DefCls extends AST {
 				}
 			}
 		}		
-		if(!this.t_type.checkAllField(codegen))
-			return false;
-		if(!this.t_type.checkAllMthd(codegen))
-			return false;
+		
 		this.t_type.genTypeSig(codegen);
+		
+		if(this.mbrdef_lst!=null&&!this.mbrdef_lst.isE()&&!this.mbrdef_lst.checkType(codegen))
+			return false;
+		
 		codegen.setScope(old_scp);
 		codegen.setThisCls(null);
 		codegen.popBlock4Sym();

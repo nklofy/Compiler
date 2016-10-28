@@ -1,4 +1,4 @@
-/*
+
 int fact(int a){
 	if(a==1) return 1;
 	else
@@ -11,10 +11,10 @@ int fib(int a){
 }
 int a=1;
 int b=fib(a);
-*/
+
 
 
 class T{
 int b;
-int fact(int b){return this.b;}
+int fact(int a){return this.b;}
 }

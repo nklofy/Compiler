@@ -51,10 +51,12 @@ public class MbrDef extends AST {
 		case "MbrDef_Fld":
 			if(!this.fld.genSymTb(codegen))
 				return false;
+			this.r_vars=this.fld.var_def.r_vars;
 			break;
 		case "MbrDef_Mthd":
 			if(!this.mthd.genSymTb(codegen))
 				return false;
+			this.r_func=this.mthd.func_def.r_func;	
 			break;
 		default:return false;
 		}
@@ -64,11 +66,9 @@ public class MbrDef extends AST {
 		switch(this.getASTType()){
 		case "MbrDef_Fld":
 			if(!this.fld.checkType(codegen)) return false;
-			this.r_vars=this.fld.var_def.r_vars;
 			break;
 		case "MbrDef_Mthd":
 			if(!this.mthd.checkType(codegen)) return false;	
-			this.r_func=this.mthd.func_def.r_func;	
 			break;
 		default:return false;
 		}

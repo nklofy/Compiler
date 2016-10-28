@@ -5,8 +5,9 @@ fields 1
 b:int
 methods 1
 fact int(int)
-defFuncPar int b null
-retExp int b null
+defFuncPar int a
+getField %20 this b
+retExp int
 end
 defFunction fact int(int) global
 defFuncPar int a
@@ -38,10 +39,6 @@ pushArg %15
 invoke %17 int
 add_i %11 %14 %17
 retExp int %11
-end
-defFunction fact int(int) global
-defFuncPar int b
-retExp int b
 end
 load_i %18 1
 mov int a %18
