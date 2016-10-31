@@ -186,6 +186,7 @@ public class CodeGenerator {
 		}
 		return true;
 	}
+	
 	public T_Type getTypeTopSymTb(String name){
 		T_Type t=null;
 		if(this.types_init.containsKey(name))
@@ -199,7 +200,7 @@ public class CodeGenerator {
 			return t;
 
 		return null;
-	}
+	}	
 	public T_Type getTypeInSymTb(String name){
 		T_Type t=null;
 		if(this.types_init.containsKey(name))
@@ -215,7 +216,7 @@ public class CodeGenerator {
 		if(this.typeTb_allFile.containsKey(name))
 			return this.typeTb_allFile.get(name);
 		return null;
-	}
+	}	
 	public boolean putTypeInSymTb(String name,T_Type type){
 		AST ast=this.block_4symtb.getFirst();
 		if(ast.type_table.containsKey(name))
@@ -229,6 +230,7 @@ public class CodeGenerator {
 		this.typeTb_allFile.put(name, type);
 		return true;
 	}
+	
 	public R_Variable getVarTopSymTb(String name){
 		R_Variable r=null;
 		String s=FindFuncArgTb(name);
@@ -241,7 +243,7 @@ public class CodeGenerator {
 			return r;
 
 		return null;
-	}
+	}	
 	public R_Variable getVarInSymTb(String name){
 		R_Variable r=null;
 		String s=FindFuncArgTb(name);
@@ -251,7 +253,18 @@ public class CodeGenerator {
 			r=ast.var_table.get(name);
 			if(r!=null&&!this.outOfScope(ast.getScope()))
 				return r;
-		}		
+		}	
+		if(r==null&&this.this_cls!=null){
+			r=getFldInCls(name);
+		}
+		return null;
+	}	
+	public R_Variable getFldInCls(String name){
+		T_Type t=this.getTypeInSymTb(this_cls);
+		if(t instanceof T_Class){
+			T_Class t1=(T_Class)t;
+			R_Variable r=t1.getField(this, name);
+		}
 		return null;
 	}
 	public boolean putVarInSymTb(String name, R_Variable r){
@@ -260,7 +273,8 @@ public class CodeGenerator {
 			return false;
 		ast.var_table.put(name, r);
 		return true;
-	}	
+	}
+	
 	public R_Function getFuncTopSymTb(String name){
 		R_Function f=null;
 		AST ast=this.block_4symtb.peek();
@@ -280,14 +294,18 @@ public class CodeGenerator {
 		}
 		return null;
 	}
+	public R_Function getMthdInCls(String name){
+		
+		return null;
+	}
 	public boolean putFuncInSymTb(String name, R_Function f){//f can be polymorphic
 		AST ast=this.block_4symtb.getFirst();
 		if(ast.func_table.containsKey(name)){
 			R_Function f1=ast.func_table.get(name);
 			if(f.isMulti()){
 				for(R_Function f2:f.getMulti().values()){
-					if(f1.isCntnNameType(f2))
-						return false;
+					//if(f1.isCntnNameType(f2))
+					//	return false;
 					f1.addFuncR(f2);
 				}
 				return true;
@@ -299,6 +317,7 @@ public class CodeGenerator {
 			ast.func_table.put(name, f);
 		return true;
 	}
+	
 	public AST peekBlock4Sym() {
 		return block_4symtb.peek();
 	}
@@ -436,23 +455,23 @@ public class CodeGenerator {
 					out.println(s1.substring(0,s1.length()-1));					
 				}	
 				if(!t1.getFields().isEmpty()){
-					out.println("fields "+t1.getFields().size());
+					out.println("defFields "+t1.getFields().size());
 					for(String name:t1.getFields().keySet()){
-						out.println(name+":"+(t1.getFields().get(name).getVarType()));
+						out.println("defField "+name+":"+(t1.getFields().get(name).getVarType()));
 					}
 				}
 				if(!t1.getMethods().isEmpty()){
-					out.println("methods "+t1.getMethods().size());
+					out.println("defMethods "+t1.getMethods().size());
 					for(String name:t1.getMethods().keySet()){
 						R_Function f=t1.getMethods().get(name);
 						if(f.isDummy()){
-							out.println(f.getFuncName()+" "+f.getFuncSig());
+							out.println("defMethod "+f.getFuncName()+" "+f.getFuncSig());
 							out.println("dummy");
 						}
 						if(f.isMulti()){							
 							for(String s:f.getMulti().keySet()){
 								R_Function f1=f.getMulti().get(s);
-								out.println(f1.getFuncName()+" "+f1.getFuncSig());
+								out.println("defMethod "+f1.getFuncName()+" "+f1.getFuncSig());
 								ArrayList<IRCode> codes=f.getFuncBody();
 								for(IRCode code:codes){
 									StringBuilder sb=new StringBuilder(code.getOpt());
@@ -473,7 +492,7 @@ public class CodeGenerator {
 								out.println("end");
 							}
 						}else{	
-							out.println(f.getFuncName()+" "+f.getFuncSig());
+							out.println("defMethod "+f.getFuncName()+" "+f.getFuncSig());
 							ArrayList<IRCode> codes=f.getFuncBody();
 							for(IRCode code:codes){
 								StringBuilder sb=new StringBuilder(code.getOpt());
@@ -509,17 +528,17 @@ public class CodeGenerator {
 					out.println(s1.substring(0,s1.length()-1));
 				}
 				if(!t2.getMethods().isEmpty()){
-					out.println("methods "+t2.getMethods().size());
+					out.println("defMethods "+t2.getMethods().size());
 					for(String name:t2.getMethods().keySet()){
 						R_Function f=t2.getMethods().get(name);
 						if(f.isDummy()){
-							out.println(f.getFuncName()+" "+f.getFuncSig()+" abstruct");
+							out.println("defMethod "+f.getFuncName()+" "+f.getFuncSig()+" abstruct");
 							//out.println("dummy");
 						}
 						if(f.isMulti()){							
 							for(String s:f.getMulti().keySet()){
 								R_Function f1=f.getMulti().get(s);
-								out.println(f1.getFuncName()+" "+f1.getFuncSig()+" abstruct");
+								out.println("defMethod "+f1.getFuncName()+" "+f1.getFuncSig()+" abstruct");
 								//out.println("dummy");
 							}
 						}

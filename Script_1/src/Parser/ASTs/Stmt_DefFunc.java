@@ -119,6 +119,16 @@ public class Stmt_DefFunc extends AST {
 		if(!this.stmt_list.checkType(codegen)){
 			return false;
 		}
+		
+		R_Function f=codegen.getFuncTopSymTb(this.name);
+		if(f.isMulti()){
+			int c1=0;
+			for(R_Function f1:f.getMulti().values()){
+				if(f1.isEqNameType(this.r_func))
+					c1++;
+			}
+			if(c1>1) throw new TypeCheckException("error type checking: function type repetitility "+this.name);
+		}
 		codegen.setScope(old_scp);
 		codegen.popBlock4Sym();
 		return true;

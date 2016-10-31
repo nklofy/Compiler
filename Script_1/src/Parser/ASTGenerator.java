@@ -1109,22 +1109,22 @@ public class ASTGenerator {
 		break;
 //		147	crtAppAcc 5 3 1
 	case "crtAppAcc":
-		ast7=symbs.get(7).ast;
 		ast5=symbs.get(5).ast;
 		ast3=symbs.get(3).ast;
 		ast1=symbs.get(1).ast;
 		ExprAccs_App ast_t147=new ExprAccs_App();
-		ast_t147.lnkApp((ExprAccs)ast7,(Gnrc_ArgLst) ast5,(ExprPri_Var)ast3,(FuncApp_ArgLst)ast1);
+		ast_t147.lnkApp((ExprAccs)ast5,null,(ExprPri_Var)ast3,(FuncApp_ArgLst)ast1);
 		ast=ast_t147;
 		break;
 //		148	crtAppApp 5 3 1
 	case "lnkAppGnrc":
+		ast8=symbs.get(8).ast;
 		ast5=symbs.get(5).ast;
 		ast3=symbs.get(3).ast;
 		ast1=symbs.get(1).ast;
 		ExprAccs_App ast_t148=new ExprAccs_App();
-		ast_t148.lnkApp((ExprAccs)ast5,null,(ExprPri_Var)ast3,(FuncApp_ArgLst)ast1);
-		ast=ast_t148;
+		ast_t148.lnkApp((ExprAccs)ast8,(Gnrc_ArgLst) ast5,(ExprPri_Var)ast3,(FuncApp_ArgLst)ast1);
+		ast=ast_t148;		
 		break;
 //		149	crtAppVar 3 1	
 	case "crtAppGnrc":

@@ -103,10 +103,7 @@ public class Stmt_DefCls extends AST {
 		int old_scp=codegen.getScope();
 		this.setScope(codegen.addScope("class"));
 		codegen.setThisCls(this.name);
-		if(!this.t_type.checkAllField(codegen))
-			return false;
-		if(!this.t_type.checkAllMthd(codegen))
-			return false;
+
 		if(this.gnrc_parlst!=null&&!this.gnrc_parlst.checkType(codegen))
 			return false;
 		if(this.extd_lst!=null&&!this.extd_lst.checkType(codegen))
@@ -137,35 +134,41 @@ public class Stmt_DefCls extends AST {
 		if(!this.t_type.checkAllExtd(codegen))
 			return false;
 		
-		if(!this.mbrdef_lst.isE()){
-			HashMap<String,R_Function> ms=this.t_type.getMethods();
-			HashMap<String,R_Variable> vs=this.t_type.getFields();
-			for(R_Function f:this.mbrdef_lst.methods){
-				
-				if(ms.containsKey(f.getFuncName())){
-					R_Function r=ms.get(f.getFuncName());
-					if(r.isCntnNameType(f)){
-						throw new TypeCheckException("type error: repetitive method"+f.getFuncName());
-					}else{
-						r.addFuncR(f);
-					}					
-				}else{
-					ms.put(f.getFuncName(), f);
-				}
-			}			
-			for(R_Variable v:this.mbrdef_lst.fields){
-				if(vs.containsKey(v.getVarName())){
-					throw new TypeCheckException("type error: repetitive field"+v.getVarName());
-				}else{
-					vs.put(v.getVarName(),v);
-				}
-			}
-		}		
+			
 		
 		this.t_type.genTypeSig(codegen);
 		
-		if(this.mbrdef_lst!=null&&!this.mbrdef_lst.isE()&&!this.mbrdef_lst.checkType(codegen))
+		if(this.mbrdef_lst!=null&&!this.mbrdef_lst.checkType(codegen)){
+			if(!this.mbrdef_lst.isE()){
+				HashMap<String,R_Function> ms=this.t_type.getMethods();
+				HashMap<String,R_Variable> vs=this.t_type.getFields();
+				for(R_Function f:this.mbrdef_lst.methods){
+					
+					if(ms.containsKey(f.getFuncName())){
+						R_Function r=ms.get(f.getFuncName());
+						if(r.isCntnNameType(f)){
+							throw new TypeCheckException("type error: repetitive method"+f.getFuncName());
+						}else{
+							r.addFuncR(f);
+						}					
+					}else{
+						ms.put(f.getFuncName(), f);
+					}
+				}			
+				for(R_Variable v:this.mbrdef_lst.fields){
+					if(vs.containsKey(v.getVarName())){
+						throw new TypeCheckException("type error: repetitive field"+v.getVarName());
+					}else{
+						vs.put(v.getVarName(),v);
+					}
+				}
+			}	
 			return false;
+		}
+//		if(!this.t_type.checkAllField(codegen))
+//		return false;
+//	if(!this.t_type.checkAllMthd(codegen))
+//		return false;
 		
 		codegen.setScope(old_scp);
 		codegen.setThisCls(null);

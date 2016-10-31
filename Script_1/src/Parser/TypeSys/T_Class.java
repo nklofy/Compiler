@@ -108,6 +108,22 @@ public class T_Class extends T_Type {
 		}
 		return true;
 	}
+	public R_Variable getField(CodeGenerator codegen, String name){
+		if(this.fields.containsKey(name))return this.fields.get(name);
+		for(String s:this.all_extd){
+			T_Class t=(T_Class) codegen.getTypeInSymTb(s);
+			if(t.fields.containsKey(name))return t.fields.get(name);
+		}
+		return null;
+	}
+	public R_Function getMethod(CodeGenerator codegen, String name){
+		if(this.methods.containsKey(name))return this.methods.get(name);
+		for(String s:this.all_extd){
+			T_Class t=(T_Class) codegen.getTypeInSymTb(s);
+			if(this.methods.containsKey(name))return this.methods.get(name);			
+		}
+		return null;
+	}
 	public boolean checkAllMthd(CodeGenerator codegen){
 		for(String s:this.impl_types){//make sure all interface are implemented
 			T_Interface t=(T_Interface) codegen.getTypeInSymTb(s);

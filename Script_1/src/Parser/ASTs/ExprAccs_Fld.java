@@ -53,6 +53,8 @@ public class ExprAccs_Fld extends AST {
 				//this.rst_type=this.var.rst_type;
 				return true;
 			}
+			else
+				this.rst_val="%"+codegen.getTmpSn();
 		}
 		else if(sign.equals("super")){
 			this.rst_val="super";
@@ -117,7 +119,7 @@ public class ExprAccs_Fld extends AST {
 			T_Type t1=codegen.getTypeInSymTb(r1.getVarType());
 			if(this.ref_type!=null&&!codegen.getTypeInSymTb(this.ref_type).canAsnFrom(codegen, t1))
 				throw new TypeCheckException("TypeCheck Error: ");
-			this.rst_val="%"+codegen.getTmpSn();
+			
 			R_Variable r0=new R_Variable();
 			r0.setVarName(this.rst_val);
 			r0.setVarType(this.rst_type);
