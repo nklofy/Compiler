@@ -89,12 +89,15 @@ public class ExprAccs_App extends AST {
 			f=codegen.getFuncInSymTb(this.var.name);
 			if(f==null)
 				throw new TypeCheckException("Type Check Error: not defined function "+this.var.name);
-			if(this.ptr_scp.equals("this")&&!codegen.isScopeIn("class")){
-				throw new TypeCheckException("Type Check Error: not in class scope"+this.var.name);
-			}else if(this.pre_accs==null&&!codegen.isScopeIn("class")){
-				this.ptr_scp="global";
-			}else 
-				throw new TypeCheckException("Type Check Error: scope "+this.var.name);
+			if(this.ptr_scp==null){
+				if(codegen.isScopeIn("global"))
+					this.ptr_scp="global";
+				else
+					throw new TypeCheckException("Type Check Error: scope "+this.var.name);
+			}else if(this.ptr_scp.equals("this")){
+				if(!codegen.isScopeIn("class"))
+					throw new TypeCheckException("Type Check Error: not in class scope"+this.var.name);
+			}
 		}else{//if this.pre_accs!=null&&!this.pre_accs.rst_val.equals("this")
 			if(this.pre_accs.rst_type.equals("class")){//A.class.f()
 				T_Generic t=new T_Generic();

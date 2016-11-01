@@ -90,10 +90,17 @@ public class CodeGenerator {
 		this.scope=scope;
 	}
 	public boolean isScopeIn(String s){
-		if((this.scope&1)==1&&s.equals("global"))
-			return true;
-		else if((this.scope&2)==2&&s.equals("class"))
-			return true;
+		switch(s){
+		case "global":
+			if((this.scope&2)==0)
+				return true;
+			break;
+		case "class":
+			if((this.scope&2)==2)
+				return true;
+			break;
+		default:break;	
+		}
 		return false;
 	}
 /*	public boolean isInCls() {
