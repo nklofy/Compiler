@@ -56,7 +56,7 @@ public class CodeGenerator {
 	public int getScope(){
 		return this.scope;
 	}
-	public String getScopeStr(){
+/*	public String getScopeStr(){
 		if((this.scope&8)==8)
 			return "local";
 		if((this.scope&4)==4)
@@ -66,7 +66,7 @@ public class CodeGenerator {
 		if((this.scope&1)==1)
 			return "global";
 		return null;
-	}
+	}*/
 	public int addScope(String name){
 		switch(name){
 		case "global":
@@ -89,7 +89,13 @@ public class CodeGenerator {
 	public void setScope(int scope){
 		this.scope=scope;
 	}
-	
+	public boolean isScopeIn(String s){
+		if((this.scope&1)==1&&s.equals("global"))
+			return true;
+		else if((this.scope&2)==2&&s.equals("class"))
+			return true;
+		return false;
+	}
 /*	public boolean isInCls() {
 		return in_cls;
 	}
@@ -306,13 +312,13 @@ public class CodeGenerator {
 				for(R_Function f2:f.getMulti().values()){
 					//if(f1.isCntnNameType(f2))
 					//	return false;
-					f1.addFuncR(f2);
+					if(!f1.addFuncR(f2)) return false;
 				}
 				return true;
 			}
-			if(f1.isCntnNameType(f))
-				return false;
-			f1.addFuncR(f);			
+			//if(f1.isCntnNameType(f))
+			//	return false;
+			if(!f1.addFuncR(f)) return false;			
 		}else
 			ast.func_table.put(name, f);
 		return true;

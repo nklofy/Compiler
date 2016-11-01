@@ -47,7 +47,7 @@ public class ExprAccs_Fld extends AST {
 		}
 		if(this.var!=null){
 			if(!this.var.genSymTb(codegen)) return false;
-			if(this.pre_fld==null){
+			if(this.pre_fld==null){		//a
 				//this.var.ref_type=this.ref_type;
 				this.rst_val=this.var.rst_val;
 				//this.rst_type=this.var.rst_type;

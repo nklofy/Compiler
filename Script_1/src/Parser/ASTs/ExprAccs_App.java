@@ -51,14 +51,17 @@ public class ExprAccs_App extends AST {
 		if(this.ptr_scp.equals("this")){
 			code=new IRCode("pushThis",null,null,null);
 			codegen.addCode(code);
-		}
+		}//TODO
 		code=new IRCode("invoke",this.rst_val,this.rst_type,null);
 		codegen.addCode(code);
 		return true;
 	}
 	public boolean genSymTb(CodeGenerator codegen)throws GenSymTblException{
-		if(this.pre_accs!=null&&!this.pre_accs.genSymTb(codegen))
-			return false;
+		if(this.pre_accs!=null){
+			if(!this.pre_accs.genSymTb(codegen))return false;
+			if(this.pre_accs.rst_val.equals("this"))
+				this.ptr_scp="this";
+		}
 		if(this.gnrc_args!=null&&!this.gnrc_args.genSymTb(codegen))
 			return false;
 		if(this.arg_lst!=null&&!this.arg_lst.genSymTb(codegen))
@@ -86,14 +89,13 @@ public class ExprAccs_App extends AST {
 			f=codegen.getFuncInSymTb(this.var.name);
 			if(f==null)
 				throw new TypeCheckException("Type Check Error: not defined function "+this.var.name);
-			if(f.isMethod()){
-				this.ptr_scp="this";
-			}else if(this.pre_accs==null){
+			if(this.ptr_scp.equals("this")&&!codegen.isScopeIn("class")){
+				throw new TypeCheckException("Type Check Error: not in class scope"+this.var.name);
+			}else if(this.pre_accs==null&&!codegen.isScopeIn("class")){
 				this.ptr_scp="global";
-			}else if(this.pre_accs.rst_val.equals("this")){
-				throw new TypeCheckException("Type Check Error: not defined function "+this.var.name);
-			}
-		}else{//if(this.pre_accs==null)
+			}else 
+				throw new TypeCheckException("Type Check Error: scope "+this.var.name);
+		}else{//if this.pre_accs!=null&&!this.pre_accs.rst_val.equals("this")
 			if(this.pre_accs.rst_type.equals("class")){//A.class.f()
 				T_Generic t=new T_Generic();
 				t.setCoreType("class"); //t is class<A>

@@ -87,12 +87,36 @@ public class Stmt_DefCls extends AST {
 			}
 		if(!this.mbrdef_lst.isE()){
 			if(!this.mbrdef_lst.genSymTb(codegen))	return false;
+			//if(!this.mbrdef_lst.isE()){
+			HashMap<String,R_Function> ms=this.t_type.getMethods();
+			HashMap<String,R_Variable> vs=this.t_type.getFields();
+			for(R_Function f:this.mbrdef_lst.methods){
+
+				if(ms.containsKey(f.getFuncName())){
+					R_Function r=ms.get(f.getFuncName());
+					if(r.isCntnNameType(f)){
+						throw new GenSymTblException("symtable error: repetitive method"+f.getFuncName());
+					}else{
+						r.addFuncR(f);
+					}					
+				}else{
+					ms.put(f.getFuncName(), f);
+				}
+			}			
+			for(R_Variable v:this.mbrdef_lst.fields){
+				if(vs.containsKey(v.getVarName())){
+					throw new GenSymTblException("symtable error: repetitive field"+v.getVarName());
+				}else{
+					vs.put(v.getVarName(),v);
+				}
+			}
+			//}	
 		}
-		String s=this.name;
-		if(!this.gnrc_parlst.isE){
-			s+="<"+this.gnrc_parlst.types_name.size()+">";
-		}
-		this.t_type.setTypeSig(s);
+		//String s=this.name;
+		//if(!this.gnrc_parlst.isE){
+		//	s+="<"+this.gnrc_parlst.types_name.size()+">";
+		//}
+		this.t_type.genTypeSig(codegen);
 		codegen.setThisCls(null);
 		codegen.setScope(old_scp);
 		codegen.popBlock4Sym();
@@ -136,39 +160,15 @@ public class Stmt_DefCls extends AST {
 		
 			
 		
-		this.t_type.genTypeSig(codegen);
 		
 		if(this.mbrdef_lst!=null&&!this.mbrdef_lst.checkType(codegen)){
-			if(!this.mbrdef_lst.isE()){
-				HashMap<String,R_Function> ms=this.t_type.getMethods();
-				HashMap<String,R_Variable> vs=this.t_type.getFields();
-				for(R_Function f:this.mbrdef_lst.methods){
-					
-					if(ms.containsKey(f.getFuncName())){
-						R_Function r=ms.get(f.getFuncName());
-						if(r.isCntnNameType(f)){
-							throw new TypeCheckException("type error: repetitive method"+f.getFuncName());
-						}else{
-							r.addFuncR(f);
-						}					
-					}else{
-						ms.put(f.getFuncName(), f);
-					}
-				}			
-				for(R_Variable v:this.mbrdef_lst.fields){
-					if(vs.containsKey(v.getVarName())){
-						throw new TypeCheckException("type error: repetitive field"+v.getVarName());
-					}else{
-						vs.put(v.getVarName(),v);
-					}
-				}
-			}	
+			
 			return false;
 		}
-//		if(!this.t_type.checkAllField(codegen))
-//		return false;
-//	if(!this.t_type.checkAllMthd(codegen))
-//		return false;
+		if(!this.t_type.checkAllField(codegen))
+			throw new TypeCheckException("type check error: all fields "+this.name);
+		if(!this.t_type.checkAllMthd(codegen))
+			throw new TypeCheckException("type check error: all methods "+this.name);
 		
 		codegen.setScope(old_scp);
 		codegen.setThisCls(null);

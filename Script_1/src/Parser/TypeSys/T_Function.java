@@ -46,6 +46,9 @@ public class T_Function extends T_Type {
 		this.setTypeSig(s);
 		return this.getTypeSig();
 	}
+	public void genTypeSig(CodeGenerator codegen){
+		this.genFuncSig(codegen);
+	}
 	public boolean isEqType(T_Function t){//TODO
 		if(this.getTypeSig().equals("!dynamic")||t.getTypeSig().equals("!dynamic"))
 			return true;

@@ -115,7 +115,7 @@ public class T_Class extends T_Type {
 			if(t.fields.containsKey(name))return t.fields.get(name);
 		}
 		return null;
-	}
+	}	
 	public R_Function getMethod(CodeGenerator codegen, String name){
 		if(this.methods.containsKey(name))return this.methods.get(name);
 		for(String s:this.all_extd){
@@ -124,33 +124,46 @@ public class T_Class extends T_Type {
 		}
 		return null;
 	}
+	
 	public boolean checkAllMthd(CodeGenerator codegen){
+		HashMap<String,R_Function> methods=new HashMap<String,R_Function>();
+		methods.putAll(this.methods);
 		for(String s:this.impl_types){//make sure all interface are implemented
 			T_Interface t=(T_Interface) codegen.getTypeInSymTb(s);
 			for(String name:t.getMethods().keySet()){
-				if(!this.methods.containsKey(name)) return false;
-				if(!this.methods.get(name).isEqNameType(t.getMethods().get(name))){
+				if(!methods.containsKey(name)) return false;
+				R_Function f1=methods.get(name);
+				R_Function f2=t.getMethods().get(name);
+				if(!f1.isMulti()&&!f2.isMulti()&&!f1.isEqNameType(f2)){
 					return false;
-				}				
+				}else if(!f1.isMulti()&&f2.isMulti()){
+					if(!f2.isCntnNameType(f1))return false;
+				}else if(f1.isMulti()&&!f2.isMulti()){
+					if(!f1.isCntnNameType(f2))return false;
+				}
 			}
 		}
 		for(String s:this.extd_types){//gen all methods in this type, including super classes's
 			T_Class t= (T_Class) codegen.getTypeInSymTb(s);
 			for(String name:t.methods.keySet()){
 				R_Function r=t.methods.get(name);
-				if(!this.methods.containsKey(name)){
-					this.methods.put(name, r);
+				if(!methods.containsKey(name)){
+					methods.put(name, r);
 				}else{
-					R_Function r1=this.methods.get(name);
+					R_Function r1=methods.get(name);
 					if(r.isMulti()){
 						for(String ts:r.getMulti().keySet()){
 							if(!r1.isCntnNameType(r.getMulti().get(ts))){
 								r1.addFuncR(r.getMulti().get(ts));
 							}
+							else
+								return false;
 						}
 					}else{
 						if(!r1.isCntnNameType(r))
 							r1.addFuncR(r);
+						else
+							return false;
 					}
 				}
 			}
@@ -158,12 +171,15 @@ public class T_Class extends T_Type {
 		return true;
 	}
 	public boolean checkAllField(CodeGenerator codegen){//gen all fields in this type, including super classes's
+		HashMap<String,R_Variable> fields=new HashMap<String,R_Variable>();
+		fields.putAll(this.fields);
 		for(String s:this.extd_types){
 			T_Class t = (T_Class) codegen.getTypeInSymTb(s);
 			for(String name:t.fields.keySet()){
-				if(!this.fields.containsKey(name)){
-					this.fields.put(name, t.fields.get(name));
-				}
+				if(!fields.containsKey(name)){
+					fields.put(name, t.fields.get(name));
+				}else
+					return false;
 			}
 		}
 		return true;

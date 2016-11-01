@@ -60,8 +60,7 @@ public class Stmt_DefFunc extends AST {
 	}
 	public boolean genSymTb(CodeGenerator codegen)throws GenSymTblException{
 		this.r_func=new R_Function();
-		codegen.putFuncInSymTb(this.name, this.r_func);
-		if(codegen.getScopeStr().equals("global")){
+		if(codegen.isScopeIn("global")){
 			codegen.addtFuncInFile(this.r_func);
 			this.r_func.setScope("global");
 		}
@@ -72,6 +71,7 @@ public class Stmt_DefFunc extends AST {
 		this.t_type=new T_Function();
 		this.r_func.setTypeT(this.t_type);
 		this.r_func.setFuncName(this.name);
+		this.t_type.setRetType(this.type_exp.rst_type);
 		//this.r_func.setScope(codegen.getScopeStr());
 		if(!this.gnrc_pars.isE()){
 			if(!this.gnrc_pars.genSymTb(codegen))
@@ -97,6 +97,11 @@ public class Stmt_DefFunc extends AST {
 				codegen.putVarInSymTb(s, r);
 			}
 		}
+		this.r_func.setFuncSig(this.t_type.genFuncSig(codegen));
+		codegen.popBlock4Sym();		
+		if(!codegen.putFuncInSymTb(this.name, this.r_func))
+			throw new GenSymTblException("gensymtable error: define function"+this.name+":"+this.r_func.getFuncSig());
+		codegen.pushBlock4Sym(this);
 		if(!this.stmt_list.genSymTb(codegen)) return false;
 		codegen.setScope(old_scp);
 		codegen.popBlock4Sym();
@@ -107,7 +112,6 @@ public class Stmt_DefFunc extends AST {
 		int old_scp=codegen.getScope();
 		this.setScope(codegen.addScope("function"));
 		if(!this.type_exp.checkType(codegen))return false;
-		this.t_type.setRetType(this.type_exp.rst_type);
 		codegen.ret_types.addFirst(this.type_exp.rst_type);
 		if(!this.gnrc_pars.isE()&&!this.gnrc_pars.checkType(codegen)){
 			return false;
@@ -115,11 +119,10 @@ public class Stmt_DefFunc extends AST {
 		if(!this.pars.isE()&&this.pars.checkType(codegen)){
 			return false;
 		}
-		this.r_func.setFuncSig(this.t_type.genFuncSig(codegen));
 		if(!this.stmt_list.checkType(codegen)){
 			return false;
 		}
-		
+		/*
 		R_Function f=codegen.getFuncTopSymTb(this.name);
 		if(f.isMulti()){
 			int c1=0;
@@ -128,7 +131,7 @@ public class Stmt_DefFunc extends AST {
 					c1++;
 			}
 			if(c1>1) throw new TypeCheckException("error type checking: function type repetitility "+this.name);
-		}
+		}*/
 		codegen.setScope(old_scp);
 		codegen.popBlock4Sym();
 		return true;

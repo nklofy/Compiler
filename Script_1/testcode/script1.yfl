@@ -16,6 +16,6 @@ int b=fib(a);
 
 class T{
 int b;
-int f(int b){return this.b;}
-int g(){return f(b);}
+int f(int b){this.b=b;return this.b;}
+int g(){return this.f(b);}
 }
