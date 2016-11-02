@@ -8,8 +8,8 @@ public class T_Class extends T_Type {
 	private LinkedList<String> extd_types=new LinkedList<String>();
 	private HashMap<String,R_Function> methods=new HashMap<String,R_Function>();
 	private HashMap<String,R_Variable> fields=new HashMap<String,R_Variable>();
-	private HashSet<String> all_impl=new HashSet<String>();	
-	private HashSet<String> all_extd=new HashSet<String>();
+	HashSet<String> all_impl=new HashSet<String>();	
+	HashSet<String> all_extd=new HashSet<String>();
 	private String scope="global";
 	
 	
@@ -70,11 +70,14 @@ public class T_Class extends T_Type {
 	
 	
 	public boolean canCastFrom(CodeGenerator codegen,T_Type type2){
-		if(this.all_extd.contains(type2.getTypeName())||this.all_impl.contains(type2.getTypeName()))
+		if(type2==this) return true;
+		else if(this.all_extd.contains(type2.getTypeName())||this.all_impl.contains(type2.getTypeName()))
 			return true;
-		else{
-			if(type2.canCastFrom(codegen, this))
-				return true;
+		else if(type2.getKType()==T_Type.KType.t_cls){
+			if(((T_Class)type2).all_extd.contains(this.getTypeName())
+					||((T_Class)type2).all_impl.contains(this.getTypeName()))return true;			
+		}else if(type2.getKType()==T_Type.KType.t_intf){
+			if(((T_Interface)type2).all_extd.contains(this.getTypeName()))return true;
 		}
 		return false;
 	}

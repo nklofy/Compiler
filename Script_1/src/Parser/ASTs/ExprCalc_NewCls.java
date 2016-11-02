@@ -67,10 +67,10 @@ public class ExprCalc_NewCls extends AST {
 			return false;
 		}
 		if(codegen.getTypeInSymTb(this.rst_type).getKType()!=T_Type.KType.t_cls)
-			return false;
+			throw new TypeCheckException("type check error: new "+this.rst_type);
 		if(!codegen.getTypeInSymTb(this.ref_type).canAsnFrom(codegen, 
 				codegen.getTypeInSymTb(this.rst_type)))
-			return false;
+			throw new TypeCheckException("type check error: new "+this.rst_type);
 		return true;
 	}
 }

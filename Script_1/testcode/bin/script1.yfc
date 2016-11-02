@@ -6,17 +6,14 @@ defField b:int
 defMethods 2
 defMethod f int(int)
 defFuncPar int b
-getField %20 this b
-mov int %20 b
-getField %21 this b
-retExp int %21
+getField %18 this b
+mov int %18 b
+getField %19 this b
+retExp int %19
 end
 defMethod g int()
-getFunc f int(int) this
-pushArg b
-pushThis
-invoke %22 int
-retExp int %22
+getField %20 this b
+retExp int %20
 end
 defFunction fact int(int) global
 defFuncPar int a
@@ -49,10 +46,11 @@ invoke %17 int
 add_i %11 %14 %17
 retExp int %11
 end
-load_i %18 1
-mov int a %18
-getFunc fib int(int) global
-pushArg a
-invoke %19 int
-mov int b %19
+newObj T %21 null
+mov T a %21
+getField %22 a b
+mov int b %22
+getFunc g int() a
+invoke %23 int
+mov int g %23
 end

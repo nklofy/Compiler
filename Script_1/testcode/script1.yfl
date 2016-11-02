@@ -9,13 +9,16 @@ int fib(int a){
 	else
 	return fib(a-1)+fib(a-2);
 }
-int a=1;
-int b=fib(a);
+//int a=1;
+//int b=fib(a);
 
 
 
 class T{
 int b;
 int f(int b){this.b=b;return this.b;}
-int g(){return this.f(b);}
+int g(){return this.b;}
 }
+T a =new T();
+int b=a.b;
+int g=a.g();

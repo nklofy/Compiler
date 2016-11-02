@@ -7,7 +7,7 @@ import Parser.*;
 public class T_Interface extends T_Type {
 	private LinkedList<String> extd_types=new LinkedList<String>();
 	private HashMap<String,R_Function> methods=new HashMap<String,R_Function>();
-	private HashSet<String> all_extd=new HashSet<String>();
+	HashSet<String> all_extd=new HashSet<String>();
 	private String scope="global";
 	
 	

@@ -42,7 +42,7 @@ public class ExprUnr_Cast extends AST {
 		if(!this.accs.checkType(codegen))
 			return false;
 		if(!codegen.getTypeInSymTb(this.ref_type).canCastFrom(codegen, codegen.getTypeInSymTb(this.rst_type)))
-			return false;
+			throw new TypeCheckException("type check error: cast "+this.rst_type);
 		return true;
 	}
 }
