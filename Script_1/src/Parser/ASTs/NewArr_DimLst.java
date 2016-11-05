@@ -8,7 +8,8 @@ import Parser.TypeSys.TypeCheckException;
 
 public class NewArr_DimLst extends AST {
 	LinkedList<ExprCalc_Add> dims;
-	String rst_val;
+	String rst_val="";
+	int dim_n=0;
 	
 	public boolean addDim(ExprCalc_Add ast){
 		if(this.dims==null){
@@ -18,10 +19,8 @@ public class NewArr_DimLst extends AST {
 		return true;
 	}
 	public boolean genCode(CodeGenerator codegen)throws GenCodeException{
-		this.rst_val="";
 		for(ExprCalc_Add dim:dims){
-			dim.genCode(codegen);
-			this.rst_val+=dim.rst_val+",";
+			dim.genCode(codegen);			
 		}
 		return true;
 	}
@@ -30,7 +29,10 @@ public class NewArr_DimLst extends AST {
 			if(!dim.genSymTb(codegen))
 				return false;
 			dim.ref_type="int";
+			this.rst_val+=dim.rst_val+",";
+			this.dim_n++;
 		}
+		this.rst_val=this.rst_val.substring(0,this.rst_val.length()-1);
 		return true;
 	}
 	public boolean checkType(CodeGenerator codegen)throws TypeCheckException{

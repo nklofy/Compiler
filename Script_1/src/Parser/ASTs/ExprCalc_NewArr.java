@@ -9,6 +9,7 @@ public class ExprCalc_NewArr extends AST {
 	NewArr_DimLst dim_lst;
 	NewArr_InitLst init_lst;
 	String rst_val;
+	String ele_type;
 	String rst_type;
 	String ref_type;
 	
@@ -39,16 +40,12 @@ public class ExprCalc_NewArr extends AST {
 				return false;
 			if(!this.dim_lst.genSymTb(codegen))
 				return false;
-			this.rst_type="["+codegen.getTmpSn();
-			T_Array t=new T_Array();
-			t.setEleType(this.type_exp.rst_type);
-			t.setDims(this.dim_lst.dims.size());
-			codegen.putTypeInSymTb(this.rst_type, t);			
+			this.rst_val="%"+codegen.getTmpSn();	
 		}
 		if(this.init_lst!=null){
 			if(!this.init_lst.genSymTb(codegen))
 				return false;
-			this.rst_type=this.init_lst.rst_type;
+			//this.rst_type=this.init_lst.rst_type;
 		}
 		return true;
 	}
@@ -56,16 +53,18 @@ public class ExprCalc_NewArr extends AST {
 		if(this.type_exp!=null&&this.dim_lst!=null){
 			if(!this.type_exp.checkType(codegen))
 				return false;
+			this.ele_type=this.type_exp.rst_type;//rst_type allready input to symtable by type_exp	
 			if(!this.dim_lst.checkType(codegen))
 				return false;
 		}
+		this.rst_type=this.ele_type+"["+this.dim_lst.dim_n+"]";
 		if(this.init_lst!=null){
 			if(!this.init_lst.checkType(codegen))
 				return false;
 		}
-		if(!codegen.getTypeInSymTb(this.rst_type).getTypeSig().equals(
+		if(!this.rst_type.equals(
 				codegen.getTypeInSymTb(this.ref_type).getTypeSig()))
-			return false;
+						throw new TypeCheckException("type error: match "+this.ref_type);
 		return true;
 	}
 }

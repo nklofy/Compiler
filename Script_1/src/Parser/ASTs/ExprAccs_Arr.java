@@ -27,7 +27,7 @@ public class ExprAccs_Arr extends AST {
 			return false;
 		if(!this.dim_lst.genSymTb(codegen))
 			return false;
-		this.rst_type="["+codegen.getTmpSn();
+		//this.rst_type="["+codegen.getTmpSn();
 		this.rst_val="%"+codegen.getTmpSn();
 		T_Array t=new T_Array();
 		t.setKType(T_Type.KType.t_arr);
@@ -48,7 +48,7 @@ public class ExprAccs_Arr extends AST {
 		if(t1.getKType()!=T_Type.KType.t_arr)
 			return false;
 		int d1=((T_Array)t1).getDims();//pre_field's dimension
-		if(d1<=this.dim_lst.dims.size())
+		if(d1<this.dim_lst.dim_n)
 			return false;
 		int d2=d1-this.dim_lst.dims.size();//rst_val's dimension
 		T_Array t2=(T_Array)codegen.getTypeInSymTb(this.rst_type);

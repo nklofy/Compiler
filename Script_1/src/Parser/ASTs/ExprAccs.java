@@ -56,28 +56,24 @@ public class ExprAccs extends AST {
 	public boolean genSymTb(CodeGenerator codegen)throws GenSymTblException{
 		switch(this.getASTType()){
 		case "ExprAccs_Fld":
-			this.fld.ref_type=this.ref_type;
 			if(!this.fld.genSymTb(codegen))
 				return false;
 			this.rst_val=this.fld.rst_val;
 			this.rst_type=this.fld.rst_type;
 			break;
 		case "ExprAccs_Pri":
-			this.pri.ref_type=this.ref_type;
 			if(!this.pri.genSymTb(codegen))
 				return false;
 			this.rst_type=this.pri.rst_type;
 			this.rst_val=this.pri.rst_val;
 			break;
 		case "ExprAccs_Arr":
-			this.arr.ref_type=this.ref_type;
 			if(!this.arr.genSymTb(codegen))
 				return false;
 			this.rst_type=this.arr.rst_type;
 			this.rst_val=this.arr.rst_val;
 			break;
 		case "ExprAccs_App":
-			this.app.ref_type=this.ref_type;
 			if(!this.app.genSymTb(codegen))
 				return false;
 			this.rst_type=this.app.rst_type;
@@ -91,21 +87,25 @@ public class ExprAccs extends AST {
 	public boolean checkType(CodeGenerator codegen)throws TypeCheckException{
 		switch(this.getASTType()){
 		case "ExprAccs_Fld":
+			this.fld.ref_type=this.ref_type;
 			if(!this.fld.checkType(codegen))
 				return false;
 			this.rst_type=this.fld.rst_type;
 			break;
 		case "ExprAccs_Pri":
+			this.pri.ref_type=this.ref_type;
 			if(!this.pri.checkType(codegen))
 				return false;
 			this.rst_type=this.pri.rst_type;
 			break;
 		case "ExprAccs_Arr":
+			this.arr.ref_type=this.ref_type;
 			if(!this.arr.checkType(codegen))
 				return false;
 			this.rst_type=this.arr.rst_type;
 			break;			
 		case "ExprAccs_App":
+			this.app.ref_type=this.ref_type;
 			if(!this.app.checkType(codegen))
 				return false;
 			this.rst_type=this.app.rst_type;

@@ -18,8 +18,8 @@ public class TypeExp_Gnrc extends AST {
 		return true;
 	}
 	public boolean genCode(CodeGenerator codegen)throws GenCodeException{		
-		IRCode code=new IRCode("GnrcType",this.rst_type,this.idn_type.rst_type,this.args.rst_val);
-		codegen.addCode(code);
+		//IRCode code=new IRCode("GnrcType",this.rst_type,this.idn_type.rst_type,this.args.rst_val);
+		//codegen.addCode(code);
 		return true;
 	}
 	public boolean genSymTb(CodeGenerator codegen)throws GenSymTblException{

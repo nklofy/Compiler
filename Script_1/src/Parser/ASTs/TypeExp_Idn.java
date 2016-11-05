@@ -19,8 +19,8 @@ public class TypeExp_Idn extends AST {
 	}
 	public boolean genCode(CodeGenerator codegen)throws GenCodeException{
 		if(this.type_idn!=null){
-			IRCode code=new IRCode("PkgType",this.rst_type,this.var.name,this.rst_pkg);
-			codegen.addCode(code);
+			//IRCode code=new IRCode("PkgType",this.rst_type,this.var.name,this.rst_pkg);
+			//codegen.addCode(code);
 		}
 		return true;
 	}

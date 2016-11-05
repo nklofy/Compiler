@@ -1,4 +1,4 @@
-
+/*
 int fact(int a){
 	if(a==1) return 1;
 	else
@@ -22,3 +22,6 @@ int g(){return this.b;}
 T a =new T();
 int b=a.b;
 int g=a.g();
+*/
+int[] as=new int[10];
+int b=as[0];
