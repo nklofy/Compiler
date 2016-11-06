@@ -12,16 +12,23 @@ int fib(int a){
 //int a=1;
 //int b=fib(a);
 
-
-
-class T{
-int b;
-int f(int b){this.b=b;return this.b;}
-int g(){return this.b;}
-}
-T a =new T();
-int b=a.b;
-int g=a.g();
+int[][] as=new int[10][10];
+as[0][0]=6;
+int b=as[1][1];
 */
-int[] as=new int[10];
-int b=as[0];
+
+class A{
+int b;
+int f(int b){this.b=b+1;return this.b;}
+}
+class B extends A{
+int c;
+int f(int b){this.b=b+2;return this.b;}
+int g(){return this.c;}
+}
+A a =new A();
+B b=new B();
+a=b;
+int c=a.c;
+int g=a.g();
+

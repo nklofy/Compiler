@@ -104,6 +104,7 @@ public class T_Class extends T_Type {
 	public boolean checkAllExtd(CodeGenerator codegen){//no ring inheriting in extd types
 		for(String s:this.extd_types){
 			T_Class t=(T_Class) codegen.getTypeInSymTb(s);
+			this.all_extd.add(t.getTypeName());
 			for(String name:t.getAllExtd()){
 				if(this.all_extd.contains(name))return false;
 				this.all_extd.add(name);
@@ -128,7 +129,7 @@ public class T_Class extends T_Type {
 		return null;
 	}
 	
-	public boolean checkAllMthd(CodeGenerator codegen){
+/*	public boolean checkAllMthd(CodeGenerator codegen){//skip these and spec them undefined actions
 		HashMap<String,R_Function> methods=new HashMap<String,R_Function>();
 		methods.putAll(this.methods);
 		for(String s:this.impl_types){//make sure all interface are implemented
@@ -163,10 +164,10 @@ public class T_Class extends T_Type {
 								return false;
 						}
 					}else{
-						if(!r1.isCntnNameType(r))
+						//if(!r1.isCntnNameType(r))
 							r1.addFuncR(r);
-						else
-							return false;
+						//else
+						//	return false;
 					}
 				}
 			}
@@ -186,5 +187,5 @@ public class T_Class extends T_Type {
 			}
 		}
 		return true;
-	}
+	}*/
 }

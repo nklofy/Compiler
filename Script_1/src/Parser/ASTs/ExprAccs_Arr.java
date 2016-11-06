@@ -51,12 +51,22 @@ public class ExprAccs_Arr extends AST {
 		if(d1<this.dim_lst.dim_n)
 			return false;
 		int d2=d1-this.dim_lst.dims.size();//rst_val's dimension
-		T_Array t2=(T_Array)codegen.getTypeInSymTb(this.rst_type);
-		t2.setDims(d2);
-		t2.setEleType(((T_Array)t1).getEleType());
-		t2.genTypeSig(codegen);
-		if(!codegen.getTypeInSymTb(this.ref_type).canAsnFrom(codegen,t2))
-			return false;
-		return true;
+		if(d2==0){
+			this.rst_type=((T_Array)t1).getEleType();
+			if(this.ref_type==null)return true;
+			if(codegen.getTypeInSymTb(this.ref_type).canAsnFrom(codegen,codegen.getTypeInSymTb(this.rst_type)))
+				return true;
+			else
+				throw new TypeCheckException("type error: array exp "+this.pre_fld.rst_val);
+		}else{
+			String elet=((T_Array)t1).getEleType()+"["+d2+"]";
+			this.rst_type=elet;
+			if(this.ref_type==null)return true;
+			T_Type t2=codegen.getTypeInSymTb(this.ref_type);
+			if(t2.getKType()==T_Type.KType.t_arr&&((T_Array)t2).getEleType().equals(elet)&&((T_Array)t2).getDims()==d2){
+				return true;
+			}else
+				throw new TypeCheckException("type error: array exp "+this.pre_fld.rst_val);			
+		}
 	}
 }

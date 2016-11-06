@@ -768,7 +768,7 @@ public class ASTGenerator {
 	case "lnkDimLst":
 		ast1=symbs.get(1).ast;
 		ast3=symbs.get(3).ast;
-		NewArr_DimLst ast_t100=(NewArr_DimLst)ast1;
+		NewArr_DimLst ast_t100=(NewArr_DimLst)ast3;
 		ast_t100.addDim((ExprCalc_Add)ast1);
 		ast=ast_t100;
 		break;

@@ -232,8 +232,8 @@ public class CodeGenerator {
 	}	
 	public boolean putTypeInSymTb(String name,T_Type type){
 		AST ast=this.block_4symtb.getFirst();
-		if(ast.type_table.containsKey(name))
-			return false;
+		//if(ast.type_table.containsKey(name))
+		//	return false;
 		ast.type_table.put(name, type);
 		return true;
 	}
@@ -282,8 +282,8 @@ public class CodeGenerator {
 	}
 	public boolean putVarInSymTb(String name, R_Variable r){
 		AST ast=this.block_4symtb.getFirst();
-		if(ast.var_table.containsKey(name))
-			return false;
+		//if(ast.var_table.containsKey(name))
+		//	return false;
 		ast.var_table.put(name, r);
 		return true;
 	}
@@ -315,17 +315,17 @@ public class CodeGenerator {
 		AST ast=this.block_4symtb.getFirst();
 		if(ast.func_table.containsKey(name)){
 			R_Function f1=ast.func_table.get(name);
-			if(f.isMulti()){
-				for(R_Function f2:f.getMulti().values()){
+			//if(f.isMulti()){
+			//	for(R_Function f2:f.getMulti().values()){
 					//if(f1.isCntnNameType(f2))
 					//	return false;
-					if(!f1.addFuncR(f2)) return false;
-				}
-				return true;
-			}
+			//		f1.addFuncR(f2);
+			//	}
+			//	return true;
+			//}
 			//if(f1.isCntnNameType(f))
 			//	return false;
-			if(!f1.addFuncR(f)) return false;			
+			f1.addFuncR(f);			
 		}else
 			ast.func_table.put(name, f);
 		return true;

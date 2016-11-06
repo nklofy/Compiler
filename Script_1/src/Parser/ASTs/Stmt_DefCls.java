@@ -165,10 +165,10 @@ public class Stmt_DefCls extends AST {
 			
 			return false;
 		}
-		if(!this.t_type.checkAllField(codegen))
-			throw new TypeCheckException("type check error: all fields "+this.name);
-		if(!this.t_type.checkAllMthd(codegen))
-			throw new TypeCheckException("type check error: all methods "+this.name);
+	//	if(!this.t_type.checkAllField(codegen))//skip these and spec them undefined actions
+	//		throw new TypeCheckException("type check error: all fields "+this.name);
+	//	if(!this.t_type.checkAllMthd(codegen))
+	//		throw new TypeCheckException("type check error: all methods "+this.name);
 		
 		codegen.setScope(old_scp);
 		codegen.setThisCls(null);

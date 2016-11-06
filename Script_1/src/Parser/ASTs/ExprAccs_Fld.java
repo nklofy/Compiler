@@ -113,7 +113,7 @@ public class ExprAccs_Fld extends AST {
 			}//this.a ...
 			else
 				t=codegen.getTypeInSymTb(codegen.getThisCls());
-			R_Variable r1=((T_Class)t).getFields().get(var.name);
+			R_Variable r1=((T_Class)t).getField(codegen,var.name);
 			if(r1==null)throw new TypeCheckException("Type error: not defined field in class "+codegen.getThisCls()+" "+var.name);
 			this.rst_type=r1.getVarType();
 			T_Type t1=codegen.getTypeInSymTb(r1.getVarType());
@@ -130,9 +130,9 @@ public class ExprAccs_Fld extends AST {
 		}	//if(this.pre_fld!=null)
 		else if(this.var!=null){	//a...
 			if(codegen.getThisCls()!=null){
-				T_Type t=codegen.getTypeInSymTb(codegen.getThisCls());
-				R_Variable r1=((T_Class)t).getFields().get(var.name);
-				if(r1==null)throw new TypeCheckException("Type error: not defined field "+var.name+"in class "+codegen.getThisCls()+" ");
+				//T_Type t=codegen.getTypeInSymTb(codegen.getThisCls());
+				R_Variable r1=codegen.getVarInSymTb(var.name);
+				if(r1==null)throw new TypeCheckException("Type error: not defined field "+var.name+" in class "+codegen.getThisCls()+" ");
 				this.rst_type=r1.getVarType();
 			}
 			else{
