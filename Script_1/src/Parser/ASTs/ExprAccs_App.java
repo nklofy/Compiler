@@ -123,6 +123,8 @@ public class ExprAccs_App extends AST {
 				T_Type t=codegen.getTypeInSymTb(codegen.getVarInSymTb(this.pre_accs.rst_val).getVarType());
 				if(t.getKType()==T_Type.KType.t_cls){
 					f=((T_Class)t).getMethods().get(this.func_name);
+				}else if(t.getKType()==T_Type.KType.t_intf){
+					f=((T_Interface)t).getMethods().get(this.func_name);
 				}else if(t.getKType()==T_Type.KType.t_gnrc){
 					T_Type t1=codegen.getTypeInSymTb(((T_Generic)t).getCoreType());
 					f=((T_Class)t1).getMethods().get(this.var.name);

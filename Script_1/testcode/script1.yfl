@@ -24,11 +24,17 @@ int f(int b){this.b=b+1;return this.b;}
 class B extends A{
 int c;
 int f(int b){this.b=b+2;return this.b;}
-int g(){return this.c;}
 }
-A a =new A();
-B b=new B();
-a=b;
+interface D{
+int g(){return 0;}
+}
+class C extends B implements D{
+int g(){return 1;}
+}
+A a=new C();
+B b=new C();
+D d=new C();
 int c=a.b;
-int g=a.f(1);
-
+int f=a.f(1);
+f=b.f(2);
+int g=d.g();

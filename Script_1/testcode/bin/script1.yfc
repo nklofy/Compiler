@@ -15,10 +15,10 @@ retExp int %4
 end
 defClass B global
 extends 1
-nullA
+A
 defFields 1
 defField c:int
-defMethods 2
+defMethods 1
 defMethod f int(int)
 defFuncPar int b
 getField %5 this b
@@ -28,19 +28,36 @@ mov int %5 %6
 getField %8 this b
 retExp int %8
 end
+defInterface D global
+defMethods 1
+defMethod g int() abstruct
+defClass C global
+extends 1
+B
+impliments 1
+D
+defMethods 1
 defMethod g int()
-getField %9 this c
-retExp int %9
+load_i %10 1
+retExp int %10
 end
-newObj A %10 null
-mov A a %10
-newObj B %11 null
-mov B b %11
-mov A a b
-getField %12 a b
-mov int c %12
+newObj C %11 null
+mov A a %11
+newObj C %12 null
+mov B b %12
+newObj C %13 null
+mov D d %13
+getField %14 a b
+mov int c %14
 getFunc f int(int) a
-pushArg %13
-invoke %14 int
-mov int g %14
+pushArg %15
+invoke %16 int
+mov int f %16
+getFunc f int(int) b
+pushArg %17
+invoke %18 int
+mov int f %18
+getFunc g int() d
+invoke %19 int
+mov int g %19
 end

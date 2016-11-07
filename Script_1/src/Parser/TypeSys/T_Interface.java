@@ -34,9 +34,19 @@ public class T_Interface extends T_Type {
 		this.scope = scope;
 	}
 	public void genTypeSig(CodeGenerator codegen) {
-		String s=codegen.getTypeInSymTb(this.getTypeName()).getTypeSig();
-		if(this.isGnrc())
-			s=s+"<"+this.getGnrcPars().size()+">";
+		//String s=codegen.getTypeInSymTb(this.getTypeName()).getTypeSig();
+		//if(this.isGnrc())
+		//	s=s+"<"+this.getGnrcPars().size()+">";
+		//this.setTypeSig(s);
+		String s="";
+		if(this.isGnrc()){
+			s+="<";
+			for(String g:this.getGnrcPars()){
+				s+=codegen.getTypeInSymTb(g).getTypeSig()+",";
+			}
+			s=s.substring(0,s.length()-1)+">";
+		}
+		s+=this.getTypeName();
 		this.setTypeSig(s);
 	}
 	

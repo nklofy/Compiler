@@ -49,7 +49,7 @@ public class Gnrc_ParLst extends AST {
 				return false;
 			this.types_name.add(p.var.name);
 			if(all_ns.contains(p.var.name))
-				return false;
+					throw new GenSymTblException("gensymtable error: "+p.var.name);
 			all_ns.add(p.var.name);
 		}
 		return true;

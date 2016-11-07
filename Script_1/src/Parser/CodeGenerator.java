@@ -453,7 +453,7 @@ public class CodeGenerator {
 				out.println("defClass "+t1.getTypeSig()+" "+t1.getScope());
 				if(!t1.getExtdTypes().isEmpty()){
 					out.println("extends "+t1.getExtdTypes().size());	
-					String s1=null;
+					String s1="";
 					for(String s2:t1.getExtdTypes()){
 						s1+=s2+",";
 					}
@@ -461,7 +461,7 @@ public class CodeGenerator {
 				}
 				if(!t1.getImplTypes().isEmpty()){
 					out.println("impliments "+t1.getImplTypes().size());
-					String s1=null;
+					String s1="";
 					for(String s2:t1.getImplTypes()){						
 						s1+=s2+",";
 					}
@@ -534,7 +534,7 @@ public class CodeGenerator {
 				out.println("defInterface "+t2.getTypeSig()+" "+t2.getScope());
 				if(!t2.getExtdTypes().isEmpty()){
 					out.println("extends "+t2.getExtdTypes().size());	
-					String s1=null;
+					String s1="";
 					for(String s2:t2.getExtdTypes()){
 						s1+=s2+",";
 					}

@@ -70,7 +70,7 @@ public class ExprCalc_NewCls extends AST {
 			throw new TypeCheckException("type check error: new "+this.rst_type);
 		if(!codegen.getTypeInSymTb(this.ref_type).canAsnFrom(codegen, 
 				codegen.getTypeInSymTb(this.rst_type)))
-			throw new TypeCheckException("type check error: new "+this.rst_type);
+			throw new TypeCheckException("type check error: cannt cast new "+this.rst_type+" to "+this.ref_type);
 		return true;
 	}
 }

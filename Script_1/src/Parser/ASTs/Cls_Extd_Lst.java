@@ -34,7 +34,7 @@ public class Cls_Extd_Lst extends AST {
 		for(TypeExp_Idn t:exts){
 			if(!t.genSymTb(codegen))return false;
 			if(all_t.contains(t.rst_type))
-				return false;
+					throw new GenSymTblException("gensymtable error: "+t.rst_type);
 			this.extd_types.add(t.rst_type);
 			all_t.add(t.rst_type);
 		}
