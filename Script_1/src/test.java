@@ -1,5 +1,6 @@
 import Parser.*;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
@@ -13,7 +14,7 @@ public class test {
 		parser.analyzeAST("grammar_AST.txt");		//System.out.println("import grammar_AST.txt");
 		parser.analyzeLex("out_lexAnalyzer.txt");	//System.out.println("import out_lexAnalyzer.txt");
 		System.out.println("parser ready");
-		String file_name="testcode/script1";
+		String file_name="testcode"+File.separator+"script1";
 		if(args.length>0){
 			if(args[0].equals("-c"))
 				file_name=args[1];

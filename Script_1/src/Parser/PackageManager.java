@@ -63,7 +63,8 @@ public class PackageManager {
 	
 	
 	public String[] getDir(LinkedList<String> pck_names, String dir){//get dir of ..../src	
-		String[] dirs=dir.split(File.separator);
+		String dir_m=dir.replace(File.separator, "\\"+File.separator);
+		String[] dirs=dir_m.split("\\"+File.separator);
 		String[] dir_r=new String[2];
 		int l=pck_names.size();
 		int l1=dirs.length;

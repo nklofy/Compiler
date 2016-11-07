@@ -1,56 +1,46 @@
 89597046
 script1
-defClass T global
+defClass A global
 defFields 1
 defField b:int
+defMethods 1
+defMethod f int(int)
+defFuncPar int b
+getField %1 this b
+load_i %3 1
+add_i %2 b %3
+mov int %1 %2
+getField %4 this b
+retExp int %4
+end
+defClass B global
+extends 1
+nullA
+defFields 1
+defField c:int
 defMethods 2
 defMethod f int(int)
 defFuncPar int b
-getField %18 this b
-mov int %18 b
-getField %19 this b
-retExp int %19
+getField %5 this b
+load_i %7 2
+add_i %6 b %7
+mov int %5 %6
+getField %8 this b
+retExp int %8
 end
 defMethod g int()
-getField %20 this b
-retExp int %20
+getField %9 this c
+retExp int %9
 end
-defFunction fact int(int) global
-defFuncPar int a
-load_i %2 1
-EQ %1 a %2
-if %1 5 8
-load_i %3 1
-retExp int %3
-goto 13
-getFunc fact int(int) global
-pushArg %5
-invoke %7 int
-mul_i %4 a %7
-retExp int %4
-end
-defFunction fib int(int) global
-defFuncPar int a
-load_i %9 3
-LT %8 a %9
-if %8 5 8
-load_i %10 1
-retExp int %10
-goto 16
-getFunc fib int(int) global
-pushArg %12
+newObj A %10 null
+mov A a %10
+newObj B %11 null
+mov B b %11
+mov A a b
+getField %12 a b
+mov int c %12
+getFunc f int(int) a
+pushArg %13
 invoke %14 int
-getFunc fib int(int) global
-pushArg %15
-invoke %17 int
-add_i %11 %14 %17
-retExp int %11
-end
-newObj T %21 null
-mov T a %21
-getField %22 a b
-mov int b %22
-getFunc g int() a
-invoke %23 int
-mov int g %23
+mov int g %14
 end

@@ -100,7 +100,7 @@ public class Stmt_DefFunc extends AST {
 		this.r_func.setFuncSig(this.t_type.genFuncSig(codegen));
 		codegen.popBlock4Sym();		
 		R_Function r=codegen.getFuncTopSymTb(this.name);
-		if(r.isCntnNameType(this.r_func))
+		if(r!=null&&r.isCntnNameType(this.r_func))
 			throw new GenSymTblException("gensymtable error: define function"+this.name+":"+this.r_func.getFuncSig());
 		codegen.putFuncInSymTb(this.name, this.r_func);
 		codegen.pushBlock4Sym(this);

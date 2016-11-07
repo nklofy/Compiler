@@ -3,6 +3,12 @@ import java.io.*;
 public class test1 {
 
 	public static void main(String[] args) {
+		String s="a\\\\b";
+		//String s2=s.replace('\\', '-');
+		String[] ss=s.split("\\\\");
+		for(String s1:ss){
+			System.out.println(s1);
+		}
 		// TODO Auto-generated method stub
 	/*	File dir=new File("/home/luyunfei");
 

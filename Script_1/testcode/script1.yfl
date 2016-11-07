@@ -29,6 +29,6 @@ int g(){return this.c;}
 A a =new A();
 B b=new B();
 a=b;
-int c=a.c;
-int g=a.g();
+int c=a.b;
+int g=a.f(1);
 
