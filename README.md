@@ -4,8 +4,8 @@
 
 
 1. toolkit: Parser generator and tokenizer generator.
-  -GLR parser generator. Write grammers in the file "grammer.txt", then run Parsergenerator.java. shift-reduce table will be generated in "out_grammar.txt". Before run AST＿Generator, define actions in "grammar_AST.txt" which should be aligned with actions in ASTGenerator.java.
-  -Tokenizer generator. Write all words and regex expressions in the file "tokens.txt", then run LexAnalyzer.java. APIs in tokenizer.java can be used for get tokens in files.
+  - GLR parser generator. Write grammers in the file "grammer.txt", then run Parsergenerator.java. shift-reduce table will be generated in "out_grammar.txt". Before run AST＿Generator, define actions in "grammar_AST.txt" which should be aligned with actions in ASTGenerator.java.
+  - Tokenizer generator. Write all words and regex expressions in the file "tokens.txt", then run LexAnalyzer.java. APIs in tokenizer.java can be used for get tokens in files.
 
 
 2. script and type definition. script part and type definition can be in arbitrary order in the source file. In script part, var define and assignment statments, control structures, fucntion definition and calling are almost the same with convensional programming languages. In type definition part, class and interface are defined, as well as their field and method members.   
