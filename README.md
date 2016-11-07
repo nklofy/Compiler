@@ -32,5 +32,6 @@
   
 
  Compiler and interpreter, with tools of LR(1) parser generator and tokenizer generator. These tools are used for compiling a script program language "YFLang". The IR is just represented by AST. Lex and syntax specifications are defined in some txt files, as well as the parsing rules. The script languege is like a subset of C languese, including if...else... expression, while(...){...} expression, variable defining and assignment, function defining and calling, recursive function, for example: 
->int fact(int a){if(a<1) return 1; return a*fact(a-1);}
->int fib(int a){if(a<2) return 1; return fib(a-1)+fib(a-2);}
+```
+int fact(int a){if(a<1) return 1; return a*fact(a-1);}
+int fib(int a){if(a<2) return 1; return fib(a-1)+fib(a-2);}
