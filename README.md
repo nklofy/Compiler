@@ -17,14 +17,23 @@
 
 4. Staticly type checking. basic types, expression, class, interface, generic types, function type.
 
+5. 
+
+6. lambda expression. high order function. function variable.
 
 
-5. lambda expression. high order function. function variable.
+7. IR code. Three address linear code. 
 
-
-6. IR code. Three address linear code. 
-
-  
+###example code:
+```
+class A<T1>{
+  T1 f(){return new T1();}
+}
+class B<T2>{
+  T2 g(){return new T2();}
+}
+A<B<A<int>>> ga=new A<B<A<int>>>();
+int i = ga.f().g().f();
 
 
 ##older version: 
