@@ -11,7 +11,7 @@
 2. script and type definition. script part and type definition can be in arbitrary order in the source file. In script part, var define and assignment statments, control structures, fucntion definition and calling are almost the same with convensional programming languages. In type definition part, class and interface are defined, as well as their field and method members.   
 
 
-3. package management. A source file is end with ".yfl" postfix, and IR codes is end with ".yfc" postfix. Usually yfl files are in "src" file folder (or not), yfc files are in "bin" file folder which is generated automatically(no matter if yfl files in src folder). Current package and imported packages should be in the front of yfl file. Classes and interfaces in other packages can be used when imported, but variables and function in script part in other packages can not be imported.  
+3. package management. A source file is end with ".yfl" postfix, and IR codes is end with ".yfc" postfix. Usually yfl files are in "src" file folder (or not), yfc files are in "bin" file folder which is generated automatically(no matter if yfl files in src folder). Current package and imported packages should be in the front of yfl file. Classes and interfaces in other packages can be used when imported, but variables and function in script part in other packages can not be imported. There is a demo in  "testcode" dir, with "script1.yfl" as sorce file and "bin/script1.yfc" as object file. Run src/test.java to watch the compilation process.
 
 
 
