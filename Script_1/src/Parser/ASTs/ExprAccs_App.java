@@ -52,7 +52,7 @@ public class ExprAccs_App extends AST {
 			code=new IRCode("pushThis",null,null,null);
 			codegen.addCode(code);
 		}//TODO
-		code=new IRCode("invoke",this.rst_val,this.rst_type,null);
+		code=new IRCode("invoke",this.rst_val,null,null);
 		codegen.addCode(code);
 		return true;
 	}
@@ -98,7 +98,7 @@ public class ExprAccs_App extends AST {
 				if(!codegen.isScopeIn("class"))
 					throw new TypeCheckException("Type Check Error: not in class scope"+this.var.name);
 			}
-		}else{//if this.pre_accs!=null&&!this.pre_accs.rst_val.equals("this")
+		}else{			//a.f() 
 			if(this.pre_accs.rst_type.equals("class")){//A.class.f()
 				T_Generic t=new T_Generic();
 				t.setCoreType("class"); //t is class<A>
@@ -117,8 +117,8 @@ public class ExprAccs_App extends AST {
 				codegen.gnrc_arg.addFirst(new HashMap<String,String>());
 				codegen.gnrc_arg.getFirst().put("T", this.ptr_scp);
 				this.inGType=true;
-			}else if(codegen.getVarInSymTb(this.pre_accs.rst_val)!=null
-					||codegen.getTypeInSymTb(this.pre_accs.rst_val)!=null){// a.f()/A.f()
+			}else if(codegen.getVarInSymTb(this.pre_accs.rst_val)!=null		//a.f()
+					||codegen.getTypeInSymTb(this.pre_accs.rst_val)!=null){	//A.f()
 				this.ptr_scp=this.pre_accs.rst_val;
 				T_Type t=codegen.getTypeInSymTb(codegen.getVarInSymTb(this.pre_accs.rst_val).getVarType());
 				if(t.getKType()==T_Type.KType.t_cls){
@@ -160,6 +160,9 @@ public class ExprAccs_App extends AST {
 		}
 		r=new R_Variable();
 		r.setVarName(this.rst_val);
+		if(this.inGType){
+			this.rst_type=codegen.FindGnrcArgTb(this.rst_type);
+		}
 		r.setVarType(this.rst_type);
 		r.setTmpAddr(this.rst_val);
 		codegen.putVarInSymTb(this.rst_val, r);

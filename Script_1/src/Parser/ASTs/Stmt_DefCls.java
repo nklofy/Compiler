@@ -116,7 +116,7 @@ public class Stmt_DefCls extends AST {
 		//if(!this.gnrc_parlst.isE){
 		//	s+="<"+this.gnrc_parlst.types_name.size()+">";
 		//}
-		this.t_type.genTypeSig(codegen);
+
 		codegen.setThisCls(null);
 		codegen.setScope(old_scp);
 		codegen.popBlock4Sym();
@@ -169,7 +169,7 @@ public class Stmt_DefCls extends AST {
 	//		throw new TypeCheckException("type check error: all fields "+this.name);
 	//	if(!this.t_type.checkAllMthd(codegen))
 	//		throw new TypeCheckException("type check error: all methods "+this.name);
-		
+		this.t_type.genTypeSig(codegen);
 		codegen.setScope(old_scp);
 		codegen.setThisCls(null);
 		codegen.popBlock4Sym();

@@ -34,6 +34,7 @@ public class FuncApp_ArgLst extends AST {
 			return true;
 		IRCode code=null;
 		for(Expr_Calc exp :this.args){
+			exp.genCode(codegen);
 			code=new IRCode("pushArg", exp.rst_val,null,null);
 			codegen.addCode(code);
 		}

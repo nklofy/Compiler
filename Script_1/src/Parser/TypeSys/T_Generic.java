@@ -8,7 +8,7 @@ public class T_Generic extends T_Type {
 	private String core_type;	
 	LinkedHashMap<String,String> type_args=new LinkedHashMap<String,String>();//why linkedhashmap, link for order of gen-sig, map for sym-tbl
 	
-	{this.setKType(KType.t_gnrc);}
+	{this.setKType(KType.t_gnrc);this.setGnrc(true);}
 	public String getCoreType() {
 		return core_type;
 	}
@@ -40,12 +40,12 @@ public class T_Generic extends T_Type {
 		return true;
 	}
 	public void genTypeSig(CodeGenerator codegen) {
-		String s=codegen.getTypeInSymTb(this.core_type).getTypeSig()+"<";
+		String s=codegen.getTypeInSymTb(this.core_type).getTypeName()+"<";
 		for(String name:this.type_args.keySet()){
-			s+=codegen.getTypeInSymTb(name).getTypeSig()+":"+
+			s+=name+":"+
 		codegen.getTypeInSymTb(this.type_args.get(name)).getTypeSig()+",";
 		}
-		s+=">";		
+		s=s.substring(0, s.length()-1)+">";		
 		this.setTypeSig(s);
 	}
 	

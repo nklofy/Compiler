@@ -15,7 +15,7 @@ int fib(int a){
 int[][] as=new int[10][10];
 as[0][0]=6;
 int b=as[1][1];
-*/
+
 
 class A{
 int b;
@@ -38,3 +38,12 @@ int c=a.b;
 int f=a.f(1);
 f=b.f(2);
 int g=d.g();
+*/
+class A<T1>{
+T1 f(){return new T1();}
+}
+class B<T2>{
+T2 g(){return new T2();}
+}
+A<B<A<int>>> ga=new A<B<A<int>>>();
+int a = ga.f().g().f();

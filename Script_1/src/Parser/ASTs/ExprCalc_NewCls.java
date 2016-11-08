@@ -30,7 +30,7 @@ public class ExprCalc_NewCls extends AST {
 		if(!this.args.isE()){
 			this.args.genCode(codegen);		
 		}else
-			this.args.rst_val="null";
+			this.args.rst_val=null;
 		IRCode code =new IRCode("newObj",this.rst_type,this.rst_val,this.args.rst_val);
 		codegen.addCode(code);
 		return true;
@@ -39,11 +39,9 @@ public class ExprCalc_NewCls extends AST {
 		//new type, new var, new function, put in table
 		if(this.idn_type!=null){
 			this.idn_type.genSymTb(codegen);
-			this.rst_type=this.idn_type.rst_type;
 		}
 		if(this.gnrc_type!=null){
 			this.gnrc_type.genSymTb(codegen);
-			this.rst_type=this.gnrc_type.rst_type;
 		}
 		if(!this.args.isE()){
 			this.args.genSymTb(codegen);
@@ -57,18 +55,25 @@ public class ExprCalc_NewCls extends AST {
 		return true;
 	}
 	public boolean checkType(CodeGenerator codegen)throws TypeCheckException{
-		if(this.idn_type!=null&&!this.idn_type.checkType(codegen)){
-			return false;
+		if(this.idn_type!=null){
+			if(!this.idn_type.checkType(codegen))
+				return false;
+			this.rst_type=this.idn_type.rst_type;
 		}
-		if(this.gnrc_type!=null&&!this.gnrc_type.checkType(codegen)){
-			return false;
+		if(this.gnrc_type!=null){
+			if(!this.gnrc_type.checkType(codegen))		
+				return false;
+			this.rst_type=this.gnrc_type.rst_type;
 		}
 		if(!this.args.isE()&&this.args.checkType(codegen)){
 			return false;
 		}
-		if(codegen.getTypeInSymTb(this.rst_type).getKType()!=T_Type.KType.t_cls)
-			throw new TypeCheckException("type check error: new "+this.rst_type);
-		if(!codegen.getTypeInSymTb(this.ref_type).canAsnFrom(codegen, 
+		if(codegen.getTypeInSymTb(this.rst_type).getKType()!=T_Type.KType.t_cls){
+			if(codegen.getTypeInSymTb(this.rst_type).isGnrc()
+				&&codegen.getTypeInSymTb(((T_Generic)(codegen.getTypeInSymTb(this.rst_type))).getCoreType()).getKType()!=T_Type.KType.t_cls)
+					throw new TypeCheckException("type check error: new class"+this.rst_type);
+		}
+		if(this.ref_type!=null&&!codegen.getTypeInSymTb(this.ref_type).canAsnFrom(codegen, 
 				codegen.getTypeInSymTb(this.rst_type)))
 			throw new TypeCheckException("type check error: cannt cast new "+this.rst_type+" to "+this.ref_type);
 		return true;

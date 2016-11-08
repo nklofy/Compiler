@@ -38,7 +38,15 @@ public class Gnrc_ArgLst extends AST {
 		return true;
 	}
 	public boolean genSymTb(CodeGenerator codegen)throws GenSymTblException{
-		if(!this.pre_args.genSymTb(codegen))return false;
+		if(this.pre_args!=null&&!this.pre_args.genSymTb(codegen))return false;
+		if(!this.var.genSymTb(codegen))return false;
+		return true;
+	}
+	public boolean checkType(CodeGenerator codegen)throws TypeCheckException{
+		if(this.pre_args!=null&&!this.pre_args.checkType(codegen))
+			return false;
+		if(!this.var.checkType(codegen))
+			return false;
 		if(this.pre_args!=null){
 			this.types_name=this.pre_args.types_name;
 			this.types_name.add(var.rst_type);
@@ -46,19 +54,13 @@ public class Gnrc_ArgLst extends AST {
 			this.types_name=new LinkedList<String>();
 			this.types_name.add(var.rst_type);
 		}
-		return true;
-	}
-	public boolean checkType(CodeGenerator codegen)throws TypeCheckException{
-		if(!this.pre_args.checkType(codegen))
-			return false;
-		if(!this.var.checkType(codegen))
-			return false;
 		String s="";
 		int c=this.types_name.size();
-		for(int i=0;i<c;i++){
-			String s1=this.types_name.remove();
+		Iterator<String> it=this.types_name.iterator();
+		while(it.hasNext()){
+			String s1=it.next();
 			if(codegen.getTypeInSymTb(s1)==null)
-				return false;
+				throw new TypeCheckException("type error: gnrc pars"+s1);
 			s+=s1+",";
 		}
 		this.rst_val=s;

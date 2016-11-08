@@ -50,6 +50,10 @@ public class Gnrc_ParLst extends AST {
 			this.types_name.add(p.var.name);
 			if(all_ns.contains(p.var.name))
 					throw new GenSymTblException("gensymtable error: "+p.var.name);
+			T_Type t=new T_Type();
+			t.setTypeName(p.var.name);
+			t.setDummy();
+			codegen.putTypeInSymTb(p.var.name, t);
 			all_ns.add(p.var.name);
 		}
 		return true;

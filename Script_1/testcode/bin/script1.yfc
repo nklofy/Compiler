@@ -1,63 +1,24 @@
 89597046
 script1
-defClass A global
-defFields 1
-defField b:int
+defClass <T1>A global
 defMethods 1
-defMethod f int(int)
-defFuncPar int b
-getField %1 this b
-load_i %3 1
-add_i %2 b %3
-mov int %1 %2
-getField %4 this b
-retExp int %4
+defMethod f T1()
+newObj T1 %1
+retExp T1 %1
 end
-defClass B global
-extends 1
-A
-defFields 1
-defField c:int
+defClass <T2>B global
 defMethods 1
-defMethod f int(int)
-defFuncPar int b
-getField %5 this b
-load_i %7 2
-add_i %6 b %7
-mov int %5 %6
-getField %8 this b
-retExp int %8
+defMethod g T2()
+newObj T2 %2
+retExp T2 %2
 end
-defInterface D global
-defMethods 1
-defMethod g int() abstruct
-defClass C global
-extends 1
-B
-impliments 1
-D
-defMethods 1
-defMethod g int()
-load_i %10 1
-retExp int %10
-end
-newObj C %11 null
-mov A a %11
-newObj C %12 null
-mov B b %12
-newObj C %13 null
-mov D d %13
-getField %14 a b
-mov int c %14
-getFunc f int(int) a
-pushArg %15
-invoke %16 int
-mov int f %16
-getFunc f int(int) b
-pushArg %17
-invoke %18 int
-mov int f %18
-getFunc g int() d
-invoke %19 int
-mov int g %19
+newObj A<T1:B<T2:A<T1:int>>> %3
+mov A<T1:B<T2:A<T1:int>>> ga %3
+getFunc f T1() ga
+invoke %4
+getFunc g T2() %4
+invoke %5
+getFunc f T1() %5
+invoke %6
+mov int a %6
 end

@@ -74,7 +74,7 @@ public class ExprAccs_Fld extends AST {
 			}
 			T_Type t=null;
 			if(!this.pre_fld.rst_val.equals("this")&&this.var!=null){	// A.b a.b
-				if(codegen.getVarInSymTb(this.pre_fld.rst_val)!=null){//a later a.b
+				if(codegen.getVarInSymTb(this.pre_fld.rst_val)!=null){//a.b
 					R_Variable r=codegen.getVarInSymTb(this.pre_fld.rst_val);
 					t=codegen.getTypeInSymTb(r.getVarType());
 					if(t.getKType()==T_Type.KType.t_cls){
@@ -87,7 +87,7 @@ public class ExprAccs_Fld extends AST {
 						if(t.getKType()!=T_Type.KType.t_cls)throw new TypeCheckException("TypeCheck Error: ");
 					}else
 						throw new TypeCheckException("TypeCheck Error: ");
-				}else if(codegen.getTypeInSymTb(this.pre_fld.rst_val)!=null){//A later A.b
+				}else if(codegen.getTypeInSymTb(this.pre_fld.rst_val)!=null){//A.b
 					t=codegen.getTypeInSymTb(this.pre_fld.rst_val);
 					if(t.getKType()==T_Type.KType.t_cls){
 						//
@@ -110,16 +110,24 @@ public class ExprAccs_Fld extends AST {
 						return true;
 				}else
 					throw new TypeCheckException("TypeCheck Error: ");		
-			}//this.a ...
-			else
+			}
+			else{	//this.a ...
 				t=codegen.getTypeInSymTb(codegen.getThisCls());
+			}
 			R_Variable r1=((T_Class)t).getField(codegen,var.name);
 			if(r1==null)throw new TypeCheckException("Type error: not defined field in class "+codegen.getThisCls()+" "+var.name);
 			this.rst_type=r1.getVarType();
-			T_Type t1=codegen.getTypeInSymTb(r1.getVarType());
+			T_Type t1;
+			if(this.inGType){
+				t1=codegen.getTypeInSymTb(codegen.FindGnrcArgTb(this.rst_type));
+			}else{
+				t1=codegen.getTypeInSymTb(this.rst_type);
+			}
 			if(this.ref_type!=null&&!codegen.getTypeInSymTb(this.ref_type).canAsnFrom(codegen, t1))
-				throw new TypeCheckException("TypeCheck Error: ");
-			
+				throw new TypeCheckException("TypeCheck Error: cannt asn "+this.rst_type+" to "+this.ref_type);
+			//if(this.ref_type==null){
+			//	this.ref_type=this.rst_type;
+			//}
 			R_Variable r0=new R_Variable();
 			r0.setVarName(this.rst_val);
 			r0.setVarType(this.rst_type);
@@ -138,7 +146,7 @@ public class ExprAccs_Fld extends AST {
 			else{
 				if(!this.var.checkType(codegen))	
 						return false;
-				this.rst_type=this.var.rst_type;
+				this.rst_type=codegen.getVarInSymTb(var.name).getVarType();
 			}
 			T_Type t1=codegen.getTypeInSymTb(this.rst_type);
 			if(this.ref_type!=null&&!codegen.getTypeInSymTb(this.ref_type).canAsnFrom(codegen, t1))

@@ -26,8 +26,7 @@ public class TypeExp_Gnrc extends AST {
 		if(!this.idn_type.genSymTb(codegen))
 			return false;
 		if(!this.args.genSymTb(codegen))
-			return false;		
-		this.rst_type="<"+codegen.getTmpSn();		
+			return false;	
 		return true;
 	}
 	public boolean checkType(CodeGenerator codegen)throws TypeCheckException{		
@@ -37,9 +36,9 @@ public class TypeExp_Gnrc extends AST {
 			return false;
 		T_Type t=codegen.getTypeInSymTb(this.idn_type.rst_type);//TODO
 		if(!t.isGnrc())
-			return false;
+			throw new TypeCheckException("type error: not gnrc "+this.idn_type.rst_type);
 		if(t.getGnrcPars().size()!=this.args.types_name.size())
-			return false;
+				throw new TypeCheckException("type error: gnrc par size "+this.idn_type.rst_type);
 		LinkedList<String> pars=t.getGnrcPars();
 		LinkedList<String> args=this.args.types_name;
 		T_Generic t1=new T_Generic();
@@ -47,6 +46,8 @@ public class TypeExp_Gnrc extends AST {
 		for(int i=0;i<pars.size();i++){
 			t1.getTypeArgTb().put(pars.get(i), args.get(i));
 		}
+		t1.genTypeSig(codegen);
+		this.rst_type=t1.getTypeSig();
 		codegen.putTypeInSymTb(this.rst_type, t1);			
 		return true;
 	}

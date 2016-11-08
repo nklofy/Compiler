@@ -29,9 +29,10 @@ public class TypeExp_Idn extends AST {
 			if(!this.type_idn.genSymTb(codegen))
 				return false;
 			if(this.type_idn.rst_pkg==null)
-				return false;	
+					throw new GenSymTblException("gensymtable error: "+this.type_idn.rst_type+" "+this.var.name);	
 			this.rst_pkg=this.type_idn.rst_pkg+"."+this.var.name;
 		}else{
+			if(!this.var.genSymTb(codegen))return false;
 			this.rst_type=var.name;
 			this.rst_pkg=var.name;
 		}
@@ -45,7 +46,7 @@ public class TypeExp_Idn extends AST {
 			if(this.t_type==null)
 				return false;
 		}else{
-			this.rst_type="@"+codegen.getTmpSn();
+			this.rst_type=this.rst_pkg;
 			//check if package exists TODO
 			this.t_type=codegen.getTypeInSymTb(this.rst_type);
 			if(this.t_type==null)
