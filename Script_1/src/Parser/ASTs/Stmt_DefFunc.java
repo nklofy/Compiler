@@ -78,11 +78,11 @@ public class Stmt_DefFunc extends AST {
 				return false;
 			this.t_type.setGnrc(true);
 			this.t_type.setGnrcPars(this.gnrc_pars.types_name);
-			for(String s:this.gnrc_pars.types_name){
-				T_Type t=new T_Type();
-				t.setDummy();t.setTypeName(s);
-				codegen.putTypeInSymTb(s, t);
-			}
+			//for(String s:this.gnrc_pars.types_name){
+			//	T_Type t=new T_Type();
+			//	t.setDummy();t.setTypeName(s);
+			//	codegen.putTypeInSymTb(s, t);
+			//}
 		}
 		if(!this.pars.isE()){
 			if(!this.pars.genSymTb(codegen))
@@ -97,7 +97,6 @@ public class Stmt_DefFunc extends AST {
 				codegen.putVarInSymTb(s, r);
 			}
 		}
-		this.r_func.setFuncSig(this.t_type.genFuncSig(codegen));
 		codegen.popBlock4Sym();		
 		R_Function r=codegen.getFuncTopSymTb(this.name);
 		if(r!=null&&r.isCntnNameType(this.r_func))
@@ -121,6 +120,8 @@ public class Stmt_DefFunc extends AST {
 		if(!this.pars.isE()&&this.pars.checkType(codegen)){
 			return false;
 		}
+
+		this.r_func.setFuncSig(this.t_type.genFuncSig(codegen));
 		if(!this.stmt_list.checkType(codegen)){
 			return false;
 		}

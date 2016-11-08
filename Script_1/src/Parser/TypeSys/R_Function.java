@@ -147,7 +147,12 @@ public class R_Function {
 			while(it1.hasNext()&&it2.hasNext()){
 				String s1=it1.next();
 				String s2=it2.next();
-				if(!codegen.getTypeInSymTb(s1).isEqType(codegen.getTypeInSymTb(s2)))
+				T_Type t1,t2;
+				t1=codegen.getTypeInSymTb(codegen.FindGnrcArgTb(s1));
+				t2=codegen.getTypeInSymTb(codegen.FindGnrcArgTb(s2));
+				if(t1==null)t1=codegen.getTypeInSymTb(s1);
+				if(t2==null)t2=codegen.getTypeInSymTb(s2);
+				if(!t1.isEqType(t2))
 					return false;
 			}
 			eqA=true;
@@ -176,7 +181,12 @@ public class R_Function {
 			while(it1.hasNext()&&it2.hasNext()){
 				String s1=it1.next();
 				String s2=it2.next();
-				if(!codegen.getTypeInSymTb(s2).canCastFrom(codegen,codegen.getTypeInSymTb(s1)))
+				T_Type t1,t2;
+				t1=codegen.getTypeInSymTb(codegen.FindGnrcArgTb(s1));
+				t2=codegen.getTypeInSymTb(codegen.FindGnrcArgTb(s2));
+				if(t1==null)t1=codegen.getTypeInSymTb(s1);
+				if(t2==null)t2=codegen.getTypeInSymTb(s2);
+				if(!t2.canCastFrom(codegen,t1))
 					return false;
 			}
 			eqA=true;

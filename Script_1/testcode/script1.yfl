@@ -39,11 +39,20 @@ int f=a.f(1);
 f=b.f(2);
 int g=d.g();
 */
+
+/*
 class A<T1>{
-T1 f(){return new T1();}
+<T2>T2 f(T2 t){return new T2();}
 }
+A<int> ga=new A<int>();
+int t=ga.<double>f(2);
+
+
 class B<T2>{
 T2 g(){return new T2();}
-}
-A<B<A<int>>> ga=new A<B<A<int>>>();
-int a = ga.f().g().f();
+}*/
+//A<B<A<int>>> ga=new A<B<A<int>>>();
+//int a = ga.f().g().f();
+
+<T>int f(T t){return 0;}
+//int t1=<int>f(1);

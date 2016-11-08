@@ -1,24 +1,9 @@
 89597046
 script1
-defClass <T1>A global
-defMethods 1
-defMethod f T1()
-newObj T1 %1
-retExp T1 %1
+defFunction f <T>int(T) global
+defGnrcPar T
+defFuncPar T t
+load_i %1 0
+retExp int %1
 end
-defClass <T2>B global
-defMethods 1
-defMethod g T2()
-newObj T2 %2
-retExp T2 %2
-end
-newObj A<T1:B<T2:A<T1:int>>> %3
-mov A<T1:B<T2:A<T1:int>>> ga %3
-getFunc f T1() ga
-invoke %4
-getFunc g T2() %4
-invoke %5
-getFunc f T1() %5
-invoke %6
-mov int a %6
 end
