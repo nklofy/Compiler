@@ -14,13 +14,11 @@
 3. package management. A source file is end with ".yfl" postfix, and IR codes is end with ".yfc" postfix. Usually yfl files are in "src" file folder (or not), yfc files are in "bin" file folder which is generated automatically(no matter if yfl files in src folder). Current package and imported packages should be in the front of yfl file. Classes and interfaces in other packages can be used when imported, but variables and function in script part in other packages can not be imported. There is a demo in  "testcode" dir, with "script1.yfl" as sorce file and "bin/script1.yfc" as object file. Run src/test.java to watch the compilation process.
 
 
+4. Staticly type checking. basic types, expression, function, class, interface.
 
-4. Staticly type checking. basic types, expression, class, interface, generic types, function type.
+5. Dynamically type checking. type parameters of generic type and function, higher-order function.
 
-5. 
-
-6. lambda expression. high order function. function variable.
-
+6. lambda expression. higher-order function. 
 
 7. IR code. Three address linear code. 
 
