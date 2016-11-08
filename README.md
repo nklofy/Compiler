@@ -34,7 +34,7 @@ class B<T2>{
 }
 A<B<A<int>>> ga=new A<B<A<int>>>();
 int i = ga.f().g().f();
-
+```
 
 ##older version: 
   Script_1 with LR1 parser generator.zip
