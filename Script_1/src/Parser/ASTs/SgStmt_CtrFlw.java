@@ -2,9 +2,7 @@ package Parser.ASTs;
 
 import Parser.*;
 import Parser.IR.*;
-import Parser.TypeSys.GenCodeException;
-import Parser.TypeSys.GenSymTblException;
-import Parser.TypeSys.TypeCheckException;
+import Parser.TypeSys.*;
 
 public class SgStmt_CtrFlw extends AST {
 	en_Ctrflw t_ctrflw;
@@ -77,7 +75,9 @@ public class SgStmt_CtrFlw extends AST {
 			else throw new TypeCheckException("Check Type Error: return type is not void");
 		case t_returnExp:
 			if(!this.return_exp.checkType(codegen)) return false;
-			if(codegen.getTypeInSymTb(codegen.ret_types.peek())==codegen.getTypeInSymTb(this.return_exp.rst_type))
+			T_Type t1=codegen.getTypeInSymTb(codegen.ret_types.peek())
+					,t2=codegen.getTypeInSymTb(this.return_exp.rst_type);
+			if(t1.canCastFrom(codegen, t2))
 				return true;
 			else throw new TypeCheckException("Check Type Error: return type mismatch");
 		default:break;

@@ -53,6 +53,11 @@ public class T_Type {
 		return false;
 	}
 	public boolean canCastFrom(CodeGenerator codegen,T_Type type2){ //(type1) type2
+		if(this.isDummy&&type2.isDummy&&this.type_name.equals(type2.type_name)){
+			return true;
+		}
+		if(this.type_sig.equals(type2.type_sig))
+			return true;
 		return false;
 	}
 	public LinkedList<String> getGnrcPars() {

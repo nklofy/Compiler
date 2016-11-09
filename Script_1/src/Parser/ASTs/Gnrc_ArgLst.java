@@ -49,6 +49,8 @@ public class Gnrc_ArgLst extends AST {
 			return false;
 		if(!this.var.checkType(codegen))
 			return false;
+		if(codegen.getTypeInSymTb(this.var.rst_type)==null)
+			throw new TypeCheckException("type error:  func gnrc-arg not found "+this.var.rst_type);
 		if(this.pre_args!=null){
 			this.types_name=this.pre_args.types_name;
 			this.types_name.add(var.rst_type);

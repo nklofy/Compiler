@@ -1,8 +1,7 @@
 package Parser.TypeSys;
 
 import java.util.*;
-
-import Parser.CodeGenerator;
+import Parser.*;
 
 public class T_Generic extends T_Type {
 	private String core_type;	
@@ -43,10 +42,11 @@ public class T_Generic extends T_Type {
 		String s=codegen.getTypeInSymTb(this.core_type).getTypeName()+"<";
 		for(String name:this.type_args.keySet()){
 			T_Type t=codegen.getTypeInSymTb(this.type_args.get(name));
-			if(!t.isDummy())
+			/*if(!t.isDummy())
 				s+=name+":"+t.getTypeSig()+",";
 			else
-				s+=name+",";
+				s+=name+",";*/
+			s+=t.getTypeSig()+",";
 			
 		}
 		s=s.substring(0, s.length()-1)+">";		

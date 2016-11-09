@@ -16,36 +16,16 @@ int[][] as=new int[10][10];
 as[0][0]=6;
 int b=as[1][1];
 */
-class A<T1>{
-A<T1> b;
-<T2,T3> A<T1> f(T2 b,T3 c){return this.b;}
-A<T1> g(){return this.<int,double>f(2,2);}
-}
-A<int> a=new A<int>();
-a.g();
-/*
-class B extends A{
-int c;
-int f(int b){this.b=b+2;return this.b;}
-}
-interface D{
-int g(){return 0;}
-}
-class C extends B implements D{
-int g(){return 1;}
-}
-*/
 
-/*
 class A<T1>{
-<T2>T1 f(T2 a){return new T1();}
+T1 a;
+<T2,T3> T1 f(T2 b,T3 c){return this.a;}
 }
-class B<T2>{
-T2 g(){return new T2();}
-}
-A<int> a=new A<int>();
-int i=a.<double>f(2);
-*/
 
-//<T>int f(T t){return 0;}
-//int t1=<int>f(1);
+class B<T1> extends A{
+T1 b;
+<T2,T3> T1 f(T2 b,T3 c){return this.b;}
+}
+
+A<bool> ga=new B<bool>();
+bool t=ga.<int,int>f(1,2);

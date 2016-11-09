@@ -48,8 +48,10 @@ public class Gnrc_ParLst extends AST {
 			if(!p.genSymTb(codegen))
 				return false;
 			this.types_name.add(p.var.name);
+			if(codegen.getTypeInSymTb(p.var.name)!=null)
+				throw new GenSymTblException("gensymtable error: gnrc par type "+p.var.name);
 			if(all_ns.contains(p.var.name))
-					throw new GenSymTblException("gensymtable error: "+p.var.name);
+				throw new GenSymTblException("gensymtable error: gnrc par type "+p.var.name);
 			T_Type t=new T_Type();
 			t.setTypeName(p.var.name);
 			t.setDummy();

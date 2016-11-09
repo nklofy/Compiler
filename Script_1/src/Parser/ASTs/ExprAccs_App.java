@@ -210,9 +210,12 @@ public class ExprAccs_App extends AST {
 		}
 		r=new R_Variable();
 		r.setVarName(this.rst_val);
-		if(this.inGType){
-			this.rst_type=codegen.FindGnrcArgTb(this.rst_type);
+		if(this.inGType&&codegen.FindGnrcArgTb(this.rst_type)!=null){
+			this.rst_type=codegen.FindGnrcArgTb(this.rst_type);			
 		}
+		
+		//TODO T_Generic t=(T_Generic)codegen.getTypeInSymTb(this.rst_type);
+	
 		r.setVarType(this.rst_type);
 		r.setTmpAddr(this.rst_val);
 		codegen.putVarInSymTb(this.rst_val, r);

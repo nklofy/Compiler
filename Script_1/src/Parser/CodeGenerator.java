@@ -477,13 +477,13 @@ public class CodeGenerator {
 					out.println(s1.substring(0,s1.length()-1));					
 				}	
 				if(!t1.getFields().isEmpty()){
-					out.println("defFields "+t1.getFields().size());
+					out.println("Fields "+t1.getFields().size());
 					for(String name:t1.getFields().keySet()){
 						out.println("defField "+name+":"+(t1.getFields().get(name).getVarType()));
 					}
 				}
 				if(!t1.getMethods().isEmpty()){
-					out.println("defMethods "+t1.getMethods().size());
+					out.println("Methods "+t1.getMethods().size());
 					for(String name:t1.getMethods().keySet()){
 						R_Function f=t1.getMethods().get(name);
 						if(f.isDummy()){
@@ -550,7 +550,7 @@ public class CodeGenerator {
 					out.println(s1.substring(0,s1.length()-1));
 				}
 				if(!t2.getMethods().isEmpty()){
-					out.println("defMethods "+t2.getMethods().size());
+					out.println("Methods "+t2.getMethods().size());
 					for(String name:t2.getMethods().keySet()){
 						R_Function f=t2.getMethods().get(name);
 						if(f.isDummy()){

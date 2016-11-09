@@ -40,11 +40,11 @@ public class TypeExp_Idn extends AST {
 	}
 	public boolean checkType(CodeGenerator codegen)throws TypeCheckException{
 		if(this.type_idn==null){
-			if(this.rst_type==null||codegen.getTypeInSymTb(this.rst_type)==null)
-				return false;
+			//if(this.rst_type==null||codegen.getTypeInSymTb(this.rst_type)==null)
+			//		throw new TypeCheckException("type error: not find type "+this.var.name);
 			this.t_type=codegen.getTypeInSymTb(this.rst_type);
 			if(this.t_type==null)
-				return false;
+				throw new TypeCheckException("type error: not find idn_type "+this.rst_type);
 		}else{
 			this.rst_type=this.rst_pkg;
 			//check if package exists TODO
