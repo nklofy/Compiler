@@ -18,7 +18,8 @@ public class PackageManager {
 	HashMap<String,T_Type> typeTb_allFile=new HashMap<String,T_Type>();
 	
 	public void compile(Parser parser, String file_name)  throws Exception {
-		parser.parse(file_name+".yfl");
+		if(!parser.parse(file_name+".yfl"))
+			throw new Exception("parse failed");
 		AST tree=parser.getAST();
 		asts_todo.add(tree);
 		CodeGenerator codegen=new CodeGenerator();

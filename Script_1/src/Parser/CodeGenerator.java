@@ -46,13 +46,21 @@ public class CodeGenerator {
 	
 	private int scope=1;	//scope, 1 global, 10B class, 100B function, 1000B local 
 	String this_cls=null;
+	//String this_obj=null;
 
+	
 	public String getThisCls() {
 		return this_cls;
 	}
 	public void setThisCls(String this_cls) {
 		this.this_cls = this_cls;
 	}
+	/*public String getThisObj() {
+		return this_obj;
+	}
+	public void setThisObj(String this_obj) {
+		this.this_obj = this_obj;
+	}*/
 	public int getScope(){
 		return this.scope;
 	}

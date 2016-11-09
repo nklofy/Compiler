@@ -71,7 +71,6 @@ public class Stmt_DefFunc extends AST {
 		this.t_type=new T_Function();
 		this.r_func.setTypeT(this.t_type);
 		this.r_func.setFuncName(this.name);
-		this.t_type.setRetType(this.type_exp.rst_type);
 		//this.r_func.setScope(codegen.getScopeStr());
 		if(!this.gnrc_pars.isE()){
 			if(!this.gnrc_pars.genSymTb(codegen))
@@ -114,6 +113,7 @@ public class Stmt_DefFunc extends AST {
 		this.setScope(codegen.addScope("function"));
 		if(!this.type_exp.checkType(codegen))return false;
 		codegen.ret_types.addFirst(this.type_exp.rst_type);
+		this.t_type.setRetType(this.type_exp.rst_type);
 		if(!this.gnrc_pars.isE()&&!this.gnrc_pars.checkType(codegen)){
 			return false;
 		}
@@ -135,6 +135,7 @@ public class Stmt_DefFunc extends AST {
 			}
 			if(c1>1) throw new TypeCheckException("error type checking: function type repetitility "+this.name);
 		}*/
+		codegen.ret_types.remove();
 		codegen.setScope(old_scp);
 		codegen.popBlock4Sym();
 		return true;

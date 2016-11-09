@@ -42,11 +42,14 @@ public class T_Generic extends T_Type {
 	public void genTypeSig(CodeGenerator codegen) {
 		String s=codegen.getTypeInSymTb(this.core_type).getTypeName()+"<";
 		for(String name:this.type_args.keySet()){
-			s+=name+":"+
-		codegen.getTypeInSymTb(this.type_args.get(name)).getTypeSig()+",";
+			T_Type t=codegen.getTypeInSymTb(this.type_args.get(name));
+			if(!t.isDummy())
+				s+=name+":"+t.getTypeSig()+",";
+			else
+				s+=name+",";
+			
 		}
 		s=s.substring(0, s.length()-1)+">";		
 		this.setTypeSig(s);
-	}
-	
+	}	
 }

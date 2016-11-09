@@ -35,20 +35,22 @@ public class FuncApp_ArgLst extends AST {
 		IRCode code=null;
 		for(Expr_Calc exp :this.args){
 			exp.genCode(codegen);
-			code=new IRCode("pushArg", exp.rst_val,null,null);
-			codegen.addCode(code);
+			//code=new IRCode("pushFuncArg", exp.rst_val,null,null);
+			//codegen.addCode(code);
 		}
 		return true;
 	}
 	public boolean genSymTb(CodeGenerator codegen)throws GenSymTblException{		
 		if(this.isE)
 			return true;
+		this.rst_val="";
 		for(Expr_Calc exp:this.args){
 			if(!exp.genSymTb(codegen))
 				return false;
 			this.rst_val+=exp.rst_val+",";
 			//this.size++;
 		}
+		this.rst_val=this.rst_val.substring(0,this.rst_val.length()-1);
 		return true;
 	}
 	public boolean checkType(CodeGenerator codegen)throws TypeCheckException{

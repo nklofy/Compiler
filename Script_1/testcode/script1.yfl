@@ -9,18 +9,21 @@ int fib(int a){
 	else
 	return fib(a-1)+fib(a-2);
 }
-//int a=1;
-//int b=fib(a);
+int a=1;
+int b=fib(a);
 
 int[][] as=new int[10][10];
 as[0][0]=6;
 int b=as[1][1];
-
-
-class A{
-int b;
-int f(int b){this.b=b+1;return this.b;}
+*/
+class A<T1>{
+A<T1> b;
+<T2,T3> A<T1> f(T2 b,T3 c){return this.b;}
+A<T1> g(){return this.<int,double>f(2,2);}
 }
+A<int> a=new A<int>();
+a.g();
+/*
 class B extends A{
 int c;
 int f(int b){this.b=b+2;return this.b;}
@@ -31,28 +34,18 @@ int g(){return 0;}
 class C extends B implements D{
 int g(){return 1;}
 }
-A a=new C();
-B b=new C();
-D d=new C();
-int c=a.b;
-int f=a.f(1);
-f=b.f(2);
-int g=d.g();
 */
 
 /*
 class A<T1>{
-<T2>T2 f(T2 t){return new T2();}
+<T2>T1 f(T2 a){return new T1();}
 }
-A<int> ga=new A<int>();
-int t=ga.<double>f(2);
-
-
 class B<T2>{
 T2 g(){return new T2();}
-}*/
-//A<B<A<int>>> ga=new A<B<A<int>>>();
-//int a = ga.f().g().f();
+}
+A<int> a=new A<int>();
+int i=a.<double>f(2);
+*/
 
-<T>int f(T t){return 0;}
+//<T>int f(T t){return 0;}
 //int t1=<int>f(1);

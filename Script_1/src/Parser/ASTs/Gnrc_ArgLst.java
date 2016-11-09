@@ -3,6 +3,7 @@ package Parser.ASTs;
 import java.util.*;
 
 import Parser.*;
+import Parser.IR.IRCode;
 import Parser.TypeSys.*;
 
 public class Gnrc_ArgLst extends AST {
@@ -34,6 +35,7 @@ public class Gnrc_ArgLst extends AST {
 	}
 */
 	public boolean genCode(CodeGenerator codegen)throws GenCodeException{
+		//IRCode code=null;
 		
 		return true;
 	}
@@ -55,15 +57,14 @@ public class Gnrc_ArgLst extends AST {
 			this.types_name.add(var.rst_type);
 		}
 		String s="";
-		int c=this.types_name.size();
 		Iterator<String> it=this.types_name.iterator();
 		while(it.hasNext()){
 			String s1=it.next();
 			if(codegen.getTypeInSymTb(s1)==null)
-				throw new TypeCheckException("type error: gnrc pars"+s1);
+				throw new TypeCheckException("type error:  func gnrc-arg not found "+s1);
 			s+=s1+",";
 		}
-		this.rst_val=s;
+		this.rst_val=s.substring(0,s.length()-1);
 		return true;
 	}
 }

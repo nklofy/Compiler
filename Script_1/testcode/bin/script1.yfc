@@ -1,9 +1,30 @@
 89597046
 script1
-defFunction f <T>int(T) global
-defGnrcPar T
-defFuncPar T t
-load_i %1 0
-retExp int %1
+defClass <T1>A global
+defFields 1
+defField b:A<T1>
+defMethods 2
+defMethod f <T2,T3>A<T1>(T2,T3)
+defGnrcPar T2
+defGnrcPar T3
+defFuncPar T2 b
+defFuncPar T3 c
+getField %1 this b
+retExp A<T1> %1
 end
+defMethod g A<T1>()
+load_i %2 2
+load_i %3 2
+getMethod f <T2,T3>A<T1>(T2,T3) this
+pushTypeArg int
+pushTypeArg double
+pushFuncArg %2
+pushFuncArg %3
+invoke %4
+retExp A<T1> %4
+end
+newObj A<T1:int> %5
+mov A<T1:int> a %5
+getMethod g A<T1>() a
+invoke %6
 end
