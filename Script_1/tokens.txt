@@ -18,6 +18,7 @@ long long
 float float
 double double
 bool bool
+void void
 true true
 false false
 string string

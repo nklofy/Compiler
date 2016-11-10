@@ -16,7 +16,7 @@ public class CodeGenerator {
 	public LinkedList<String> labels_whlbg=new LinkedList<String>();
 	public LinkedList<String> labels_whlend=new LinkedList<String>();
 	public TypeChecker type_sys=new TypeChecker();
-	public LinkedList<String> ret_types=new LinkedList<String>();//check function return type and return statment's type
+	public LinkedList<T_Type> ret_types=new LinkedList<T_Type>();//check function return type and return statment's type
 	public LinkedList<HashMap<String,String>> gnrc_arg=new LinkedList<HashMap<String,String>>();//records of types for generic arg
 	public LinkedList<HashMap<String,String>> func_arg=new LinkedList<HashMap<String,String>>();//records of name/vars for function arg 
 	
@@ -86,8 +86,11 @@ public class CodeGenerator {
 		case "function":
 			this.scope=this.scope|4;
 			break;
-		case "local":
+		case "lambda":
 			this.scope=this.scope|8;
+			break;
+		case "local":
+			this.scope=this.scope|16;
 			break;
 		default:
 			return 0;
@@ -97,14 +100,22 @@ public class CodeGenerator {
 	public void setScope(int scope){
 		this.scope=scope;
 	}
-	public boolean isScopeIn(String s){
+	public boolean isInScope(String s){
 		switch(s){
 		case "global":
-			if((this.scope&2)==0)
+			if((this.scope&2)==0&&(this.scope&4)==0&&(this.scope&8)==0)
 				return true;
 			break;
 		case "class":
 			if((this.scope&2)==2)
+				return true;
+			break;
+		case "function":
+			if((this.scope&4)==4)
+				return true;
+			break;
+		case "lambda":
+			if((this.scope&8)==8)
 				return true;
 			break;
 		default:break;	
@@ -152,6 +163,8 @@ public class CodeGenerator {
 		this.types_init.put("char", new T_BasicType("char"));
 		this.types_init.put("string", new T_BasicType("string"));
 		this.types_init.put("bool", new T_BasicType("bool"));
+		T_Type t=new T_Type();t.setTypeName("void");
+		this.types_init.put("void", t);
 	}
 	public int getLineNo() {
 		return crt_line;

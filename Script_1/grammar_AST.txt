@@ -12,7 +12,7 @@
 10 sg_stmt var_def 
 11 sg_stmt calc_exp 
 12 sg_stmt control_flow 
-13 control_flow return calc_exp 
+13 control_flow return expression
 14 control_flow return 
 15 control_flow continue 
 16 control_flow break 
@@ -313,6 +313,6 @@
 152 crtArgLstE 0
 153 lnkArgLst 2 0
 154 crtArgCalc 0
-155 crtLbdExp 7 5 1
+155 crtLbdExp 5 1
 
 //end

@@ -15,8 +15,8 @@ pri_exp apply_exp arg_list arguments
 
 //tokens
 if else while return break continue int double bool true false
-string char number var str chr function class interface 
-extends implements public private static type 
+string char number var str chr function class interface void
+extends implements public private static type lambda
 new final finally finalize try catch this super finalize 
 || && ! > >= < <= == != + - ++ -- * / += -= *= /= = ? ->
 e ( ) { } [ ] , . ; eof 
@@ -44,7 +44,7 @@ sg_stmt |>
 >| control_flow
 
 control_flow |>
-   return calc_exp
+   return expression
 >| return
 >| continue
 >| break

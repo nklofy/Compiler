@@ -6,7 +6,7 @@ import Parser.TypeSys.*;
 
 public class SgStmt_CtrFlw extends AST {
 	en_Ctrflw t_ctrflw;
-	Expr_Calc return_exp;	
+	Expr return_exp;	
 
 	public en_Ctrflw getCFT() {
 		return t_ctrflw;
@@ -16,11 +16,11 @@ public class SgStmt_CtrFlw extends AST {
 		this.t_ctrflw = t_ctrflw;
 	}
 
-	public Expr_Calc getRtExp() {
+	public Expr getRtExp() {
 		return return_exp;
 	}
 
-	public void setRtExp(Expr_Calc return_exp) {
+	public void setRtExp(Expr return_exp) {
 		this.return_exp = return_exp;
 	}
 	public boolean genCode(CodeGenerator codegen)throws GenCodeException{
@@ -70,15 +70,31 @@ public class SgStmt_CtrFlw extends AST {
 		//		return true;
 		//	else throw new TypeCheckException("Check Type Error: no while continue lable");
 		case t_return:
-			if(codegen.ret_types.peek().equals("void"))
+			if(codegen.isInScope("function")
+					&&!codegen.isInScope("lambda")
+					&&codegen.ret_types.peek().equals("void"))
 				return true;
+			if(codegen.isInScope("lambda")){
+				T_Type t=codegen.getTypeInSymTb("void");
+				codegen.ret_types.addFirst(t);
+				return true;
+			}
 			else throw new TypeCheckException("Check Type Error: return type is not void");
 		case t_returnExp:
 			if(!this.return_exp.checkType(codegen)) return false;
-			T_Type t1=codegen.getTypeInSymTb(codegen.ret_types.peek())
-					,t2=codegen.getTypeInSymTb(this.return_exp.rst_type);
-			if(t1.canCastFrom(codegen, t2))
+			if(codegen.isInScope("lambda")){
+				codegen.ret_types.addFirst(codegen.getTypeInSymTb(this.return_exp.rst_type));
 				return true;
+			}
+			else if(codegen.isInScope("function")){
+				T_Type t1=codegen.ret_types.peek()
+						,t2=codegen.getTypeInSymTb(this.return_exp.rst_type);
+				if(t1.canCastFrom(codegen, t2))
+					return true;	
+			}
+			//else if(){
+			//	
+			//}
 			else throw new TypeCheckException("Check Type Error: return type mismatch");
 		default:break;
 		}

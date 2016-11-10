@@ -117,7 +117,7 @@ public class ASTGenerator {
 	case "crtCFRetE":
 		ast0=symbs.get(0).ast;
 		SgStmt_CtrFlw ast_t13=new SgStmt_CtrFlw();
-		ast_t13.setRtExp((Expr_Calc)ast0);
+		ast_t13.setRtExp((Expr)ast0);
 		ast_t13.setCFT(SgStmt_CtrFlw.en_Ctrflw.t_returnExp);
 		ast=ast_t13;
 		break;
@@ -1171,10 +1171,10 @@ public class ASTGenerator {
 		break;
 //		155	crtLbdExp 7 5 1
 	case "crtLbdExp":
-		ast0=symbs.get(0).ast;
-		ast2=symbs.get(2).ast;
+		ast1=symbs.get(1).ast;
+		ast5=symbs.get(5).ast;
 		Expr_Lmbd ast_t155=new Expr_Lmbd();
-		ast_t155.setLmbd((FuncDef_ParLst)ast2, (AST_StmtList)ast0);
+		ast_t155.setLmbd((FuncDef_ParLst)ast5, (AST_StmtList)ast1);
 		ast=ast_t155;
 		break;
 	

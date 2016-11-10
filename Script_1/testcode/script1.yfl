@@ -15,7 +15,6 @@ int b=fib(a);
 int[][] as=new int[10][10];
 as[0][0]=6;
 int b=as[1][1];
-*/
 
 class A<T1>{
 T1 a;
@@ -29,3 +28,6 @@ T1 b;
 
 A<bool> ga=new B<bool>();
 bool t=ga.<int,int>f(1,2);
+*/
+
+function f= ( int a ) -> {  return ()->{return 1;};  };

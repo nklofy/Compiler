@@ -60,7 +60,7 @@ public class Stmt_DefFunc extends AST {
 	}
 	public boolean genSymTb(CodeGenerator codegen)throws GenSymTblException{
 		this.r_func=new R_Function();
-		if(codegen.isScopeIn("global")){
+		if(codegen.isInScope("global")){
 			codegen.addtFuncInFile(this.r_func);
 			this.r_func.setScope("global");
 		}
@@ -112,7 +112,7 @@ public class Stmt_DefFunc extends AST {
 		int old_scp=codegen.getScope();
 		this.setScope(codegen.addScope("function"));
 		if(!this.type_exp.checkType(codegen))return false;
-		codegen.ret_types.addFirst(this.type_exp.rst_type);
+		codegen.ret_types.addFirst(codegen.getTypeInSymTb(this.type_exp.rst_type));
 		this.t_type.setRetType(this.type_exp.rst_type);
 		if(!this.gnrc_pars.isE()&&!this.gnrc_pars.checkType(codegen)){
 			return false;

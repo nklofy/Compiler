@@ -137,7 +137,7 @@ public class ExprAccs_Fld extends AST {
 			return true;
 		}	//if(this.pre_fld!=null)
 		else if(this.var!=null){	//a...
-			if(codegen.isScopeIn("class")){
+			if(codegen.isInScope("class")){
 				T_Type t=codegen.getTypeInSymTb(codegen.getThisCls());
 				R_Variable r1=((T_Class)t).getField(codegen,var.name);
 				if(r1==null)throw new TypeCheckException("Type error: not defined field "+var.name+" in "+codegen.getThisCls());

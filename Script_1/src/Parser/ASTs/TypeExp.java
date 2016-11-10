@@ -69,7 +69,7 @@ public class TypeExp extends AST {
 			break;
 		case "TypeExp_Func":
 			b=this.type_func.genSymTb(codegen);
-			this.rst_type=this.type_array.rst_type;
+			this.rst_type=this.type_func.rst_type;
 			break;
 		case "TypeExp_Idn":
 			b=this.type_idn.genSymTb(codegen);
@@ -97,7 +97,7 @@ public class TypeExp extends AST {
 			break;
 		case "TypeExp_Func":
 			b=this.type_func.checkType(codegen);
-			this.rst_type=this.type_array.rst_type;
+			this.rst_type=this.type_func.rst_type;
 			break;
 		case "TypeExp_Idn":
 			b=this.type_idn.checkType(codegen);

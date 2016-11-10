@@ -97,13 +97,13 @@ public class ExprAccs_App extends AST {
 			if(f==null)
 				throw new TypeCheckException("Type Check Error: not defined function "+this.var.name);
 
-			if(codegen.isScopeIn("global"))
+			if(codegen.isInScope("global"))
 				this.ptr_scp="global";
 			else
 				throw new TypeCheckException("Type Check Error: scope "+this.var.name);
 		}else{			//xx.f() 
 			if(this.ptr_scp.equals("this")){//this.f()
-				if(!codegen.isScopeIn("class"))
+				if(!codegen.isInScope("class"))
 					throw new TypeCheckException("Type Check Error: not in class scope"+this.var.name);
 				T_Type t=null;
 				if(codegen.getThisCls()!=null){
