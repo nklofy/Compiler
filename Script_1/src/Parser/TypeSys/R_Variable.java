@@ -9,7 +9,7 @@ public class R_Variable {
 	private boolean isDummy;
 	private boolean isField;
 	private String var_type;
-	private String tmp_addr;
+	private String rst_val;
 	private String name;
 
 	public String getVarName() {
@@ -18,11 +18,11 @@ public class R_Variable {
 	public void setVarName(String name) {
 		this.name = name;
 	}
-	public String getTmpAddr() {
-		return tmp_addr;
+	public String getRstVal() {
+		return rst_val;
 	}
-	public void setTmpAddr(String tmp_addr) {
-		this.tmp_addr = tmp_addr;
+	public void setRstVal(String tmp_addr) {
+		this.rst_val = tmp_addr;
 	}
 	public boolean isDummy() {
 		return isDummy;

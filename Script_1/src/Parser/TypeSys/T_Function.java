@@ -12,6 +12,14 @@ public class T_Function extends T_Type {
 	public String getRetType() {
 		return ret_type;
 	}
+	public T_Function(){
+		
+	}
+	public T_Function(String s){
+		if(s.equals("dynamic")){
+			this.setDynamic(true);
+		}
+	}
 	public void setRetType(String ret_type) {
 		this.ret_type = ret_type;
 	}
@@ -20,6 +28,13 @@ public class T_Function extends T_Type {
 	}
 	public void setParTypes(LinkedList<String> par_types) {
 		this.par_types = par_types;
+	}
+	public boolean isDynamic() {
+		return isDynamic;
+	}
+	public void setDynamic(boolean isDynamic) {
+		this.isDynamic = isDynamic;
+		this.setTypeSig("!dynamic");
 	}
 	public String genFuncSig(CodeGenerator codegen) {//TODO
 		if(isDynamic){

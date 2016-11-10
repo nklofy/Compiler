@@ -55,7 +55,7 @@ public class SgStmt_DefVar extends AST {
 			throw new GenSymTblException("Error: var existed "+this.var.name);
 		R_Variable r=new R_Variable();
 		r.setVarName(this.var.name);
-		r.setTmpAddr(this.var.rst_val);
+		r.setRstVal(this.var.rst_val);
 		//this.var.ref_type=this.ref_type;
 		//r.setVarType(this.ref_type);
 		codegen.putVarInSymTb(this.var.name, r);
@@ -63,6 +63,7 @@ public class SgStmt_DefVar extends AST {
 		if(this.expr!=null){
 			if(!this.expr.genSymTb(codegen))
 				return false;
+			r.setRstVal(this.expr.rst_val);
 		}
 		return true;
 	}

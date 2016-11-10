@@ -97,7 +97,7 @@ public class ExprCalc_Add extends AST {
 			R_Variable r=new R_Variable();
 			this.rst_val="%"+codegen.getTmpSn();
 			r.setVarName(this.rst_val);
-			r.setTmpAddr(this.rst_val);
+			r.setRstVal(this.rst_val);
 			r.setVarType(this.ref_type);
 			this.rst_type=this.ref_type;//TODO
 			codegen.putVarInSymTb(this.rst_val, r);

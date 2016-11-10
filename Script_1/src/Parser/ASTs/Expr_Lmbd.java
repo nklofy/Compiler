@@ -30,16 +30,25 @@ public class Expr_Lmbd extends AST {
 		}
 		if(!this.stmt_list.genCode(codegen))
 			return false;
+		code=new IRCode("end",null, null, null);
+		codegen.addCode(code);
 		codegen.setScope(old_scp);
 		codegen.popBlock4Sym();
 		return true;
 	}
 	public boolean genSymTb(CodeGenerator codegen)throws GenSymTblException{
-		this.name="$"+codegen.getTmpSn();
+		this.name="#"+codegen.getTmpSn();
 		this.rst_val=this.name;
 		this.rst_type="function";
 		this.r_func=new R_Function();
+		this.t_type=new T_Function();
 		codegen.putFuncInSymTb(this.name, this.r_func);
+		R_Variable rf=new R_Variable();
+		rf.setVarName(this.rst_val);
+		rf.setVarType(this.rst_type);
+		rf.setRstVal(this.rst_val);
+		codegen.putVarInSymTb(rf.getVarName(), rf);
+		//codegen.putTypeInSymTb(this.rst_type, this.t_type);
 	/*	if(codegen.isInScope("global")){
 			codegen.addtFuncInFile(this.r_func);
 			this.r_func.setScope("global");
@@ -47,7 +56,6 @@ public class Expr_Lmbd extends AST {
 		codegen.pushBlock4Sym(this);
 		int old_scp=codegen.getScope();
 		this.setScope(codegen.addScope("lambda"));
-		this.t_type=new T_Function();
 		this.r_func.setTypeT(this.t_type);
 		this.r_func.setFuncName(this.name);
 		if(!this.pars.isE()){

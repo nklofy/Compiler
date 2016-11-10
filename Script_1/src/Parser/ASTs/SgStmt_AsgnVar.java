@@ -2,9 +2,7 @@ package Parser.ASTs;
 
 import Parser.*;
 import Parser.IR.*;
-import Parser.TypeSys.GenCodeException;
-import Parser.TypeSys.GenSymTblException;
-import Parser.TypeSys.TypeCheckException;
+import Parser.TypeSys.*;
 
 public class SgStmt_AsgnVar extends AST {
 	Expr_Left left_hand;
@@ -35,7 +33,12 @@ public class SgStmt_AsgnVar extends AST {
 			return false;
 		if(!this.expr.genSymTb(codegen))
 			return false;
-		codegen.putVarInSymTb(this.left_hand.rst_addr,codegen.getVarInSymTb(this.expr.rst_val));
+		R_Variable r=codegen.getVarInSymTb(this.expr.rst_val);
+		R_Variable nr=new R_Variable();
+		nr.setVarName(this.left_hand.rst_addr);
+		nr.setVarType(r.getVarType());
+		nr.setRstVal(r.getRstVal());
+		codegen.putVarInSymTb(this.left_hand.rst_addr,nr);
 		return true;
 	}
 	public boolean checkType(CodeGenerator codegen)throws TypeCheckException{

@@ -100,10 +100,14 @@ public class CodeGenerator {
 	public void setScope(int scope){
 		this.scope=scope;
 	}
+	public boolean isInGlobal(){
+		return ((this.scope&2)==0&&(this.scope&4)==0&&(this.scope&8)==0);
+			
+	}
 	public boolean isInScope(String s){
 		switch(s){
 		case "global":
-			if((this.scope&2)==0&&(this.scope&4)==0&&(this.scope&8)==0)
+			if((this.scope&2)==0)
 				return true;
 			break;
 		case "class":
@@ -163,8 +167,10 @@ public class CodeGenerator {
 		this.types_init.put("char", new T_BasicType("char"));
 		this.types_init.put("string", new T_BasicType("string"));
 		this.types_init.put("bool", new T_BasicType("bool"));
-		T_Type t=new T_Type();t.setTypeName("void");
-		this.types_init.put("void", t);
+		T_Type t1=new T_Type();t1.setTypeName("void");
+		this.types_init.put("void", t1);
+		T_Type t2=new T_Function("dynamic");t2.setTypeName("function");
+		this.types_init.put("function", t2);
 	}
 	public int getLineNo() {
 		return crt_line;

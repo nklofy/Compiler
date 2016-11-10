@@ -60,7 +60,7 @@ public class Stmt_DefFunc extends AST {
 	}
 	public boolean genSymTb(CodeGenerator codegen)throws GenSymTblException{
 		this.r_func=new R_Function();
-		if(codegen.isInScope("global")){
+		if(codegen.isInGlobal()){
 			codegen.addtFuncInFile(this.r_func);
 			this.r_func.setScope("global");
 		}

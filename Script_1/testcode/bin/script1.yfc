@@ -1,40 +1,14 @@
 89597046
 script1
-defClass <T1>A global
-Fields 1
-defField a:T1
-Methods 1
-defMethod f <T2,T3>T1(T2,T3)
-defGnrcPar T2
-defGnrcPar T3
-defFuncPar T2 b
-defFuncPar T3 c
-getField %1 this a
-retExp T1 %1
+defClass A global
+Methods 2
+defMethod f int()
+load_i %1 0
+retExp int %1
 end
-defClass <T1>B global
-extends 1
-A
-Fields 1
-defField b:T1
-Methods 1
-defMethod f <T2,T3>T1(T2,T3)
-defGnrcPar T2
-defGnrcPar T3
-defFuncPar T2 b
-defFuncPar T3 c
-getField %2 this b
-retExp T1 %2
+defMethod g int()
+getMethod f int() this
+invoke %2
+retExp int %2
 end
-newObj B<bool> %3
-mov A<bool> ga %3
-load_i %4 1
-load_i %5 2
-getMethod f <T2,T3>T1(T2,T3) ga
-pushTypeArg int
-pushTypeArg int
-pushFuncArg %4
-pushFuncArg %5
-invoke %6
-mov bool t %6
 end

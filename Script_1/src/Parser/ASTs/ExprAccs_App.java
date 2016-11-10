@@ -10,7 +10,7 @@ public class ExprAccs_App extends AST {
 	Gnrc_ArgLst gnrc_args;
 	ExprPri_Var var;
 	FuncApp_ArgLst arg_lst;
-	String rst_val;
+	String rst_val;//returned value
 	String ref_type;
 	String rst_type;
 	//String ptr_func;//pointer to function
@@ -19,6 +19,8 @@ public class ExprAccs_App extends AST {
 	String func_sig;
 	boolean inGType=false;
 	boolean isMethod=false;
+	boolean isFuncObj=false;
+	String func_obj;
 	
 	public void lnkApp(ExprAccs pre_accs,Gnrc_ArgLst g_lst,ExprPri_Var var,FuncApp_ArgLst arg_lst){
 		this.pre_accs=pre_accs;
@@ -41,12 +43,17 @@ public class ExprAccs_App extends AST {
 		if(this.arg_lst!=null){
 			this.arg_lst.genCode(codegen);
 		}
-		if(this.ptr_scp=="global"){
-			code=new IRCode("getFunc",this.func_name, this.func_sig,this.ptr_scp);
+		if(isFuncObj){
+			code=new IRCode("getFuncObj",this.func_name, this.func_obj,this.ptr_scp);
 			codegen.addCode(code);
 		}else{
-			code=new IRCode("getMethod",this.func_name, this.func_sig,this.ptr_scp);
-			codegen.addCode(code);
+			if(this.ptr_scp=="global"){
+				code=new IRCode("getFunc",this.func_name, this.func_sig,this.ptr_scp);
+				codegen.addCode(code);
+			}else{
+				code=new IRCode("getMethod",this.func_name, this.func_sig,this.ptr_scp);
+				codegen.addCode(code);
+			}			
 		}
 		/*if(this.ptr_scp.equals("this")){
 			code=new IRCode("pushThis",null,null,null);
@@ -94,13 +101,20 @@ public class ExprAccs_App extends AST {
 		R_Variable r=new R_Variable();
 		if(this.pre_accs==null){// f()
 			f=codegen.getFuncInSymTb(this.var.name);
-			if(f==null)
-				throw new TypeCheckException("Type Check Error: not defined function "+this.var.name);
+			if(f==null){
+				R_Variable rf=codegen.getVarInSymTb(this.var.name);
+				if(rf!=null&&rf.getVarType().equals("function")){
+					this.isFuncObj=true;
+				}else
+					throw new TypeCheckException("Type Check Error: no function "+this.var.name);
 
-			if(codegen.isInScope("global"))
+			}				
+			if(codegen.isInGlobal())
 				this.ptr_scp="global";
-			else
-				throw new TypeCheckException("Type Check Error: scope "+this.var.name);
+			else if(codegen.isInScope("class")){
+				this.ptr_scp="this";				
+			}else
+				throw new TypeCheckException("Type Check Error: scope of func app "+this.var.name);
 		}else{			//xx.f() 
 			if(this.ptr_scp.equals("this")){//this.f()
 				if(!codegen.isInScope("class"))
@@ -115,29 +129,34 @@ public class ExprAccs_App extends AST {
 				T_Type t=codegen.getTypeInSymTb(codegen.getVarInSymTb(codegen.getThisObj()).getVarType());*/
 				if(t.getKType()==T_Type.KType.t_cls){
 					f=((T_Class)t).getMethods().get(this.func_name);
+					if(f==null){
+						R_Variable rf=((T_Class)t).getFields().get(this.func_name);
+						if(rf!=null&&rf.getVarType().equals("function")){
+							this.isFuncObj=true;
+						}else
+							throw new TypeCheckException("Type Check Error: no function "+this.var.name);
+					}				
 				}else if(t.getKType()==T_Type.KType.t_intf){
 					f=((T_Interface)t).getMethods().get(this.func_name);
+					if(f==null){
+						throw new TypeCheckException("Type Check Error: no function "+this.var.name);
+					}
 				}else if(t.getKType()==T_Type.KType.t_gnrc){
 					T_Type t1=codegen.getTypeInSymTb(((T_Generic)t).getCoreType());
 					f=((T_Class)t1).getMethods().get(this.var.name);
+					if(f==null){
+						R_Variable rf=((T_Class)t1).getFields().get(this.func_name);
+						if(rf!=null&&rf.getVarType().equals("function")){
+							this.isFuncObj=true;
+						}else
+							throw new TypeCheckException("Type Check Error: no function "+this.var.name);
+					}
 					codegen.gnrc_arg.addFirst(((T_Generic)t).getTypeArgTb());
 					this.inGType=true;
 				}else
 					throw new TypeCheckException("Type Check Error:  "+this.var.name);
 			}
 			else if(this.pre_accs.rst_type.equals("class")){//A.class.f()
-			/*	T_Generic t=new T_Generic();
-				t.setCoreType("class"); //t is class<A>
-				LinkedList<String> l=new LinkedList<String>();
-				l.add(this.pre_accs.rst_val);
-				t.setGnrcPars(l);
-				this.ptr_scp="<"+codegen.getTmpSn();
-				codegen.putTypeInSymTb(this.ptr_scp, t);
-				R_Variable r1=new R_Variable();
-				r1.setVarName(this.ptr_scp);
-				r1.setVarType("class");
-				r1.setTmpAddr(this.ptr_scp);
-				codegen.putVarInSymTb(this.ptr_scp, r1);*/
 				T_Class t1=((T_Class)codegen.getTypeInSymTb("class"));				
 				f=t1.getMethods().get(this.func_name);
 				codegen.gnrc_arg.addFirst(new HashMap<String,String>());
@@ -146,18 +165,38 @@ public class ExprAccs_App extends AST {
 			}else if(codegen.getVarInSymTb(this.pre_accs.rst_val)!=null		//a.f()
 					||codegen.getTypeInSymTb(this.pre_accs.rst_val)!=null){	//A.f()
 				this.ptr_scp=this.pre_accs.rst_val;
-				T_Type t=codegen.getTypeInSymTb(codegen.getVarInSymTb(this.pre_accs.rst_val).getVarType());
+				T_Type t=null;
+				if(codegen.getVarInSymTb(this.pre_accs.rst_val)!=null)
+					t=codegen.getTypeInSymTb(codegen.getVarInSymTb(this.pre_accs.rst_val).getVarType());
+				else
+					t=codegen.getTypeInSymTb(this.pre_accs.rst_val);
 				if(t.getKType()==T_Type.KType.t_cls){
 					f=((T_Class)t).getMethods().get(this.func_name);
+					if(f==null){
+						R_Variable rf=((T_Class)t).getFields().get(this.func_name);
+						if(rf!=null&&rf.getVarType().equals("function")){
+							this.isFuncObj=true;
+						}else
+							throw new TypeCheckException("Type Check Error: no function "+this.var.name);
+					}
 				}else if(t.getKType()==T_Type.KType.t_intf){
 					f=((T_Interface)t).getMethods().get(this.func_name);
+					if(f==null){
+						throw new TypeCheckException("Type Check Error: no function "+this.var.name);
+					}
 				}else if(t.getKType()==T_Type.KType.t_gnrc){
 					T_Type t1=codegen.getTypeInSymTb(((T_Generic)t).getCoreType());
 					f=((T_Class)t1).getMethods().get(this.var.name);
+					if(f==null){
+						R_Variable rf=((T_Class)t1).getFields().get(this.func_name);
+						if(rf!=null&&rf.getVarType().equals("function")){
+							this.isFuncObj=true;
+						}else
+							throw new TypeCheckException("Type Check Error: no function "+this.var.name);
+					}
 					codegen.gnrc_arg.addFirst(((T_Generic)t).getTypeArgTb());
 					this.inGType=true;
 				}else
-
 					throw new TypeCheckException("Type Check Error:  "+this.var.name);
 			}else
 
@@ -217,7 +256,7 @@ public class ExprAccs_App extends AST {
 		//TODO T_Generic t=(T_Generic)codegen.getTypeInSymTb(this.rst_type);
 	
 		r.setVarType(this.rst_type);
-		r.setTmpAddr(this.rst_val);
+		r.setRstVal(this.rst_val);
 		codegen.putVarInSymTb(this.rst_val, r);
 		if(this.ref_type!=null&&!codegen.getTypeInSymTb(this.ref_type).canAsnFrom(codegen, codegen.getTypeInSymTb(this.rst_type)))
 			throw new TypeCheckException("Type Check Error:  "+this.var.name);

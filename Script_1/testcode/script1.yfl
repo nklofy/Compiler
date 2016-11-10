@@ -30,4 +30,9 @@ A<bool> ga=new B<bool>();
 bool t=ga.<int,int>f(1,2);
 */
 
-function f= ( int a ) -> {  return ()->{return 1;};  };
+//function f = ( int a ) -> {  return ()->{return 1;};  };
+//f(1);
+class A{
+int f(){return 0;}
+int g(){return f();}
+}

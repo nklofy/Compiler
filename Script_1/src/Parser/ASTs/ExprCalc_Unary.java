@@ -92,7 +92,7 @@ public class ExprCalc_Unary extends AST {
 				return false;
 			if(this.opt.equals("++p")||this.opt.equals("--p")){		
 				R_Variable r=new R_Variable();
-				r.setTmpAddr(this.rst_val);
+				r.setRstVal(this.rst_val);
 				r.setVarType(this.rst_type);
 				codegen.putVarInSymTb(this.rst_val, r);
 			}	
