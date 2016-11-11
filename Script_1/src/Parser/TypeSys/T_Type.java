@@ -1,8 +1,7 @@
 package Parser.TypeSys;
 
 import java.util.*;
-
-import Parser.CodeGenerator;
+import Parser.*;
 
 public class T_Type {
 	private KType k_type;//kind of type
@@ -10,13 +9,15 @@ public class T_Type {
 	private String type_sig;//code types for hash, search, compare
 	private boolean isGnrc;//has generic pars as a core type
 	private LinkedList<String> pars_Gnrc=new LinkedList<String>();
-	private T_Generic gnrc_wrap;
+	//private T_Generic gnrc_wrap;
 	private boolean isDummy=false;
 	
 	
 
 	public boolean isEqType(T_Type t){
-		if(!this.k_type.equals(t.k_type))
+		if(this.type_sig.equals("auto")||t.type_sig.equals("auto"))
+			return true;
+		if(this.k_type!=null&&!this.k_type.equals(t.k_type))
 			return false;
 		if(this.getTypeSig().equals(t.getTypeSig()))
 			return true;
@@ -38,6 +39,13 @@ public class T_Type {
 	public void setGnrc(boolean hasGnrcPar) {
 		this.isGnrc = hasGnrcPar;
 	}
+	public String getTypeName() {
+		return type_name;
+	}
+	public void setTypeName(String type_name) {
+		this.type_name = type_name;
+		this.type_sig=this.type_name;
+	}
 	public String getTypeSig() {
 		return type_sig;
 	}
@@ -58,6 +66,12 @@ public class T_Type {
 		}
 		if(this.type_sig.equals(type2.type_sig))
 			return true;
+		if(this.type_sig.equals("auto")||type2.type_sig.equals("auto"))
+			return true;
+		if(this.type_sig.equals("function")){
+			if(type2.type_sig.equals("function")||type2.getKType()==KType.t_func)
+				return true;
+		}
 		return false;
 	}
 	public LinkedList<String> getGnrcPars() {
@@ -65,13 +79,6 @@ public class T_Type {
 	}
 	public void setGnrcPars(LinkedList<String> pars_Gnrc) {
 		this.pars_Gnrc = pars_Gnrc;
-	}
-	public String getTypeName() {
-		return type_name;
-	}
-	public void setTypeName(String type_name) {
-		this.type_name = type_name;
-		this.type_sig=this.type_name;
 	}
 	public KType getKType() {
 		return k_type;

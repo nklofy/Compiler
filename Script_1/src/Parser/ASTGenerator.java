@@ -1159,14 +1159,14 @@ public class ASTGenerator {
 		ast0=symbs.get(0).ast;
 		ast2=symbs.get(2).ast;
 		FuncApp_ArgLst ast_t153=(FuncApp_ArgLst)ast2;
-		ast_t153.addArg((Expr_Calc)ast0);
+		ast_t153.addArg((Expr)ast0);
 		ast=ast_t153;
 		break;
 //		154	crtArgCalc 0
-	case "crtArgCalc":
+	case "crtArgExp":
 		ast0=symbs.get(0).ast;
 		FuncApp_ArgLst ast_t154=new FuncApp_ArgLst();
-		ast_t154.addArg((Expr_Calc)ast0);
+		ast_t154.addArg((Expr)ast0);
 		ast=ast_t154;
 		break;
 //		155	crtLbdExp 7 5 1

@@ -23,7 +23,8 @@ public class Tokenizer {
 		Scanner in = null;
 		String word;
 		try {
-			in=new Scanner(new BufferedReader(new FileReader(filename)));
+			//in=new Scanner(new BufferedReader(new FileReader(filename)));
+			in=new Scanner(new FileReader(filename));
 			if(in.hasNext()){
 				word=in.nextLine();
 				if(!word.equals("//transfer table"))
@@ -116,7 +117,8 @@ public class Tokenizer {
 	
 	public boolean setScanFile(String filename){
 		try {
-			in=new Scanner(new BufferedReader(new FileReader(filename)));
+			//in=new Scanner(new BufferedReader(new FileReader(filename)));
+			in=new Scanner(new FileReader(filename));
 		} catch (Exception e){
 			e.printStackTrace();
 		}

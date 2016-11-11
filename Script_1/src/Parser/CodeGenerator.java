@@ -126,30 +126,6 @@ public class CodeGenerator {
 		}
 		return false;
 	}
-/*	public boolean isInCls() {
-		return in_cls;
-	}
-	public void setInCls(boolean in_func) {
-		this.in_cls = in_func;
-	}
-	public boolean isInFunc() {
-		return in_func;
-	}
-	public void setInFunc(boolean in_func) {
-		this.in_func = in_func;
-	}
-	public boolean isInLocal() {
-		return in_local;
-	}
-	public void setInLocal(boolean in_local) {
-		this.in_local = in_local;
-	}
-	public String getScope() {
-		return scope;
-	}
-	public void setScope(String scope) {
-		this.scope = scope;
-	}*/
 	public boolean outOfScope(int scope){
 		
 		if((this.scope&2)==2&&(scope&2)!=2){//both in class
@@ -169,15 +145,14 @@ public class CodeGenerator {
 		this.types_init.put("bool", new T_BasicType("bool"));
 		T_Type t1=new T_Type();t1.setTypeName("void");
 		this.types_init.put("void", t1);
-		T_Type t2=new T_Function("dynamic");t2.setTypeName("function");
+		T_Type t2=new T_Type();t2.setTypeName("function");
 		this.types_init.put("function", t2);
+		T_Type t3=new T_Type();t3.setTypeName("auto");
+		this.types_init.put("auto", t3);
 	}
 	public int getLineNo() {
 		return crt_line;
 	}
-/*	public void incLineNo() {
-		this.crt_line ++;
-	}*/
 	public void setLineNo(int i){
 		this.crt_line=i;
 	}
@@ -245,17 +220,25 @@ public class CodeGenerator {
 		T_Type t=null;
 		if(this.types_init.containsKey(name))
 			return this.types_init.get(name);
-		String s=FindGnrcArgTb(name);
-		if(s!=null)
-			name=s;
+		
 		for(AST ast:this.block_4symtb){
 			t=ast.type_table.get(name);
 			if(t!=null)
 				return t;
 		}
 		if(this.typeTb_allFile.containsKey(name))
-			return this.typeTb_allFile.get(name);
-		return null;
+			t= this.typeTb_allFile.get(name);
+		if(t==null) {
+			name=this.FindGnrcArgTb(name);
+			if(name!=null) t=this.getTypeInSymTb(name);
+			else return null;
+		}
+		/*String s=FindGnrcArgTb(name);
+		if(s!=null){
+			t= this.getTypeInSymTb(s);
+		}*/
+		if(t==null) return null;
+		else return t;
 	}	
 	public boolean putTypeInSymTb(String name,T_Type type){
 		AST ast=this.block_4symtb.getFirst();
@@ -296,6 +279,7 @@ public class CodeGenerator {
 		}	
 		if(r==null&&this.this_cls!=null){
 			r=getFldInCls(name);
+			return r;
 		}
 		return null;
 	}	
@@ -343,16 +327,6 @@ public class CodeGenerator {
 		AST ast=this.block_4symtb.getFirst();
 		if(ast.func_table.containsKey(name)){
 			R_Function f1=ast.func_table.get(name);
-			//if(f.isMulti()){
-			//	for(R_Function f2:f.getMulti().values()){
-					//if(f1.isCntnNameType(f2))
-					//	return false;
-			//		f1.addFuncR(f2);
-			//	}
-			//	return true;
-			//}
-			//if(f1.isCntnNameType(f))
-			//	return false;
 			f1.addFuncR(f);			
 		}else
 			ast.func_table.put(name, f);
@@ -368,13 +342,6 @@ public class CodeGenerator {
 	public AST popBlock4Sym(){
 		return this.block_4symtb.remove();
 	}
-//	public R_Package getPackage(String name){
-//		return this.pkgs_impt.get(name);
-//	}
-//	public boolean addPackage(String name, R_Package pck){
-//		this.pkgs_impt.put(name, pck);
-//		return true;
-//	}
 	public LinkedList<T_Type> getTypeInFile() {
 		return type_file;
 	}

@@ -71,13 +71,13 @@ public class ExprCalc_Unary extends AST {
 		}else if(this.accs!=null){
 			if(!this.accs.genSymTb(codegen))
 				return false;
-			this.rst_type=this.accs.rst_type;
+			//this.rst_type=this.accs.rst_type;
 			this.rst_val=this.accs.rst_val;
 		}
 		if(this.cast!=null){
 			if(!this.cast.genSymTb(codegen))
 				return false;
-			this.rst_type=this.cast.rst_type;
+			//this.rst_type=this.cast.rst_type;
 			this.rst_val=this.cast.rst_val;
 		}
 		return true;
@@ -92,7 +92,7 @@ public class ExprCalc_Unary extends AST {
 				return false;
 			if(this.opt.equals("++p")||this.opt.equals("--p")){		
 				R_Variable r=new R_Variable();
-				r.setRstVal(this.rst_val);
+				r.addRstVal(this.rst_val);
 				r.setVarType(this.rst_type);
 				codegen.putVarInSymTb(this.rst_val, r);
 			}	

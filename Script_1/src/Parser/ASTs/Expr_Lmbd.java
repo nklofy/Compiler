@@ -42,17 +42,12 @@ public class Expr_Lmbd extends AST {
 		this.rst_type="function";
 		this.r_func=new R_Function();
 		this.t_type=new T_Function();
-		codegen.putFuncInSymTb(this.name, this.r_func);
+		codegen.putFuncInSymTb(this.rst_val, this.r_func);
 		R_Variable rf=new R_Variable();
 		rf.setVarName(this.rst_val);
 		rf.setVarType(this.rst_type);
-		rf.setRstVal(this.rst_val);
+		rf.addRstVal(this.rst_val);
 		codegen.putVarInSymTb(rf.getVarName(), rf);
-		//codegen.putTypeInSymTb(this.rst_type, this.t_type);
-	/*	if(codegen.isInScope("global")){
-			codegen.addtFuncInFile(this.r_func);
-			this.r_func.setScope("global");
-		}*/
 		codegen.pushBlock4Sym(this);
 		int old_scp=codegen.getScope();
 		this.setScope(codegen.addScope("lambda"));
@@ -61,13 +56,13 @@ public class Expr_Lmbd extends AST {
 		if(!this.pars.isE()){
 			if(!this.pars.genSymTb(codegen))
 				return false;
-			this.t_type.setParTypes(this.pars.pars_type);
+			//this.t_type.setParTypes(this.pars.pars_type);
 			this.r_func.setParsName(this.pars.pars_name);
 			for(int i=0;i<this.pars.pars_name.size();i++){
 				String s=this.pars.pars_name.get(i);
 				R_Variable r=new R_Variable();
 				r.setDummy();
-				r.setVarType(this.pars.pars_type.get(i));
+				//r.setVarType(this.pars.pars_type.get(i));
 				codegen.putVarInSymTb(s, r);
 			}
 		}	
@@ -80,8 +75,15 @@ public class Expr_Lmbd extends AST {
 		codegen.pushBlock4Sym(this);
 		int old_scp=codegen.getScope();
 		this.setScope(codegen.addScope("lambda"));
-		if(!this.pars.isE()&&this.pars.checkType(codegen)){
-			return false;
+		if(!this.pars.isE()){
+			if(!this.pars.checkType(codegen))
+				return false;
+			this.t_type.setParTypes(this.pars.pars_type);
+			for(int i=0;i<this.pars.pars_name.size();i++){
+				String s=this.pars.pars_name.get(i);
+				R_Variable r=codegen.getVarInSymTb(s);
+				r.setVarType(this.pars.pars_type.get(i));
+			}
 		}
 		if(!this.stmt_list.checkType(codegen)){
 			return false;

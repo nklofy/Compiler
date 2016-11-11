@@ -12,7 +12,7 @@ public class ExprAccs_App extends AST {
 	FuncApp_ArgLst arg_lst;
 	String rst_val;//returned value
 	String ref_type;
-	String rst_type;
+	String rst_type="auto";
 	//String ptr_func;//pointer to function
 	String ptr_scp;//search scope for function
 	String func_name;
@@ -66,12 +66,12 @@ public class ExprAccs_App extends AST {
 			}
 		}
 		if(!this.arg_lst.isE()){
-			for(Expr_Calc exp :this.arg_lst.args){
+			for(Expr exp :this.arg_lst.args){
 				code=new IRCode("pushFuncArg", exp.rst_val,null,null);
 				codegen.addCode(code);
 			}
 		}
-		code=new IRCode("invoke",this.rst_val,null,null);
+		code=new IRCode("invoke",this.rst_type, this.rst_val, null);
 		codegen.addCode(code);
 		return true;
 	}
@@ -105,9 +105,10 @@ public class ExprAccs_App extends AST {
 				R_Variable rf=codegen.getVarInSymTb(this.var.name);
 				if(rf!=null&&rf.getVarType().equals("function")){
 					this.isFuncObj=true;
+					if(this.ref_type!=null)this.rst_type=this.ref_type;
+					return true;
 				}else
 					throw new TypeCheckException("Type Check Error: no function "+this.var.name);
-
 			}				
 			if(codegen.isInGlobal())
 				this.ptr_scp="global";
@@ -133,6 +134,8 @@ public class ExprAccs_App extends AST {
 						R_Variable rf=((T_Class)t).getFields().get(this.func_name);
 						if(rf!=null&&rf.getVarType().equals("function")){
 							this.isFuncObj=true;
+							if(this.ref_type!=null)this.rst_type=this.ref_type;
+							return true;
 						}else
 							throw new TypeCheckException("Type Check Error: no function "+this.var.name);
 					}				
@@ -148,6 +151,8 @@ public class ExprAccs_App extends AST {
 						R_Variable rf=((T_Class)t1).getFields().get(this.func_name);
 						if(rf!=null&&rf.getVarType().equals("function")){
 							this.isFuncObj=true;
+							if(this.ref_type!=null)this.rst_type=this.ref_type;
+							return true;
 						}else
 							throw new TypeCheckException("Type Check Error: no function "+this.var.name);
 					}
@@ -176,6 +181,8 @@ public class ExprAccs_App extends AST {
 						R_Variable rf=((T_Class)t).getFields().get(this.func_name);
 						if(rf!=null&&rf.getVarType().equals("function")){
 							this.isFuncObj=true;
+							if(this.ref_type!=null)this.rst_type=this.ref_type;
+							return true;
 						}else
 							throw new TypeCheckException("Type Check Error: no function "+this.var.name);
 					}
@@ -191,6 +198,8 @@ public class ExprAccs_App extends AST {
 						R_Variable rf=((T_Class)t1).getFields().get(this.func_name);
 						if(rf!=null&&rf.getVarType().equals("function")){
 							this.isFuncObj=true;
+							if(this.ref_type!=null)this.rst_type=this.ref_type;
+							return true;
 						}else
 							throw new TypeCheckException("Type Check Error: no function "+this.var.name);
 					}
@@ -256,7 +265,7 @@ public class ExprAccs_App extends AST {
 		//TODO T_Generic t=(T_Generic)codegen.getTypeInSymTb(this.rst_type);
 	
 		r.setVarType(this.rst_type);
-		r.setRstVal(this.rst_val);
+		r.addRstVal(this.rst_val);
 		codegen.putVarInSymTb(this.rst_val, r);
 		if(this.ref_type!=null&&!codegen.getTypeInSymTb(this.ref_type).canAsnFrom(codegen, codegen.getTypeInSymTb(this.rst_type)))
 			throw new TypeCheckException("Type Check Error:  "+this.var.name);

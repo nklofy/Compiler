@@ -24,9 +24,9 @@ public class FuncDef_Par extends AST {
 		return true;
 	}
 	public boolean checkType(CodeGenerator codegen)throws TypeCheckException{
-		if(this.type.checkType(codegen))
+		if(!this.type.checkType(codegen))
 			return false;
-		if(this.var.checkType(codegen))
+		if(!this.var.checkType(codegen))
 			return false;
 		return true;
 	}

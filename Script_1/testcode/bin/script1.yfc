@@ -1,14 +1,68 @@
 89597046
 script1
-defClass A global
+defClass <T1>functor global
+Fields 1
+defField t:T1
+Methods 1
+defMethod fmap <T2>functor<T2>(function,functor<T1>)
+defGnrcPar T2
+defFuncPar function f
+defFuncPar functor<T1> wa
+getField %1 wa t
+getFuncObj f
+pushFuncArg %1
+invoke T2 %2
+mov T2 b %2
+newObj functor<T2> %3
+mov functor<T2> fb %3
+getField %4 fb t
+mov T2 %4 b
+retExp functor<T2> fb
+end
+defClass <T1>Monad global
+extends 1
+functor
 Methods 2
-defMethod f int()
-load_i %1 0
-retExp int %1
+defMethod rt Monad<T1>(T1)
+defFuncPar T1 t
+newObj Monad<T1> %13
+mov Monad<T1> ma %13
+getField %14 ma t
+mov T1 %14 t
+retExp Monad<T1> ma
 end
-defMethod g int()
-getMethod f int() this
-invoke %2
-retExp int %2
+defMethod lk <T2>Monad<T2>(Monad<T1>,function)
+defGnrcPar T2
+defFuncPar Monad<T1> ma
+defFuncPar function f
+getField %15 ma t
+getFuncObj f
+pushFuncArg %15
+invoke Monad<T2> %16
+mov Monad<T2> mb %16
+retExp Monad<T2> mb
 end
+newObj functor<int> %5
+mov functor<int> a %5
+getField %6 a t
+load_i %7 1
+mov int %6 %7
+newObj functor<bool> %8
+mov functor<bool> b %8
+defLambdaExp #9 bool(int)
+defFuncPar int i
+load_i %11 0
+GT %10 i %11
+if %10 13 15
+retExp bool true
+goto 16
+retExp bool false
+end
+mov function f #9
+getMethod fmap <T2>functor<T2>(function,functor<T1>) a
+pushTypeArg bool
+pushFuncArg f
+pushFuncArg a
+invoke functor<T2> %12
+mov functor<bool> b %12
 end

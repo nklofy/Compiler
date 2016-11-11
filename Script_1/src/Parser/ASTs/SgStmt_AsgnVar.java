@@ -36,15 +36,19 @@ public class SgStmt_AsgnVar extends AST {
 		R_Variable r=codegen.getVarInSymTb(this.expr.rst_val);
 		R_Variable nr=new R_Variable();
 		nr.setVarName(this.left_hand.rst_addr);
-		nr.setVarType(r.getVarType());
-		nr.setRstVal(r.getRstVal());
+		if(r!=null) nr.getRstVal().addAll(r.getRstVal());
+		else nr.addRstVal(this.expr.rst_val);
 		codegen.putVarInSymTb(this.left_hand.rst_addr,nr);
 		return true;
 	}
 	public boolean checkType(CodeGenerator codegen)throws TypeCheckException{
 		if(!this.left_hand.checkType(codegen))
-			return false;
+			return false;		
 		this.expr.ref_type=this.left_hand.ref_type;		
-		return this.expr.checkType(codegen);
+		codegen.getVarInSymTb(this.left_hand.rst_addr).setVarType(this.left_hand.ref_type);
+		if(!this.expr.checkType(codegen))return false;
+		
+		
+		return true;
 	}
 }

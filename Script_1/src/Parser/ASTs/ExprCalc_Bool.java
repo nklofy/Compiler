@@ -118,7 +118,7 @@ public class ExprCalc_Bool extends AST {
 			R_Variable r=new R_Variable();
 			this.rst_val="%"+codegen.getTmpSn();
 			r.setVarName(this.rst_val);
-			r.setRstVal(this.rst_val);
+			r.addRstVal(this.rst_val);
 			r.setVarType("bool");
 			codegen.putVarInSymTb(this.rst_val, r);
 			this.rst_type="bool";

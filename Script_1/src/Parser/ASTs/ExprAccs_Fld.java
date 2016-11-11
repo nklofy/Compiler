@@ -114,15 +114,25 @@ public class ExprAccs_Fld extends AST {
 			else{	//this.a ...
 				t=codegen.getTypeInSymTb(codegen.getThisCls());
 			}
+			
 			R_Variable r1=((T_Class)t).getField(codegen,var.name);
 			if(r1==null)throw new TypeCheckException("Type error: not defined field in class "+codegen.getThisCls()+" "+var.name);
-			this.rst_type=r1.getVarType();
-			T_Type t1;
-			if(this.inGType){
+			this.rst_type=r1.getVarType();			
+			T_Type t1=null;
+
+			if(this.inGType&&codegen.FindGnrcArgTb(this.rst_type)!=null){				
 				t1=codegen.getTypeInSymTb(codegen.FindGnrcArgTb(this.rst_type));
-			}else{
-				t1=codegen.getTypeInSymTb(this.rst_type);
+				this.rst_type=t1.getTypeSig();
+			}else if(this.inGType&&codegen.getTypeInSymTb(this.rst_type)!=null
+					&&codegen.getTypeInSymTb(this.rst_type).getKType()==T_Type.KType.t_gnrc){
+				
 			}
+			else 
+				t1=codegen.getTypeInSymTb(this.rst_type);
+
+			if(t1==null)
+				throw new TypeCheckException("type error: no type "+this.rst_type+" in "+this.var.name);
+			
 			if(this.ref_type!=null&&!codegen.getTypeInSymTb(this.ref_type).canAsnFrom(codegen, t1))
 				throw new TypeCheckException("TypeCheck Error: cannt asn "+this.rst_type+" to "+this.ref_type);
 			//if(this.ref_type==null){
@@ -137,26 +147,28 @@ public class ExprAccs_Fld extends AST {
 			return true;
 		}	//if(this.pre_fld!=null)
 		else if(this.var!=null){	//a...
-			if(codegen.isInScope("class")){
-				T_Type t=codegen.getTypeInSymTb(codegen.getThisCls());
-				R_Variable r1=((T_Class)t).getField(codegen,var.name);
-				if(r1==null)throw new TypeCheckException("Type error: not defined field "+var.name+" in "+codegen.getThisCls());
-				this.rst_type=r1.getVarType();
-			}
-			else{
+			//if(codegen.isInScope("class")){
+			//	T_Type t=codegen.getTypeInSymTb(codegen.getThisCls());
+			//	R_Variable r1=((T_Class)t).getField(codegen,var.name);
+			//	if(r1==null)throw new TypeCheckException("Type error: not defined field "+var.name+" in "+codegen.getThisCls());
+			//	this.rst_type=r1.getVarType();
+			//}
+			//else{
 				if(!this.var.checkType(codegen))	
 						return false;
-				this.rst_type=codegen.getVarInSymTb(var.name).getVarType();
-			}
+				R_Variable r=codegen.getVarInSymTb(var.name);
+				this.rst_type=r.getVarType();
+			//}
+			
 			T_Type t1=codegen.getTypeInSymTb(this.rst_type);
 			if(this.ref_type!=null&&!codegen.getTypeInSymTb(this.ref_type).canAsnFrom(codegen, t1))
-				throw new TypeCheckException("TypeCheck Error: ");
+				throw new TypeCheckException("TypeCheck Error: cannt cast "+this.rst_type+" to "+this.ref_type);
 		}else if(sign.equals("super")){	//super...
 			
 		}else if(sign.equals("this")){	//this....
 			
 		}else
-			throw new TypeCheckException("TypeCheck Error: ");
+			throw new TypeCheckException("TypeCheck Error:  "+this.var.name);
 		return true;
 	}
 }

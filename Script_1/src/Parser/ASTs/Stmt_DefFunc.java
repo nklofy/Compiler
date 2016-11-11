@@ -86,13 +86,13 @@ public class Stmt_DefFunc extends AST {
 		if(!this.pars.isE()){
 			if(!this.pars.genSymTb(codegen))
 				return false;
-			this.t_type.setParTypes(this.pars.pars_type);
+			//this.t_type.setParTypes(this.pars.pars_type);
 			this.r_func.setParsName(this.pars.pars_name);
 			for(int i=0;i<this.pars.pars_name.size();i++){
 				String s=this.pars.pars_name.get(i);
 				R_Variable r=new R_Variable();
 				r.setDummy();
-				r.setVarType(this.pars.pars_type.get(i));
+				//r.setVarType(this.pars.pars_type.get(i));
 				codegen.putVarInSymTb(s, r);
 			}
 		}
@@ -113,14 +113,21 @@ public class Stmt_DefFunc extends AST {
 		this.setScope(codegen.addScope("function"));
 		if(!this.type_exp.checkType(codegen))return false;
 		codegen.ret_types.addFirst(codegen.getTypeInSymTb(this.type_exp.rst_type));
+		codegen.putTypeInAllFileTb(this.type_exp.rst_type, codegen.getTypeInSymTb(this.type_exp.rst_type));
 		this.t_type.setRetType(this.type_exp.rst_type);
 		if(!this.gnrc_pars.isE()&&!this.gnrc_pars.checkType(codegen)){
 			return false;
 		}
-		if(!this.pars.isE()&&this.pars.checkType(codegen)){
-			return false;
+		if(!this.pars.isE()){
+			if(!this.pars.checkType(codegen))
+				return false;
+			this.t_type.setParTypes(this.pars.pars_type);
+			for(int i=0;i<this.pars.pars_name.size();i++){
+				String s=this.pars.pars_name.get(i);
+				R_Variable r=codegen.getVarInSymTb(s);
+				r.setVarType(this.pars.pars_type.get(i));
+			}
 		}
-
 		this.r_func.setFuncSig(this.t_type.genFuncSig(codegen));
 		if(!this.stmt_list.checkType(codegen)){
 			return false;

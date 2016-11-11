@@ -59,24 +59,24 @@ public class ExprAccs extends AST {
 			if(!this.fld.genSymTb(codegen))
 				return false;
 			this.rst_val=this.fld.rst_val;
-			this.rst_type=this.fld.rst_type;
+			//this.rst_type=this.fld.rst_type;
 			break;
 		case "ExprAccs_Pri":
 			if(!this.pri.genSymTb(codegen))
 				return false;
-			this.rst_type=this.pri.rst_type;
+			//this.rst_type=this.pri.rst_type;
 			this.rst_val=this.pri.rst_val;
 			break;
 		case "ExprAccs_Arr":
 			if(!this.arr.genSymTb(codegen))
 				return false;
-			this.rst_type=this.arr.rst_type;
+			//this.rst_type=this.arr.rst_type;
 			this.rst_val=this.arr.rst_val;
 			break;
 		case "ExprAccs_App":
 			if(!this.app.genSymTb(codegen))
 				return false;
-			this.rst_type=this.app.rst_type;
+			//this.rst_type=this.app.rst_type;
 			this.rst_val=this.app.rst_val;
 			break;
 		default:

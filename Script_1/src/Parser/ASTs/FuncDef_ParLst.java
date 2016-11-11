@@ -52,10 +52,9 @@ public class FuncDef_ParLst extends AST {
 			if(!par.genSymTb(codegen))
 				return false;
 			if(names.contains(par.var.name))
-				return false;
+					throw new GenSymTblException("gensymtable error: existing var "+par.var.name);
 			names.add(par.var.name);
 			this.pars_name.add(par.var.name);
-			this.pars_type.add(par.type.rst_type);
 		}
 		return true;
 	}
@@ -65,6 +64,8 @@ public class FuncDef_ParLst extends AST {
 		for(FuncDef_Par par:pars){
 			if(!par.checkType(codegen))
 				return false;
+			this.pars_type.add(par.type.rst_type);
+			codegen.putTypeInAllFileTb(par.type.rst_type, codegen.getTypeInSymTb(par.type.rst_type));
 		}
 		return true;
 	}

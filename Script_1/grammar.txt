@@ -292,8 +292,8 @@ arg_list |>
 >| e 
 
 arguments |>
-   arguments , calc_exp 
->| calc_exp 
+   arguments , expression 
+>| expression 
 
 lambda_exp |>
    ( par_list ) -> { stmt_list }

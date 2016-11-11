@@ -97,9 +97,9 @@ public class ExprCalc_Add extends AST {
 			R_Variable r=new R_Variable();
 			this.rst_val="%"+codegen.getTmpSn();
 			r.setVarName(this.rst_val);
-			r.setRstVal(this.rst_val);
+			r.addRstVal(this.rst_val);
 			r.setVarType(this.ref_type);
-			this.rst_type=this.ref_type;//TODO
+			//this.rst_type=this.ref_type;//TODO
 			codegen.putVarInSymTb(this.rst_val, r);
 		}
 		switch(this.t_Add){
@@ -115,13 +115,13 @@ public class ExprCalc_Add extends AST {
 			if(this.opt==null){
 				if(!this.unary.genSymTb(codegen))
 					return false;
-				this.rst_type=this.unary.rst_type;
+				//this.rst_type=this.unary.rst_type;
 				this.rst_val=this.unary.rst_val;
 			}else{
 				if(!this.add_1.genSymTb(codegen))
 					return false;
 				if(this.opt.equals("+")){
-					this.rst_type=this.add_1.rst_type;
+					//this.rst_type=this.add_1.rst_type;
 					this.rst_val=this.add_1.rst_val;
 				}				
 			}

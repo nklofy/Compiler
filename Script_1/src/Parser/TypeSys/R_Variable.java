@@ -1,7 +1,8 @@
 package Parser.TypeSys;
 
-import Parser.AST;
+import Parser.*;
 import Parser.TypeSys.*;
+import java.util.*;
 
 public class R_Variable {
 	private boolean isFinal;
@@ -9,7 +10,7 @@ public class R_Variable {
 	private boolean isDummy;
 	private boolean isField;
 	private String var_type;
-	private String rst_val;
+	private LinkedList<String> rst_val=new LinkedList<String>();
 	private String name;
 
 	public String getVarName() {
@@ -18,11 +19,11 @@ public class R_Variable {
 	public void setVarName(String name) {
 		this.name = name;
 	}
-	public String getRstVal() {
-		return rst_val;
+	public LinkedList<String> getRstVal(){
+		return this.rst_val;
 	}
-	public void setRstVal(String tmp_addr) {
-		this.rst_val = tmp_addr;
+	public void addRstVal(String tmp_addr) {
+		this.rst_val.add(tmp_addr);
 	}
 	public boolean isDummy() {
 		return isDummy;

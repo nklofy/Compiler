@@ -39,7 +39,8 @@ public class LexAnalyzer {
 		Scanner in = null;
 		String word;
 		try {			
-			in=new Scanner(new BufferedReader(new FileReader(filename)));
+			//in=new Scanner(new BufferedReader(new FileReader(filename)));
+			in=new Scanner(new FileReader(filename));
 			if(in.hasNext())
 				word=in.next();
 			else return false;

@@ -33,31 +33,15 @@ function f = ( int a ) -> {  return ()->{return 1;};  };
 f(1);
 */
 
-class functor <T1>{
+class F <T1>{
 	T1 t;
-	<T2> functor<T2> fmap (function f, functor<T1> wa) {
+	<T2> F<T2> fmap (function f, F<T1> wa){
 		T2 b=f(wa.t);
-		functor<T2> fb=new functor<T2>();
+		F<T2> fb=new F<T2>();
 		fb.t=b;
 		return fb;
 	}
 }
-
-functor<int> a=new functor<int>();
+F<int> a=new F<int>();
 a.t=1;
-functor<bool> b=new functor<bool>();
-function f=(int i)->{if(i>0)return true; else return false;};
-b=a.<bool>fmap( f , a);
-
-
-class Monad <T1> extends functor{
-	Monad<T1> rt(T1 t){
-		Monad <T1> ma=new Monad<T1>();
-		ma.t=t;
-		return ma;
-	}
-	<T2> Monad<T2> lk(Monad<T1> ma, function f){
-		Monad<T2> mb=f(ma.t);
-		return mb;
-	}
-}
+F<bool> b=F.fmap( (int i)->{if(i>0)return true; else return false;} , a);

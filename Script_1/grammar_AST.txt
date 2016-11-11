@@ -152,8 +152,8 @@
 150 apply_exp var ( arg_list ) 
 151 arg_list arguments 
 152 arg_list e 
-153 arguments arguments , calc_exp 
-154 arguments calc_exp 
+153 arguments arguments , expression 
+154 arguments expression 
 155 lambda_exp ( par_list ) -> { stmt_list } 
  
 
@@ -312,7 +312,7 @@
 151 crtArgLst 0
 152 crtArgLstE 0
 153 lnkArgLst 2 0
-154 crtArgCalc 0
+154 crtArgExp 0
 155 crtLbdExp 5 1
 
 //end

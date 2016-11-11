@@ -29,7 +29,7 @@ public class ExprPri_Var extends AST {
 		if(r!=null){
 			this.rst_type=r.getVarType();
 			if(this.ref_type!=null&&!codegen.getTypeInSymTb(this.ref_type).canAsnFrom(codegen, codegen.getTypeInSymTb(this.rst_type)))
-				throw new TypeCheckException("fail type checking: can not caset"+ codegen.getTypeInSymTb(this.ref_type).getTypeSig() 
+				throw new TypeCheckException("fail type checking: can not cast"+ codegen.getTypeInSymTb(this.ref_type).getTypeSig() 
 						+"from "+codegen.getTypeInSymTb(this.rst_type).getTypeSig());
 		}
 		else 

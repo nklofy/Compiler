@@ -25,7 +25,7 @@ public class ExprPri_Str extends AST {
 		this.rst_val="%"+codegen.getTmpSn();
 		R_Variable r=new R_Variable();
 		r.setVarName(this.rst_val);
-		r.setRstVal(this.rst_val);
+		r.addRstVal(this.rst_val);
 		r.setVarType(this.rst_type);
 		codegen.putVarInSymTb(this.rst_val, r);
 		return true;
