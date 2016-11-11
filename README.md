@@ -22,16 +22,35 @@
 
 7. IR code. Three address linear code. 
 
-###example code:
+###example code: church number for showing lambda expression, functor and monad in OO style. All pass type checking.
 ```
-class A<T1>{
-  T1 f(){return new T1();}
+//Church number
+function zero=(function f, int s)->{return f(s);};
+function inc_1=(function f, int s)->{return f(f(s));};
+function add_2=(function m, function n, function f, int s)->{return (function f, int s)->{return m (f (n (f (s))));};};
+
+//functor
+class functor <T1>{
+	T1 t;
+	<T2> functor<T2> fmap (function f, functor<T1> wa) {
+		T2 b=f(wa.t);
+		functor<T2> fb=new functor<T2>();
+		fb.t=b;
+		return fb;
+	}
 }
-class B<T2>{
-  T2 g(){return new T2();}
+//monad
+class monad <T1> extends functor{
+	monad<T1> rt(T1 t){//as "return" in monad of haskell
+		monad <T1> ma=new monad<T1>();
+		ma.t=t;
+		return ma;
+	}
+	<T2> monad<T2> bd(Monad<T1> ma, function f){// as ">>=" in monad of haskell
+		monad<T2> mb=f(ma.t);
+		return mb;
+	}
 }
-A<B<A<int>>> ga=new A<B<A<int>>>();
-int i = ga.f().g().f();
 ```
 
 ##older version: 
