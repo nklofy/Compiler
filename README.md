@@ -22,7 +22,7 @@
 
 7. IR code. Three address linear code. 
 
-###example code: church number for showing lambda expression, functor and monad in OO style. All pass type checking.
+###example code: church number in lambda expr, functor and monad in OO style. All pass type checking.
 ```
 //Church number
 function zero=(function f, int s)->{return f(s);};
