@@ -64,8 +64,8 @@ public class PackageManager {
 	
 	
 	public String[] getDir(LinkedList<String> pck_names, String dir){//get dir of ..../src	
-		String dir_m=dir.replace(File.separator, "\\"+File.separator);
-		String[] dirs=dir_m.split("\\"+File.separator);
+		String dir_m=dir.replace(File.separator, "//");
+		String[] dirs=dir_m.split("//");
 		String[] dir_r=new String[2];
 		int l=pck_names.size();
 		int l1=dirs.length;
@@ -81,14 +81,17 @@ public class PackageManager {
 		l_t=dir.length()-l_t;
 		String dir_bin="";
 		String dir_src="";
+		String dir_pck="";	
 		if(dirs[l1-2-l].equals("src")){//..../src; ...../bin
 			dir_bin=dir.substring(0,l_t-4)+File.separator+"bin";
+			dir_pck=dir.substring(l_t-4);
 		}else{// without ../src; only .../bin
 			dir_bin=dir.substring(0,l_t)+File.separator+"bin";
+			dir_pck=dir.substring(l_t);
 		}
 		dir_src=dir.substring(0,l_t);
-		dir_r[0]=dir_bin;
-		dir_r[1]=dir_src;
+		dir_r[0]=dir_bin+dir_pck;
+		dir_r[1]=dir_src+dir_pck;
 		return dir_r;
 	}
 /*	public String getDir_b(LinkedList<String> pck_names, String file_name, String dir){

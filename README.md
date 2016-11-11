@@ -22,32 +22,33 @@
 
 7. IR code. Three address linear code. 
 
-###example code: church number in lambda expr, functor and monad in OO style. All pass type checking.
+###Examples: Church Number, OO style Functor and Monad types.
 ```
 //Church number
 function zero=(function f, int s)->{return f(s);};
 function inc_1=(function f, int s)->{return f(f(s));};
 function add_2=(function m, function n, function f, int s)->{return (function f, int s)->{return m (f (n (f (s))));};};
 
-//functor
-class functor <T1>{
+//Functor
+class Functor <T1>{
 	T1 t;
-	<T2> functor<T2> fmap (function f, functor<T1> wa) {
+	<T2> Functor<T2> fmap (function f, Functor<T1> wa) {    //"fmap" in Functor
 		T2 b=f(wa.t);
-		functor<T2> fb=new functor<T2>();
+		Functor<T2> fb=new Functor<T2>();
 		fb.t=b;
 		return fb;
 	}
 }
-//monad
-class monad <T1> extends functor{
-	monad<T1> rt(T1 t){//as "return" in monad of haskell
-		monad <T1> ma=new monad<T1>();
+
+//Monad
+class Monad <T1> extends Functor{
+	Monad<T1> rt(T1 t){    //"return" in Monad
+		Monad <T1> ma=new Monad<T1>();
 		ma.t=t;
 		return ma;
 	}
-	<T2> monad<T2> bd(Monad<T1> ma, function f){// as ">>=" in monad of haskell
-		monad<T2> mb=f(ma.t);
+	<T2> Monad<T2> bd(Monad<T1> ma, function f){    //">>=" in Monad
+		Monad<T2> mb=f(ma.t);
 		return mb;
 	}
 }

@@ -411,8 +411,8 @@ public class CodeGenerator {
 			out.println("89597046");
 			out.println(this.file_name);
 			if(!this.pck_name.isEmpty()){
-				out.println("package");
-				String s1=null;
+				out.print("package ");
+				String s1="";
 				for(String s:this.pck_name){
 					s1+=s+".";
 				}
@@ -421,7 +421,7 @@ public class CodeGenerator {
 			if(!this.impt_pcks.isEmpty()){
 				out.println("import "+this.impt_pcks.size());
 				for(LinkedList<String> im:this.impt_pcks){
-					String s1=null;
+					String s1="";
 					for(String s:im){
 						s1+=s+".";
 					}

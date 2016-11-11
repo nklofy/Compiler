@@ -1,5 +1,6 @@
 89597046
 script1
+package yftest.test
 defClass <T1>functor global
 Fields 1
 defField t:T1

@@ -23,8 +23,8 @@ public class Tokenizer {
 		Scanner in = null;
 		String word;
 		try {
-			//in=new Scanner(new BufferedReader(new FileReader(filename)));
-			in=new Scanner(new FileReader(filename));
+			in=new Scanner(new BufferedReader(new FileReader(filename)));
+			//in=new Scanner(new FileReader(filename));
 			if(in.hasNext()){
 				word=in.nextLine();
 				if(!word.equals("//transfer table"))
@@ -117,8 +117,8 @@ public class Tokenizer {
 	
 	public boolean setScanFile(String filename){
 		try {
-			//in=new Scanner(new BufferedReader(new FileReader(filename)));
-			in=new Scanner(new FileReader(filename));
+			in=new Scanner(new BufferedReader(new FileReader(filename)));
+			//in=new Scanner(new FileReader(filename));
 		} catch (Exception e){
 			e.printStackTrace();
 		}
@@ -198,16 +198,12 @@ public class Tokenizer {
 			token.line_in=this.line_in;
 			return token;
 		}
-		if(terminal_opt.keySet().contains(state)){
-			buffer=buffered_line.substring(index_pre,index_crt);
+		buffer=buffered_line.substring(index_pre,index_crt);
+		if(terminal_opt.keySet().contains(state)&&terminal_opt.get(state).equals(buffer)){
 			pattern="opt";
-			index_pre=index_crt;
-		}else if(terminal_res.keySet().contains(state)){
-			buffer=buffered_line.substring(index_pre,index_crt);
-			pattern="res";
-			index_pre=index_crt;					
+		}else if(terminal_res.keySet().contains(state)&&terminal_res.get(state).equals(buffer)){
+			pattern="res";			
 		}else if(terminal_idn.keySet().contains(state)){
-			buffer=buffered_line.substring(index_pre,index_crt);
 			String idn_t=terminal_idn.get(state);
 			if(idn_t.equals("int_num")){
 				pattern="int";
@@ -216,10 +212,11 @@ public class Tokenizer {
 			}else{
 				pattern="idn";				
 			}
-			index_pre=index_crt;			
 		}else{
-			System.out.println("unkown token "+buffered_line.substring(index_pre,index_crt)+" in "+buffered_line); 
+			pattern="idn";	
+			//System.out.println("unkown token "+buffered_line.substring(index_pre,index_crt)+" in "+buffered_line); 
 		}
+		index_pre=index_crt;
 		if(index_crt>=buffered_line.length()){
 			buffered_line=null;			
 		}	

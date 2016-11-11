@@ -48,8 +48,8 @@ public class Parser {
 		Scanner in = null;
 		String word;
 		try {
-			//in=new Scanner(new BufferedReader(new FileReader(filename)));
-			in=new Scanner(new FileReader(filename));
+			in=new Scanner(new BufferedReader(new FileReader(filename)));
+			//in=new Scanner(new FileReader(filename));
 			if(in.hasNext()){
 				word=in.nextLine();
 				if(!word.equals("//tokens"))
@@ -230,8 +230,8 @@ public class Parser {
 		Scanner in = null;
 		String word;
 		try {
-			//in=new Scanner(new BufferedReader(new FileReader(filename)));
-			in=new Scanner(new FileReader(filename));
+			in=new Scanner(new BufferedReader(new FileReader(filename)));
+			//in=new Scanner(new FileReader(filename));
 			if(in.hasNext()){
 				word=in.nextLine();
 				if(!word.equals("//grammars"))
@@ -319,10 +319,14 @@ public class Parser {
 		while(token.getType().equals("opt")&&token.getOptName().equals(".")){
 			token=tokenizer.getToken();
 			if(token.getType().equals("var")){
-				this.pck_names.add(token.getResName());
+				this.pck_names.add(token.getIdnName());
+				token=tokenizer.getToken();
 			}else if(token.getType().equals("opt")&&token.getOptName().equals(";")){
 				return true;
 			}
+		}
+		if(token.getType().equals("opt")&&token.getOptName().equals(";")){
+			return true;
 		}
 		return false;
 	}
