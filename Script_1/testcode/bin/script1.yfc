@@ -1,0 +1,49 @@
+89597046
+script1
+defLambdaExp #1 auto(function,int)
+defFuncPar function f
+defFuncPar int s
+getFuncObj f
+pushFuncArg s
+invoke auto %2
+retExp auto %2
+end
+mov function zero #1
+defLambdaExp #3 auto(function,int)
+defFuncPar function f
+defFuncPar int s
+getFuncObj f
+pushFuncArg s
+invoke auto %4
+getFuncObj f
+pushFuncArg %4
+invoke auto %5
+retExp auto %5
+end
+mov function inc_1 #3
+defLambdaExp #6 function(function,function,function,int)
+defFuncPar function m
+defFuncPar function n
+defFuncPar function f
+defFuncPar int s
+defLambdaExp #7 auto(function,int)
+defFuncPar function f
+defFuncPar int s
+getFuncObj f
+pushFuncArg s
+invoke auto %8
+getFuncObj n
+pushFuncArg %8
+invoke auto %9
+getFuncObj f
+pushFuncArg %9
+invoke auto %10
+getFuncObj m
+pushFuncArg %10
+invoke auto %11
+retExp auto %11
+end
+retExp function #7
+end
+mov function add_2 #6
+end
