@@ -41,5 +41,4 @@ public class test {
 		//tree.genCode(codegen);
 		//codegen.outputFile("out_IR.txt");
 	}
-
 }
