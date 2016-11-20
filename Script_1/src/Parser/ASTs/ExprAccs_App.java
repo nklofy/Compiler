@@ -110,12 +110,13 @@ public class ExprAccs_App extends AST {
 				}else
 					throw new TypeCheckException("Type Check Error: no function "+this.var.name);
 			}				
-			if(codegen.isInGlobal())
-				this.ptr_scp="global";
+			//if(codegen.isInGlobal())
+			//	this.ptr_scp="global";
 			else if(codegen.isInScope("class")){
 				this.ptr_scp="this";				
 			}else
-				throw new TypeCheckException("Type Check Error: scope of func app "+this.var.name);
+				this.ptr_scp="this";
+				//throw new TypeCheckException("Type Check Error: scope of func app "+this.var.name);
 		}else{			//xx.f() 
 			if(this.ptr_scp.equals("this")){//this.f()
 				if(!codegen.isInScope("class"))

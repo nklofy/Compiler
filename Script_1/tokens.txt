@@ -27,15 +27,17 @@ class class
 interface interface
 extends extends
 implements implements
+data data
+deriving deriving
 type type
 typedef typedef
 typename typename
+newtype newtype
 lambda lambda
 public public
 private private
 static static
 new new
-delete delete
 final final
 finally finally
 finalize finalize
@@ -47,8 +49,6 @@ main main
 function function
 import import
 package package
-using using
-auto auto
 
 //operator
 || ||
@@ -74,7 +74,6 @@ auto auto
 -> ->
 => =>
 <- <-
->>= >>=
 \ \
 _ _
 : :
