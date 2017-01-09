@@ -10,7 +10,7 @@ retExp int %3
 goto 15
 load_i %6 1
 sub_i %5 a %6
-getMethod fact int(int) this
+getFunc fact int(int) global
 pushFuncArg %5
 invoke int %7
 mul_i %4 a %7
@@ -18,7 +18,7 @@ retExp int %4
 end
 load_i %8 1
 mov int a %8
-getMethod fact int(int) this
+getFunc fact int(int) global
 pushFuncArg a
 invoke int %9
 mov int b %9

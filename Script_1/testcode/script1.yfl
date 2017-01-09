@@ -10,6 +10,11 @@ int fib(int a){
 	else
 	return fib(a-1)+fib(a-2);
 }
+class A{
+int f(){return 0;}
+}
+A a;
+a.f();
 */
 int a=1;
 int b=fact(a);
