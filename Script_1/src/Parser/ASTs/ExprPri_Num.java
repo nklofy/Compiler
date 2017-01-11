@@ -32,9 +32,7 @@ public class ExprPri_Num extends AST {
 				codegen.addCode(code);
 				break;
 			case "string":
-				code = new IRCode("load_s",this.rst_val,null,null);
-				codegen.addCode(code);
-				code = new IRCode(this.tmp_val,null,null,null);
+				code = new IRCode("load_s",this.rst_val,this.tmp_val,null);
 				codegen.addCode(code);
 				break;
 				default:break;
@@ -50,9 +48,7 @@ public class ExprPri_Num extends AST {
 				codegen.addCode(code);
 				break;
 			case "string":
-				code = new IRCode("load_s",this.rst_val,null,null);
-				codegen.addCode(code);
-				code = new IRCode(this.tmp_val,null,null,null);
+				code = new IRCode("load_s",this.rst_val,this.tmp_val,null);
 				codegen.addCode(code);
 				break;
 				default:break;

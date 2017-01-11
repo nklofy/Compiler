@@ -19,12 +19,8 @@ public class ExprPri_Chr extends AST {
 			code=new IRCode("load_c", this.rst_val, this.rst_chr, null);
 			codegen.addCode(code);
 		}else if(this.ref_type.equals("string")){
-			code=new IRCode("load_s", this.rst_val, null, null);
-			codegen.addCode(code);
-			
-			code=new IRCode(this.rst_chr, null, null, null);
-			codegen.addCode(code);
-			
+			code=new IRCode("load_s", this.rst_val, this.rst_chr, null);
+			codegen.addCode(code);			
 		}
 		return true;
 	}

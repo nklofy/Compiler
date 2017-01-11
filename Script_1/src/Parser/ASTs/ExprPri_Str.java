@@ -14,9 +14,7 @@ public class ExprPri_Str extends AST {
 		this.str=value;		
 	}
 	public boolean genCode(CodeGenerator codegen)throws GenCodeException{
-		IRCode code=new IRCode("load_s",this.rst_val,null,null);
-		codegen.addCode(code);
-		code=new IRCode(this.str,null,null,null);
+		IRCode code=new IRCode("load_s",this.rst_val,this.str,null);
 		codegen.addCode(code);
 		return true;
 	}
