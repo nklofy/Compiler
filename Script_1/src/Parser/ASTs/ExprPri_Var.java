@@ -28,7 +28,7 @@ public class ExprPri_Var extends AST {
 		R_Variable r=codegen.getVarInSymTb(name);		
 		if(r!=null){
 			this.rst_type=r.getVarType();
-			if(this.ref_type!=null&&!codegen.getTypeInSymTb(this.ref_type).canAsnFrom(codegen, codegen.getTypeInSymTb(this.rst_type)))
+			if(this.rst_type!=null&&this.ref_type!=null&&!codegen.getTypeInSymTb(this.ref_type).canAsnFrom(codegen, codegen.getTypeInSymTb(this.rst_type)))
 				throw new TypeCheckException("fail type checking: can not cast"+ codegen.getTypeInSymTb(this.ref_type).getTypeSig() 
 						+"from "+codegen.getTypeInSymTb(this.rst_type).getTypeSig());
 		}

@@ -1,25 +1,7 @@
 89597046
 script1
-defFunction fact int(int) global
-defFuncPar int a
-load_i %2 1
-EQ %1 a %2
-if %1 5 8
-load_i %3 1
-retExp int %3
-goto 15
-load_i %6 1
-sub_i %5 a %6
-getFunc fact int(int) global
-pushFuncArg %5
-invoke int %7
-mul_i %4 a %7
-retExp int %4
+defFunction f int() global
+retExp b
 end
-load_i %8 1
-mov int a %8
-getFunc fact int(int) global
-pushFuncArg a
-invoke int %9
-mov int b %9
+mov int b null
 end

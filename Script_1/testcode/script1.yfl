@@ -1,10 +1,10 @@
-
+/*
 int fact(int a){
 	if(a==1) return 1;
 	else
 	return a*fact(a-1);
 }
-/*
+
 int fib(int a){
 	if(a<3) return 1;
 	else
@@ -15,6 +15,11 @@ int f(){return 0;}
 }
 A a;
 a.f();
-*/
+
 int a=1;
 int b=fact(a);
+*/
+int f(){
+	return b;
+}
+int b;
