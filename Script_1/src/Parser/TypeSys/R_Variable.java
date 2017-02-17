@@ -9,6 +9,13 @@ public class R_Variable {
 	private boolean isStatic;
 	private boolean isDummy;
 	private boolean isField;
+	private T_Class inClass;
+	public T_Class getInClass() {
+		return inClass;
+	}
+	public void setInClass(T_Class inClass) {
+		this.inClass = inClass;
+	}
 	private String var_type;
 	private LinkedList<String> rst_val=new LinkedList<String>();
 	private String name;

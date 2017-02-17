@@ -1,7 +1,12 @@
 89597046
 script1
-defFunction f int() global
-retExp b
+defClass A global
+Fields 1
+defField a:int
+Methods 1
+defMethod f int()
+retExp int a
 end
-mov int b null
+newObj A %1
+mov A a %1
 end

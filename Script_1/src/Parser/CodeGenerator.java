@@ -288,6 +288,8 @@ public class CodeGenerator {
 		if(t instanceof T_Class){
 			T_Class t1=(T_Class)t;
 			R_Variable r=t1.getField(this, name);
+			r.setField(true);
+			r.setInClass(t1);
 			return r;
 		}
 		return null;

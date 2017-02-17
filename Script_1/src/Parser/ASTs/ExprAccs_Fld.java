@@ -12,7 +12,7 @@ public class ExprAccs_Fld extends AST {
 	String ref_type;
 	String rst_type;
 	boolean inGType=false;
-	
+	boolean addThis=false;
 	public void setAccs(ExprAccs_Fld pre_fld,ExprPri_Var var,String sign){
 		this.pre_fld=pre_fld;
 		this.var=var;
@@ -30,7 +30,11 @@ public class ExprAccs_Fld extends AST {
 			codegen.addCode(code);
 		}else{
 			if(this.var!=null){
-				this.var.genCode(codegen);
+				this.var.genCode(codegen);	
+				if(this.addThis){
+					code=new IRCode("getField",this.rst_val,"this",this.var.name);
+					codegen.addCode(code);
+				}
 			}else if(sign.equals("super")){
 				
 			}else if(sign.equals("this")){
@@ -159,7 +163,13 @@ public class ExprAccs_Fld extends AST {
 				R_Variable r=codegen.getVarInSymTb(var.name);
 				this.rst_type=r.getVarType();
 			//}
-			
+			if(r.isField()){	//a is actually a field in class. then change "a" to "this.a" explicitly 
+				this.addThis=true;
+				this.rst_val="%"+codegen.getTmpSn();
+				if(this.inGType&&codegen.FindGnrcArgTb(this.rst_type)!=null){				
+					this.rst_type=codegen.getTypeInSymTb(codegen.FindGnrcArgTb(this.rst_type)).getTypeSig();
+				}
+			}
 			T_Type t1=codegen.getTypeInSymTb(this.rst_type);
 			if(this.ref_type!=null&&!codegen.getTypeInSymTb(this.ref_type).canAsnFrom(codegen, t1))
 				throw new TypeCheckException("TypeCheck Error: cannt cast "+this.rst_type+" to "+this.ref_type);

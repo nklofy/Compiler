@@ -1,25 +1,7 @@
-/*
-int fact(int a){
-	if(a==1) return 1;
-	else
-	return a*fact(a-1);
-}
-
-int fib(int a){
-	if(a<3) return 1;
-	else
-	return fib(a-1)+fib(a-2);
-}
 class A{
-int f(){return 0;}
+	int a;
+	int f(){
+		return a;
+	}
 }
-A a;
-a.f();
-
-int a=1;
-int b=fact(a);
-*/
-int f(){
-	return b;
-}
-int b;
+A a=new A();
