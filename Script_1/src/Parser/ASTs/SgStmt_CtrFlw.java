@@ -75,22 +75,26 @@ public class SgStmt_CtrFlw extends AST {
 					&&codegen.ret_types.peek().equals("void"))
 				return true;
 			if(codegen.isInScope("lambda")){
-				T_Type t=codegen.getTypeInSymTb("void");
-				codegen.ret_types.addFirst(t);
+				//T_Type t=codegen.getTypeInSymTb("void");
+				codegen.ret_types.addFirst("void");
 				return true;
 			}
 			else throw new TypeCheckException("Check Type Error: return type is not void");
 		case t_returnExp:
+
+			this.return_exp.ref_type=codegen.ret_types.peek();
 			if(!this.return_exp.checkType(codegen)) return false;
 			if(codegen.isInScope("lambda")){
-				codegen.ret_types.addFirst(codegen.getTypeInSymTb(this.return_exp.rst_type));
+				codegen.ret_types.addFirst(this.return_exp.rst_type);
 				return true;
 			}
 			else if(codegen.isInScope("function")){
-				T_Type t1=codegen.ret_types.peek()
+				T_Type t1=codegen.getTypeInSymTb(codegen.ret_types.peek())
 						,t2=codegen.getTypeInSymTb(this.return_exp.rst_type);
-				if(t1.canCastFrom(codegen, t2))
-					return true;	
+				if(t1.canCastFrom(codegen, t2)){
+					return true;
+				}
+				else throw new TypeCheckException("Check Type Error: return type mismatch");
 			}
 			//else if(){
 			//	

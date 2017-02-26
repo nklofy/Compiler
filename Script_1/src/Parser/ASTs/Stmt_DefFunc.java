@@ -112,7 +112,7 @@ public class Stmt_DefFunc extends AST {
 		int old_scp=codegen.getScope();
 		this.setScope(codegen.addScope("function"));
 		if(!this.type_exp.checkType(codegen))return false;
-		codegen.ret_types.addFirst(codegen.getTypeInSymTb(this.type_exp.rst_type));
+		codegen.ret_types.addFirst(this.type_exp.rst_type);
 		codegen.putTypeInAllFileTb(this.type_exp.rst_type, codegen.getTypeInSymTb(this.type_exp.rst_type));
 		this.t_type.setRetType(this.type_exp.rst_type);
 		if(!this.gnrc_pars.isE()&&!this.gnrc_pars.checkType(codegen)){

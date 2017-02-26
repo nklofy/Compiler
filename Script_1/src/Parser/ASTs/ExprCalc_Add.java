@@ -80,7 +80,7 @@ public class ExprCalc_Add extends AST {
 			}else{
 				this.add_1.genCode(codegen);
 				if(this.opt.equals("-")){
-					code=new IRCode("minus"+s,this.rst_val,this.add_1.rst_val,null);
+					code=new IRCode("minus_"+s,this.rst_val,this.add_1.rst_val,null);
 					codegen.addCode(code);
 				}else{
 

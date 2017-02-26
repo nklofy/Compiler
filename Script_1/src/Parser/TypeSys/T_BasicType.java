@@ -10,6 +10,7 @@ public class T_BasicType extends T_Type {
 	//}
 	public T_BasicType(String t){
 		//this.setKType(KType.t_bsc);
+		this.setTypeName(t);
 		switch(t){
 		case "int":
 			this.btype=en_BType.t_int;

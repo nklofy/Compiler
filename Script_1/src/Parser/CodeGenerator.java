@@ -16,7 +16,7 @@ public class CodeGenerator {
 	public LinkedList<String> labels_whlbg=new LinkedList<String>();
 	public LinkedList<String> labels_whlend=new LinkedList<String>();
 	public TypeChecker type_sys=new TypeChecker();
-	public LinkedList<T_Type> ret_types=new LinkedList<T_Type>();//check function return type and return statment's type
+	public LinkedList<String> ret_types=new LinkedList<String>();//check function return type and return statment's type
 	public LinkedList<HashMap<String,String>> gnrc_arg=new LinkedList<HashMap<String,String>>();//records of types for generic arg
 	public LinkedList<HashMap<String,String>> func_arg=new LinkedList<HashMap<String,String>>();//records of name/vars for function arg 
 	

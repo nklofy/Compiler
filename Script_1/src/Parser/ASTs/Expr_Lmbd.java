@@ -88,7 +88,7 @@ public class Expr_Lmbd extends AST {
 		if(!this.stmt_list.checkType(codegen)){
 			return false;
 		}
-		this.t_type.setRetType(codegen.ret_types.remove().getTypeSig());
+		this.t_type.setRetType(codegen.ret_types.remove());
 		this.r_func.setFuncSig(this.t_type.genFuncSig(codegen));
 		codegen.setScope(old_scp);
 		codegen.popBlock4Sym();
