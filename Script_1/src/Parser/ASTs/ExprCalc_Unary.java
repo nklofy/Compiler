@@ -60,14 +60,12 @@ public class ExprCalc_Unary extends AST {
 				return false;
 			if(this.opt.equals("++")||this.opt.equals("--")){
 				this.rst_val=this.accs.rst_val;
-			}
-	/*		if(this.opt.equals("++p")||this.opt.equals("--p")){			
+			}else if(this.opt.equals("++p")||this.opt.equals("--p")){			
 				this.rst_val="%"+codegen.getTmpSn();
 				R_Variable r=new R_Variable();
-				r.setTmpAddr(this.rst_val);
 				r.setVarType(this.ref_type);
 				codegen.putVarInSymTb(this.rst_val, r);
-			}	*/			
+			}				
 		}else if(this.accs!=null){
 			if(!this.accs.genSymTb(codegen))
 				return false;
