@@ -131,7 +131,7 @@ public class CodeGenerator {
 		if((this.scope&2)==2&&(scope&2)!=2){//both in class
 			return true;
 		}
-		
+	//	if(this.scope!=scope)	return true;
 		return false;
 	}
 	public CodeGenerator(){
@@ -273,8 +273,9 @@ public class CodeGenerator {
 		if(s!=null)
 			name=s;
 		for(AST ast:this.block_4symtb){
+			if(this.outOfScope(ast.getScope()))break;
 			r=ast.var_table.get(name);
-			if(r!=null&&!this.outOfScope(ast.getScope()))
+			if(r!=null)
 				return r;
 		}	
 		if(r==null&&this.this_cls!=null){
@@ -315,8 +316,9 @@ public class CodeGenerator {
 	public R_Function getFuncInSymTb(String name){
 		R_Function f=null;
 		for(AST ast:this.block_4symtb){
+			if(this.outOfScope(ast.getScope()))break;
 			f=ast.func_table.get(name);
-			if(f!=null&&!this.outOfScope(ast.getScope()))
+			if(f!=null)
 				return f;
 		}
 		return null;
