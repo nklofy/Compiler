@@ -1,4 +1,4 @@
-#next generation (planning):
+#next generation (planning): 
 a mixture of parts of python + javascript + java + scala + haskell
 1. script + function + types, braces and semicolons, the same as before.
 2. type system completely rewriten. 
@@ -9,7 +9,10 @@ a mixture of parts of python + javascript + java + scala + haskell
 7. auto type inference and "auto" keyword.
 8. lazy evaluation, and "lazy" keyword.
 9. coroutine, and "coroutine, yield" keywords.
+
 hahhhh, i need 10 years to finish these targets. maybe more? don't care. just enjoy it.
+
+
 
 #Here is YF virtual machine
 <strong>https://www.github.com/nklofy/YFVM</strong>
