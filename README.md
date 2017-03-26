@@ -1,3 +1,16 @@
+#next generation (planning):
+a mixture of parts of python + javascript + java + scala + haskell
+1. script + function + types, braces and semicolons, the same as before.
+2. type system completely rewriten. 
+3. Object type: class, function. dynamical meta programming of function. function object. better support for clojure. 
+4. generic type， a bit like Haskell's typeclass. but as flexible as possible.
+5. multi inheritance and multi implements.
+6. pattern match for class and function.
+7. auto type inference and "auto" keyword.
+8. lazy evaluation, and "lazy" keyword.
+9. coroutine, and "coroutine, yield" keywords.
+hahhhh, i need 10 years to finish these targets. maybe more? don't care. just enjoy it.
+
 #Here is YF virtual machine
 <strong>https://www.github.com/nklofy/YFVM</strong>
 
